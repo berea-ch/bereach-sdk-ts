@@ -1,0 +1,1213 @@
+lockVersion: 2.0.0
+id: 58e82ee7-63c3-45a0-a6d0-cdb65cb879f2
+management:
+  docChecksum: 2a0d616bb4863275c3b02a3727eb10e8
+  docVersion: 0.0.4
+  speakeasyVersion: 1.725.0
+  generationVersion: 2.836.5
+  releaseVersion: 0.1.2
+  configChecksum: fb9d25517799c795dd4aefa8c29b45ab
+persistentEdits:
+  generation_id: ad88785c-6016-46bc-9b9f-5ed73960c4f2
+  pristine_commit_hash: 02c535fc243473843283df3ab62b3eac7dc75d22
+  pristine_tree_hash: 228929f67edbd4ad977b5fb1e20878c84f6f6473
+features:
+  mcp-typescript:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.1
+    core: 1.2.12
+    defaultEnabledRetries: 0.1.0
+    enumUnions: 0.1.0
+    globalSecurity: 0.1.2
+    globalSecurityCallbacks: 0.0.0
+    globalServerURLs: 0.1.1
+    nameOverrides: 0.1.2
+    nullables: 0.1.0
+    responseFormat: 0.1.1
+    retries: 0.1.0
+    sdkHooks: 0.3.0
+    unions: 0.2.0
+trackedFiles:
+  .dxtignore:
+    id: 0ee1c4f92736
+    last_write_checksum: sha1:0cbab1b303d9060f6324f6a9cddabe13c2cfa7c9
+    pristine_git_object: 21eeace1d85822ffb013f6c0667a19f35c33cee0
+  .gitattributes:
+    id: 24139dae6567
+    last_write_checksum: sha1:26d16d8297b104945139da8c25bd38feeaad3e25
+    pristine_git_object: 113eead5093c17d43a46159132885318f281a68a
+  .npmignore:
+    id: aa70c1f807c3
+    last_write_checksum: sha1:31ba03a712796b133695c4c410504b6824e09506
+    pristine_git_object: 146d4cc4e80691410519da81c141ce381d30c265
+  eslint.config.mjs:
+    id: 461c8d07f6da
+    last_write_checksum: sha1:576025302d3d8650f37276bc9075f6ade3842cc7
+    pristine_git_object: 4f9e60a9462fc4def738d60c3aaadf8232ef185f
+  manifest.json:
+    id: ca642a226869
+    last_write_checksum: sha1:731a91d99f941993d15ba3271e4f5173e158494b
+    pristine_git_object: 11a13fff90a36f8edd5641c24acd9d679c1c34a5
+  package.json:
+    id: 7030d0b2f71b
+    last_write_checksum: sha1:a345f58df603c8ac720b78007085b276c39085ca
+    pristine_git_object: 0e0138d8dae2708688954ee14f0da892435ffe1c
+  src/cloudflare-worker/cloudflare-worker.ts:
+    id: b90556be8673
+    last_write_checksum: sha1:aea8e2879ccc7d9d8d60b20e20a4f5f4555aeb52
+    pristine_git_object: 894e97e16dd35596fbe3982d6a61236efb3ce281
+  src/core.ts:
+    id: f431fdbcd144
+    last_write_checksum: sha1:dd9b2e9e929a42b051e9eef718f9fcece32c717a
+    pristine_git_object: 4d21e8deed9f48f4515fbed7a84ceca9a022e6c5
+  src/funcs/campaignsFilter.ts:
+    id: 8488a9158523
+    last_write_checksum: sha1:8ae0a94cffdeeac08cca12b638d392f60a0b4779
+    pristine_git_object: 1f06a65f209c2da2ac4626eee7d341834a6a3790
+  src/funcs/linkedInActionsAcceptInvitation.ts:
+    id: c06ea018439d
+    last_write_checksum: sha1:ba2ce866fbb703c8715073ba9de7f52762312b81
+    pristine_git_object: 9328f559baa0541f4d061a79dcc70716cd32327d
+  src/funcs/linkedInActionsConnectProfile.ts:
+    id: 15e83c307e71
+    last_write_checksum: sha1:dfa25d2ee81ab9725525d003799ea897d9b1b4c0
+    pristine_git_object: d99179658ac6cc2bd141fb90038bd63ee0844bf4
+  src/funcs/linkedInActionsLikeComment.ts:
+    id: 5b62ee177c03
+    last_write_checksum: sha1:cd6addfbc823733247274636d53b9688c883ca4b
+    pristine_git_object: 540f9fc377bad88038e0b95e3500b758b4c8fbfc
+  src/funcs/linkedInActionsListInvitations.ts:
+    id: 08a806cdd325
+    last_write_checksum: sha1:1e20362d681ba3f67398a4a60165def93bad9ebe
+    pristine_git_object: b7241a47dfdd5e3e992dae6638c53d3603c1e8cb
+  src/funcs/linkedInActionsPublishPost.ts:
+    id: def13aab7168
+    last_write_checksum: sha1:5b4d0e051cf81d14e9f0dd4dc481aaa6321abf42
+    pristine_git_object: 06fccc496acb6ddae5bb9c70bfdb4879f95f90eb
+  src/funcs/linkedInActionsReplyToComment.ts:
+    id: 2f3b5a35e786
+    last_write_checksum: sha1:ba962b21651c343838fc717b9b0d7e9dcc2f7c37
+    pristine_git_object: 1f61cc73b8a068c0ced8ab27392b7a6162fbcbe0
+  src/funcs/linkedInActionsSendMessage.ts:
+    id: f10c8155a573
+    last_write_checksum: sha1:3ab3cb186540b3806ea016ecfef179107d6116f8
+    pristine_git_object: 0b17aac0cdf2cbf081751015c31befdcfd8f15a8
+  src/funcs/linkedInScrapersCollectCommentReplies.ts:
+    id: 237d40353a9b
+    last_write_checksum: sha1:77d4e4d69fd862bf321aa8cdbf5138db39a40b30
+    pristine_git_object: 2ae2edc46f8e98bcf5a8f7d532397dcfda6fa675
+  src/funcs/linkedInScrapersCollectComments.ts:
+    id: 2dd1fa9012e9
+    last_write_checksum: sha1:5dc0100a982ca2f1b627c90cf3f75b3c06dc03fb
+    pristine_git_object: 0055e9cc4942cfb581640b3204afa67ffbe29c33
+  src/funcs/linkedInScrapersCollectLikes.ts:
+    id: 51fe9f3ce781
+    last_write_checksum: sha1:e2e8f03d6a905c23ac4a2c15cee0d4b363162c1b
+    pristine_git_object: e770ea9a6ad521b4c13620143fd1c0772d0a2497
+  src/funcs/linkedInScrapersCollectPosts.ts:
+    id: 8bb340f13e63
+    last_write_checksum: sha1:db2b9c239bda15bc6ae143232ed16d04a16a33df
+    pristine_git_object: a6f0880f7d21475be4e090aba4d5774e90747877
+  src/funcs/linkedInScrapersVisitCompany.ts:
+    id: cf7cf0e32dc4
+    last_write_checksum: sha1:f6f403e4eb1f5c034e360dadb5f9814f83387246
+    pristine_git_object: ef3cdf157534d19d8b3b3c73565b6e8b1a62b5f7
+  src/funcs/linkedInScrapersVisitProfile.ts:
+    id: 717fcd5831b5
+    last_write_checksum: sha1:54c7f37395f175982aa4c34c7793b24c83daa61e
+    pristine_git_object: 6fef5565d5c4cb0042969f8e656ddf3bec3fb59a
+  src/funcs/linkedInSearchResolveParameters.ts:
+    id: 15c516cbd984
+    last_write_checksum: sha1:b3a4d86d4a585fd9163091c8b0a6cf73ed9a3e4e
+    pristine_git_object: 5702712769536a0b9e3e40e5ad0ebd0675f7c6ec
+  src/funcs/linkedInSearchSearchByUrl.ts:
+    id: c159bc276e7f
+    last_write_checksum: sha1:b348f5683e91df66f085feed6aa1c678789a7a4b
+    pristine_git_object: f25b163c68325ba861efc7a0832a356e18806f05
+  src/funcs/linkedInSearchSearchCompanies.ts:
+    id: 5ef3c97ac075
+    last_write_checksum: sha1:da5da9b855588def662ece452d3485589a9a7aa4
+    pristine_git_object: e7b2f4cad022d04c60f021468d33efd82e7818e4
+  src/funcs/linkedInSearchSearchJobs.ts:
+    id: ca796b57d443
+    last_write_checksum: sha1:a73c9d56b017fb1d98495020c067841d744b11df
+    pristine_git_object: e35f0f72d59eb1b09730859bb043bdbd6d3e0657
+  src/funcs/linkedInSearchSearchPeople.ts:
+    id: 1a1efd00199a
+    last_write_checksum: sha1:4e1e45a0ec5bece46f98f240e786c2456b91e594
+    pristine_git_object: d5068e0e2d8fadf03b6803033c5da51462a67455
+  src/funcs/linkedInSearchSearchPosts.ts:
+    id: 7f57196d62cc
+    last_write_checksum: sha1:e5da64873aa6acc6603307a9b355e10447d38638
+    pristine_git_object: 94f799344c45d3516521650ebbf7c370452a2e3e
+  src/funcs/linkedInSearchUnifiedSearch.ts:
+    id: 5de6d14ed2bc
+    last_write_checksum: sha1:26195f533df0c154da145e13265a059bbf418823
+    pristine_git_object: e719c03d844780116bd8d6d3d1349951b0df0fb3
+  src/funcs/profileGetFollowers.ts:
+    id: 9d549f7e96b6
+    last_write_checksum: sha1:a4dcc3a3573216e8e22c531ff56b6a7ce042a4e1
+    pristine_git_object: 9aa0a2cec56d17789be447633334c7c92ba09545
+  src/funcs/profileGetLimits.ts:
+    id: 455dc58254c1
+    last_write_checksum: sha1:fe04d51a23ffff129378c3d1cf91c63564d5102e
+    pristine_git_object: d3f3d9edb639cde4f13f78684a47623a5bb85505
+  src/funcs/profileGetPosts.ts:
+    id: 897c0e3ea1bb
+    last_write_checksum: sha1:7d36a2b3e01a94af88f986a3c4a097a1c8745bbe
+    pristine_git_object: 868a97802290bc72cb6596a908fc37ef1923b351
+  src/funcs/profileGetProfile.ts:
+    id: 9d017f123244
+    last_write_checksum: sha1:f06d787074f542f998a26d5c7873d3e4ca83c610
+    pristine_git_object: 4596a3f52a66faa96e48a84a58b173fd65821a41
+  src/funcs/profileRefresh.ts:
+    id: a50b38030c18
+    last_write_checksum: sha1:afba3c305b60fd20a833ab9addd03848cbfeab20
+    pristine_git_object: 1aaf1d7444f26ef62002bae3bc4bd91c245ee296
+  src/hooks/hooks.ts:
+    id: a2463fc6f69b
+    last_write_checksum: sha1:327ed0fa581be991d633155a30a13e502caa80ef
+    pristine_git_object: 7709c66d855a856043daf58e863129c4dd437b6f
+  src/hooks/types.ts:
+    id: 2a02d86ec24f
+    last_write_checksum: sha1:27a3444c4839bec58ae89820fd8c2483edafc3f4
+    pristine_git_object: 9c36bf01332084f735909a71036c3544cc4c7e3a
+  src/landing-page.ts:
+    id: ef64a6ee46d7
+    last_write_checksum: sha1:4ddaf8b97121f01c7c0d3af722e7e75a80cfea2d
+    pristine_git_object: b36726892c9fbae1625eb2bde31bbc5927a6de77
+  src/lib/base64.ts:
+    id: "598522066688"
+    last_write_checksum: sha1:e9f04a037018040361043104960982f7c22db52d
+    pristine_git_object: d4bd8b341290e7a828a171d840bd0b0fff7c7cd7
+  src/lib/config.ts:
+    id: 320761608fb3
+    last_write_checksum: sha1:4ee8c214a405d186bfe4dd4b19a1c86f7073f274
+    pristine_git_object: 54586abb2df53295b494c17290ce20fe14aa2839
+  src/lib/dlv.ts:
+    id: b1988214835a
+    last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
+    pristine_git_object: e81091f5e536f82739f71379b1fddc2d147c49e2
+  src/lib/encodings.ts:
+    id: 3bd8ead98afd
+    last_write_checksum: sha1:c042529292568e18a69a04c1be7e18588ccd3821
+    pristine_git_object: 4495783e008be951066aee565964077cac1321d7
+  src/lib/env.ts:
+    id: c52972a3b198
+    last_write_checksum: sha1:ae9fdb652d3d20805e8ac41264f2a5164bcaa90e
+    pristine_git_object: bb0514f616e23ad523dd3c199e05a5d94a2d406d
+  src/lib/files.ts:
+    id: e5efa54fcb95
+    last_write_checksum: sha1:d0f325f445b8d22e7d73baf052c585ec2dd24841
+    pristine_git_object: 0344cd046d033f9e8a55de02f7935c5cec5dc30b
+  src/lib/http.ts:
+    id: 63a80782d37e
+    last_write_checksum: sha1:797cbf16d3c7c4d62d3ba0eedb08617524938457
+    pristine_git_object: 13cf1fd7894a89f727b8d2db2ad24313a94f68c7
+  src/lib/is-plain-object.ts:
+    id: b9862591096a
+    last_write_checksum: sha1:df687f25a9590b6fd95d39df41a652ae3fd4e517
+    pristine_git_object: 61070d3d7c7e5e95b1ed7e7ea21869eb0767db77
+  src/lib/logger.ts:
+    id: 7ee7741a02bf
+    last_write_checksum: sha1:0ec9d3a2a34c362746b767e4f9a746c055d57a7b
+    pristine_git_object: d181f2937d4128afbe9b0327e0f81d1fa9c877b7
+  src/lib/primitives.ts:
+    id: 74859f750b28
+    last_write_checksum: sha1:d5fbb4e2feef5747fc8071046bdd4122c87bd066
+    pristine_git_object: 668ab9d500d77bee730a619c5fda4a1d3cd1d16c
+  src/lib/result.ts:
+    id: ab7a4c1c4c71
+    last_write_checksum: sha1:d24994d58f37a1ca106847fcc6d2e976c6f1c093
+    pristine_git_object: ccbe51eac69dfb0da5131f14fd753c4b47c1d527
+  src/lib/retries.ts:
+    id: b24a69d15639
+    last_write_checksum: sha1:f3da74dffcbe2756c69393f8600205aa1dc06e68
+    pristine_git_object: e3ce9aba72150fc3c18f3105d39b21aba809377b
+  src/lib/schemas.ts:
+    id: deb4b531fae1
+    last_write_checksum: sha1:7c7ba40781682f6d44bb585b5016e2527b52660e
+    pristine_git_object: 542d9972403c5bc4aa70619f8c4b0af3ef2ce679
+  src/lib/sdks.ts:
+    id: 8a6d91f1218d
+    last_write_checksum: sha1:f64fdaa6ef4bbc60529f77f09e8c8e209d501b84
+    pristine_git_object: d502053f271bcbf8daa9459030b50929396f831a
+  src/lib/security.ts:
+    id: 0502afa7922e
+    last_write_checksum: sha1:1d096590057627b04e7de003750654a184ce61d6
+    pristine_git_object: e9aed4013bfdba0818471a00a6c6c2b7fbab77d5
+  src/lib/url.ts:
+    id: b0057e24ed76
+    last_write_checksum: sha1:9550819577dc1e514e61496167aefcc137238aaf
+    pristine_git_object: 6bc6356e222c4f2c20fda5616e00be6dadfa80f8
+  src/mcp-server/build.mts:
+    id: f7a2ed2de4d7
+    last_write_checksum: sha1:f39f56fcf8886c23d9848759aa024d7b8c6f74ca
+    pristine_git_object: 3c1e810034631f9a42c88189cd4d5d35d1e469d1
+  src/mcp-server/cli.ts:
+    id: 4ade0ef98b00
+    last_write_checksum: sha1:7331efddde881832342fa8779d23be7445d4480c
+    pristine_git_object: b878d8de9f2a0275c3cdbfdcaed48a31092e558a
+  src/mcp-server/cli/start/command.ts:
+    id: b3e53408ccb4
+    last_write_checksum: sha1:65c663739e9e4fab0229230afa7a367ba31629f1
+    pristine_git_object: 4b8af893567894e0448ae975a6c23a8cca44649f
+  src/mcp-server/cli/start/impl.ts:
+    id: 37494f674015
+    last_write_checksum: sha1:309fbf67dd0f3ab29f2d4ae04f84351d931df1c3
+    pristine_git_object: 8545ada77778afe26e7453708a02019113f41798
+  src/mcp-server/console-logger.ts:
+    id: 57aff4ff2e15
+    last_write_checksum: sha1:0c4b9b7c79ad0a81359210cb31b9ee4d887d5de1
+    pristine_git_object: 640bca96dc5acf142b0a25dedad7ffb5d55c6375
+  src/mcp-server/extensions.ts:
+    id: 3d9d20ff158f
+    last_write_checksum: sha1:27de1e2b8aaedc8965d1d4c4d4c500df1f28b483
+    pristine_git_object: 78394e413ea070824f370b829eaf1416883e6680
+  src/mcp-server/flags.ts:
+    id: 0167e624a516
+    last_write_checksum: sha1:af725fb2d8374b4d72982928416ccdcad9561c48
+    pristine_git_object: f22d3fe392265cc7d64358fe2d1b75af9dde0154
+  src/mcp-server/mcp-server.ts:
+    id: aabbc4ab07c1
+    last_write_checksum: sha1:844e345de90d4158177b16db6e7c16f833e864c3
+    pristine_git_object: ceff018f42a6a46759e8f911c8cd2899d0fdc127
+  src/mcp-server/prompts.ts:
+    id: 26f3d73cbf31
+    last_write_checksum: sha1:f128125156d1da68ae55666c29514fcf9e92108b
+    pristine_git_object: d67813197eec3efbf24c21609863108f4b1366f7
+  src/mcp-server/resources.ts:
+    id: cb0c57ebeaea
+    last_write_checksum: sha1:745e6012f42ae142633298061a1257cc57e12f41
+    pristine_git_object: 8cfa581505bc5e7115eed140618c6b504c398ddd
+  src/mcp-server/scopes.ts:
+    id: 8966d24256b2
+    last_write_checksum: sha1:77d0eb95785e84f9fd0b27c4612f8c6470489fe4
+    pristine_git_object: c25696d4c4f70e081fa5d87ad6891874c509a577
+  src/mcp-server/server.ts:
+    id: 2784dd48e82a
+    last_write_checksum: sha1:f5b70c9883d975ba4621200b4cd21f853fa370f9
+    pristine_git_object: 17f936eb46a637ee29d747cdef69651bb3251985
+  src/mcp-server/shared.ts:
+    id: 074e80d4be1e
+    last_write_checksum: sha1:19c9034032819a14f15c430de4350c8aba99d725
+    pristine_git_object: bb74a74788ebd7d11262f5f63b8fdd29ab817f48
+  src/mcp-server/tools.ts:
+    id: 654d5d1f2062
+    last_write_checksum: sha1:a3129ef545c933d816cd7bb3b80fd52241d7941a
+    pristine_git_object: b9ede6fb87ef902755334c66ecdaa0109cba3650
+  src/mcp-server/tools/campaignsFilter.ts:
+    id: a1014fc5c06a
+    last_write_checksum: sha1:97b7a57fe520a968a208e587497a68c520e5aec6
+    pristine_git_object: e4e86f85dc59e9d34905f24b39dec13c09399eba
+  src/mcp-server/tools/linkedInActionsAcceptInvitation.ts:
+    id: 45a115420e86
+    last_write_checksum: sha1:f9d55ccbcc06126a68d32a7f8dec8b1971f96f96
+    pristine_git_object: f4972023cda397d7771865f602fd2f519fe83ab8
+  src/mcp-server/tools/linkedInActionsConnectProfile.ts:
+    id: d83b486cc523
+    last_write_checksum: sha1:213998280f5bbf23ca79f6986f6a48e780618afb
+    pristine_git_object: 3d0277dabbff808876956b46b4ac6cf384dcff9d
+  src/mcp-server/tools/linkedInActionsLikeComment.ts:
+    id: c0d8892254b3
+    last_write_checksum: sha1:60087a812052072de96e534dacca8b89674c74d0
+    pristine_git_object: 8d71bb6964c838eb93dd26a3d1d295f7c6acfa7c
+  src/mcp-server/tools/linkedInActionsListInvitations.ts:
+    id: 5ed97fa463c8
+    last_write_checksum: sha1:2b2308f7ec3ec0f91560e6b764f0ab576bf4265d
+    pristine_git_object: 57466fd7e231b9acf0b321b4e60953e78f5ec33d
+  src/mcp-server/tools/linkedInActionsPublishPost.ts:
+    id: 7f6113bc29ee
+    last_write_checksum: sha1:932da438ebcceecaba4db9165c00aa60bddb0e32
+    pristine_git_object: 4c6686c1bf594c1042d184561dca8caea69c6c50
+  src/mcp-server/tools/linkedInActionsReplyToComment.ts:
+    id: c0289a4cf359
+    last_write_checksum: sha1:42ec5563d118b8409daf3a6b0effa766fd71a001
+    pristine_git_object: 7201a38239ccc6200e1f1d612b327628a00688d6
+  src/mcp-server/tools/linkedInActionsSendMessage.ts:
+    id: bfb1ecfd7f4c
+    last_write_checksum: sha1:e1f045594e162388336c4f064df604fe45adfeb2
+    pristine_git_object: a8e7b56a14cd28078e43e4ff46c7691b58ee94ba
+  src/mcp-server/tools/linkedInScrapersCollectCommentReplies.ts:
+    id: 77d6c8b4e9dd
+    last_write_checksum: sha1:7c1e0ad0151236788469cfaedf9c80f5a8be6141
+    pristine_git_object: b9bb7ce721a9d9ba9b3493858d4452a19309808f
+  src/mcp-server/tools/linkedInScrapersCollectComments.ts:
+    id: c847a9cadd1f
+    last_write_checksum: sha1:aa3f4e5ef529ff49027f72c7873425d7c5d8acee
+    pristine_git_object: 7d39b9566fad66f0fc86ed994ef3788e2d2a90d9
+  src/mcp-server/tools/linkedInScrapersCollectLikes.ts:
+    id: 44fc4aa4be7a
+    last_write_checksum: sha1:cf436ec8eb63b16cfad4228ab13ece37ac62f4fc
+    pristine_git_object: 4b0752c6c90a6d2d506474c689b1531b3f3436a2
+  src/mcp-server/tools/linkedInScrapersCollectPosts.ts:
+    id: 71285c0936b5
+    last_write_checksum: sha1:fe85d62b263926f44ae6f07d7a4b4bcbf30bc55e
+    pristine_git_object: ca3e993a5b0509c866dd4d07938887b929c963af
+  src/mcp-server/tools/linkedInScrapersVisitCompany.ts:
+    id: cf23e5cc204f
+    last_write_checksum: sha1:6beae1a615fa73b8c7b1840acbfbee03f3dc5ee5
+    pristine_git_object: 5b6bbde165e1a3e781149393199b8ef9d90ade3f
+  src/mcp-server/tools/linkedInScrapersVisitProfile.ts:
+    id: f490b9d38d73
+    last_write_checksum: sha1:6d5faab14d261b7d4ca066dd7783fee40906a2d9
+    pristine_git_object: 961cb650a24ea78951062732c7e7c256d900a0e7
+  src/mcp-server/tools/linkedInSearchResolveParameters.ts:
+    id: fe1c8e41ccb1
+    last_write_checksum: sha1:5966b187b14d263fb79dccc132f479ac9f925ade
+    pristine_git_object: 04792c91e838fe1296dea63b00b3dc78686a012c
+  src/mcp-server/tools/linkedInSearchSearchByUrl.ts:
+    id: e31ac20296a9
+    last_write_checksum: sha1:9fe261a0d5a625cf86b237c9615ba8437986c9a4
+    pristine_git_object: 760659284445a931953d46396ce9f6903283a6ae
+  src/mcp-server/tools/linkedInSearchSearchCompanies.ts:
+    id: 32eb66907999
+    last_write_checksum: sha1:9443a49408b16850287366a9b6d01ac66f8d5800
+    pristine_git_object: 962f2675f47c8abed10f06ac549e8df21339de3a
+  src/mcp-server/tools/linkedInSearchSearchJobs.ts:
+    id: 843e476ffea0
+    last_write_checksum: sha1:9e98c2c08b80294b423c35ccf6bd8ba8b46f4a11
+    pristine_git_object: 7c42d02fe5a36d22906c7eceda5893daea69f941
+  src/mcp-server/tools/linkedInSearchSearchPeople.ts:
+    id: 031e117a5735
+    last_write_checksum: sha1:e19d3f89511ffe51df7e3d825ba2a9c9fbcd4a7c
+    pristine_git_object: 75a4b5cf9cb628dc9b3a9948422a3eb64ab83ada
+  src/mcp-server/tools/linkedInSearchSearchPosts.ts:
+    id: bc3a073ee2fb
+    last_write_checksum: sha1:02e0298aa4379cc5fcb2c0fec16056f7530356a5
+    pristine_git_object: c26eca9c594f4baf00f084ca8af68233db4cdbd4
+  src/mcp-server/tools/linkedInSearchUnifiedSearch.ts:
+    id: da592c68c7e3
+    last_write_checksum: sha1:69b531572a6f209e3f5a53afbb6e08a7bd37f8e2
+    pristine_git_object: 905f9f46dd72621d465890ce1928f18f849414d3
+  src/mcp-server/tools/profileGetFollowers.ts:
+    id: f2fe9daca9c3
+    last_write_checksum: sha1:1136ac2b3976f745438e7a4ba375c9453de74bea
+    pristine_git_object: 799169ee1c13eb2baef4c22b4873b08cecbe1e38
+  src/mcp-server/tools/profileGetLimits.ts:
+    id: 010371d7327f
+    last_write_checksum: sha1:380b745f54c083d0165b0c996ed88dfc8b5f2b1a
+    pristine_git_object: 84e853a556aec14774090646fd136eed1f31ac15
+  src/mcp-server/tools/profileGetPosts.ts:
+    id: 0ccf19e12bc5
+    last_write_checksum: sha1:838137aba7c19927e8c4057d955ba418808444ce
+    pristine_git_object: 1ef977360cb99c49c44542e32bb867e2842fca07
+  src/mcp-server/tools/profileGetProfile.ts:
+    id: 09e8cd4c405f
+    last_write_checksum: sha1:0287d882964da3b1fcca827b3f5c0a5d8591cb7f
+    pristine_git_object: e7b1921baf3c03ef4610d4295837291364f20a0c
+  src/mcp-server/tools/profileRefresh.ts:
+    id: 4c2ac09a40e8
+    last_write_checksum: sha1:1c86586df7b5f9aa4dbf9eaf8b961693247b47ca
+    pristine_git_object: 903d906aaf61d3b21a88a76471d525fd97c614a7
+  src/models/acceptlinkedininvitationop.ts:
+    id: 892ea2e1fccc
+    last_write_checksum: sha1:0cc87969be9d097d5de22fdd6d6a0726b9cd8777
+    pristine_git_object: 92e7111e1c34d6bd4ccbeb2286ee6efe4956ebc6
+  src/models/collectlinkedincommentrepliesop.ts:
+    id: 3dc6b2122659
+    last_write_checksum: sha1:4bd15b7a0bb88f4227fd525a2cc02175165d4fcc
+    pristine_git_object: 87a4f24c686be663e088ad42bf4f6124765ff0a8
+  src/models/collectlinkedincommentsop.ts:
+    id: b921ead66d2c
+    last_write_checksum: sha1:96e9a0440ff34c7477f000a37d466f4b08423e63
+    pristine_git_object: 2db5e9476d3c5765d15d6ee752956359c9c4aa56
+  src/models/collectlinkedinlikesop.ts:
+    id: 09d50b8aa94a
+    last_write_checksum: sha1:aba98111353ee7b7db4d2d0333f480e693058be9
+    pristine_git_object: 016ced024feb9c4e2126f86e729b2c3a085dc8f2
+  src/models/collectlinkedinpostsop.ts:
+    id: dcdbfaaf1e06
+    last_write_checksum: sha1:63656d92b79aff08a38244eb5921b52411f3fc23
+    pristine_git_object: d10e59fcdfb98c39cd40e3a69eda596a48cfba24
+  src/models/connectlinkedinprofileop.ts:
+    id: 4179ce332fb4
+    last_write_checksum: sha1:da2f27c62408054c9e84945efd85d07d095e130d
+    pristine_git_object: c43694cbd005f5f6c15d00e07efe7810a1a69b74
+  src/models/errors/apierror.ts:
+    id: e2280e075454
+    last_write_checksum: sha1:1a4199dec47757c19b2e88dbd767d7f24ab9522a
+    pristine_git_object: 7e098c1187dbd81288c0d2cd8802dfff25a295bf
+  src/models/errors/httpclienterrors.ts:
+    id: 6948de76af99
+    last_write_checksum: sha1:994ced121c54fecd0af038ccfb7855fbfd3868ec
+    pristine_git_object: b34f612124c797c2a1106b9735708f679a90b74f
+  src/models/errors/sdkvalidationerror.ts:
+    id: fb6b2b49c445
+    last_write_checksum: sha1:ce8bb73a1243f8ea8fa3b71a181e586e29dd02c9
+    pristine_git_object: 7749cf32c29ba2d44124253d9f07fbb1913b89f6
+  src/models/filtercampaignop.ts:
+    id: f0b4016a44f0
+    last_write_checksum: sha1:b64a28682f24e5d4aeaafb2517216733744f25b9
+    pristine_git_object: 492ba32f85ee7b33ba15edcedeb735bfc204f78f
+  src/models/getmylimitsop.ts:
+    id: 2e8865448e47
+    last_write_checksum: sha1:557d7ca754c44d39ec10c3313ec59b29abf28bb2
+    pristine_git_object: cb6f5d697a0632ab94aa8af72e0de4afc9439e76
+  src/models/getmylinkedinfollowersop.ts:
+    id: 6dcd24a3c8ae
+    last_write_checksum: sha1:fc82363db82798d5ad3cb82301465a4597044dd2
+    pristine_git_object: 492d94cf6ff03f0675afe9f38b12e51d92880aa2
+  src/models/getmylinkedinpostsop.ts:
+    id: 7e141cb7cb2f
+    last_write_checksum: sha1:81895c7069561db072a8118605797a5ab4d57682
+    pristine_git_object: 85f36b187817af6602a30c738623818b3c2fb923
+  src/models/getmylinkedinprofileop.ts:
+    id: 7d4aeac0a35e
+    last_write_checksum: sha1:61eabdf1276c318b22e16086561c2ecafd3775c2
+    pristine_git_object: cced17b8d03fa4fa8f9bbd1edcb7dfbb00602b00
+  src/models/likelinkedincommentop.ts:
+    id: cfbf8b96503e
+    last_write_checksum: sha1:e9494b90e5d2534b36444ea7750248f5b6cf067b
+    pristine_git_object: 7fb86ab22d13bd3366f65fd12d266f54e82a54b6
+  src/models/listlinkedininvitationsop.ts:
+    id: 4a56f1bd7b48
+    last_write_checksum: sha1:d1c4f6037e40934f3d1d900a2fef22e8d43ab63f
+    pristine_git_object: 7d686443e89d5311f0d6982b04d092d3bcf3959c
+  src/models/publishlinkedinpostop.ts:
+    id: e0168eef7982
+    last_write_checksum: sha1:02c220a1d225b7330a7df20f5a6ce12b4683afe6
+    pristine_git_object: aab0c7b361091875c2659194e63ed9407ed941d2
+  src/models/refreshmylinkedinprofileop.ts:
+    id: 23770d7f3111
+    last_write_checksum: sha1:7294dc222dfdcde63d80a42afb6fdaa47f7fd943
+    pristine_git_object: fc509d4c88dc2945fbc4d0f211331fa14ff9768c
+  src/models/replytolinkedincommentop.ts:
+    id: 8a518d3d2471
+    last_write_checksum: sha1:9aa03e2c0dbbaf735a3aa2091951e740a9947aa6
+    pristine_git_object: afda333e948b0d3d18865bfb3b961a59942ce6fb
+  src/models/resolvelinkedinsearchparametersop.ts:
+    id: fcbc4756bebc
+    last_write_checksum: sha1:c710c0a7169c2f859cb2afba210a1f8a9f10447e
+    pristine_git_object: 25a024df796a0224f1e6b06edbe02c4f057749cd
+  src/models/searchlinkedinbyurlop.ts:
+    id: 19efea185587
+    last_write_checksum: sha1:651f9da4e9ca8b36a415c2bd3e947dcb4707fd41
+    pristine_git_object: 1c5b914ad2f43f948e42c26781ed8e6a4e9cda96
+  src/models/searchlinkedincompaniesop.ts:
+    id: c484f26d7412
+    last_write_checksum: sha1:8cd3a3ed5ce1340a39bc82c30cf42b897d916d6a
+    pristine_git_object: 55c048ab0e2fbcb5a6e0f5cf67cd9d78797ad934
+  src/models/searchlinkedinjobsop.ts:
+    id: 6fc5fa0be1a5
+    last_write_checksum: sha1:dc512cbfe21699cfe9140a5c9a33db91094c733a
+    pristine_git_object: 520083aeb0375d41314fdc557719d74ca4b3693a
+  src/models/searchlinkedinop.ts:
+    id: c206ec032dc4
+    last_write_checksum: sha1:ad2cea4d34609d0f86bc829346fcbe270cd1a288
+    pristine_git_object: c8c0384a4c076091c7d6f667725a2c5c1be02f17
+  src/models/searchlinkedinpeopleop.ts:
+    id: 4baccc199789
+    last_write_checksum: sha1:c1f672617d9c0deadee5602117ee8baff86a9821
+    pristine_git_object: 4821e98fc676ca8888c1491a11c48cf491601cc3
+  src/models/searchlinkedinpostsop.ts:
+    id: 862a8c517a78
+    last_write_checksum: sha1:bf012f47dda755e9e1fae4934125aabd6056e0df
+    pristine_git_object: c5a51c83901d5267d8272466e3a9e649fc761038
+  src/models/security.ts:
+    id: d90c6c784ca5
+    last_write_checksum: sha1:a27597d964f4a49f4c07f756a0ff873ab2594b50
+    pristine_git_object: 10b91e6aab4a08023ce1bcbd11030b07ae3d4e33
+  src/models/sendlinkedinmessageop.ts:
+    id: c631cf16a9f9
+    last_write_checksum: sha1:4f7dc04544e7d6a403897f88f88eb21958b53d39
+    pristine_git_object: 4f8db3ba4be5b29cdd6edad9c29c1ad725d65f1c
+  src/models/visitlinkedincompanyop.ts:
+    id: 3614799530ea
+    last_write_checksum: sha1:7c982cac1c8f83a8908ef57c0b6e8d667ae46f80
+    pristine_git_object: b0fc52a45f65b40ae40845428d8c45c4ce3b7fd2
+  src/models/visitlinkedinprofileop.ts:
+    id: 1475d2ebf03c
+    last_write_checksum: sha1:a6ca33a397105f999ba48726cd33662fe4b79736
+    pristine_git_object: b695efd32677508e6422402f83ffe5c65d67e485
+  src/tool-names.ts:
+    id: a9977280f9eb
+    last_write_checksum: sha1:3d5a13fda2540bb43ebe7a4d9c53938811f0f1ad
+    pristine_git_object: 988a2ec90c9dfb11d5a51a57aa35f6122b1bab08
+  src/types/async.ts:
+    id: fac8da972f86
+    last_write_checksum: sha1:3ff07b3feaf390ec1aeb18ff938e139c6c4a9585
+    pristine_git_object: 689dba5de50e8769e5f3bb913e3f42a146d15bc1
+  src/types/bigint.ts:
+    id: 3ca6e3280e43
+    last_write_checksum: sha1:58178437a7d38f022b5d9bef691ba5539fad4655
+    pristine_git_object: f32ee5fe6a2dbf82bd2d1ec7c17cd2987bcff1d6
+  src/types/blobs.ts:
+    id: f8ab9b326c86
+    last_write_checksum: sha1:9cc86e0e9420999afb48d53c57d71584be745fd7
+    pristine_git_object: c1cc513af4ca0e96d1525954241592e3f57711bb
+  src/types/enums.ts:
+    id: 4d03ddfe5100
+    last_write_checksum: sha1:384e3fc4bee3f006cd8f39556a44b3508597b8e5
+    pristine_git_object: 6fb6d9109d8a9f27160bdb3a20456a5c3a608a51
+  src/types/fp.ts:
+    id: ae9f0fb8aab6
+    last_write_checksum: sha1:d24994d58f37a1ca106847fcc6d2e976c6f1c093
+    pristine_git_object: ccbe51eac69dfb0da5131f14fd753c4b47c1d527
+  src/types/rfcdate.ts:
+    id: 9eb64906dcd6
+    last_write_checksum: sha1:8e5f382e02fe21c2f2e24deb1b7bbf8cddd3dd16
+    pristine_git_object: c79b3f53a3dd922aa2ace5a4191c8652cf9a8e89
+  src/types/streams.ts:
+    id: f99be9c4bf14
+    last_write_checksum: sha1:cc9ced2dd34a76c3a1bd7784ccda1cc3b37ab9a9
+    pristine_git_object: a0163e7a99cea88f21d0ad4ce3af1c720180ee20
+  tsconfig.json:
+    id: 61ebb9fd6e8c
+    last_write_checksum: sha1:1c4444fe3e9a02b46de9523b7c0aa073776a3fec
+    pristine_git_object: 03c7b3cecfedd01fd1351de78bd735e67ced4689
+  worker-configuration.d.ts:
+    id: 661c4bbd7c72
+    last_write_checksum: sha1:65d369db9407b85e435a24eb0427614cf223cda8
+    pristine_git_object: 1287f12191122c3138a51d7164b3f27b26f56b1d
+  worker-configuration.ts:
+    id: 28fa85c9eb63
+    last_write_checksum: sha1:84178ff5f7f1fcc04048353b38e84d1ab6f69fcf
+    pristine_git_object: 784ce2ed10739ecde61d61530912ab18ccccc2fa
+  wrangler.toml:
+    id: af29b74740cd
+    last_write_checksum: sha1:c2df99c0b98c2b92b43504f6003d442b6478b9ce
+    pristine_git_object: 479c6269e415a1c4075c8a9be9883710cbaaec44
+examples:
+  collectLinkedInLikes:
+    speakeasy-default-collect-linked-in-likes:
+      requestBody:
+        application/json: {"postUrl": "https://grandiose-ghost.net"}
+      responses:
+        "200":
+          application/json: {"success": false, "profiles": [{"name": "<value>", "type": "like"}], "count": 24381, "total": 935752, "start": 998946, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  collectLinkedInComments:
+    speakeasy-default-collect-linked-in-comments:
+      requestBody:
+        application/json: {"postUrl": "https://tedious-pecan.net"}
+      responses:
+        "200":
+          application/json: {"success": true, "profiles": [{"name": "<value>", "type": "comment"}], "count": 651311, "total": 607168, "start": 514360, "hasMore": true}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  collectLinkedInCommentReplies:
+    speakeasy-default-collect-linked-in-comment-replies:
+      requestBody:
+        application/json: {"commentUrn": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": false, "replies": [{"name": "<value>", "type": "comment"}], "count": 111622, "total": 960638, "start": 251142, "hasMore": false, "parentCommentUrn": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  collectLinkedInPosts:
+    speakeasy-default-collect-linked-in-posts:
+      requestBody:
+        application/json: {"profileUrl": "https://prickly-bathrobe.info/"}
+      responses:
+        "200":
+          application/json: {"success": true, "posts": [], "count": 213910, "total": 963272, "start": 851928, "hasMore": false, "paginationToken": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  visitLinkedInProfile:
+    speakeasy-default-visit-linked-in-profile:
+      requestBody:
+        application/json: {"profile": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": false, "firstName": "Roderick", "lastName": "Prohaska", "headline": "<value>", "publicIdentifier": "<value>", "profileUrl": "https://each-sundae.org", "imageUrl": "https://upset-popularity.net/", "pendingConnection": "none"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  visitLinkedInCompany:
+    speakeasy-default-visit-linked-in-company:
+      requestBody:
+        application/json: {"companyUrl": "https://pleased-nectarine.info/"}
+      responses:
+        "200":
+          application/json: {"success": false, "id": "<id>", "universalName": "<value>", "name": "<value>", "description": "instructive officially ew majestically nor round needily so apud sedately", "url": "https://admired-recovery.com", "websiteUrl": "https://precious-farm.info", "industry": "<value>", "employeeCount": 848.98, "employeeCountRange": {"start": 4534.07, "end": 6077.81}, "headquarter": {"country": "Yemen", "geographicArea": "<value>", "city": null, "postalCode": null, "line1": "<value>", "line2": "<value>"}, "logoUrl": "https://subtle-toaster.net", "coverImageUrl": "https://intrepid-deed.com", "followerCount": 7909.14, "specialities": [], "tagline": "<value>", "isVerified": false, "foundedOn": {"year": 4006.57}, "phone": "(978) 524-2518 x0373", "callToAction": {"type": "<value>", "url": "https://inborn-numeric.com/"}, "hashtags": ["<value 1>"], "affiliatedCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://live-plugin.name/", "logoUrl": null, "followerCount": 7381.5, "industry": null}], "similarCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://flowery-publicity.com", "logoUrl": "https://hairy-cruelty.com", "followerCount": 9872.89, "industry": "<value>"}], "creditsUsed": 27367}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedIn:
+    speakeasy-default-search-linked-in:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"success": true, "category": "companies", "items": [], "paging": {"start": 703471, "count": 635922, "total": 641709}, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedInPosts:
+    speakeasy-default-search-linked-in-posts:
+      requestBody:
+        application/json: {"keywords": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": false, "category": "posts", "items": [], "paging": {"start": 791506, "count": 413338, "total": 797552}, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedInPeople:
+    speakeasy-default-search-linked-in-people:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"success": true, "category": "people", "items": [{"type": "PEOPLE", "name": "<value>", "profileUrl": "https://gullible-tarragon.net", "headline": "<value>", "location": "<value>", "profilePicture": "<value>", "networkDistance": "OUT_OF_NETWORK", "currentPositions": []}], "paging": {"start": 522198, "count": 853221, "total": 268181}, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedInCompanies:
+    speakeasy-default-search-linked-in-companies:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"success": false, "category": "companies", "items": [{"type": "COMPANY", "name": "<value>", "profileUrl": "https://colorful-aftermath.name/", "summary": "<value>", "industry": "<value>", "location": "<value>", "followersCount": 328268}], "paging": {"start": 127750, "count": 424914, "total": 559}, "hasMore": true}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedInJobs:
+    speakeasy-default-search-linked-in-jobs:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"success": true, "category": "jobs", "items": [{"type": "JOB", "title": "<value>", "company": "Fadel and Sons", "companyUrl": "https://unique-knuckle.info", "companyLogo": "<value>", "location": "<value>", "workplaceType": "<value>", "postedAt": "<value>", "jobUrl": "https://wordy-compromise.org", "listingId": "<id>"}], "paging": {"start": 533179, "count": 827932, "total": 694307}, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  searchLinkedInByUrl:
+    speakeasy-default-search-linked-in-by-url:
+      requestBody:
+        application/json: {"url": "https://drab-hawk.net"}
+      responses:
+        "200":
+          application/json: {"success": false, "category": "jobs", "items": [{"type": "JOB", "title": "<value>", "company": "Kunde LLC", "companyUrl": "https://deserted-redesign.org", "companyLogo": null, "location": "<value>", "workplaceType": "<value>", "postedAt": "<value>", "jobUrl": "https://monstrous-rim.org", "listingId": "<id>"}], "paging": {"start": 228722, "count": 127884, "total": 426866}, "hasMore": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  resolveLinkedInSearchParameters:
+    speakeasy-default-resolve-linked-in-search-parameters:
+      requestBody:
+        application/json: {"type": "CONNECTIONS", "keywords": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": true, "items": [], "count": 395625}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  connectLinkedInProfile:
+    speakeasy-default-connect-linked-in-profile:
+      requestBody:
+        application/json: {"profile": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": false, "message": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  listLinkedInInvitations:
+    speakeasy-default-list-linked-in-invitations:
+      responses:
+        "200":
+          application/json: {"success": true, "invitations": [{"invitationId": "<id>", "sharedSecret": "<value>", "entityUrn": "<value>"}], "total": 778.43, "start": 1927.96, "count": 8103.99}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  acceptLinkedInInvitation:
+    speakeasy-default-accept-linked-in-invitation:
+      requestBody:
+        application/json: {"invitationId": "<id>", "sharedSecret": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": true, "message": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  sendLinkedInMessage:
+    speakeasy-default-send-linked-in-message:
+      requestBody:
+        application/json: {"profile": "<value>", "message": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": false, "messageId": "<id>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  replyToLinkedInComment:
+    speakeasy-default-reply-to-linked-in-comment:
+      requestBody:
+        application/json: {"commentUrn": "<value>", "message": "<value>"}
+      responses:
+        "200":
+          application/json: {"success": true}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  likeLinkedInComment:
+    speakeasy-default-like-linked-in-comment:
+      requestBody:
+        application/json: {"commentUrn": "<value>", "reactionType": "LIKE"}
+      responses:
+        "200":
+          application/json: {"success": true}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  publishLinkedInPost:
+    speakeasy-default-publish-linked-in-post:
+      requestBody:
+        application/json: {"text": "<value>", "mode": "scheduled", "visibility": "ANYONE"}
+      responses:
+        "200":
+          application/json: {"success": true, "shareUrn": "<value>", "activityUrn": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  getMyLinkedInProfile:
+    speakeasy-default-get-my-linked-in-profile:
+      responses:
+        "200":
+          application/json: {"success": true, "linkedinProfileId": null, "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://creamy-thongs.net/"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  refreshMyLinkedInProfile:
+    speakeasy-default-refresh-my-linked-in-profile:
+      responses:
+        "200":
+          application/json: {"success": true, "linkedinProfileId": "<id>", "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://spherical-gerbil.org", "refreshed": false}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  getMyLinkedInPosts:
+    speakeasy-default-get-my-linked-in-posts:
+      responses:
+        "200":
+          application/json: {"success": false, "posts": [], "count": 192189, "total": 608126, "start": 590275, "hasMore": true, "paginationToken": "<value>"}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  getMyLinkedInFollowers:
+    speakeasy-default-get-my-linked-in-followers:
+      responses:
+        "200":
+          application/json: {"success": true, "followers": [{"name": "<value>", "headline": null, "profileUrl": "https://upright-tomography.net/", "profilePicture": "<value>", "followerCount": 156513, "following": true}], "count": 380370, "totalFollowers": 316084, "start": 24896, "hasMore": true}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  getMyLimits:
+    speakeasy-default-get-my-limits:
+      responses:
+        "200":
+          application/json: {"success": false, "multiplier": 6079.13, "limits": {"connection_request": {"daily": {"current": 741868, "limit": 662498, "remaining": 739232}, "weekly": {"current": 80984, "limit": 903049, "remaining": 913086}, "minIntervalSeconds": 930728, "nextResetDaily": "2026-04-16T21:19:20.418Z", "nextResetWeekly": "2026-04-18T10:07:45.585Z"}, "message": {"daily": {"current": 293309, "limit": 842760, "remaining": 732463}, "weekly": {"current": 521486, "limit": 473786, "remaining": 43959}, "minIntervalSeconds": 511674, "nextResetDaily": "2025-07-06T16:25:44.357Z", "nextResetWeekly": "2024-08-23T15:30:04.111Z"}, "profile_visit": {"daily": {"current": 847801, "limit": 562727, "remaining": 694401}, "weekly": {"current": 640053, "limit": 828365, "remaining": 225543}, "minIntervalSeconds": 798302, "nextResetDaily": "2026-07-13T14:12:12.440Z", "nextResetWeekly": "2024-12-08T12:01:54.623Z"}, "scraping": {"daily": {"current": 128921, "limit": 912874, "remaining": 733169}, "weekly": {"current": 135912, "limit": 733710, "remaining": 456502}, "minIntervalSeconds": 994138, "nextResetDaily": "2026-03-03T12:25:41.065Z", "nextResetWeekly": "2026-05-15T21:26:43.249Z"}}}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+  filterCampaign:
+    speakeasy-default-filter-campaign:
+      parameters:
+        path:
+          campaignSlug: "<value>"
+        query:
+          actionSlugs: "<value>"
+      responses:
+        "200":
+          application/json: {"filtered": true, "checkedSlugs": []}
+        "400":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "401":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "403":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "404":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "409":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "410":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "422":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "429":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+        "500":
+          application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
+examplesVersion: 1.0.2

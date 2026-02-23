@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    BeReach API:
+        inputs:
+            - location: https://api.berea.ch
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api
+targets:
+    bereach:
+        target: mcp-typescript
+        source: BeReach API
+        publish:
+            npm:
+                token: $npm_token

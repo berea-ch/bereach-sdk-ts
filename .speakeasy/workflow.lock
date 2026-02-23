@@ -1,0 +1,31 @@
+speakeasyVersion: 1.725.0
+sources:
+    BeReach API:
+        sourceNamespace: be-reach-api
+        sourceRevisionDigest: sha256:c9947570fc51b9fdbcd8dfc3c6cf6f06abfa85574c2dfcd21dd9daa0d1cbdcad
+        sourceBlobDigest: sha256:1447986dca641ecd21272205c88e5e7f696f1d967798c9a6392f61f0cfc2d76c
+        tags:
+            - latest
+            - 0.0.4
+targets:
+    bereach:
+        source: BeReach API
+        sourceNamespace: be-reach-api
+        sourceRevisionDigest: sha256:c9947570fc51b9fdbcd8dfc3c6cf6f06abfa85574c2dfcd21dd9daa0d1cbdcad
+        sourceBlobDigest: sha256:1447986dca641ecd21272205c88e5e7f696f1d967798c9a6392f61f0cfc2d76c
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        BeReach API:
+            inputs:
+                - location: https://api.berea.ch
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api
+    targets:
+        bereach:
+            target: mcp-typescript
+            source: BeReach API
