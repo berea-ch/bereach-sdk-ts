@@ -13,6 +13,7 @@ targets:
     bereach:
         target: typescript
         source: BeReach API
+        output: sdk-ts
         publish:
             npm:
                 token: $npm_token
@@ -22,3 +23,7 @@ targets:
             labelOverride:
                 fixedValue: Typescript (SDK)
             blocking: false
+    mcp:
+        target: mcp-typescript
+        source: BeReach API
+        output: mcp

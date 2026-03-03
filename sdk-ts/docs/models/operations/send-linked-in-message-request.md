@@ -1,0 +1,21 @@
+# SendLinkedInMessageRequest
+
+## Example Usage
+
+```typescript
+import { SendLinkedInMessageRequest } from "bereach/models/operations";
+
+let value: SendLinkedInMessageRequest = {
+  profile: "<value>",
+  message: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                       | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `profile`                                                                                                                                                   | *string*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                          | LinkedIn profile URL (e.g., 'https://www.linkedin.com/in/username') or profile URN (e.g., 'urn:li:member:123456')                                           |
+| `message`                                                                                                                                                   | *string*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                          | Message content to send                                                                                                                                     |
+| `campaignSlug`                                                                                                                                              | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | Campaign identifier for deduplication. Dedup by profile automatically.                                                                                      |
+| ~~`actionSlug`~~                                                                                                                                            | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>Deprecated. Use campaignSlug only. |

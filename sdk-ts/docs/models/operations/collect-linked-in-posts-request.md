@@ -1,0 +1,20 @@
+# CollectLinkedInPostsRequest
+
+## Example Usage
+
+```typescript
+import { CollectLinkedInPostsRequest } from "bereach/models/operations";
+
+let value: CollectLinkedInPostsRequest = {
+  profileUrl: "https://kooky-saw.org/",
+};
+```
+
+## Fields
+
+| Field                                                                                                                           | Type                                                                                                                            | Required                                                                                                                        | Description                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `profileUrl`                                                                                                                    | *string*                                                                                                                        | :heavy_check_mark:                                                                                                              | LinkedIn profile URL to fetch posts from.                                                                                       |
+| `count`                                                                                                                         | *number*                                                                                                                        | :heavy_minus_sign:                                                                                                              | Number of posts to fetch (0-100, default 20). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). |
+| `start`                                                                                                                         | *number*                                                                                                                        | :heavy_minus_sign:                                                                                                              | Pagination offset (default 0).                                                                                                  |
+| `paginationToken`                                                                                                               | *string*                                                                                                                        | :heavy_minus_sign:                                                                                                              | Pagination token from a previous response to fetch the next page.                                                               |
