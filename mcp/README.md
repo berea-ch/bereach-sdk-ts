@@ -33,6 +33,8 @@ BeReach API: BeReach | Unofficial Linkedin API
 
 > [!TIP]
 > To finish publishing your MCP Server to npm and others you must [run your first generation action](https://www.speakeasy.com/docs/github-setup#step-by-step-guide).
+
+Deployed at https://mcp.bereach.dev
 <details>
 <summary>Claude Desktop</summary>
 
@@ -50,7 +52,7 @@ The MCP bundle package includes the MCP server and all necessary configuration. 
 <details>
 <summary>Cursor</summary>
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=BereachSDK&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyJtY3AiLCJzdGFydCIsIi0tYXBpLXRva2VuIiwiIl19)
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=BereachSDK&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1yZW1vdGVAMC4xLjI1IiwiaHR0cHM6Ly9tY3AuYmVyZWFjaC5kZXYvc3NlIiwiLS1oZWFkZXIiLCJhcGktdG9rZW46JHtBUElfVE9LRU59Il19)
 
 Or manually:
 
@@ -115,7 +117,7 @@ Refer to [Official Windsurf documentation](https://docs.windsurf.com/windsurf/ca
 <details>
 <summary>VS Code</summary>
 
-[![Install in VS Code](https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20BereachSDK%20MCP&color=0098FF)](vscode://ms-vscode.vscode-mcp/install?name=BereachSDK&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyJtY3AiLCJzdGFydCIsIi0tYXBpLXRva2VuIiwiIl19)
+[![Install in VS Code](https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20BereachSDK%20MCP&color=0098FF)](vscode://ms-vscode.vscode-mcp/install?name=BereachSDK&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1yZW1vdGVAMC4xLjI1IiwiaHR0cHM6Ly9tY3AuYmVyZWFjaC5kZXYvc3NlIiwiLS1oZWFkZXIiLCJhcGktdG9rZW46JHtBUElfVE9LRU59Il19)
 
 Or manually:
 

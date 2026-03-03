@@ -1,7 +1,7 @@
 /// <reference types="bun-types" />
 
 import { build } from "bun";
-import { chmod, readFile, writeFile } from "node:fs/promises";
+import { chmod, readFile, writeFile, mkdir } from "node:fs/promises";
 import { packExtension } from "@anthropic-ai/mcpb";
 import { join } from "node:path";
 import { createMCPServer } from "./server.ts";
@@ -56,6 +56,9 @@ export const toolNames: Array<{ name: string; description: string }>= ${JSON.str
   // Set executable permissions on the output file
   const outputFile = join(destinationDir, "mcp-server.js");
   await chmod(outputFile, 0o755);
+  // create static directory for cloudflare deployment
+  const staticDir = "./static";
+  await mkdir(staticDir, { recursive: true });
 
   // Build the MCP bundle file
   if (shouldPack) {
