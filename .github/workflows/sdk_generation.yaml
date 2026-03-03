@@ -1,11 +1,11 @@
-name: Generate MCP SDK
+name: Generate
 permissions:
   checks: write
   contents: write
   pull-requests: write
   statuses: write
   id-token: write
-on:
+"on":
   workflow_dispatch:
     inputs:
       force:
@@ -16,13 +16,11 @@ on:
         description: optionally set a specific SDK version
         type: string
   schedule:
-    - cron: "0 0 * * *"
+    - cron: 0 0 * * *
   pull_request:
     types:
       - labeled
       - unlabeled
-    paths:
-      - "bereach-mcp-typescript/**"
 jobs:
   generate:
     uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@v15
@@ -30,7 +28,6 @@ jobs:
       force: ${{ github.event.inputs.force }}
       mode: pr
       set_version: ${{ github.event.inputs.set_version }}
-      working_directory: bereach-mcp-typescript
     secrets:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

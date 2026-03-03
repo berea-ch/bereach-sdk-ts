@@ -366,12 +366,6 @@ function serializeValue(value: unknown): string {
   } else if (value instanceof Uint8Array) {
     return bytesToBase64(value);
   } else if (typeof value === "object") {
-    if (
-      "toJSON" in value
-      && typeof value.toJSON === "function"
-    ) {
-      return String(value.toJSON());
-    }
     return JSON.stringify(value, jsonReplacer);
   }
 
@@ -381,8 +375,6 @@ function serializeValue(value: unknown): string {
 function jsonReplacer(_: string, value: unknown): unknown {
   if (value instanceof Uint8Array) {
     return bytesToBase64(value);
-  } else if (typeof value === "bigint") {
-    return value.toString();
   } else {
     return value;
   }
@@ -435,6 +427,7 @@ export function queryJoin(...args: (string | undefined)[]): string {
 type QueryEncoderOptions = {
   explode?: boolean;
   charEncoding?: "percent" | "none";
+  allowEmptyValue?: string[];
 };
 
 type QueryEncoder = (
@@ -459,7 +452,19 @@ export function queryEncoder(f: QueryEncoder): BulkQueryEncoder {
       charEncoding: options?.charEncoding ?? "percent",
     };
 
+    const allowEmptySet = new Set(options?.allowEmptyValue ?? []);
+
     const encoded = Object.entries(values).map(([key, value]) => {
+      if (allowEmptySet.has(key)) {
+        if (
+          value === undefined
+          || value === null
+          || value === ""
+          || (Array.isArray(value) && value.length === 0)
+        ) {
+          return `${encodeURIComponent(key)}=`;
+        }
+      }
       return f(key, value, opts);
     });
     return queryJoin(...encoded);

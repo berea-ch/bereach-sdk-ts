@@ -1,0 +1,20 @@
+# LikeLinkedInCommentRequest
+
+## Example Usage
+
+```typescript
+import { LikeLinkedInCommentRequest } from "bereach/models/operations";
+
+let value: LikeLinkedInCommentRequest = {
+  commentUrn: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                       | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `commentUrn`                                                                                                                                                | *string*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                          | LinkedIn comment URN (e.g., 'urn:li:comment:(activity:7399026485694537728,7399230513867026433)')                                                            |
+| `reactionType`                                                                                                                                              | [operations.ReactionType](../../models/operations/reaction-type.md)                                                                                         | :heavy_minus_sign:                                                                                                                                          | Reaction type (default: LIKE)                                                                                                                               |
+| `campaignSlug`                                                                                                                                              | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | Campaign identifier for deduplication. Dedup by commentUrn automatically.                                                                                   |
+| ~~`actionSlug`~~                                                                                                                                            | *string*                                                                                                                                                    | :heavy_minus_sign:                                                                                                                                          | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>Deprecated. Use campaignSlug only. |

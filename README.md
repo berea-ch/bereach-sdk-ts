@@ -1,14 +1,14 @@
 # bereach
 
-Model Context Protocol (MCP) Server for the *bereach* API.
+Developer-friendly & type-safe Typescript SDK specifically catered to leverage *bereach* API.
 
-[![Built by Speakeasy](https://img.shields.io/badge/Built_by-SPEAKEASY-374151?style=for-the-badge&labelColor=f3f4f6)](https://www.speakeasy.com/?utm_source=bereach&utm_campaign=mcp-typescript)
+[![Built by Speakeasy](https://img.shields.io/badge/Built_by-SPEAKEASY-374151?style=for-the-badge&labelColor=f3f4f6)](https://www.speakeasy.com/?utm_source=bereach&utm_campaign=typescript)
 [![License: MIT](https://img.shields.io/badge/LICENSE_//_MIT-3b5bdb?style=for-the-badge&labelColor=eff6ff)](https://opensource.org/licenses/MIT)
 
 
 <br /><br />
 > [!IMPORTANT]
-> This MCP Server is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/bereach/bereach). Delete this notice before publishing to a package manager.
+> This SDK is not yet ready for production use. To complete setup please follow the steps outlined in your [workspace](https://app.speakeasy.com/org/bereach/bereach). Delete this section before > publishing to a package manager.
 
 <!-- Start Summary [summary] -->
 ## Summary
@@ -20,329 +20,511 @@ BeReach API: BeReach | Unofficial Linkedin API
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
 * [bereach](#bereach)
-  * [Installation](#installation)
-  * [Progressive Discovery](#progressive-discovery)
-  * [Development](#development)
-  * [Publishing to Anthropic MCP Registry](#publishing-to-anthropic-mcp-registry)
+  * [SDK Installation](#sdk-installation)
+  * [Requirements](#requirements)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Authentication](#authentication)
+  * [Available Resources and Operations](#available-resources-and-operations)
+  * [Standalone functions](#standalone-functions)
+  * [Retries](#retries)
+  * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
+  * [Custom HTTP Client](#custom-http-client)
+  * [Debugging](#debugging)
+* [Development](#development)
+  * [Maturity](#maturity)
   * [Contributions](#contributions)
 
 <!-- End Table of Contents [toc] -->
 
-<!-- Start Installation [installation] -->
-## Installation
+<!-- Start SDK Installation [installation] -->
+## SDK Installation
 
 > [!TIP]
-> To finish publishing your MCP Server to npm and others you must [run your first generation action](https://www.speakeasy.com/docs/github-setup#step-by-step-guide).
-<details>
-<summary>Claude Desktop</summary>
+> To finish publishing your SDK to npm and others you must [run your first generation action](https://www.speakeasy.com/docs/github-setup#step-by-step-guide).
 
-Install the MCP server as a Desktop Extension using the pre-built [`mcp-server.mcpb`](./mcp-server.mcpb) file:
 
-Simply drag and drop the [`mcp-server.mcpb`](./mcp-server.mcpb) file onto Claude Desktop to install the extension.
+The SDK can be installed with either [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/), [bun](https://bun.sh/) or [yarn](https://classic.yarnpkg.com/en/) package managers.
 
-The MCP bundle package includes the MCP server and all necessary configuration. Once installed, the server will be available without additional setup.
+### NPM
+
+```bash
+npm add <UNSET>
+```
+
+### PNPM
+
+```bash
+pnpm add <UNSET>
+```
+
+### Bun
+
+```bash
+bun add <UNSET>
+```
+
+### Yarn
+
+```bash
+yarn add <UNSET>
+```
 
 > [!NOTE]
-> MCP bundles provide a streamlined way to package and distribute MCP servers. Learn more about [Desktop Extensions](https://www.anthropic.com/engineering/desktop-extensions).
+> This package is published as an ES Module (ESM) only. For applications using
+> CommonJS, use `await import()` to import and use this package.
+<!-- End SDK Installation [installation] -->
 
-</details>
+<!-- Start Requirements [requirements] -->
+## Requirements
 
-<details>
-<summary>Cursor</summary>
+For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
+<!-- End Requirements [requirements] -->
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=Bereach&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1yZW1vdGVAMC4xLjI1IiwiaHR0cHM6Ly9leGFtcGxlLWNsb3VkZmxhcmUtd29ya2VyLmNvbS9zc2UiLCItLWhlYWRlciIsImFwaS10b2tlbjoke0FQSV9UT0tFTn0iXX0=)
+<!-- Start SDK Example Usage [usage] -->
+## SDK Example Usage
 
-Or manually:
+### Example
 
-1. Open Cursor Settings
-2. Select Tools and Integrations
-3. Select New MCP Server
-4. If the configuration file is empty paste the following JSON into the MCP Server Configuration:
+```typescript
+import { Bereach } from "bereach";
 
-```json
-{
-  "command": "npx",
-  "args": [
-    "bereach",
-    "start",
-    "--api-token",
-    ""
-  ]
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.linkedinScrapers.collectLikes({
+    postUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+    start: 0,
+  });
+
+  console.log(result);
 }
+
+run();
+
 ```
+<!-- End SDK Example Usage [usage] -->
 
-</details>
+<!-- Start Authentication [security] -->
+## Authentication
 
-<details>
-<summary>Claude Code CLI</summary>
+### Per-Client Security Schemes
 
-```bash
-claude mcp add Bereach -- npx -y bereach start --api-token 
-```
+This SDK supports the following security scheme globally:
 
-</details>
-<details>
-<summary>Gemini</summary>
+| Name    | Type | Scheme      | Environment Variable |
+| ------- | ---- | ----------- | -------------------- |
+| `token` | http | HTTP Bearer | `BEREACH_TOKEN`      |
 
-```bash
-gemini mcp add Bereach -- npx -y bereach start --api-token 
-```
+To authenticate with the API the `token` parameter must be set when initializing the SDK client instance. For example:
+```typescript
+import { Bereach } from "bereach";
 
-</details>
-<details>
-<summary>Windsurf</summary>
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
 
-Refer to [Official Windsurf documentation](https://docs.windsurf.com/windsurf/cascade/mcp#adding-a-new-mcp-plugin) for latest information
+async function run() {
+  const result = await bereach.linkedinScrapers.collectLikes({
+    postUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+    start: 0,
+  });
 
-1. Open Windsurf Settings
-2. Select Cascade on left side menu
-3. Click on `Manage MCPs`. (To Manage MCPs you should be signed in with a Windsurf Account)
-4. Click on `View raw config` to open up the mcp configuration file.
-5. If the configuration file is empty paste the full json
-
-```bash
-{
-  "command": "npx",
-  "args": [
-    "bereach",
-    "start",
-    "--api-token",
-    ""
-  ]
+  console.log(result);
 }
+
+run();
+
 ```
+<!-- End Authentication [security] -->
+
+<!-- Start Available Resources and Operations [operations] -->
+## Available Resources and Operations
+
+<details open>
+<summary>Available methods</summary>
+
+### [Campaigns](docs/sdks/campaigns/README.md)
+
+* [~~filter~~](docs/sdks/campaigns/README.md#filter) - Check if campaign actions are completed :warning: **Deprecated**
+* [getStatus](docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
+* [syncActions](docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
+* [getStats](docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
+
+### [LinkedinActions](docs/sdks/linkedinactions/README.md)
+
+* [connectProfile](docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
+* [listInvitations](docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
+* [acceptInvitation](docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
+* [sendMessage](docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
+* [replyToComment](docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
+* [likeComment](docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
+* [publishPost](docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
+
+### [LinkedinChat](docs/sdks/linkedinchat/README.md)
+
+* [listConversations](docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
+* [searchConversations](docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
+* [findConversation](docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
+* [getMessages](docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
+
+### [LinkedinScrapers](docs/sdks/linkedinscrapers/README.md)
+
+* [collectLikes](docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
+* [collectComments](docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
+* [collectCommentReplies](docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
+* [collectPosts](docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
+* [visitProfile](docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
+* [visitCompany](docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
+
+### [LinkedinSearch](docs/sdks/linkedinsearch/README.md)
+
+* [unifiedSearch](docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
+* [searchPosts](docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
+* [searchPeople](docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
+* [searchCompanies](docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
+* [searchJobs](docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
+* [searchByUrl](docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
+* [resolveParameters](docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
+
+### [Profile](docs/sdks/profile/README.md)
+
+* [getLinkedInProfile](docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
+* [refresh](docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
+* [getPosts](docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
+* [getFollowers](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
+* [getLimits](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+* [getCredits](docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
+
 </details>
+<!-- End Available Resources and Operations [operations] -->
+
+<!-- Start Standalone functions [standalone-funcs] -->
+## Standalone functions
+
+All the methods listed above are available as standalone functions. These
+functions are ideal for use in applications running in the browser, serverless
+runtimes or other environments where application bundle size is a primary
+concern. When using a bundler to build your application, all unused
+functionality will be either excluded from the final bundle or tree-shaken away.
+
+To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
+
 <details>
-<summary>VS Code</summary>
 
-[![Install in VS Code](https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Bereach%20MCP&color=0098FF)](vscode://ms-vscode.vscode-mcp/install?name=Bereach&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIm1jcC1yZW1vdGVAMC4xLjI1IiwiaHR0cHM6Ly9leGFtcGxlLWNsb3VkZmxhcmUtd29ya2VyLmNvbS9zc2UiLCItLWhlYWRlciIsImFwaS10b2tlbjoke0FQSV9UT0tFTn0iXX0=)
+<summary>Available standalone functions</summary>
 
-Or manually:
+- [`campaignsGetStats`](docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
+- [`campaignsGetStatus`](docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
+- [`campaignsSyncActions`](docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
+- [`linkedinActionsAcceptInvitation`](docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
+- [`linkedinActionsConnectProfile`](docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
+- [`linkedinActionsLikeComment`](docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
+- [`linkedinActionsListInvitations`](docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
+- [`linkedinActionsPublishPost`](docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
+- [`linkedinActionsReplyToComment`](docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
+- [`linkedinActionsSendMessage`](docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
+- [`linkedinChatFindConversation`](docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
+- [`linkedinChatGetMessages`](docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
+- [`linkedinChatListConversations`](docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
+- [`linkedinChatSearchConversations`](docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
+- [`linkedinScrapersCollectCommentReplies`](docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
+- [`linkedinScrapersCollectComments`](docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
+- [`linkedinScrapersCollectLikes`](docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
+- [`linkedinScrapersCollectPosts`](docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
+- [`linkedinScrapersVisitCompany`](docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
+- [`linkedinScrapersVisitProfile`](docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
+- [`linkedinSearchResolveParameters`](docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
+- [`linkedinSearchSearchByUrl`](docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
+- [`linkedinSearchSearchCompanies`](docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
+- [`linkedinSearchSearchJobs`](docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
+- [`linkedinSearchSearchPeople`](docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
+- [`linkedinSearchSearchPosts`](docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
+- [`linkedinSearchUnifiedSearch`](docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
+- [`profileGetCredits`](docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
+- [`profileGetFollowers`](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
+- [`profileGetLimits`](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+- [`profileGetLinkedInProfile`](docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
+- [`profileGetPosts`](docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
+- [`profileRefresh`](docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
+- ~~[`campaignsFilter`](docs/sdks/campaigns/README.md#filter)~~ - Check if campaign actions are completed :warning: **Deprecated**
 
-Refer to [Official VS Code documentation](https://code.visualstudio.com/api/extension-guides/ai/mcp) for latest information
+</details>
+<!-- End Standalone functions [standalone-funcs] -->
 
-1. Open [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette)
-1. Search and open `MCP: Open User Configuration`. This should open mcp.json file
-2. If the configuration file is empty paste the full json
+<!-- Start Retries [retries] -->
+## Retries
 
-```bash
-{
-  "command": "npx",
-  "args": [
-    "bereach",
-    "start",
-    "--api-token",
-    ""
-  ]
+Some of the endpoints in this SDK support retries.  If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API.  However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
+
+To change the default retry strategy for a single API call, simply provide a retryConfig object to the call:
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.linkedinScrapers.collectLikes({
+    postUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+    start: 0,
+  }, {
+    retries: {
+      strategy: "backoff",
+      backoff: {
+        initialInterval: 1,
+        maxInterval: 50,
+        exponent: 1.1,
+        maxElapsedTime: 100,
+      },
+      retryConnectionErrors: false,
+    },
+  });
+
+  console.log(result);
 }
-```
 
-</details>
-<details>
-<summary> Stdio installation via npm </summary>
-To start the MCP server, run:
-
-```bash
-npx bereach start --api-token 
-```
-
-For a full list of server arguments, run:
+run();
 
 ```
-npx bereach --help
+
+If you'd like to override the default retry strategy for all operations that support retries, you can provide a retryConfig at SDK initialization:
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  retryConfig: {
+    strategy: "backoff",
+    backoff: {
+      initialInterval: 1,
+      maxInterval: 50,
+      exponent: 1.1,
+      maxElapsedTime: 100,
+    },
+    retryConnectionErrors: false,
+  },
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.linkedinScrapers.collectLikes({
+    postUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+    start: 0,
+  });
+
+  console.log(result);
+}
+
+run();
+
 ```
+<!-- End Retries [retries] -->
 
-</details>
-<!-- End Installation [installation] -->
+<!-- Start Error Handling [errors] -->
+## Error Handling
 
-<!-- Start Progressive Discovery [dynamic-mode] -->
-## Progressive Discovery
+[`BereachError`](./src/models/errors/bereach-error.ts) is the base class for all HTTP error responses. It has the following properties:
 
-MCP servers with many tools can bloat LLM context windows, leading to increased token usage and tool confusion. Dynamic mode solves this by exposing only a small set of meta-tools that let agents progressively discover and invoke tools on demand.
+| Property            | Type       | Description                                                                             |
+| ------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| `error.message`     | `string`   | Error message                                                                           |
+| `error.statusCode`  | `number`   | HTTP response status code eg `404`                                                      |
+| `error.headers`     | `Headers`  | HTTP response headers                                                                   |
+| `error.body`        | `string`   | HTTP body. Can be empty string if no body is returned.                                  |
+| `error.rawResponse` | `Response` | Raw HTTP response                                                                       |
+| `error.data$`       |            | Optional. Some errors may contain structured data. [See Error Classes](#error-classes). |
 
-To enable dynamic mode, pass the `--mode dynamic` flag when starting your server:
+### Example
+```typescript
+import { Bereach } from "bereach";
+import * as errors from "bereach/models/errors";
 
-```jsonc
-{
-  "mcpServers": {
-    "Bereach": {
-      "command": "npx",
-      "args": ["bereach", "start", "--mode", "dynamic"],
-      // ... other server arguments
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  try {
+    const result = await bereach.linkedinScrapers.collectLikes({
+      postUrl:
+        "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+      start: 0,
+    });
+
+    console.log(result);
+  } catch (error) {
+    // The base class for HTTP error responses
+    if (error instanceof errors.BereachError) {
+      console.log(error.message);
+      console.log(error.statusCode);
+      console.log(error.body);
+      console.log(error.headers);
+
+      // Depending on the method different errors may be thrown
+      if (error instanceof errors.BadRequestError) {
+        console.log(error.data$.success); // boolean
+        console.log(error.data$.error); // operations.CollectLinkedInLikesBadRequestError
+      }
     }
   }
 }
+
+run();
+
 ```
 
-In dynamic mode, the server registers only the following meta-tools instead of every individual tool:
+### Error Classes
+**Primary errors:**
+* [`BereachError`](./src/models/errors/bereach-error.ts): The base class for HTTP error responses.
+  * [`BadRequestError`](./src/models/errors/bad-request-error.ts): The server cannot or will not process the request due to something that is perceived to be a client error. Status code `400`.
+  * [`UnauthorizedError`](./src/models/errors/unauthorized-error.ts): Although HTTP specifies "unauthorized", this response means "unauthenticated". Authenticate to continue. Status code `401`.
+  * [`ForbiddenError`](./src/models/errors/forbidden-error.ts): The client does not have access rights to the content. Status code `403`.
+  * [`NotFoundError`](./src/models/errors/not-found-error.ts): The server cannot find the requested resource. Status code `404`.
+  * [`ConflictError`](./src/models/errors/conflict-error.ts): The request conflicts with the current state of the server. Status code `409`.
+  * [`GoneError`](./src/models/errors/gone-error.ts): The requested content has been permanently deleted from the server. Status code `410`.
+  * [`UnprocessableEntityError`](./src/models/errors/unprocessable-entity-error.ts): The request was well-formed but was unable to be followed due to semantic errors. Status code `422`.
+  * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Rate limit exceeded. Read error.retryAfter for the wait time in seconds. Status code `429`.
+  * [`InternalServerError`](./src/models/errors/internal-server-error.ts): The server encountered a situation it does not know how to handle. Status code `500`.
 
-- **`list_tools`**: Lists all available tools with their names and descriptions.
-- **`describe_tool`**: Returns the input schema for one or more tools by name.
-- **`execute_tool`**: Executes a tool by name with the provided input parameters.
+<details><summary>Less common errors (6)</summary>
 
-This approach significantly reduces the number of tokens sent to the LLM on each request, which is especially useful for servers with a large number of tools.
-<!-- End Progressive Discovery [dynamic-mode] -->
+<br />
+
+**Network errors:**
+* [`ConnectionError`](./src/models/errors/http-client-errors.ts): HTTP client was unable to make a request to a server.
+* [`RequestTimeoutError`](./src/models/errors/http-client-errors.ts): HTTP request timed out due to an AbortSignal signal.
+* [`RequestAbortedError`](./src/models/errors/http-client-errors.ts): HTTP request was aborted by the client.
+* [`InvalidRequestError`](./src/models/errors/http-client-errors.ts): Any input used to create a request is invalid.
+* [`UnexpectedClientError`](./src/models/errors/http-client-errors.ts): Unrecognised or unexpected error.
+
+
+**Inherit from [`BereachError`](./src/models/errors/bereach-error.ts)**:
+* [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
+
+</details>
+<!-- End Error Handling [errors] -->
+
+<!-- Start Server Selection [server] -->
+## Server Selection
+
+### Override Server URL Per-Client
+
+The default server can be overridden globally by passing a URL to the `serverURL: string` optional parameter when initializing the SDK client instance. For example:
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  serverURL: "https://api.berea.ch",
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.linkedinScrapers.collectLikes({
+    postUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
+    start: 0,
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
+<!-- End Server Selection [server] -->
+
+<!-- Start Custom HTTP Client [http-client] -->
+## Custom HTTP Client
+
+The TypeScript SDK makes API calls using an `HTTPClient` that wraps the native
+[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API). This
+client is a thin wrapper around `fetch` and provides the ability to attach hooks
+around the request lifecycle that can be used to modify the request or handle
+errors and response.
+
+The `HTTPClient` constructor takes an optional `fetcher` argument that can be
+used to integrate a third-party HTTP client or when writing tests to mock out
+the HTTP client and feed in fixtures.
+
+The following example shows how to:
+- route requests through a proxy server using [undici](https://www.npmjs.com/package/undici)'s ProxyAgent
+- use the `"beforeRequest"` hook to add a custom header and a timeout to requests
+- use the `"requestError"` hook to log errors
+
+```typescript
+import { Bereach } from "bereach";
+import { ProxyAgent } from "undici";
+import { HTTPClient } from "bereach/lib/http";
+
+const dispatcher = new ProxyAgent("http://proxy.example.com:8080");
+
+const httpClient = new HTTPClient({
+  // 'fetcher' takes a function that has the same signature as native 'fetch'.
+  fetcher: (input, init) =>
+    // 'dispatcher' is specific to undici and not part of the standard Fetch API.
+    fetch(input, { ...init, dispatcher } as RequestInit),
+});
+
+httpClient.addHook("beforeRequest", (request) => {
+  const nextRequest = new Request(request, {
+    signal: request.signal || AbortSignal.timeout(5000)
+  });
+
+  nextRequest.headers.set("x-custom-header", "custom value");
+
+  return nextRequest;
+});
+
+httpClient.addHook("requestError", (error, request) => {
+  console.group("Request Error");
+  console.log("Reason:", `${error}`);
+  console.log("Endpoint:", `${request.method} ${request.url}`);
+  console.groupEnd();
+});
+
+const sdk = new Bereach({ httpClient: httpClient });
+```
+<!-- End Custom HTTP Client [http-client] -->
+
+<!-- Start Debugging [debug] -->
+## Debugging
+
+You can setup your SDK to emit debug logs for SDK requests and responses.
+
+You can pass a logger that matches `console`'s interface as an SDK option.
+
+> [!WARNING]
+> Beware that debug logging will reveal secrets, like API tokens in headers, in log messages printed to a console or files. It's recommended to use this feature only during local development and not in production.
+
+```typescript
+import { Bereach } from "bereach";
+
+const sdk = new Bereach({ debugLogger: console });
+```
+
+You can also enable a default debug logger by setting an environment variable `BEREACH_DEBUG` to true.
+<!-- End Debugging [debug] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 
-## Development
+# Development
 
-Run locally without a published npm package:
-1. Clone this repository
-2. Run `npm install`
-3. Run `npm run build`
-4. Run `node ./bin/mcp-server.js start --api-token `
-To use this local version with Cursor, Claude or other MCP Clients, you'll need to add the following config:
+## Maturity
 
-```json
-{
-  "command": "node",
-  "args": [
-    "./bin/mcp-server.js",
-    "start",
-    "--api-token",
-    ""
-  ]
-}
-```
-
-Or to debug the MCP server locally, use the official MCP Inspector: 
-
-```bash
-npx @modelcontextprotocol/inspector node ./bin/mcp-server.js start --api-token 
-```
-
-
-### Cloudflare Deployment
-
-To deploy to Cloudflare Workers:
-
-```bash
-npm install 
-npm run deploy
-```
-
-To run the cloudflare deployment locally:
-
-```bash
-npm install 
-npm run dev
-```
-
-The local development server will be available at `http://localhost:8787`
-
-Then install with Claude Code CLI:
-
-```bash
-claude mcp add Bereach -- npx -y bereach start --api-token 
-```
-
-
-
-
-
-## Publishing to Anthropic MCP Registry
-
-To publish your MCP server to the [Anthropic MCP Registry](https://github.com/modelcontextprotocol/registry), follow these steps based on the [official publishing guide](https://github.com/modelcontextprotocol/registry/blob/main/docs/guides/publishing/publish-server.md).
-
-### Step 1: Configure mcpName in Your Generation Config
-
-Add the `mcpName` field to your `.speakeasy/gen.yaml` file:
-
-```yaml
-mcp-typescript:
-  mcpName: io.github.username/server-name  # Use reverse-DNS format
-  # ... other configuration
-```
-
-The `mcpName` should follow the reverse-DNS format (e.g., `io.github.username/server-name`) to ensure uniqueness in the registry.
-
-### Step 2: Regenerate Your MCP Server
-
-Run Speakeasy generation with the updated configuration. This will:
-- Add the `mcpName` field to your `package.json` (required for npm package validation)
-- Generate a `server.json` file with registry metadata
-
-### Step 3: Publish to npm
-
-The registry validates npm packages by checking that your published package includes the `mcpName` field:
-
-```bash
-npm publish
-```
-
-The registry will fetch your package from npm and verify that the `mcpName` in `package.json` matches your server name.
-
-### Step 4: Install the Publisher CLI
-
-Install the `mcp-publisher` CLI tool:
-
-**macOS/Linux (Homebrew)**:
-```bash
-brew install mcp-publisher
-```
-
-**macOS/Linux/WSL (curl)**:
-```bash
-curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher && sudo mv mcp-publisher /usr/local/bin/
-```
-
-**Windows PowerShell**:
-```powershell
-$arch = if ([System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture -eq "Arm64") { "arm64" } else { "amd64" }
-Invoke-WebRequest -Uri "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_windows_$arch.tar.gz" -OutFile "mcp-publisher.tar.gz"
-tar xf mcp-publisher.tar.gz mcp-publisher.exe
-rm mcp-publisher.tar.gz
-# Move mcp-publisher.exe to a directory in your PATH
-```
-
-### Step 5: Authenticate
-
-Authenticate based on your namespace:
-
-**For `io.github.*` namespaces (GitHub OAuth)**:
-```bash
-mcp-publisher login github
-```
-
-**For custom domains like `com.yourcompany.*` (DNS authentication)**:
-```bash
-# Generate keypair
-openssl genpkey -algorithm Ed25519 -out key.pem
-
-# Get public key for DNS record
-echo "yourcompany.com. IN TXT \"v=MCPv1; k=ed25519; p=$(openssl pkey -in key.pem -pubout -outform DER | tail -c 32 | base64)\""
-
-# Add the TXT record to your DNS, then login
-mcp-publisher login dns --domain yourcompany.com --private-key $(openssl pkey -in key.pem -noout -text | grep -A3 "priv:" | tail -n +2 | tr -d ' :\n')
-```
-
-### Step 6: Publish to the Registry
-
-From your server directory, publish to the registry:
-
-```bash
-mcp-publisher publish
-```
-
-You'll see:
-```
-✓ Successfully published
-```
-
-### Step 7: Verify Publication
-
-Check that your server appears in the registry:
-
-```bash
-curl "https://registry.modelcontextprotocol.io/v0/servers?search=io.github.username/server-name"
-```
-
-For complete documentation including remote deployments, troubleshooting, and CI/CD automation, see the [official publishing guide](https://github.com/modelcontextprotocol/registry/blob/main/docs/guides/publishing/publish-server.md).
+This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
+to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
+looking for the latest version.
 
 ## Contributions
 
-While we value contributions to this MCP Server, the code is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation. 
+While we value open-source contributions to this SDK, this library is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation. 
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
-### MCP Server Created by [Speakeasy](https://www.speakeasy.com/?utm_source=bereach&utm_campaign=mcp-typescript)
+### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=bereach&utm_campaign=typescript)

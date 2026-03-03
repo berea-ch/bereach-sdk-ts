@@ -1,5 +1,8 @@
 configVersion: 2.0.0
 generation:
+  devContainers:
+    enabled: true
+    schemaPath: .speakeasy/out.openapi.yaml
   sdkClassName: Bereach
   maintainOpenAPIOrder: true
   deduplicateErrors: true
@@ -31,25 +34,62 @@ generation:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
-mcp-typescript:
-  version: 0.1.2
+typescript:
+  version: 0.1.1
+  acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
     devDependencies: {}
     peerDependencies: {}
-  advancedFlags: []
+  additionalPackageJSON: {}
+  additionalScripts: {}
+  alwaysIncludeInboundAndOutbound: false
   author: Speakeasy
   baseErrorName: BereachError
-  cloudflareEnabled: true
+  clientServerStatusCodesAsErrors: true
+  constFieldsAlwaysOptional: false
   defaultErrorName: BereachDefaultError
+  enableCustomCodeRegions: false
+  enableMCPServer: false
+  enableReactQuery: false
+  enumFormat: union
   envVarPrefix: BEREACH
+  exportZodModelNamespace: false
+  flatAdditionalProperties: true
+  flattenGlobalSecurity: true
+  flatteningOrder: parameters-first
   formStringArrayEncodeMode: array
-  gramEnabled: false
+  forwardCompatibleEnumsByDefault: true
+  forwardCompatibleUnionsByDefault: tagged-only
+  generateExamples: true
+  imports:
+    option: openapi
+    paths:
+      callbacks: models/callbacks
+      errors: models/errors
+      operations: models/operations
+      shared: models
+      webhooks: models/webhooks
   inferUnionDiscriminators: true
   inputModelSuffix: input
+  jsonpath: rfc9535
+  laxMode: lax
+  legacyFileNaming: false
   maxMethodParams: 0
+  methodArguments: infer-optional-args
+  modelPropertyCasing: camel
+  moduleFormat: esm
   multipartArrayFormat: standard
   outputModelSuffix: output
   packageName: bereach
+  preApplyUnionDiscriminators: true
+  preserveModelFieldNames: false
   responseFormat: flat
-  validateResponse: false
+  sseFlatResponse: false
+  templateVersion: v2
+  unionStrategy: populated-fields
+  usageSDKInitImports: []
+  useIndexModules: true
+  useOxlint: true
+  useTsgo: true
+  zodVersion: v4-mini
