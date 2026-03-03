@@ -73,7 +73,7 @@ yarn add <UNSET>
 <!-- Start Requirements [requirements] -->
 ## Requirements
 
-For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
+For supported JavaScript runtimes, please consult [RUNTIMES.md](https://github.com/berea-ch/bereach-sdk-ts/blob/main/RUNTIMES.md).
 <!-- End Requirements [requirements] -->
 
 <!-- Start SDK Example Usage [usage] -->
@@ -143,57 +143,57 @@ run();
 <details open>
 <summary>Available methods</summary>
 
-### [Campaigns](docs/sdks/campaigns/README.md)
+### [Campaigns](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md)
 
-* [~~filter~~](docs/sdks/campaigns/README.md#filter) - Check if campaign actions are completed :warning: **Deprecated**
-* [getStatus](docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
-* [syncActions](docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
-* [getStats](docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
+* [~~filter~~](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#filter) - Check if campaign actions are completed :warning: **Deprecated**
+* [getStatus](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
+* [syncActions](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
+* [getStats](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
 
-### [LinkedinActions](docs/sdks/linkedinactions/README.md)
+### [LinkedinActions](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md)
 
-* [connectProfile](docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
-* [listInvitations](docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
-* [acceptInvitation](docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
-* [sendMessage](docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
-* [replyToComment](docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
-* [likeComment](docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
-* [publishPost](docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
+* [connectProfile](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
+* [listInvitations](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
+* [acceptInvitation](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
+* [sendMessage](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
+* [replyToComment](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
+* [likeComment](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
+* [publishPost](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
 
-### [LinkedinChat](docs/sdks/linkedinchat/README.md)
+### [LinkedinChat](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md)
 
-* [listConversations](docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
-* [searchConversations](docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
-* [findConversation](docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
-* [getMessages](docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
+* [listConversations](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
+* [searchConversations](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
+* [findConversation](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
+* [getMessages](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
 
-### [LinkedinScrapers](docs/sdks/linkedinscrapers/README.md)
+### [LinkedinScrapers](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md)
 
-* [collectLikes](docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
-* [collectComments](docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
-* [collectCommentReplies](docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
-* [collectPosts](docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
-* [visitProfile](docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
-* [visitCompany](docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
+* [collectLikes](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
+* [collectComments](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
+* [collectCommentReplies](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
+* [collectPosts](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
+* [visitProfile](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
+* [visitCompany](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
 
-### [LinkedinSearch](docs/sdks/linkedinsearch/README.md)
+### [LinkedinSearch](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md)
 
-* [unifiedSearch](docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
-* [searchPosts](docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
-* [searchPeople](docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
-* [searchCompanies](docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
-* [searchJobs](docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
-* [searchByUrl](docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
-* [resolveParameters](docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
+* [unifiedSearch](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
+* [searchPosts](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
+* [searchPeople](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
+* [searchCompanies](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
+* [searchJobs](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
+* [searchByUrl](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
+* [resolveParameters](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
 
-### [Profile](docs/sdks/profile/README.md)
+### [Profile](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md)
 
-* [getLinkedInProfile](docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
-* [refresh](docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
-* [getPosts](docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
-* [getFollowers](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
-* [getLimits](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
-* [getCredits](docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
+* [getLinkedInProfile](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
+* [refresh](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
+* [getPosts](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
+* [getFollowers](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
+* [getLimits](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+* [getCredits](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -207,46 +207,46 @@ runtimes or other environments where application bundle size is a primary
 concern. When using a bundler to build your application, all unused
 functionality will be either excluded from the final bundle or tree-shaken away.
 
-To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
+To read more about standalone functions, check [FUNCTIONS.md](https://github.com/berea-ch/bereach-sdk-ts/blob/main/FUNCTIONS.md).
 
 <details>
 
 <summary>Available standalone functions</summary>
 
-- [`campaignsGetStats`](docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
-- [`campaignsGetStatus`](docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
-- [`campaignsSyncActions`](docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
-- [`linkedinActionsAcceptInvitation`](docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
-- [`linkedinActionsConnectProfile`](docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
-- [`linkedinActionsLikeComment`](docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
-- [`linkedinActionsListInvitations`](docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
-- [`linkedinActionsPublishPost`](docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
-- [`linkedinActionsReplyToComment`](docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
-- [`linkedinActionsSendMessage`](docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
-- [`linkedinChatFindConversation`](docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
-- [`linkedinChatGetMessages`](docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
-- [`linkedinChatListConversations`](docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
-- [`linkedinChatSearchConversations`](docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
-- [`linkedinScrapersCollectCommentReplies`](docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
-- [`linkedinScrapersCollectComments`](docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
-- [`linkedinScrapersCollectLikes`](docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
-- [`linkedinScrapersCollectPosts`](docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
-- [`linkedinScrapersVisitCompany`](docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
-- [`linkedinScrapersVisitProfile`](docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
-- [`linkedinSearchResolveParameters`](docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
-- [`linkedinSearchSearchByUrl`](docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
-- [`linkedinSearchSearchCompanies`](docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
-- [`linkedinSearchSearchJobs`](docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
-- [`linkedinSearchSearchPeople`](docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
-- [`linkedinSearchSearchPosts`](docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
-- [`linkedinSearchUnifiedSearch`](docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
-- [`profileGetCredits`](docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
-- [`profileGetFollowers`](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
-- [`profileGetLimits`](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
-- [`profileGetLinkedInProfile`](docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
-- [`profileGetPosts`](docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
-- [`profileRefresh`](docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
-- ~~[`campaignsFilter`](docs/sdks/campaigns/README.md#filter)~~ - Check if campaign actions are completed :warning: **Deprecated**
+- [`campaignsGetStats`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#getstats) - Get aggregate campaign statistics
+- [`campaignsGetStatus`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#getstatus) - Query per-profile action status within a campaign
+- [`campaignsSyncActions`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#syncactions) - Mark actions as completed without performing them
+- [`linkedinActionsAcceptInvitation`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#acceptinvitation) - Accept a LinkedIn connection invitation
+- [`linkedinActionsConnectProfile`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#connectprofile) - Send LinkedIn connection request
+- [`linkedinActionsLikeComment`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#likecomment) - Like a LinkedIn comment
+- [`linkedinActionsListInvitations`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#listinvitations) - List received LinkedIn connection invitations
+- [`linkedinActionsPublishPost`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#publishpost) - Publish or schedule a LinkedIn post
+- [`linkedinActionsReplyToComment`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#replytocomment) - Reply to a LinkedIn comment
+- [`linkedinActionsSendMessage`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinactions/README.md#sendmessage) - Send LinkedIn message
+- [`linkedinChatFindConversation`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#findconversation) - Find a conversation with a specific person
+- [`linkedinChatGetMessages`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#getmessages) - Read messages from a conversation
+- [`linkedinChatListConversations`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#listconversations) - List LinkedIn inbox conversations
+- [`linkedinChatSearchConversations`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinchat/README.md#searchconversations) - Search LinkedIn conversations
+- [`linkedinScrapersCollectCommentReplies`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
+- [`linkedinScrapersCollectComments`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectcomments) - Scrape LinkedIn post comments
+- [`linkedinScrapersCollectLikes`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectlikes) - Scrape LinkedIn post likes
+- [`linkedinScrapersCollectPosts`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#collectposts) - Scrape LinkedIn profile posts
+- [`linkedinScrapersVisitCompany`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#visitcompany) - Visit LinkedIn company page and extract profile data
+- [`linkedinScrapersVisitProfile`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinscrapers/README.md#visitprofile) - Visit LinkedIn profile and extract contact data
+- [`linkedinSearchResolveParameters`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
+- [`linkedinSearchSearchByUrl`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchbyurl) - Search LinkedIn by URL
+- [`linkedinSearchSearchCompanies`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchcompanies) - Search LinkedIn Companies
+- [`linkedinSearchSearchJobs`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchjobs) - Search LinkedIn Jobs
+- [`linkedinSearchSearchPeople`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchpeople) - Search LinkedIn People
+- [`linkedinSearchSearchPosts`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#searchposts) - Search LinkedIn Posts
+- [`linkedinSearchUnifiedSearch`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/linkedinsearch/README.md#unifiedsearch) - Unified LinkedIn Search — posts, people, companies, jobs
+- [`profileGetCredits`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
+- [`profileGetFollowers`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
+- [`profileGetLimits`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+- [`profileGetLinkedInProfile`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getlinkedinprofile) - Get authenticated user's LinkedIn profile
+- [`profileGetPosts`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#getposts) - Get authenticated user's LinkedIn posts
+- [`profileRefresh`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
+- ~~[`campaignsFilter`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/docs/sdks/campaigns/README.md#filter)~~ - Check if campaign actions are completed :warning: **Deprecated**
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -325,7 +325,7 @@ run();
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-[`BereachError`](./src/models/errors/bereach-error.ts) is the base class for all HTTP error responses. It has the following properties:
+[`BereachError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/bereach-error.ts) is the base class for all HTTP error responses. It has the following properties:
 
 | Property            | Type       | Description                                                                             |
 | ------------------- | ---------- | --------------------------------------------------------------------------------------- |
@@ -377,31 +377,31 @@ run();
 
 ### Error Classes
 **Primary errors:**
-* [`BereachError`](./src/models/errors/bereach-error.ts): The base class for HTTP error responses.
-  * [`BadRequestError`](./src/models/errors/bad-request-error.ts): The server cannot or will not process the request due to something that is perceived to be a client error. Status code `400`.
-  * [`UnauthorizedError`](./src/models/errors/unauthorized-error.ts): Although HTTP specifies "unauthorized", this response means "unauthenticated". Authenticate to continue. Status code `401`.
-  * [`ForbiddenError`](./src/models/errors/forbidden-error.ts): The client does not have access rights to the content. Status code `403`.
-  * [`NotFoundError`](./src/models/errors/not-found-error.ts): The server cannot find the requested resource. Status code `404`.
-  * [`ConflictError`](./src/models/errors/conflict-error.ts): The request conflicts with the current state of the server. Status code `409`.
-  * [`GoneError`](./src/models/errors/gone-error.ts): The requested content has been permanently deleted from the server. Status code `410`.
-  * [`UnprocessableEntityError`](./src/models/errors/unprocessable-entity-error.ts): The request was well-formed but was unable to be followed due to semantic errors. Status code `422`.
-  * [`TooManyRequestsError`](./src/models/errors/too-many-requests-error.ts): Rate limit exceeded. Read error.retryAfter for the wait time in seconds. Status code `429`.
-  * [`InternalServerError`](./src/models/errors/internal-server-error.ts): The server encountered a situation it does not know how to handle. Status code `500`.
+* [`BereachError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/bereach-error.ts): The base class for HTTP error responses.
+  * [`BadRequestError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/bad-request-error.ts): The server cannot or will not process the request due to something that is perceived to be a client error. Status code `400`.
+  * [`UnauthorizedError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/unauthorized-error.ts): Although HTTP specifies "unauthorized", this response means "unauthenticated". Authenticate to continue. Status code `401`.
+  * [`ForbiddenError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/forbidden-error.ts): The client does not have access rights to the content. Status code `403`.
+  * [`NotFoundError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/not-found-error.ts): The server cannot find the requested resource. Status code `404`.
+  * [`ConflictError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/conflict-error.ts): The request conflicts with the current state of the server. Status code `409`.
+  * [`GoneError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/gone-error.ts): The requested content has been permanently deleted from the server. Status code `410`.
+  * [`UnprocessableEntityError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/unprocessable-entity-error.ts): The request was well-formed but was unable to be followed due to semantic errors. Status code `422`.
+  * [`TooManyRequestsError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/too-many-requests-error.ts): Rate limit exceeded. Read error.retryAfter for the wait time in seconds. Status code `429`.
+  * [`InternalServerError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/internal-server-error.ts): The server encountered a situation it does not know how to handle. Status code `500`.
 
 <details><summary>Less common errors (6)</summary>
 
 <br />
 
 **Network errors:**
-* [`ConnectionError`](./src/models/errors/http-client-errors.ts): HTTP client was unable to make a request to a server.
-* [`RequestTimeoutError`](./src/models/errors/http-client-errors.ts): HTTP request timed out due to an AbortSignal signal.
-* [`RequestAbortedError`](./src/models/errors/http-client-errors.ts): HTTP request was aborted by the client.
-* [`InvalidRequestError`](./src/models/errors/http-client-errors.ts): Any input used to create a request is invalid.
-* [`UnexpectedClientError`](./src/models/errors/http-client-errors.ts): Unrecognised or unexpected error.
+* [`ConnectionError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/http-client-errors.ts): HTTP client was unable to make a request to a server.
+* [`RequestTimeoutError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/http-client-errors.ts): HTTP request timed out due to an AbortSignal signal.
+* [`RequestAbortedError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/http-client-errors.ts): HTTP request was aborted by the client.
+* [`InvalidRequestError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/http-client-errors.ts): Any input used to create a request is invalid.
+* [`UnexpectedClientError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/http-client-errors.ts): Unrecognised or unexpected error.
 
 
-**Inherit from [`BereachError`](./src/models/errors/bereach-error.ts)**:
-* [`ResponseValidationError`](./src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
+**Inherit from [`BereachError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/bereach-error.ts)**:
+* [`ResponseValidationError`](https://github.com/berea-ch/bereach-sdk-ts/blob/main/src/models/errors/response-validation-error.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
 <!-- End Error Handling [errors] -->
