@@ -2,8 +2,8 @@ speakeasyVersion: 1.739.1
 sources:
     BeReach API:
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:38fbaa812be66069fd37d759bb1412a3977ae816305a0fabffbf844b6d6a130a
-        sourceBlobDigest: sha256:127b99a19e3c78b6fa06eabaed13eb992599183cdb30e6a9279e0e3d558bb5a6
+        sourceRevisionDigest: sha256:24ce6001f55f2f200ca75fee2a408b7dbe370d3350170e947c0a43392c165a2d
+        sourceBlobDigest: sha256:4f4d7cce7ce8d87984c7236abb2fc4399d1e19b249452f549d5858bbf113c4ae
         tags:
             - latest
             - 0.0.8
@@ -11,10 +11,10 @@ targets:
     bereach:
         source: BeReach API
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:38fbaa812be66069fd37d759bb1412a3977ae816305a0fabffbf844b6d6a130a
-        sourceBlobDigest: sha256:127b99a19e3c78b6fa06eabaed13eb992599183cdb30e6a9279e0e3d558bb5a6
+        sourceRevisionDigest: sha256:24ce6001f55f2f200ca75fee2a408b7dbe370d3350170e947c0a43392c165a2d
+        sourceBlobDigest: sha256:4f4d7cce7ce8d87984c7236abb2fc4399d1e19b249452f549d5858bbf113c4ae
         codeSamplesNamespace: be-reach-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:633e47ac95ca6585f0a1e2212e5d760e4831f63cb21869d3f1c4155798f497b0
+        codeSamplesRevisionDigest: sha256:676d84eb7dd620db159b7c7f5eec3746f83bb03dd145677638f447d2e4f80105
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
