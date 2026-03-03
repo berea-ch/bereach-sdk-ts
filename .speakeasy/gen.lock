@@ -3,14 +3,17 @@ id: 07906d97-f39c-4b69-ba2f-8d91bf3c3302
 management:
   docChecksum: 79c75efb12e553678defea7661500e25
   docVersion: 0.0.8
-  speakeasyVersion: 1.739.1
-  generationVersion: 2.846.1
-  releaseVersion: 0.1.1
-  configChecksum: bd9f8cf155a1f6d527cecb7384f9cba6
+  speakeasyVersion: 1.739.2
+  generationVersion: 2.846.4
+  releaseVersion: 0.1.2
+  configChecksum: bcb317a7e4a078b6ee1c7e75df422899
+  repoURL: https://github.com/berea-ch/bereach-sdk-ts.git
+  installationURL: https://github.com/berea-ch/bereach-sdk-ts
+  published: true
 persistentEdits:
-  generation_id: 28b2968e-ffc4-4f58-9245-980077ef5cfb
-  pristine_commit_hash: 65ad7150a7e77492376bf57af56c55ea3c2ba44e
-  pristine_tree_hash: 76a7a87f45c67c61106300b28509f156a471a8b1
+  generation_id: f3478a83-4f24-4c1b-a4cd-b725e5cbbba9
+  pristine_commit_hash: dbc8e737e90af01cd6d1471a0cd8098c7423bf76
+  pristine_tree_hash: 400a96718db24102b335afbab637059ca934cd92
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -37,8 +40,8 @@ features:
 trackedFiles:
   .devcontainer/README.md:
     id: b170c0f184ac
-    last_write_checksum: sha1:b6564d2a7c8ae764fff6d1b4666dcd787210a000
-    pristine_git_object: cdef18c30e383534a868742e1b9148f2670606f9
+    last_write_checksum: sha1:8c5d2536b62f702118ebb973a8ca5a47b2dcc3be
+    pristine_git_object: 7ef9a4e731e75a5a549778acab6743b5b1eb1d9c
   .devcontainer/devcontainer.json:
     id: b34062a34eb1
     last_write_checksum: sha1:d0b15193202c961e7d1875864ddb15f9d17c84dd
@@ -1133,12 +1136,12 @@ trackedFiles:
     pristine_git_object: d22023452f5c34df564e1a2f20071d483b9dde0d
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:4f512cb9b78b63949ef8e29e5e2ab31c0a35a4c2
-    pristine_git_object: e88ce1dc37f5833bb23b8e566a41f31138c78a40
+    last_write_checksum: sha1:3158e4b2d76350deab923558bea8782e2bb74e29
+    pristine_git_object: 68f88eb695c7ef04e6721b8d19c8dd7d66a61515
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:17451eb8dceea4867f89682a45e22e206323cdcf
-    pristine_git_object: 4f94a82b0f8396bad55b7d6e2d1e2708377c5783
+    last_write_checksum: sha1:7d5347e4520ec445a89041d5fbdfc7ae8b9d3e94
+    pristine_git_object: ae9d8a2831c8725d9fa6d74db02e42dd6bb95f61
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:dd9b2e9e929a42b051e9eef718f9fcece32c717a
@@ -1301,8 +1304,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:cec48d217c8724a53fa6dbb6a2f66da8cfc9ebcd
-    pristine_git_object: 6c77f69ef5a484ed83c751d10c5dd6c5e95d2d7e
+    last_write_checksum: sha1:09e34ab5424a4b8823075ed86ad781f3337a2f41
+    pristine_git_object: b4561842821be4a6c57a252ccbdd2fe85397a043
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -2343,3 +2346,73 @@ examples:
         "500":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
 examplesVersion: 1.0.2
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `bereach.linkedinScrapers.collectLikes()`: **Added**
+  * `bereach.linkedinScrapers.collectComments()`: **Added**
+  * `bereach.linkedinScrapers.collectCommentReplies()`: **Added**
+  * `bereach.linkedinScrapers.collectPosts()`: **Added**
+  * `bereach.linkedinScrapers.visitProfile()`: **Added**
+  * `bereach.linkedinScrapers.visitCompany()`: **Added**
+  * `bereach.linkedinSearch.unifiedSearch()`: **Added**
+  * `bereach.linkedinSearch.searchPosts()`: **Added**
+  * `bereach.linkedinSearch.searchPeople()`: **Added**
+  * `bereach.linkedinSearch.searchCompanies()`: **Added**
+  * `bereach.linkedinSearch.searchJobs()`: **Added**
+  * `bereach.linkedinSearch.searchByUrl()`: **Added**
+  * `bereach.linkedinSearch.resolveParameters()`: **Added**
+  * `bereach.linkedinActions.connectProfile()`: **Added**
+  * `bereach.linkedinActions.listInvitations()`: **Added**
+  * `bereach.linkedinActions.acceptInvitation()`: **Added**
+  * `bereach.linkedinActions.sendMessage()`: **Added**
+  * `bereach.linkedinActions.replyToComment()`: **Added**
+  * `bereach.linkedinActions.likeComment()`: **Added**
+  * `bereach.linkedinActions.publishPost()`: **Added**
+  * `bereach.profile.getLinkedInProfile()`: **Added**
+  * `bereach.profile.refresh()`: **Added**
+  * `bereach.profile.getPosts()`: **Added**
+  * `bereach.profile.getFollowers()`: **Added**
+  * `bereach.profile.getLimits()`: **Added**
+  * `bereach.profile.getCredits()`: **Added**
+  * `bereach.linkedinChat.listConversations()`: **Added**
+  * `bereach.linkedinChat.searchConversations()`: **Added**
+  * `bereach.linkedinChat.findConversation()`: **Added**
+  * `bereach.linkedinChat.getMessages()`: **Added**
+  * `bereach.campaigns.filter()`: **Added**
+  * `bereach.campaigns.getStatus()`: **Added**
+  * `bereach.campaigns.syncActions()`: **Added**
+  * `bereach.campaigns.getStats()`: **Added**
+  * `bereach.linkedInScrapers.collectLinkedInLikes()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInScrapers.collectLinkedInComments()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInScrapers.collectLinkedInCommentReplies()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInScrapers.collectLinkedInPosts()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInScrapers.visitLinkedInProfile()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInScrapers.visitLinkedInCompany()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedIn()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedInPosts()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedInPeople()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedInCompanies()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedInJobs()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.searchLinkedInByUrl()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInSearch.resolveLinkedInSearchParameters()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.connectLinkedInProfile()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.listLinkedInInvitations()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.acceptLinkedInInvitation()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.sendLinkedInMessage()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.replyToLinkedInComment()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.likeLinkedInComment()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInActions.publishLinkedInPost()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.getMyLinkedInProfile()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.refreshMyLinkedInProfile()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.getMyLinkedInPosts()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.getMyLinkedInFollowers()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.getMyLimits()`: **Removed** (Breaking ⚠️)
+  * `bereach.profile.getMyCredits()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInChat.listInboxConversations()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInChat.searchLinkedInConversations()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInChat.findLinkedInConversation()`: **Removed** (Breaking ⚠️)
+  * `bereach.linkedInChat.getConversationMessages()`: **Removed** (Breaking ⚠️)
+  * `bereach.campaigns.filterCampaign()`: **Removed** (Breaking ⚠️)
+  * `bereach.campaigns.getCampaignStatus()`: **Removed** (Breaking ⚠️)
+  * `bereach.campaigns.syncCampaignActions()`: **Removed** (Breaking ⚠️)
+  * `bereach.campaigns.getCampaignStats()`: **Removed** (Breaking ⚠️)
