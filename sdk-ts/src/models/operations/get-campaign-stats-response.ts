@@ -331,15 +331,15 @@ export type GetMyLinkedInProfileResponse = {
   /**
    * Total LinkedIn connections
    */
-  connectionsCount?: number | null | undefined;
+  connectionsCount: number | null;
   /**
    * Profile location
    */
-  location?: GetMyLinkedInProfileLocation | null | undefined;
+  location: GetMyLinkedInProfileLocation | null;
   /**
    * LinkedIn verification status
    */
-  isVerified?: boolean | undefined;
+  isVerified: boolean | null;
   /**
    * Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)
    */
@@ -467,15 +467,15 @@ export type RefreshMyLinkedInProfileResponse = {
   /**
    * Total LinkedIn connections
    */
-  connectionsCount?: number | null | undefined;
+  connectionsCount: number | null;
   /**
    * Profile location
    */
-  location?: RefreshMyLinkedInProfileLocation | null | undefined;
+  location: RefreshMyLinkedInProfileLocation | null;
   /**
    * LinkedIn verification status
    */
-  isVerified?: boolean | undefined;
+  isVerified: boolean | null;
   /**
    * Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)
    */
@@ -925,13 +925,13 @@ export type ListInboxConversationsParticipant = {
   profileUrn: string;
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
 
 export type ListInboxConversationsLastMessage = {
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
 };
@@ -983,13 +983,13 @@ export type SearchLinkedInConversationsParticipant = {
   profileUrn: string;
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
 
 export type SearchLinkedInConversationsLastMessage = {
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
 };
@@ -1037,37 +1037,17 @@ export type FindLinkedInConversationRequest = {
   includeMessages?: boolean | undefined;
 };
 
-export type FindLinkedInConversationParticipant = {
-  profileUrn: string;
-  firstName: string;
-  lastName: string;
-  profileUrl: string;
-  headline: string | null;
-  profilePicture: string | null;
-};
-
-export type FindLinkedInConversationLastMessage = {
-  text: string;
-  deliveredAt: number;
-  senderProfileUrn: string;
-};
-
+/**
+ * Lightweight conversation reference (O(1) lookup returns URN only, not full details).
+ */
 export type FindLinkedInConversationConversation = {
   conversationUrn: string;
-  conversationUrl: string;
-  lastActivityAt: number;
-  createdAt: number;
-  read: boolean;
-  unreadCount: number;
-  groupChat: boolean;
-  participants: Array<FindLinkedInConversationParticipant>;
-  lastMessage: FindLinkedInConversationLastMessage | null;
 };
 
 export type FindLinkedInConversationSender = {
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
@@ -1098,7 +1078,7 @@ export type FindLinkedInConversationAttachment = {
 
 export type FindLinkedInConversationMessage = {
   messageUrn: string;
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
   sender: FindLinkedInConversationSender;
@@ -1111,6 +1091,9 @@ export type FindLinkedInConversationMessage = {
 export type FindLinkedInConversationResponse = {
   success: boolean;
   found: boolean;
+  /**
+   * Lightweight conversation reference (O(1) lookup returns URN only, not full details).
+   */
   conversation: FindLinkedInConversationConversation | null;
   messages: Array<FindLinkedInConversationMessage> | null;
   /**
@@ -1137,7 +1120,7 @@ export type GetConversationMessagesRequest = {
 export type GetConversationMessagesSender = {
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
@@ -1168,7 +1151,7 @@ export type GetConversationMessagesAttachment = {
 
 export type GetConversationMessagesMessage = {
   messageUrn: string;
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
   sender: GetConversationMessagesSender;
@@ -1754,11 +1737,11 @@ export const GetMyLinkedInProfileResponse$inboundSchema: z.ZodMiniType<
   educations: types.optional(
     z.array(z.lazy(() => GetMyLinkedInProfileEducation$inboundSchema)),
   ),
-  connectionsCount: z.optional(z.nullable(types.number())),
-  location: z.optional(
-    z.nullable(z.lazy(() => GetMyLinkedInProfileLocation$inboundSchema)),
+  connectionsCount: types.nullable(types.number()),
+  location: types.nullable(
+    z.lazy(() => GetMyLinkedInProfileLocation$inboundSchema),
   ),
-  isVerified: types.optional(types.boolean()),
+  isVerified: types.nullable(types.boolean()),
   lastPosts: types.optional(
     z.array(z.lazy(() => GetMyLinkedInProfileLastPost$inboundSchema)),
   ),
@@ -1996,11 +1979,11 @@ export const RefreshMyLinkedInProfileResponse$inboundSchema: z.ZodMiniType<
   educations: types.optional(
     z.array(z.lazy(() => RefreshMyLinkedInProfileEducation$inboundSchema)),
   ),
-  connectionsCount: z.optional(z.nullable(types.number())),
-  location: z.optional(
-    z.nullable(z.lazy(() => RefreshMyLinkedInProfileLocation$inboundSchema)),
+  connectionsCount: types.nullable(types.number()),
+  location: types.nullable(
+    z.lazy(() => RefreshMyLinkedInProfileLocation$inboundSchema),
   ),
-  isVerified: types.optional(types.boolean()),
+  isVerified: types.nullable(types.boolean()),
   lastPosts: types.optional(
     z.array(z.lazy(() => RefreshMyLinkedInProfileLastPost$inboundSchema)),
   ),
@@ -2533,7 +2516,7 @@ export const ListInboxConversationsParticipant$inboundSchema: z.ZodMiniType<
   profileUrn: types.string(),
   firstName: types.string(),
   lastName: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
 });
@@ -2553,7 +2536,7 @@ export const ListInboxConversationsLastMessage$inboundSchema: z.ZodMiniType<
   ListInboxConversationsLastMessage,
   unknown
 > = z.object({
-  text: types.string(),
+  text: types.nullable(types.string()),
   deliveredAt: types.number(),
   senderProfileUrn: types.string(),
 });
@@ -2654,7 +2637,7 @@ export const SearchLinkedInConversationsParticipant$inboundSchema:
     profileUrn: types.string(),
     firstName: types.string(),
     lastName: types.string(),
-    profileUrl: types.string(),
+    profileUrl: types.nullable(types.string()),
     headline: types.nullable(types.string()),
     profilePicture: types.nullable(types.string()),
   });
@@ -2673,7 +2656,7 @@ export function searchLinkedInConversationsParticipantFromJSON(
 /** @internal */
 export const SearchLinkedInConversationsLastMessage$inboundSchema:
   z.ZodMiniType<SearchLinkedInConversationsLastMessage, unknown> = z.object({
-    text: types.string(),
+    text: types.nullable(types.string()),
     deliveredAt: types.number(),
     senderProfileUrn: types.string(),
   });
@@ -2774,68 +2757,11 @@ export function findLinkedInConversationRequestToJSON(
 }
 
 /** @internal */
-export const FindLinkedInConversationParticipant$inboundSchema: z.ZodMiniType<
-  FindLinkedInConversationParticipant,
-  unknown
-> = z.object({
-  profileUrn: types.string(),
-  firstName: types.string(),
-  lastName: types.string(),
-  profileUrl: types.string(),
-  headline: types.nullable(types.string()),
-  profilePicture: types.nullable(types.string()),
-});
-
-export function findLinkedInConversationParticipantFromJSON(
-  jsonString: string,
-): SafeParseResult<FindLinkedInConversationParticipant, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      FindLinkedInConversationParticipant$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FindLinkedInConversationParticipant' from JSON`,
-  );
-}
-
-/** @internal */
-export const FindLinkedInConversationLastMessage$inboundSchema: z.ZodMiniType<
-  FindLinkedInConversationLastMessage,
-  unknown
-> = z.object({
-  text: types.string(),
-  deliveredAt: types.number(),
-  senderProfileUrn: types.string(),
-});
-
-export function findLinkedInConversationLastMessageFromJSON(
-  jsonString: string,
-): SafeParseResult<FindLinkedInConversationLastMessage, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      FindLinkedInConversationLastMessage$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FindLinkedInConversationLastMessage' from JSON`,
-  );
-}
-
-/** @internal */
 export const FindLinkedInConversationConversation$inboundSchema: z.ZodMiniType<
   FindLinkedInConversationConversation,
   unknown
 > = z.object({
   conversationUrn: types.string(),
-  conversationUrl: types.string(),
-  lastActivityAt: types.number(),
-  createdAt: types.number(),
-  read: types.boolean(),
-  unreadCount: types.number(),
-  groupChat: types.boolean(),
-  participants: z.array(
-    z.lazy(() => FindLinkedInConversationParticipant$inboundSchema),
-  ),
-  lastMessage: types.nullable(
-    z.lazy(() => FindLinkedInConversationLastMessage$inboundSchema),
-  ),
 });
 
 export function findLinkedInConversationConversationFromJSON(
@@ -2856,7 +2782,7 @@ export const FindLinkedInConversationSender$inboundSchema: z.ZodMiniType<
 > = z.object({
   firstName: types.string(),
   lastName: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
 });
@@ -2910,7 +2836,7 @@ export const FindLinkedInConversationMessage$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   messageUrn: types.string(),
-  text: types.string(),
+  text: types.nullable(types.string()),
   deliveredAt: types.number(),
   senderProfileUrn: types.string(),
   sender: z.lazy(() => FindLinkedInConversationSender$inboundSchema),
@@ -2988,7 +2914,7 @@ export const GetConversationMessagesSender$inboundSchema: z.ZodMiniType<
 > = z.object({
   firstName: types.string(),
   lastName: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
 });
@@ -3041,7 +2967,7 @@ export const GetConversationMessagesMessage$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   messageUrn: types.string(),
-  text: types.string(),
+  text: types.nullable(types.string()),
   deliveredAt: types.number(),
   senderProfileUrn: types.string(),
   sender: z.lazy(() => GetConversationMessagesSender$inboundSchema),

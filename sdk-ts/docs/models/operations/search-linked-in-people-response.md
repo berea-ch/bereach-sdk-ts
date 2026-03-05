@@ -14,27 +14,22 @@ let value: SearchLinkedInPeopleResponse = {
     {
       type: "PEOPLE",
       name: "<value>",
-      profileUrl: "https://puzzled-someplace.biz/",
+      profileUrl: null,
       headline: "<value>",
       location: "<value>",
       profilePicture: "<value>",
       networkDistance: "DISTANCE_2",
-      currentPositions: [
-        {
-          company: "Ernser, Gibson and Larson",
-          role: "<value>",
-        },
-      ],
+      currentPositions: [],
     },
   ],
   paging: {
-    start: 4718,
-    count: 336888,
-    total: 306421,
+    start: 291885,
+    count: 454674,
+    total: 780670,
   },
   hasMore: false,
-  creditsUsed: 561882,
-  retryAfter: 629348,
+  creditsUsed: 774252,
+  retryAfter: 220896,
 };
 ```
 

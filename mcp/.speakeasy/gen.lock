@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 84f5a0ee-a7cd-4064-982d-227063a6ebe2
 management:
-  docChecksum: 79c75efb12e553678defea7661500e25
-  docVersion: 0.0.8
-  speakeasyVersion: 1.739.2
-  generationVersion: 2.846.4
-  releaseVersion: 0.0.3
-  configChecksum: e78e0915d298c0330d543f76dd42f8ac
+  docChecksum: 076a8bdcee203c0b30002a2f65b39456
+  docVersion: 0.1.0
+  speakeasyVersion: 1.741.6
+  generationVersion: 2.849.8
+  releaseVersion: 0.1.1
+  configChecksum: 46f590fc58ec40f7f7b9aed2487908b8
 persistentEdits:
   generation_id: f2edcd94-64e4-4099-b746-bbd83b4ea5ef
   pristine_commit_hash: 670b7484f199ba77ebeb959f257da5c916c513e9
@@ -47,11 +47,11 @@ trackedFiles:
     pristine_git_object: 4f9e60a9462fc4def738d60c3aaadf8232ef185f
   manifest.json:
     id: ca642a226869
-    last_write_checksum: sha1:ac7a64420561d25a631f2a64e875ccdf4e674bed
+    last_write_checksum: sha1:a26394534777113cb2af6a10779f0ada196196d5
     pristine_git_object: 2b4419d4267cff8f67694ac959c54f88c9139eae
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:7c5c00b4f664903e5cd90203e91f296f475c8536
+    last_write_checksum: sha1:64ee47771b327ee2c5486366d38b604addc0db1b
     pristine_git_object: df8340bf6bd65256a5b86cabfbb6d62f65af90e8
   src/cloudflare-worker/cloudflare-worker.ts:
     id: b90556be8673
@@ -215,7 +215,7 @@ trackedFiles:
     pristine_git_object: d4bd8b341290e7a828a171d840bd0b0fff7c7cd7
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:5b98cecb141eba8b0c9048ec42cfed0c34266021
+    last_write_checksum: sha1:63703a27e5ce2c649d0cfb41e228fafcf4ac3741
     pristine_git_object: 84da2ef9f21f87cf9f6c4691b025aafde1d158d4
   src/lib/dlv.ts:
     id: b1988214835a
@@ -307,7 +307,7 @@ trackedFiles:
     pristine_git_object: f22d3fe392265cc7d64358fe2d1b75af9dde0154
   src/mcp-server/mcp-server.ts:
     id: aabbc4ab07c1
-    last_write_checksum: sha1:3eaf586acbefe2ede969eb8b7f4f7cd6ba290920
+    last_write_checksum: sha1:73c34040d2f3587c16e256ba3a6ce8a0bc63e508
     pristine_git_object: 1dee0340121dc3d20f272a1ac6c1078bc9f0c9cd
   src/mcp-server/prompts.ts:
     id: 26f3d73cbf31
@@ -323,7 +323,7 @@ trackedFiles:
     pristine_git_object: c25696d4c4f70e081fa5d87ad6891874c509a577
   src/mcp-server/server.ts:
     id: 2784dd48e82a
-    last_write_checksum: sha1:0a7dd5e7356c72b04b5cc74981d849b0bdc59381
+    last_write_checksum: sha1:33ce56b5eb6256484eddc94782d5016d0e2a860a
     pristine_git_object: 8e460a5fcf8f0580775cb7fe7ce721d73eb2564b
   src/mcp-server/shared.ts:
     id: 074e80d4be1e
@@ -475,15 +475,15 @@ trackedFiles:
     pristine_git_object: 01dc13b3ea620380258757fd1e00beff696544ea
   src/models/collectlinkedincommentrepliesop.ts:
     id: 3dc6b2122659
-    last_write_checksum: sha1:e8d3f07ef2dc205983c0546f27b2d442e476030f
+    last_write_checksum: sha1:200e0919a31dc57bf72fa71a5a38be80d6882629
     pristine_git_object: b43c81f2499eebb00a26e8626ae7f4048d4d8975
   src/models/collectlinkedincommentsop.ts:
     id: b921ead66d2c
-    last_write_checksum: sha1:b9ed5448307a43a0e66d0dc52ab60c036aa16b16
+    last_write_checksum: sha1:f8033f8c2a3aa66e7c8f630e04684b273b73d3f8
     pristine_git_object: c98c7a8e12f2341a8c71100878d3c44610243ad9
   src/models/collectlinkedinlikesop.ts:
     id: 09d50b8aa94a
-    last_write_checksum: sha1:0d61d815dfba4a637af2ca8a02b10517ab9643ac
+    last_write_checksum: sha1:0f2fd2889e43aa78b34347be3fc4963303568dca
     pristine_git_object: fd712376609a019ccc76712e1a29045fc2366a87
   src/models/collectlinkedinpostsop.ts:
     id: dcdbfaaf1e06
@@ -511,7 +511,7 @@ trackedFiles:
     pristine_git_object: 46d2d5d2936454abb7d1e4b29cf4e0d81bff5d52
   src/models/findlinkedinconversationop.ts:
     id: 6b370daed3a1
-    last_write_checksum: sha1:abc8f7859b5a686854f79a5050a1cac5abba2e8d
+    last_write_checksum: sha1:5a8cd8eb1fb5ce70e7b3c3d431be49de97014ffa
     pristine_git_object: a63abd018ad8558f44fbbbeb37db399dd01e53a2
   src/models/getcampaignstatsop.ts:
     id: dccc248d255c
@@ -523,7 +523,7 @@ trackedFiles:
     pristine_git_object: c48c514d0abbe5f6ec5bbb9a093698a7555824f4
   src/models/getconversationmessagesop.ts:
     id: 05f4a16b3d7a
-    last_write_checksum: sha1:705968177599e53243ed0dd5cda61931022f4054
+    last_write_checksum: sha1:be43c4872ca9cea3df860a2235b6a8f1dbd32005
     pristine_git_object: b01b9286c19841f4a112dc8198bb8ad353a4e90b
   src/models/getmycreditsop.ts:
     id: 63bb0489e89f
@@ -543,7 +543,7 @@ trackedFiles:
     pristine_git_object: 3d707a54d9f09cae1d16b169b66475881e5444b2
   src/models/getmylinkedinprofileop.ts:
     id: 7d4aeac0a35e
-    last_write_checksum: sha1:bc0a82054bc05ed63f268c9f6a81cdf53e67871a
+    last_write_checksum: sha1:acf404a5d5e140e6cc114dd006ed3cd7a19f1b01
     pristine_git_object: 17456efde4feb207923adf3d4d47b3a8b3536a23
   src/models/likelinkedincommentop.ts:
     id: cfbf8b96503e
@@ -551,11 +551,11 @@ trackedFiles:
     pristine_git_object: cc9001436e751b794286daa0b2d7b369e75baa19
   src/models/listinboxconversationsop.ts:
     id: cf6ca4c141c4
-    last_write_checksum: sha1:cd299b7ebe58eb9b9cf1acf7403c30df64ba9100
+    last_write_checksum: sha1:a2dd3218aa727f65c21802683d74d47bb0966fe4
     pristine_git_object: a5a7cdffa435fdeffb36730f358c377b0b5afb75
   src/models/listlinkedininvitationsop.ts:
     id: 4a56f1bd7b48
-    last_write_checksum: sha1:12968cc923f9badef0b837fb99828f882b79697f
+    last_write_checksum: sha1:ffc4445c6d556d86c65d6d766c1017321fca793e
     pristine_git_object: 44249335c51ef2ae5ab3eb998ec622886700b482
   src/models/publishlinkedinpostop.ts:
     id: e0168eef7982
@@ -563,7 +563,7 @@ trackedFiles:
     pristine_git_object: f7a2df2bffe13b16701e60cff211f6eef1c1fbd7
   src/models/refreshmylinkedinprofileop.ts:
     id: 23770d7f3111
-    last_write_checksum: sha1:51a99ebe544aa2f85359e1c7b23e7d8fedb74fb6
+    last_write_checksum: sha1:353d145f7841e47f99a393f1a1c48aa302d9c827
     pristine_git_object: 1ab675adf0b12e7dfc86a3ab5c9e9f4088c89559
   src/models/replytolinkedincommentop.ts:
     id: 8a518d3d2471
@@ -575,15 +575,15 @@ trackedFiles:
     pristine_git_object: 61e06398bc234956ce7c81589d49c1c08794caa7
   src/models/searchlinkedinbyurlop.ts:
     id: 19efea185587
-    last_write_checksum: sha1:bcb707a49996706a8f4609214475da83828df4ba
+    last_write_checksum: sha1:2a223f7c62589969a56e56aabe3a1a94f4de0e1d
     pristine_git_object: 35565b9d7f4cc7701143103da0f6ef5e188ba60c
   src/models/searchlinkedincompaniesop.ts:
     id: c484f26d7412
-    last_write_checksum: sha1:2a39fb50b1c1085647c1ea722b3341794362fdc8
+    last_write_checksum: sha1:5660b9a9ff9194c5052bf18cb43c1c03ffbfb604
     pristine_git_object: 9099aabd5e86bfc5c05dc1f1cad001fa21f7e0c3
   src/models/searchlinkedinconversationsop.ts:
     id: b5bc1953d154
-    last_write_checksum: sha1:33268befaec82bb898ecf64d41d961899dd505c8
+    last_write_checksum: sha1:8081efc9e48de29dc41285f2354e202788ae4fe4
     pristine_git_object: f4f3faed37e9e456fa206ec7fd7ea2c8e2c17ace
   src/models/searchlinkedinjobsop.ts:
     id: 6fc5fa0be1a5
@@ -591,11 +591,11 @@ trackedFiles:
     pristine_git_object: a522717b3aa1f7d83750a6029db795f39f374d27
   src/models/searchlinkedinop.ts:
     id: c206ec032dc4
-    last_write_checksum: sha1:7de7aea30b200e7fefdaca58af04273407319f06
+    last_write_checksum: sha1:b73b26912d81aaf72c7f2d1f0c459a2065fef78a
     pristine_git_object: b79642da0746a15ee42a1b4670bc5cf4ebfe168b
   src/models/searchlinkedinpeopleop.ts:
     id: 4baccc199789
-    last_write_checksum: sha1:e3cfe43a7bfeaeca5f0a6336ae475cf64a92a603
+    last_write_checksum: sha1:b49472e40c46c8dce735f85198341206bfe3a670
     pristine_git_object: 8655ac1e5420c9eaa813c94e19761ccdd6695d21
   src/models/searchlinkedinpostsop.ts:
     id: 862a8c517a78
@@ -615,11 +615,11 @@ trackedFiles:
     pristine_git_object: 0d154a95687eb4b4f0cf6e3c1b4083fb80c1756b
   src/models/visitlinkedincompanyop.ts:
     id: 3614799530ea
-    last_write_checksum: sha1:b60aff8bcd9c00a2a8a9ba6b5a3150876c19b77a
+    last_write_checksum: sha1:12ce640f081f51929be7f18961abcd40fa6698a6
     pristine_git_object: 2977d7b6002819f3b11f8fc3d0d45d243e9e8360
   src/models/visitlinkedinprofileop.ts:
     id: 1475d2ebf03c
-    last_write_checksum: sha1:a1c4d6f9df010aa6b0550292680383250536b8aa
+    last_write_checksum: sha1:8b71a1c003dda7eb7c5aa581e44e7badab6a25e5
     pristine_git_object: 9c61cc9469f09b378d75e2dfc5ef52bf422e06b0
   src/tool-names.ts:
     id: a9977280f9eb
@@ -676,7 +676,7 @@ examples:
         application/json: {"postUrl": "https://grandiose-ghost.net"}
       responses:
         "200":
-          application/json: {"success": false, "profiles": [{"name": "<value>", "type": "like"}], "count": 24381, "total": 935752, "start": 998946, "hasMore": false, "previousTotal": 455119, "creditsUsed": 924522, "retryAfter": 207124}
+          application/json: {"success": false, "profiles": [{"name": "<value>", "headline": "<value>", "profileUrl": "https://shocked-sesame.name/", "imageUrl": null, "type": "like"}], "count": 24381, "total": 935752, "start": 998946, "hasMore": false, "previousTotal": 455119, "creditsUsed": 924522, "retryAfter": 207124}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -701,7 +701,7 @@ examples:
         application/json: {"postUrl": "https://tedious-pecan.net"}
       responses:
         "200":
-          application/json: {"success": true, "profiles": [{"name": "<value>", "type": "comment"}], "count": 651311, "total": 607168, "start": 514360, "hasMore": true, "previousTotal": 471279, "creditsUsed": 422669, "retryAfter": 797714}
+          application/json: {"success": true, "profiles": [{"name": "<value>", "headline": "<value>", "profileUrl": "https://rare-flame.name", "imageUrl": "https://mild-colonialism.org", "type": "comment", "timestamp": 422669, "knownDistance": 550280}], "count": 651311, "total": 607168, "start": 514360, "hasMore": true, "previousTotal": 471279, "creditsUsed": 422669, "retryAfter": 797714}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -726,7 +726,7 @@ examples:
         application/json: {"commentUrn": "<value>"}
       responses:
         "200":
-          application/json: {"success": false, "replies": [{"name": "<value>", "type": "comment"}], "count": 111622, "total": 960638, "start": 251142, "hasMore": false, "parentCommentUrn": "<value>", "previousTotal": 615408, "creditsUsed": 689939, "retryAfter": 176882}
+          application/json: {"success": false, "replies": [{"name": "<value>", "headline": "<value>", "profileUrl": "https://whirlwind-director.name/", "imageUrl": "https://rosy-compromise.info", "type": "comment", "timestamp": null, "knownDistance": 576091}], "count": 111622, "total": 960638, "start": 251142, "hasMore": false, "parentCommentUrn": "<value>", "previousTotal": 615408, "creditsUsed": 689939, "retryAfter": 176882}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -776,7 +776,7 @@ examples:
         application/json: {"profile": "<value>"}
       responses:
         "200":
-          application/json: {"success": false, "firstName": "Roderick", "lastName": "Prohaska", "headline": "<value>", "publicIdentifier": "<value>", "profileUrl": "https://each-sundae.org", "imageUrl": "https://upset-popularity.net/", "pendingConnection": "none", "cached": false, "creditsUsed": 802710, "retryAfter": 898462}
+          application/json: {"success": false, "firstName": "Roderick", "lastName": "Prohaska", "headline": "<value>", "publicIdentifier": "<value>", "profileUrl": "https://each-sundae.org", "profileUrn": "<value>", "imageUrl": "https://upset-popularity.net/", "email": "Maya87@gmail.com", "location": "<value>", "company": null, "position": "<value>", "memberDistance": 7471.81, "pendingConnection": "none", "cached": false, "creditsUsed": 802710, "retryAfter": 898462}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -801,7 +801,7 @@ examples:
         application/json: {"companyUrl": "https://pleased-nectarine.info/"}
       responses:
         "200":
-          application/json: {"success": false, "id": "<id>", "universalName": "<value>", "name": "<value>", "description": "instructive officially ew majestically nor round needily so apud sedately", "url": "https://admired-recovery.com", "websiteUrl": "https://precious-farm.info", "industry": "<value>", "employeeCount": 848.98, "employeeCountRange": {"start": 4534.07, "end": 6077.81}, "headquarter": {"country": "Yemen", "geographicArea": "<value>", "city": null, "postalCode": null, "line1": "<value>", "line2": "<value>"}, "logoUrl": "https://subtle-toaster.net", "coverImageUrl": "https://intrepid-deed.com", "followerCount": 7909.14, "specialities": [], "tagline": "<value>", "isVerified": false, "foundedOn": {"year": 4006.57}, "phone": "(978) 524-2518 x0373", "callToAction": {"type": "<value>", "url": "https://inborn-numeric.com/"}, "hashtags": ["<value 1>"], "affiliatedCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://live-plugin.name/", "logoUrl": null, "followerCount": 7381.5, "industry": null}], "similarCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://flowery-publicity.com", "logoUrl": "https://hairy-cruelty.com", "followerCount": 9872.89, "industry": "<value>"}], "creditsUsed": 27367, "retryAfter": 82545}
+          application/json: {"success": false, "id": "<id>", "universalName": "<value>", "name": "<value>", "description": "instructive officially ew majestically nor round needily so apud sedately", "url": "https://admired-recovery.com", "websiteUrl": "https://precious-farm.info", "industry": "<value>", "employeeCount": 848.98, "employeeCountRange": {"start": 4534.07, "end": 6077.81}, "headquarter": {"country": "Yemen", "geographicArea": "<value>", "city": null, "postalCode": null, "line1": "<value>", "line2": "<value>"}, "logoUrl": "https://subtle-toaster.net", "coverImageUrl": "https://intrepid-deed.com", "followerCount": 7909.14, "specialities": [], "tagline": "<value>", "isVerified": false, "foundedOn": {"year": 4006.57}, "phone": "(978) 524-2518 x0373", "callToAction": {"type": "<value>", "url": "https://inborn-numeric.com/"}, "hashtags": ["<value 1>"], "affiliatedCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://live-plugin.name/", "logoUrl": null, "followerCount": 7381.5, "industry": null}], "similarCompanies": [{"id": "<id>", "universalName": "<value>", "name": "<value>", "url": "https://flowery-publicity.com", "logoUrl": "https://hairy-cruelty.com", "followerCount": 9872.89, "industry": "<value>"}], "workplacePolicy": {"title": "<value>", "description": "silently deserted sedately shirk coolly", "timeAtOnsite": "<value>", "benefits": ["<value 1>", "<value 2>"]}, "creditsUsed": 27367, "retryAfter": 82545}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -1024,7 +1024,7 @@ examples:
     speakeasy-default-list-linked-in-invitations:
       responses:
         "200":
-          application/json: {"success": true, "invitations": [{"invitationId": "<id>", "sharedSecret": "<value>", "entityUrn": "<value>"}], "total": 778.43, "start": 1927.96, "count": 8103.99, "creditsUsed": 670364, "retryAfter": 475039}
+          application/json: {"success": true, "invitations": [{"invitationId": "<id>", "sharedSecret": "<value>", "entityUrn": "<value>", "sentAt": null, "message": "<value>", "senderProfileId": null, "senderFirstName": "<value>", "senderLastName": "<value>", "fromMember": {"name": "<value>", "headline": "<value>", "profileUrl": "https://expert-venom.name/", "profilePicture": null}}], "total": 778.43, "start": 1927.96, "count": 8103.99, "creditsUsed": 670364, "retryAfter": 475039}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -1172,7 +1172,7 @@ examples:
     speakeasy-default-get-my-linked-in-profile:
       responses:
         "200":
-          application/json: {"success": true, "linkedinProfileId": null, "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://creamy-thongs.net/", "creditsUsed": 598077, "retryAfter": 374142}
+          application/json: {"success": true, "linkedinProfileId": null, "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://creamy-thongs.net/", "connectionsCount": 43281, "location": {"countryCode": "GL"}, "isVerified": true, "creditsUsed": 598077, "retryAfter": 374142}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -1195,7 +1195,7 @@ examples:
     speakeasy-default-refresh-my-linked-in-profile:
       responses:
         "200":
-          application/json: {"success": true, "linkedinProfileId": "<id>", "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://spherical-gerbil.org", "refreshed": false, "creditsUsed": 411695, "retryAfter": 908980}
+          application/json: {"success": true, "linkedinProfileId": "<id>", "linkedinName": "<value>", "linkedinEmail": "<value>", "profileUrn": "<value>", "headline": "<value>", "profilePic": "<value>", "profileUrl": "https://spherical-gerbil.org", "connectionsCount": 931148, "location": {"countryCode": "FO"}, "isVerified": true, "refreshed": false, "creditsUsed": 411695, "retryAfter": 908980}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":
@@ -1362,7 +1362,7 @@ examples:
         application/json: {"profile": "<value>", "includeMessages": false}
       responses:
         "200":
-          application/json: {"success": false, "found": false, "conversation": {"conversationUrn": "<value>", "conversationUrl": "https://dull-alb.com/", "lastActivityAt": 430983, "createdAt": 213739, "read": true, "unreadCount": 748016, "groupChat": false, "participants": [], "lastMessage": {"text": "<value>", "deliveredAt": 363723, "senderProfileUrn": "<value>"}}, "messages": [{"messageUrn": "<value>", "text": "<value>", "deliveredAt": 755277, "senderProfileUrn": "<value>", "sender": {"firstName": "Filiberto", "lastName": "Larkin", "profileUrl": "https://excited-amendment.info", "headline": "<value>", "profilePicture": "<value>"}, "attachments": [{"type": "shared_post"}]}], "creditsUsed": 395493, "retryAfter": 937319}
+          application/json: {"success": false, "found": false, "conversation": {"conversationUrn": "<value>"}, "messages": [{"messageUrn": "<value>", "text": "<value>", "deliveredAt": 755277, "senderProfileUrn": "<value>", "sender": {"firstName": "Filiberto", "lastName": "Larkin", "profileUrl": "https://excited-amendment.info", "headline": "<value>", "profilePicture": "<value>"}, "attachments": [{"type": "shared_post"}]}], "creditsUsed": 395493, "retryAfter": 937319}
         "400":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
         "401":

@@ -13,25 +13,25 @@ let value: GetConversationMessagesResponse = {
     {
       messageUrn: "<value>",
       text: "<value>",
-      deliveredAt: 283070,
+      deliveredAt: 539236,
       senderProfileUrn: "<value>",
       sender: {
-        firstName: "Kieran",
-        lastName: "Jenkins",
-        profileUrl: "https://speedy-schnitzel.com",
+        firstName: "Paxton",
+        lastName: "Zboncak",
+        profileUrl: "https://altruistic-metabolite.net",
         headline: "<value>",
         profilePicture: "<value>",
       },
       attachments: [
         {
-          type: "image",
+          type: "audio",
         },
       ],
     },
   ],
-  prevCursor: null,
-  creditsUsed: 455352,
-  retryAfter: 754214,
+  prevCursor: 754214,
+  creditsUsed: 746133,
+  retryAfter: 396017,
 };
 ```
 

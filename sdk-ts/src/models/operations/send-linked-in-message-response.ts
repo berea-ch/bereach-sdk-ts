@@ -152,9 +152,9 @@ export type CollectLinkedInLikesType = ClosedEnum<
 
 export type CollectLinkedInLikesProfile = {
   name: string;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  imageUrl?: string | null | undefined;
+  headline: string | null;
+  profileUrl: string | null;
+  imageUrl: string | null;
   type: CollectLinkedInLikesType;
 };
 
@@ -221,12 +221,12 @@ export type CollectLinkedInCommentsActionsCompleted = {
 
 export type CollectLinkedInCommentsProfile = {
   name: string;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  imageUrl?: string | null | undefined;
+  headline: string | null;
+  profileUrl: string | null;
+  imageUrl: string | null;
   type: CollectLinkedInCommentsType;
   commentText?: string | undefined;
-  timestamp?: number | null | undefined;
+  timestamp: number | null;
   isEdited?: boolean | undefined;
   /**
    * Full comment URN — use directly for /reply and /like endpoints. Do NOT reconstruct from hash fields.
@@ -258,9 +258,9 @@ export type CollectLinkedInCommentsProfile = {
    */
   actionsCompleted?: CollectLinkedInCommentsActionsCompleted | undefined;
   /**
-   * Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). Only present when campaignSlug is provided. null if the profile has not been visited recently.
+   * Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). null if campaignSlug not provided or profile not visited recently.
    */
-  knownDistance?: number | null | undefined;
+  knownDistance: number | null;
 };
 
 /**
@@ -330,12 +330,12 @@ export type CollectLinkedInCommentRepliesActionsCompleted = {
 
 export type Reply = {
   name: string;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  imageUrl?: string | null | undefined;
+  headline: string | null;
+  profileUrl: string | null;
+  imageUrl: string | null;
   type: CollectLinkedInCommentRepliesType;
   commentText?: string | undefined;
-  timestamp?: number | null | undefined;
+  timestamp: number | null;
   isEdited?: boolean | undefined;
   /**
    * Full comment URN — use directly for /reply and /like endpoints. Do NOT reconstruct from hash fields.
@@ -367,9 +367,9 @@ export type Reply = {
    */
   actionsCompleted?: CollectLinkedInCommentRepliesActionsCompleted | undefined;
   /**
-   * Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). Only present when campaignSlug is provided. null if the profile has not been visited recently.
+   * Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). null if campaignSlug not provided or profile not visited recently.
    */
-  knownDistance?: number | null | undefined;
+  knownDistance: number | null;
 };
 
 /**
@@ -566,26 +566,29 @@ export type VisitLinkedInProfileResponse = {
   lastName: string;
   headline: string | null;
   publicIdentifier: string;
-  profileUrl: string;
+  /**
+   * LinkedIn profile URL. Null when publicIdentifier is unavailable (restricted profiles).
+   */
+  profileUrl: string | null;
   /**
    * LinkedIn profile URN (e.g. 'urn:li:fsd_profile:ACoAAA...'). Use this for matching against inbox participants.
    */
-  profileUrn?: string | undefined;
+  profileUrn: string | null;
   imageUrl: string | null;
-  email?: string | null | undefined;
-  location?: string | null | undefined;
+  email: string | null;
+  location: string | null;
   /**
    * Current company name (from most recent position)
    */
-  company?: string | null | undefined;
+  company: string | null;
   /**
    * Current job title (from most recent position)
    */
-  position?: string | null | undefined;
+  position: string | null;
   /**
    * Connection degree: 0 (self), 1 (direct connection), 2+ (2nd degree, 3rd degree, etc.), or null if unknown
    */
-  memberDistance?: number | null | undefined;
+  memberDistance: number | null;
   /**
    * Connection request status: 'pending' if request was sent successfully, 'failed' if request failed today, 'none' if not tracked
    */
@@ -674,7 +677,7 @@ export type SimilarCompany = {
 };
 
 /**
- * Workplace policy (only present when includeWorkplacePolicy=true)
+ * Workplace policy (null when includeWorkplacePolicy is false or data unavailable)
  */
 export type WorkplacePolicy = {
   title: string | null;
@@ -735,9 +738,9 @@ export type VisitLinkedInCompanyResponse = {
    */
   similarCompanies: Array<SimilarCompany>;
   /**
-   * Workplace policy (only present when includeWorkplacePolicy=true)
+   * Workplace policy (null when includeWorkplacePolicy is false or data unavailable)
    */
-  workplacePolicy?: WorkplacePolicy | null | undefined;
+  workplacePolicy: WorkplacePolicy | null;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -1001,7 +1004,7 @@ export type SearchLinkedInTypeCompany = ClosedEnum<
 export type SearchLinkedInItemsCompany = {
   type: SearchLinkedInTypeCompany;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   summary: string | null;
   industry: string | null;
   location: string | null;
@@ -1033,7 +1036,7 @@ export type SearchLinkedInCurrentPosition = {
 export type SearchLinkedInItemsPeople = {
   type: SearchLinkedInTypePeople;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -1351,7 +1354,7 @@ export type SearchLinkedInPeopleCurrentPosition = {
 export type SearchLinkedInPeopleItem = {
   type: SearchLinkedInPeopleType;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -1447,7 +1450,7 @@ export type SearchLinkedInCompaniesType = ClosedEnum<
 export type SearchLinkedInCompaniesItem = {
   type: SearchLinkedInCompaniesType;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   summary: string | null;
   industry: string | null;
   location: string | null;
@@ -1690,7 +1693,7 @@ export type SearchLinkedInByUrlTypeCompany = ClosedEnum<
 export type SearchLinkedInByUrlItemsCompany = {
   type: SearchLinkedInByUrlTypeCompany;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   summary: string | null;
   industry: string | null;
   location: string | null;
@@ -1722,7 +1725,7 @@ export type SearchLinkedInByUrlCurrentPosition = {
 export type SearchLinkedInByUrlItemsPeople = {
   type: SearchLinkedInByUrlTypePeople;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -1902,10 +1905,10 @@ export type ListLinkedInInvitationsRequest = {
  * Profile info of the person who sent the invitation
  */
 export type FromMember = {
-  name?: string | null | undefined;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  profilePicture?: string | null | undefined;
+  name: string | null;
+  headline: string | null;
+  profileUrl: string | null;
+  profilePicture: string | null;
 };
 
 export type Invitation = {
@@ -1924,27 +1927,27 @@ export type Invitation = {
   /**
    * ISO 8601 timestamp when invitation was sent
    */
-  sentAt?: string | null | undefined;
+  sentAt: string | null;
   /**
    * Custom message included with the invitation
    */
-  message?: string | null | undefined;
+  message: string | null;
   /**
    * Sender's profile ID (pass to accept endpoint)
    */
-  senderProfileId?: string | null | undefined;
+  senderProfileId: string | null;
   /**
    * Sender's first name (pass to accept endpoint)
    */
-  senderFirstName?: string | null | undefined;
+  senderFirstName: string | null;
   /**
    * Sender's last name (pass to accept endpoint)
    */
-  senderLastName?: string | null | undefined;
+  senderLastName: string | null;
   /**
    * Profile info of the person who sent the invitation
    */
-  fromMember?: FromMember | null | undefined;
+  fromMember: FromMember | null;
 };
 
 /**
@@ -2507,9 +2510,9 @@ export const CollectLinkedInLikesProfile$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   name: types.string(),
-  headline: z.optional(z.nullable(types.string())),
-  profileUrl: z.optional(z.nullable(types.string())),
-  imageUrl: z.optional(z.nullable(types.string())),
+  headline: types.nullable(types.string()),
+  profileUrl: types.nullable(types.string()),
+  imageUrl: types.nullable(types.string()),
   type: CollectLinkedInLikesType$inboundSchema,
 });
 
@@ -2615,12 +2618,12 @@ export const CollectLinkedInCommentsProfile$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   name: types.string(),
-  headline: z.optional(z.nullable(types.string())),
-  profileUrl: z.optional(z.nullable(types.string())),
-  imageUrl: z.optional(z.nullable(types.string())),
+  headline: types.nullable(types.string()),
+  profileUrl: types.nullable(types.string()),
+  imageUrl: types.nullable(types.string()),
   type: CollectLinkedInCommentsType$inboundSchema,
   commentText: types.optional(types.string()),
-  timestamp: z.optional(z.nullable(types.number())),
+  timestamp: types.nullable(types.number()),
   isEdited: types.optional(types.boolean()),
   commentUrn: types.optional(types.string()),
   commentHash: types.optional(types.string()),
@@ -2632,7 +2635,7 @@ export const CollectLinkedInCommentsProfile$inboundSchema: z.ZodMiniType<
   actionsCompleted: types.optional(
     z.lazy(() => CollectLinkedInCommentsActionsCompleted$inboundSchema),
   ),
-  knownDistance: z.optional(z.nullable(types.number())),
+  knownDistance: types.nullable(types.number()),
 });
 
 export function collectLinkedInCommentsProfileFromJSON(
@@ -2735,12 +2738,12 @@ export function collectLinkedInCommentRepliesActionsCompletedFromJSON(
 /** @internal */
 export const Reply$inboundSchema: z.ZodMiniType<Reply, unknown> = z.object({
   name: types.string(),
-  headline: z.optional(z.nullable(types.string())),
-  profileUrl: z.optional(z.nullable(types.string())),
-  imageUrl: z.optional(z.nullable(types.string())),
+  headline: types.nullable(types.string()),
+  profileUrl: types.nullable(types.string()),
+  imageUrl: types.nullable(types.string()),
   type: CollectLinkedInCommentRepliesType$inboundSchema,
   commentText: types.optional(types.string()),
-  timestamp: z.optional(z.nullable(types.number())),
+  timestamp: types.nullable(types.number()),
   isEdited: types.optional(types.boolean()),
   commentUrn: types.optional(types.string()),
   commentHash: types.optional(types.string()),
@@ -2752,7 +2755,7 @@ export const Reply$inboundSchema: z.ZodMiniType<Reply, unknown> = z.object({
   actionsCompleted: types.optional(
     z.lazy(() => CollectLinkedInCommentRepliesActionsCompleted$inboundSchema),
   ),
-  knownDistance: z.optional(z.nullable(types.number())),
+  knownDistance: types.nullable(types.number()),
 });
 
 export function replyFromJSON(
@@ -3092,14 +3095,14 @@ export const VisitLinkedInProfileResponse$inboundSchema: z.ZodMiniType<
   lastName: types.string(),
   headline: types.nullable(types.string()),
   publicIdentifier: types.string(),
-  profileUrl: types.string(),
-  profileUrn: types.optional(types.string()),
+  profileUrl: types.nullable(types.string()),
+  profileUrn: types.nullable(types.string()),
   imageUrl: types.nullable(types.string()),
-  email: z.optional(z.nullable(types.string())),
-  location: z.optional(z.nullable(types.string())),
-  company: z.optional(z.nullable(types.string())),
-  position: z.optional(z.nullable(types.string())),
-  memberDistance: z.optional(z.nullable(types.number())),
+  email: types.nullable(types.string()),
+  location: types.nullable(types.string()),
+  company: types.nullable(types.string()),
+  position: types.nullable(types.string()),
+  memberDistance: types.nullable(types.number()),
   pendingConnection: PendingConnection$inboundSchema,
   positions: types.optional(
     z.array(z.lazy(() => VisitLinkedInProfilePosition$inboundSchema)),
@@ -3322,9 +3325,7 @@ export const VisitLinkedInCompanyResponse$inboundSchema: z.ZodMiniType<
   hashtags: z.array(types.string()),
   affiliatedCompanies: z.array(z.lazy(() => AffiliatedCompany$inboundSchema)),
   similarCompanies: z.array(z.lazy(() => SimilarCompany$inboundSchema)),
-  workplacePolicy: z.optional(
-    z.nullable(z.lazy(() => WorkplacePolicy$inboundSchema)),
-  ),
+  workplacePolicy: types.nullable(z.lazy(() => WorkplacePolicy$inboundSchema)),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
@@ -3509,7 +3510,7 @@ export const SearchLinkedInItemsCompany$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInTypeCompany$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   summary: types.nullable(types.string()),
   industry: types.nullable(types.string()),
   location: types.nullable(types.string()),
@@ -3563,7 +3564,7 @@ export const SearchLinkedInItemsPeople$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInTypePeople$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   location: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
@@ -3965,7 +3966,7 @@ export const SearchLinkedInPeopleItem$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInPeopleType$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   location: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
@@ -4090,7 +4091,7 @@ export const SearchLinkedInCompaniesItem$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInCompaniesType$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   summary: types.nullable(types.string()),
   industry: types.nullable(types.string()),
   location: types.nullable(types.string()),
@@ -4375,7 +4376,7 @@ export const SearchLinkedInByUrlItemsCompany$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInByUrlTypeCompany$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   summary: types.nullable(types.string()),
   industry: types.nullable(types.string()),
   location: types.nullable(types.string()),
@@ -4430,7 +4431,7 @@ export const SearchLinkedInByUrlItemsPeople$inboundSchema: z.ZodMiniType<
 > = z.object({
   type: SearchLinkedInByUrlTypePeople$inboundSchema,
   name: types.string(),
-  profileUrl: types.string(),
+  profileUrl: types.nullable(types.string()),
   headline: types.nullable(types.string()),
   location: types.nullable(types.string()),
   profilePicture: types.nullable(types.string()),
@@ -4737,10 +4738,10 @@ export function listLinkedInInvitationsRequestToJSON(
 /** @internal */
 export const FromMember$inboundSchema: z.ZodMiniType<FromMember, unknown> = z
   .object({
-    name: z.optional(z.nullable(types.string())),
-    headline: z.optional(z.nullable(types.string())),
-    profileUrl: z.optional(z.nullable(types.string())),
-    profilePicture: z.optional(z.nullable(types.string())),
+    name: types.nullable(types.string()),
+    headline: types.nullable(types.string()),
+    profileUrl: types.nullable(types.string()),
+    profilePicture: types.nullable(types.string()),
   });
 
 export function fromMemberFromJSON(
@@ -4759,12 +4760,12 @@ export const Invitation$inboundSchema: z.ZodMiniType<Invitation, unknown> = z
     invitationId: types.string(),
     sharedSecret: types.string(),
     entityUrn: types.string(),
-    sentAt: z.optional(z.nullable(types.string())),
-    message: z.optional(z.nullable(types.string())),
-    senderProfileId: z.optional(z.nullable(types.string())),
-    senderFirstName: z.optional(z.nullable(types.string())),
-    senderLastName: z.optional(z.nullable(types.string())),
-    fromMember: z.optional(z.nullable(z.lazy(() => FromMember$inboundSchema))),
+    sentAt: types.nullable(types.string()),
+    message: types.nullable(types.string()),
+    senderProfileId: types.nullable(types.string()),
+    senderFirstName: types.nullable(types.string()),
+    senderLastName: types.nullable(types.string()),
+    fromMember: types.nullable(z.lazy(() => FromMember$inboundSchema)),
   });
 
 export function invitationFromJSON(

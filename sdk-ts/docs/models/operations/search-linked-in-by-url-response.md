@@ -14,21 +14,21 @@ let value: SearchLinkedInByUrlResponse = {
     {
       type: "COMPANY",
       name: "<value>",
-      profileUrl: "https://quixotic-strait.com",
+      profileUrl: "https://tiny-bathrobe.biz",
       summary: "<value>",
       industry: "<value>",
-      location: "<value>",
-      followersCount: null,
+      location: null,
+      followersCount: 993595,
     },
   ],
   paging: {
-    start: 985260,
-    count: 993595,
-    total: 913942,
+    start: 913942,
+    count: 318758,
+    total: 847473,
   },
-  hasMore: true,
-  creditsUsed: 847473,
-  retryAfter: 874101,
+  hasMore: false,
+  creditsUsed: 332652,
+  retryAfter: 299060,
 };
 ```
 

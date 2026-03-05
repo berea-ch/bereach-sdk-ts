@@ -8,11 +8,11 @@ import { SearchLinkedInCompaniesItem } from "bereach/models/operations";
 let value: SearchLinkedInCompaniesItem = {
   type: "COMPANY",
   name: "<value>",
-  profileUrl: "https://tough-bonnet.biz/",
+  profileUrl: null,
   summary: "<value>",
-  industry: "<value>",
+  industry: null,
   location: "<value>",
-  followersCount: null,
+  followersCount: 762025,
 };
 ```
 

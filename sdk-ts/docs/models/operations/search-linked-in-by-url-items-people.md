@@ -8,11 +8,11 @@ import { SearchLinkedInByUrlItemsPeople } from "bereach/models/operations";
 let value: SearchLinkedInByUrlItemsPeople = {
   type: "PEOPLE",
   name: "<value>",
-  profileUrl: "https://menacing-going.net/",
+  profileUrl: "https://idealistic-programme.net",
   headline: "<value>",
   location: "<value>",
   profilePicture: "<value>",
-  networkDistance: "DISTANCE_1",
+  networkDistance: null,
   currentPositions: [],
 };
 ```

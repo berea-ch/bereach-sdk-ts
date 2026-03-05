@@ -483,12 +483,12 @@ export const CollectLinkedInCommentsActionsCompleted$zodSchema: z.ZodType<
 
 export type CollectLinkedInCommentsProfile = {
   name: string;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  imageUrl?: string | null | undefined;
+  headline: string | null;
+  profileUrl: string | null;
+  imageUrl: string | null;
   type: CollectLinkedInCommentsType;
   commentText?: string | undefined;
-  timestamp?: number | null | undefined;
+  timestamp: number | null;
   isEdited?: boolean | undefined;
   commentUrn?: string | undefined;
   commentHash?: string | undefined;
@@ -498,7 +498,7 @@ export type CollectLinkedInCommentsProfile = {
   postUrn?: string | undefined;
   postHash?: string | undefined;
   actionsCompleted?: CollectLinkedInCommentsActionsCompleted | undefined;
-  knownDistance?: number | null | undefined;
+  knownDistance: number | null;
 };
 
 export const CollectLinkedInCommentsProfile$zodSchema: z.ZodType<
@@ -511,17 +511,17 @@ export const CollectLinkedInCommentsProfile$zodSchema: z.ZodType<
   commentText: z.string().optional(),
   commentUrn: z.string().optional(),
   hasReplyFromPostAuthor: z.boolean().optional(),
-  headline: z.string().nullable().optional(),
-  imageUrl: z.string().nullable().optional(),
+  headline: z.string().nullable(),
+  imageUrl: z.string().nullable(),
   isEdited: z.boolean().optional(),
   isPostAuthor: z.boolean().optional(),
-  knownDistance: z.int().nullable().optional(),
+  knownDistance: z.int().nullable(),
   name: z.string(),
   postHash: z.string().optional(),
   postUrn: z.string().optional(),
-  profileUrl: z.string().nullable().optional(),
+  profileUrl: z.string().nullable(),
   repliesCount: z.int().optional(),
-  timestamp: z.int().nullable().optional(),
+  timestamp: z.int().nullable(),
   type: CollectLinkedInCommentsType$zodSchema,
 });
 

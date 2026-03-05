@@ -9,8 +9,8 @@ let value: ListInboxConversationsParticipant = {
   profileUrn: "<value>",
   firstName: "Dominic",
   lastName: "Deckow",
-  profileUrl: "https://sparkling-provider.com/",
-  headline: null,
+  profileUrl: "https://second-almighty.com",
+  headline: "<value>",
   profilePicture: "<value>",
 };
 ```

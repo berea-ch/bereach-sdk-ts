@@ -8,11 +8,11 @@ import { SearchLinkedInByUrlItemsCompany } from "bereach/models/operations";
 let value: SearchLinkedInByUrlItemsCompany = {
   type: "COMPANY",
   name: "<value>",
-  profileUrl: "https://muffled-quart.com/",
-  summary: null,
+  profileUrl: "https://serene-antelope.com",
+  summary: "<value>",
   industry: "<value>",
   location: "<value>",
-  followersCount: 754719,
+  followersCount: 591465,
 };
 ```
 

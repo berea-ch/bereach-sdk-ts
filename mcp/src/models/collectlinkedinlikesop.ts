@@ -457,19 +457,19 @@ export const CollectLinkedInLikesType$zodSchema = z.enum([
 
 export type CollectLinkedInLikesProfile = {
   name: string;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  imageUrl?: string | null | undefined;
+  headline: string | null;
+  profileUrl: string | null;
+  imageUrl: string | null;
   type: CollectLinkedInLikesType;
 };
 
 export const CollectLinkedInLikesProfile$zodSchema: z.ZodType<
   CollectLinkedInLikesProfile
 > = z.object({
-  headline: z.string().nullable().optional(),
-  imageUrl: z.string().nullable().optional(),
+  headline: z.string().nullable(),
+  imageUrl: z.string().nullable(),
   name: z.string(),
-  profileUrl: z.string().nullable().optional(),
+  profileUrl: z.string().nullable(),
   type: CollectLinkedInLikesType$zodSchema,
 });
 

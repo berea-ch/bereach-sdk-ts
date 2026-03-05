@@ -12,16 +12,19 @@ let value: CollectLinkedInLikesResponse = {
   profiles: [
     {
       name: "<value>",
+      headline: "<value>",
+      profileUrl: "https://jaunty-bar.org/",
+      imageUrl: "https://remorseful-footrest.net",
       type: "like",
     },
   ],
-  count: 686642,
-  total: 854826,
-  start: 487665,
-  hasMore: true,
-  previousTotal: null,
-  creditsUsed: 924518,
-  retryAfter: 967238,
+  count: 107854,
+  total: 179138,
+  start: 664937,
+  hasMore: false,
+  previousTotal: 612117,
+  creditsUsed: 964493,
+  retryAfter: 514702,
 };
 ```
 

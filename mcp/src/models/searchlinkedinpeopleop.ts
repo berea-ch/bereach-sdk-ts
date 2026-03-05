@@ -538,7 +538,7 @@ export const SearchLinkedInPeopleCurrentPosition$zodSchema: z.ZodType<
 export type SearchLinkedInPeopleItem = {
   type: SearchLinkedInPeopleType;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -557,7 +557,7 @@ export const SearchLinkedInPeopleItem$zodSchema: z.ZodType<
   name: z.string(),
   networkDistance: SearchLinkedInPeopleNetworkDistance$zodSchema.nullable(),
   profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
   type: SearchLinkedInPeopleType$zodSchema,
 });
 

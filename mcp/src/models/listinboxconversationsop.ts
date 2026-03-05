@@ -443,7 +443,7 @@ export type ListInboxConversationsParticipant = {
   profileUrn: string;
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
@@ -455,12 +455,12 @@ export const ListInboxConversationsParticipant$zodSchema: z.ZodType<
   headline: z.string().nullable(),
   lastName: z.string(),
   profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
   profileUrn: z.string(),
 });
 
 export type ListInboxConversationsLastMessage = {
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
 };
@@ -470,7 +470,7 @@ export const ListInboxConversationsLastMessage$zodSchema: z.ZodType<
 > = z.object({
   deliveredAt: z.int(),
   senderProfileUrn: z.string(),
-  text: z.string(),
+  text: z.string().nullable(),
 });
 
 export type ListInboxConversationsConversation = {

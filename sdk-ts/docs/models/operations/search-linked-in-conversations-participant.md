@@ -9,7 +9,7 @@ let value: SearchLinkedInConversationsParticipant = {
   profileUrn: "<value>",
   firstName: "Yvette",
   lastName: "Fay-Deckow",
-  profileUrl: "https://long-fedora.org",
+  profileUrl: "https://glorious-understanding.info/",
   headline: "<value>",
   profilePicture: "<value>",
 };

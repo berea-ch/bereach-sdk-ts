@@ -8,11 +8,11 @@ Connection request status: 'pending' if request was sent successfully, 'failed' 
 import { PendingConnection } from "bereach/models/operations";
 
 let value: PendingConnection = "pending";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
 ## Values
-
-This is an open enum. Unrecognized values will be captured as the `Unrecognized<string>` branded type.
 
 ```typescript
 "pending" | "failed" | "none" | Unrecognized<string>

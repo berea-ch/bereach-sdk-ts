@@ -526,7 +526,7 @@ export const SimilarCompany$zodSchema: z.ZodType<SimilarCompany> = z.object({
 });
 
 /**
- * Workplace policy (only present when includeWorkplacePolicy=true)
+ * Workplace policy (null when includeWorkplacePolicy is false or data unavailable)
  */
 export type WorkplacePolicy = {
   title: string | null;
@@ -540,7 +540,9 @@ export const WorkplacePolicy$zodSchema: z.ZodType<WorkplacePolicy> = z.object({
   description: z.string().nullable(),
   timeAtOnsite: z.string().nullable(),
   title: z.string().nullable(),
-}).describe("Workplace policy (only present when includeWorkplacePolicy=true)");
+}).describe(
+  "Workplace policy (null when includeWorkplacePolicy is false or data unavailable)",
+);
 
 /**
  * Company profile data
@@ -569,7 +571,7 @@ export type VisitLinkedInCompanyResponseBody = {
   hashtags: Array<string>;
   affiliatedCompanies: Array<AffiliatedCompany>;
   similarCompanies: Array<SimilarCompany>;
-  workplacePolicy?: WorkplacePolicy | null | undefined;
+  workplacePolicy: WorkplacePolicy | null;
   creditsUsed: number;
   retryAfter: number;
 };
@@ -602,8 +604,7 @@ export const VisitLinkedInCompanyResponseBody$zodSchema: z.ZodType<
   universalName: z.string(),
   url: z.string(),
   websiteUrl: z.string().nullable(),
-  workplacePolicy: z.lazy(() => WorkplacePolicy$zodSchema).nullable()
-    .optional(),
+  workplacePolicy: z.lazy(() => WorkplacePolicy$zodSchema).nullable(),
 }).describe("Company profile data");
 
 export type VisitLinkedInCompanyResponse =

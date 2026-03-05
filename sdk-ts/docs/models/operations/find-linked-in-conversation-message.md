@@ -8,16 +8,20 @@ import { FindLinkedInConversationMessage } from "bereach/models/operations";
 let value: FindLinkedInConversationMessage = {
   messageUrn: "<value>",
   text: "<value>",
-  deliveredAt: 314814,
+  deliveredAt: 299315,
   senderProfileUrn: "<value>",
   sender: {
-    firstName: "Elijah",
-    lastName: "Ernser",
-    profileUrl: "https://webbed-stock.net/",
+    firstName: "George",
+    lastName: "Hane",
+    profileUrl: "https://sophisticated-formula.info",
     headline: "<value>",
     profilePicture: "<value>",
   },
-  attachments: [],
+  attachments: [
+    {
+      type: "file",
+    },
+  ],
 };
 ```
 

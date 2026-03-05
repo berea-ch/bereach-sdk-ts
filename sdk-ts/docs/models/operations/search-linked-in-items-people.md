@@ -8,17 +8,12 @@ import { SearchLinkedInItemsPeople } from "bereach/models/operations";
 let value: SearchLinkedInItemsPeople = {
   type: "PEOPLE",
   name: "<value>",
-  profileUrl: "https://glossy-legging.info",
-  headline: "<value>",
-  location: null,
+  profileUrl: "https://miserable-fork.name/",
+  headline: null,
+  location: "<value>",
   profilePicture: "<value>",
-  networkDistance: "OUT_OF_NETWORK",
-  currentPositions: [
-    {
-      company: "Hane - Stanton",
-      role: "<value>",
-    },
-  ],
+  networkDistance: "DISTANCE_3",
+  currentPositions: [],
 };
 ```
 

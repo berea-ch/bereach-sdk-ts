@@ -447,40 +447,40 @@ export const ListLinkedInInvitationsBadRequestResponseBody$zodSchema: z.ZodType<
  * Profile info of the person who sent the invitation
  */
 export type FromMember = {
-  name?: string | null | undefined;
-  headline?: string | null | undefined;
-  profileUrl?: string | null | undefined;
-  profilePicture?: string | null | undefined;
+  name: string | null;
+  headline: string | null;
+  profileUrl: string | null;
+  profilePicture: string | null;
 };
 
 export const FromMember$zodSchema: z.ZodType<FromMember> = z.object({
-  headline: z.string().nullable().optional(),
-  name: z.string().nullable().optional(),
-  profilePicture: z.string().nullable().optional(),
-  profileUrl: z.string().nullable().optional(),
+  headline: z.string().nullable(),
+  name: z.string().nullable(),
+  profilePicture: z.string().nullable(),
+  profileUrl: z.string().nullable(),
 }).describe("Profile info of the person who sent the invitation");
 
 export type Invitation = {
   invitationId: string;
   sharedSecret: string;
   entityUrn: string;
-  sentAt?: string | null | undefined;
-  message?: string | null | undefined;
-  senderProfileId?: string | null | undefined;
-  senderFirstName?: string | null | undefined;
-  senderLastName?: string | null | undefined;
-  fromMember?: FromMember | null | undefined;
+  sentAt: string | null;
+  message: string | null;
+  senderProfileId: string | null;
+  senderFirstName: string | null;
+  senderLastName: string | null;
+  fromMember: FromMember | null;
 };
 
 export const Invitation$zodSchema: z.ZodType<Invitation> = z.object({
   entityUrn: z.string(),
-  fromMember: z.lazy(() => FromMember$zodSchema).nullable().optional(),
+  fromMember: z.lazy(() => FromMember$zodSchema).nullable(),
   invitationId: z.string(),
-  message: z.string().nullable().optional(),
-  senderFirstName: z.string().nullable().optional(),
-  senderLastName: z.string().nullable().optional(),
-  senderProfileId: z.string().nullable().optional(),
-  sentAt: z.string().nullable().optional(),
+  message: z.string().nullable(),
+  senderFirstName: z.string().nullable(),
+  senderLastName: z.string().nullable(),
+  senderProfileId: z.string().nullable(),
+  sentAt: z.string().nullable(),
   sharedSecret: z.string(),
 });
 

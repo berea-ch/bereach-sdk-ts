@@ -446,7 +446,7 @@ export const GetConversationMessagesBadRequestResponseBody$zodSchema: z.ZodType<
 export type GetConversationMessagesSender = {
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
@@ -458,7 +458,7 @@ export const GetConversationMessagesSender$zodSchema: z.ZodType<
   headline: z.string().nullable(),
   lastName: z.string(),
   profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
 });
 
 export const GetConversationMessagesType = {
@@ -510,7 +510,7 @@ export const GetConversationMessagesAttachment$zodSchema: z.ZodType<
 
 export type GetConversationMessagesMessage = {
   messageUrn: string;
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
   sender: GetConversationMessagesSender;
@@ -527,7 +527,7 @@ export const GetConversationMessagesMessage$zodSchema: z.ZodType<
   messageUrn: z.string(),
   sender: z.lazy(() => GetConversationMessagesSender$zodSchema),
   senderProfileUrn: z.string(),
-  text: z.string(),
+  text: z.string().nullable(),
 });
 
 /**

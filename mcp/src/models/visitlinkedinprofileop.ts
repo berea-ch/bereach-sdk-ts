@@ -613,14 +613,14 @@ export type VisitLinkedInProfileResponseBody = {
   lastName: string;
   headline: string | null;
   publicIdentifier: string;
-  profileUrl: string;
-  profileUrn?: string | undefined;
+  profileUrl: string | null;
+  profileUrn: string | null;
   imageUrl: string | null;
-  email?: string | null | undefined;
-  location?: string | null | undefined;
-  company?: string | null | undefined;
-  position?: string | null | undefined;
-  memberDistance?: number | null | undefined;
+  email: string | null;
+  location: string | null;
+  company: string | null;
+  position: string | null;
+  memberDistance: number | null;
   pendingConnection: PendingConnection;
   positions?: Array<VisitLinkedInProfilePosition> | undefined;
   educations?: Array<VisitLinkedInProfileEducation> | undefined;
@@ -634,25 +634,25 @@ export const VisitLinkedInProfileResponseBody$zodSchema: z.ZodType<
   VisitLinkedInProfileResponseBody
 > = z.object({
   cached: z.boolean(),
-  company: z.string().nullable().optional(),
+  company: z.string().nullable(),
   creditsUsed: z.int(),
   educations: z.array(z.lazy(() => VisitLinkedInProfileEducation$zodSchema))
     .optional(),
-  email: z.string().nullable().optional(),
+  email: z.string().nullable(),
   firstName: z.string(),
   headline: z.string().nullable(),
   imageUrl: z.string().nullable(),
   lastName: z.string(),
   lastPosts: z.array(z.lazy(() => VisitLinkedInProfileLastPost$zodSchema))
     .optional(),
-  location: z.string().nullable().optional(),
-  memberDistance: z.number().nullable().optional(),
+  location: z.string().nullable(),
+  memberDistance: z.number().nullable(),
   pendingConnection: PendingConnection$zodSchema,
-  position: z.string().nullable().optional(),
+  position: z.string().nullable(),
   positions: z.array(z.lazy(() => VisitLinkedInProfilePosition$zodSchema))
     .optional(),
-  profileUrl: z.string(),
-  profileUrn: z.string().optional(),
+  profileUrl: z.string().nullable(),
+  profileUrn: z.string().nullable(),
   publicIdentifier: z.string(),
   retryAfter: z.int(),
   success: z.boolean(),

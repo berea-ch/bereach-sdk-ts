@@ -16,9 +16,14 @@ let value: RefreshMyLinkedInProfileResponse = {
   headline: "<value>",
   profilePic: "<value>",
   profileUrl: "https://webbed-tabletop.name",
-  refreshed: false,
-  creditsUsed: 233056,
-  retryAfter: 859974,
+  connectionsCount: 233056,
+  location: {
+    countryCode: "FR",
+  },
+  isVerified: false,
+  refreshed: true,
+  creditsUsed: 665068,
+  retryAfter: 523053,
 };
 ```
 
@@ -36,9 +41,9 @@ let value: RefreshMyLinkedInProfileResponse = {
 | `profileUrl`                                                                                                        | *string*                                                                                                            | :heavy_check_mark:                                                                                                  | Full LinkedIn profile URL                                                                                           |
 | `positions`                                                                                                         | [operations.RefreshMyLinkedInProfilePosition](../../models/operations/refresh-my-linked-in-profile-position.md)[]   | :heavy_minus_sign:                                                                                                  | Work positions (populated after /refresh)                                                                           |
 | `educations`                                                                                                        | [operations.RefreshMyLinkedInProfileEducation](../../models/operations/refresh-my-linked-in-profile-education.md)[] | :heavy_minus_sign:                                                                                                  | Education entries (populated after /refresh)                                                                        |
-| `connectionsCount`                                                                                                  | *number*                                                                                                            | :heavy_minus_sign:                                                                                                  | Total LinkedIn connections                                                                                          |
-| `location`                                                                                                          | [operations.RefreshMyLinkedInProfileLocation](../../models/operations/refresh-my-linked-in-profile-location.md)     | :heavy_minus_sign:                                                                                                  | Profile location                                                                                                    |
-| `isVerified`                                                                                                        | *boolean*                                                                                                           | :heavy_minus_sign:                                                                                                  | LinkedIn verification status                                                                                        |
+| `connectionsCount`                                                                                                  | *number*                                                                                                            | :heavy_check_mark:                                                                                                  | Total LinkedIn connections                                                                                          |
+| `location`                                                                                                          | [operations.RefreshMyLinkedInProfileLocation](../../models/operations/refresh-my-linked-in-profile-location.md)     | :heavy_check_mark:                                                                                                  | Profile location                                                                                                    |
+| `isVerified`                                                                                                        | *boolean*                                                                                                           | :heavy_check_mark:                                                                                                  | LinkedIn verification status                                                                                        |
 | `lastPosts`                                                                                                         | [operations.RefreshMyLinkedInProfileLastPost](../../models/operations/refresh-my-linked-in-profile-last-post.md)[]  | :heavy_minus_sign:                                                                                                  | Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)                                        |
 | `refreshed`                                                                                                         | *boolean*                                                                                                           | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `creditsUsed`                                                                                                       | *number*                                                                                                            | :heavy_check_mark:                                                                                                  | Credits consumed by this call (0 for free endpoints, cached results, or duplicates).                                |

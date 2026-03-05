@@ -1,6 +1,6 @@
 # WorkplacePolicy
 
-Workplace policy (only present when includeWorkplacePolicy=true)
+Workplace policy (null when includeWorkplacePolicy is false or data unavailable)
 
 ## Example Usage
 

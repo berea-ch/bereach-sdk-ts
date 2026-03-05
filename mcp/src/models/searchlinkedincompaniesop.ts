@@ -505,7 +505,7 @@ export const SearchLinkedInCompaniesType$zodSchema = z.enum([
 export type SearchLinkedInCompaniesItem = {
   type: SearchLinkedInCompaniesType;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   summary: string | null;
   industry: string | null;
   location: string | null;
@@ -519,7 +519,7 @@ export const SearchLinkedInCompaniesItem$zodSchema: z.ZodType<
   industry: z.string().nullable(),
   location: z.string().nullable(),
   name: z.string(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
   summary: z.string().nullable(),
   type: SearchLinkedInCompaniesType$zodSchema,
 });

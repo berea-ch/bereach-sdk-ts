@@ -516,7 +516,7 @@ export const SearchLinkedInByUrlTypeCompany$zodSchema = z.enum([
 export type SearchLinkedInByUrlItemsCompany = {
   type: SearchLinkedInByUrlTypeCompany;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   summary: string | null;
   industry: string | null;
   location: string | null;
@@ -530,7 +530,7 @@ export const SearchLinkedInByUrlItemsCompany$zodSchema: z.ZodType<
   industry: z.string().nullable(),
   location: z.string().nullable(),
   name: z.string(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
   summary: z.string().nullable(),
   type: SearchLinkedInByUrlTypeCompany$zodSchema,
 });
@@ -578,7 +578,7 @@ export const SearchLinkedInByUrlCurrentPosition$zodSchema: z.ZodType<
 export type SearchLinkedInByUrlItemsPeople = {
   type: SearchLinkedInByUrlTypePeople;
   name: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   location: string | null;
   profilePicture: string | null;
@@ -597,7 +597,7 @@ export const SearchLinkedInByUrlItemsPeople$zodSchema: z.ZodType<
   name: z.string(),
   networkDistance: SearchLinkedInByUrlNetworkDistance$zodSchema.nullable(),
   profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
   type: SearchLinkedInByUrlTypePeople$zodSchema,
 });
 

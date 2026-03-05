@@ -448,73 +448,23 @@ export const FindLinkedInConversationBadRequestResponseBody$zodSchema:
     "The server cannot or will not process the request due to something that is perceived to be a client error.",
   );
 
-export type FindLinkedInConversationParticipant = {
-  profileUrn: string;
-  firstName: string;
-  lastName: string;
-  profileUrl: string;
-  headline: string | null;
-  profilePicture: string | null;
-};
-
-export const FindLinkedInConversationParticipant$zodSchema: z.ZodType<
-  FindLinkedInConversationParticipant
-> = z.object({
-  firstName: z.string(),
-  headline: z.string().nullable(),
-  lastName: z.string(),
-  profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
-  profileUrn: z.string(),
-});
-
-export type FindLinkedInConversationLastMessage = {
-  text: string;
-  deliveredAt: number;
-  senderProfileUrn: string;
-};
-
-export const FindLinkedInConversationLastMessage$zodSchema: z.ZodType<
-  FindLinkedInConversationLastMessage
-> = z.object({
-  deliveredAt: z.int(),
-  senderProfileUrn: z.string(),
-  text: z.string(),
-});
-
-export type FindLinkedInConversationConversation = {
-  conversationUrn: string;
-  conversationUrl: string;
-  lastActivityAt: number;
-  createdAt: number;
-  read: boolean;
-  unreadCount: number;
-  groupChat: boolean;
-  participants: Array<FindLinkedInConversationParticipant>;
-  lastMessage: FindLinkedInConversationLastMessage | null;
-};
+/**
+ * Lightweight conversation reference (O(1) lookup returns URN only, not full details).
+ */
+export type FindLinkedInConversationConversation = { conversationUrn: string };
 
 export const FindLinkedInConversationConversation$zodSchema: z.ZodType<
   FindLinkedInConversationConversation
 > = z.object({
-  conversationUrl: z.string(),
   conversationUrn: z.string(),
-  createdAt: z.int(),
-  groupChat: z.boolean(),
-  lastActivityAt: z.int(),
-  lastMessage: z.lazy(() => FindLinkedInConversationLastMessage$zodSchema)
-    .nullable(),
-  participants: z.array(
-    z.lazy(() => FindLinkedInConversationParticipant$zodSchema),
-  ),
-  read: z.boolean(),
-  unreadCount: z.int(),
-});
+}).describe(
+  "Lightweight conversation reference (O(1) lookup returns URN only, not full details).",
+);
 
 export type FindLinkedInConversationSender = {
   firstName: string;
   lastName: string;
-  profileUrl: string;
+  profileUrl: string | null;
   headline: string | null;
   profilePicture: string | null;
 };
@@ -526,7 +476,7 @@ export const FindLinkedInConversationSender$zodSchema: z.ZodType<
   headline: z.string().nullable(),
   lastName: z.string(),
   profilePicture: z.string().nullable(),
-  profileUrl: z.string(),
+  profileUrl: z.string().nullable(),
 });
 
 export const FindLinkedInConversationType = {
@@ -578,7 +528,7 @@ export const FindLinkedInConversationAttachment$zodSchema: z.ZodType<
 
 export type FindLinkedInConversationMessage = {
   messageUrn: string;
-  text: string;
+  text: string | null;
   deliveredAt: number;
   senderProfileUrn: string;
   sender: FindLinkedInConversationSender;
@@ -595,7 +545,7 @@ export const FindLinkedInConversationMessage$zodSchema: z.ZodType<
   messageUrn: z.string(),
   sender: z.lazy(() => FindLinkedInConversationSender$zodSchema),
   senderProfileUrn: z.string(),
-  text: z.string(),
+  text: z.string().nullable(),
 });
 
 /**

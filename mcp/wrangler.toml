@@ -1,5 +1,5 @@
 
-name = "bereach-mcp"
+name = "mcp-mcp-server"
 main = "src/cloudflare-worker/cloudflare-worker.ts"
 compatibility_date = "2025-07-15"
 
@@ -14,7 +14,7 @@ class_name = "McpMCP"
 # Durable Object migration
 [[migrations]]
 tag = "v1"
-new_sqlite_classes = ["McpMCP"]
+new_classes = ["McpMCP"]
 
 # Static assets configuration
 [assets]

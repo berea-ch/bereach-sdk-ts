@@ -18,14 +18,14 @@ let value: SearchLinkedInConversationsConversation = {
       profileUrn: "<value>",
       firstName: "Freddy",
       lastName: "DuBuque",
-      profileUrl: "https://closed-appliance.net",
+      profileUrl: "https://artistic-scarification.net/",
       headline: "<value>",
       profilePicture: "<value>",
     },
   ],
   lastMessage: {
     text: "<value>",
-    deliveredAt: 123335,
+    deliveredAt: 699347,
     senderProfileUrn: "<value>",
   },
 };

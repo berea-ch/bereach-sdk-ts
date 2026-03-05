@@ -602,9 +602,9 @@ export type RefreshMyLinkedInProfileResponseBody = {
   profileUrl: string | null;
   positions?: Array<RefreshMyLinkedInProfilePosition> | undefined;
   educations?: Array<RefreshMyLinkedInProfileEducation> | undefined;
-  connectionsCount?: number | null | undefined;
-  location?: RefreshMyLinkedInProfileLocation | null | undefined;
-  isVerified?: boolean | undefined;
+  connectionsCount: number | null;
+  location: RefreshMyLinkedInProfileLocation | null;
+  isVerified: boolean | null;
   lastPosts?: Array<RefreshMyLinkedInProfileLastPost> | undefined;
   refreshed: boolean;
   creditsUsed: number;
@@ -614,19 +614,18 @@ export type RefreshMyLinkedInProfileResponseBody = {
 export const RefreshMyLinkedInProfileResponseBody$zodSchema: z.ZodType<
   RefreshMyLinkedInProfileResponseBody
 > = z.object({
-  connectionsCount: z.int().nullable().optional(),
+  connectionsCount: z.int().nullable(),
   creditsUsed: z.int(),
   educations: z.array(z.lazy(() => RefreshMyLinkedInProfileEducation$zodSchema))
     .optional(),
   headline: z.string().nullable(),
-  isVerified: z.boolean().optional(),
+  isVerified: z.boolean().nullable(),
   lastPosts: z.array(z.lazy(() => RefreshMyLinkedInProfileLastPost$zodSchema))
     .optional(),
   linkedinEmail: z.string().nullable(),
   linkedinName: z.string().nullable(),
   linkedinProfileId: z.string().nullable(),
-  location: z.lazy(() => RefreshMyLinkedInProfileLocation$zodSchema).nullable()
-    .optional(),
+  location: z.lazy(() => RefreshMyLinkedInProfileLocation$zodSchema).nullable(),
   positions: z.array(z.lazy(() => RefreshMyLinkedInProfilePosition$zodSchema))
     .optional(),
   profilePic: z.string().nullable(),

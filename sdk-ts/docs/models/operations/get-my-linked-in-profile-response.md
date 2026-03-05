@@ -16,8 +16,13 @@ let value: GetMyLinkedInProfileResponse = {
   headline: null,
   profilePic: null,
   profileUrl: "https://scented-lashes.org/",
-  creditsUsed: 922289,
-  retryAfter: 466283,
+  connectionsCount: 466283,
+  location: {
+    countryCode: "BS",
+  },
+  isVerified: true,
+  creditsUsed: 420151,
+  retryAfter: 248939,
 };
 ```
 
@@ -35,9 +40,9 @@ let value: GetMyLinkedInProfileResponse = {
 | `profileUrl`                                                                                                | *string*                                                                                                    | :heavy_check_mark:                                                                                          | Full LinkedIn profile URL                                                                                   |
 | `positions`                                                                                                 | [operations.GetMyLinkedInProfilePosition](../../models/operations/get-my-linked-in-profile-position.md)[]   | :heavy_minus_sign:                                                                                          | Work positions (populated after /refresh)                                                                   |
 | `educations`                                                                                                | [operations.GetMyLinkedInProfileEducation](../../models/operations/get-my-linked-in-profile-education.md)[] | :heavy_minus_sign:                                                                                          | Education entries (populated after /refresh)                                                                |
-| `connectionsCount`                                                                                          | *number*                                                                                                    | :heavy_minus_sign:                                                                                          | Total LinkedIn connections                                                                                  |
-| `location`                                                                                                  | [operations.GetMyLinkedInProfileLocation](../../models/operations/get-my-linked-in-profile-location.md)     | :heavy_minus_sign:                                                                                          | Profile location                                                                                            |
-| `isVerified`                                                                                                | *boolean*                                                                                                   | :heavy_minus_sign:                                                                                          | LinkedIn verification status                                                                                |
+| `connectionsCount`                                                                                          | *number*                                                                                                    | :heavy_check_mark:                                                                                          | Total LinkedIn connections                                                                                  |
+| `location`                                                                                                  | [operations.GetMyLinkedInProfileLocation](../../models/operations/get-my-linked-in-profile-location.md)     | :heavy_check_mark:                                                                                          | Profile location                                                                                            |
+| `isVerified`                                                                                                | *boolean*                                                                                                   | :heavy_check_mark:                                                                                          | LinkedIn verification status                                                                                |
 | `lastPosts`                                                                                                 | [operations.GetMyLinkedInProfileLastPost](../../models/operations/get-my-linked-in-profile-last-post.md)[]  | :heavy_minus_sign:                                                                                          | Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)                                |
 | `creditsUsed`                                                                                               | *number*                                                                                                    | :heavy_check_mark:                                                                                          | Credits consumed by this call (0 for free endpoints, cached results, or duplicates).                        |
 | `retryAfter`                                                                                                | *number*                                                                                                    | :heavy_check_mark:                                                                                          | Seconds to wait before making another call of the same type. 0 means no wait needed.                        |

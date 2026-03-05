@@ -8,9 +8,9 @@ import { GetConversationMessagesSender } from "bereach/models/operations";
 let value: GetConversationMessagesSender = {
   firstName: "Nick",
   lastName: "Grant",
-  profileUrl: "https://pastel-decryption.name",
-  headline: null,
-  profilePicture: "<value>",
+  profileUrl: "https://empty-marten.com",
+  headline: "<value>",
+  profilePicture: null,
 };
 ```
 

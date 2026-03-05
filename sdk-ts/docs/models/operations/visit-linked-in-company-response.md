@@ -54,8 +54,17 @@ let value: VisitLinkedInCompanyResponse = {
       industry: "<value>",
     },
   ],
-  creditsUsed: 172791,
-  retryAfter: 815696,
+  workplacePolicy: {
+    title: "<value>",
+    description: "obnoxiously abaft for indeed creak er",
+    timeAtOnsite: "<value>",
+    benefits: [
+      "<value 1>",
+      "<value 2>",
+    ],
+  },
+  creditsUsed: 390328,
+  retryAfter: 222362,
 };
 ```
 
@@ -86,6 +95,6 @@ let value: VisitLinkedInCompanyResponse = {
 | `hashtags`                                                                           | *string*[]                                                                           | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `affiliatedCompanies`                                                                | [operations.AffiliatedCompany](../../models/operations/affiliated-company.md)[]      | :heavy_check_mark:                                                                   | Showcase / affiliated pages                                                          |
 | `similarCompanies`                                                                   | [operations.SimilarCompany](../../models/operations/similar-company.md)[]            | :heavy_check_mark:                                                                   | Similar companies suggested by LinkedIn                                              |
-| `workplacePolicy`                                                                    | [operations.WorkplacePolicy](../../models/operations/workplace-policy.md)            | :heavy_minus_sign:                                                                   | Workplace policy (only present when includeWorkplacePolicy=true)                     |
+| `workplacePolicy`                                                                    | [operations.WorkplacePolicy](../../models/operations/workplace-policy.md)            | :heavy_check_mark:                                                                   | Workplace policy (null when includeWorkplacePolicy is false or data unavailable)     |
 | `creditsUsed`                                                                        | *number*                                                                             | :heavy_check_mark:                                                                   | Credits consumed by this call (0 for free endpoints, cached results, or duplicates). |
 | `retryAfter`                                                                         | *number*                                                                             | :heavy_check_mark:                                                                   | Seconds to wait before making another call of the same type. 0 means no wait needed. |

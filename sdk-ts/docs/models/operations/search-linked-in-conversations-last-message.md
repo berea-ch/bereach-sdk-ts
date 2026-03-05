@@ -7,7 +7,7 @@ import { SearchLinkedInConversationsLastMessage } from "bereach/models/operation
 
 let value: SearchLinkedInConversationsLastMessage = {
   text: "<value>",
-  deliveredAt: 738274,
+  deliveredAt: 578172,
   senderProfileUrn: "<value>",
 };
 ```

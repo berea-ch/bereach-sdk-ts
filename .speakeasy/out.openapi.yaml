@@ -2,7 +2,7 @@ openapi: "3.0.3"
 info:
   title: "BeReach API"
   description: "BeReach | Unofficial Linkedin API"
-  version: "0.0.8"
+  version: "0.1.0"
   contact:
     name: "BeReach Support"
     email: "alexandre@berea.ch"
@@ -100,17 +100,18 @@ paths:
                         profileUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         imageUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         type:
                           type: "string"
                           enum:
                             - "like"
                       required:
                         - "name"
+                        - "headline"
+                        - "profileUrl"
+                        - "imageUrl"
                         - "type"
                       additionalProperties: false
                   count:
@@ -665,11 +666,9 @@ paths:
                         profileUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         imageUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         type:
                           type: "string"
                           enum:
@@ -727,14 +726,19 @@ paths:
                             - "connect"
                           additionalProperties: false
                         knownDistance:
-                          description: "Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). Only present when campaignSlug is provided. null if the profile has not been visited recently."
+                          description: "Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). null if campaignSlug not provided or profile not visited recently."
                           nullable: true
                           type: "integer"
                           minimum: -9007199254740991
                           maximum: 9007199254740991
                       required:
                         - "name"
+                        - "headline"
+                        - "profileUrl"
+                        - "imageUrl"
                         - "type"
+                        - "timestamp"
+                        - "knownDistance"
                       additionalProperties: false
                   count:
                     type: "integer"
@@ -1287,11 +1291,9 @@ paths:
                         profileUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         imageUrl:
                           nullable: true
                           type: "string"
-                          format: "uri"
                         type:
                           type: "string"
                           enum:
@@ -1349,14 +1351,19 @@ paths:
                             - "connect"
                           additionalProperties: false
                         knownDistance:
-                          description: "Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). Only present when campaignSlug is provided. null if the profile has not been visited recently."
+                          description: "Cached memberDistance from a recent profile visit (1 = connected, 2 = 2nd degree, etc.). null if campaignSlug not provided or profile not visited recently."
                           nullable: true
                           type: "integer"
                           minimum: -9007199254740991
                           maximum: 9007199254740991
                       required:
                         - "name"
+                        - "headline"
+                        - "profileUrl"
+                        - "imageUrl"
                         - "type"
+                        - "timestamp"
+                        - "knownDistance"
                       additionalProperties: false
                   count:
                     type: "integer"
@@ -1901,7 +1908,6 @@ paths:
                       properties:
                         postUrl:
                           type: "string"
-                          format: "uri"
                         text:
                           type: "string"
                         date:
@@ -2715,6 +2721,7 @@ paths:
                             name:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             headline:
                               nullable: true
@@ -2769,6 +2776,7 @@ paths:
                             name:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             summary:
                               nullable: true
@@ -4091,6 +4099,7 @@ paths:
                         name:
                           type: "string"
                         profileUrl:
+                          nullable: true
                           type: "string"
                         headline:
                           nullable: true
@@ -4710,6 +4719,7 @@ paths:
                         name:
                           type: "string"
                         profileUrl:
+                          nullable: true
                           type: "string"
                         summary:
                           nullable: true
@@ -5998,6 +6008,7 @@ paths:
                             name:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             headline:
                               nullable: true
@@ -6052,6 +6063,7 @@ paths:
                             name:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             summary:
                               nullable: true
@@ -7204,15 +7216,16 @@ paths:
                   publicIdentifier:
                     type: "string"
                   profileUrl:
+                    description: "LinkedIn profile URL. Null when publicIdentifier is unavailable (restricted profiles)."
+                    nullable: true
                     type: "string"
-                    format: "uri"
                   profileUrn:
                     description: "LinkedIn profile URN (e.g. 'urn:li:fsd_profile:ACoAAA...'). Use this for matching against inbox participants."
+                    nullable: true
                     type: "string"
                   imageUrl:
                     nullable: true
                     type: "string"
-                    format: "uri"
                   email:
                     nullable: true
                     type: "string"
@@ -7373,7 +7386,6 @@ paths:
                       properties:
                         postUrl:
                           type: "string"
-                          format: "uri"
                         text:
                           type: "string"
                         date:
@@ -7433,7 +7445,13 @@ paths:
                   - "headline"
                   - "publicIdentifier"
                   - "profileUrl"
+                  - "profileUrn"
                   - "imageUrl"
+                  - "email"
+                  - "location"
+                  - "company"
+                  - "position"
+                  - "memberDistance"
                   - "pendingConnection"
                   - "cached"
                   - "creditsUsed"
@@ -8146,7 +8164,7 @@ paths:
                         - "industry"
                       additionalProperties: false
                   workplacePolicy:
-                    description: "Workplace policy (only present when includeWorkplacePolicy=true)"
+                    description: "Workplace policy (null when includeWorkplacePolicy is false or data unavailable)"
                     nullable: true
                     type: "object"
                     properties:
@@ -8203,6 +8221,7 @@ paths:
                   - "hashtags"
                   - "affiliatedCompanies"
                   - "similarCompanies"
+                  - "workplacePolicy"
                   - "creditsUsed"
                   - "retryAfter"
                 additionalProperties: false
@@ -9237,11 +9256,22 @@ paths:
                             profilePicture:
                               nullable: true
                               type: "string"
+                          required:
+                            - "name"
+                            - "headline"
+                            - "profileUrl"
+                            - "profilePicture"
                           additionalProperties: false
                       required:
                         - "invitationId"
                         - "sharedSecret"
                         - "entityUrn"
+                        - "sentAt"
+                        - "message"
+                        - "senderProfileId"
+                        - "senderFirstName"
+                        - "senderLastName"
+                        - "fromMember"
                       additionalProperties: false
                   total:
                     description: "Total number of pending invitations"
@@ -12478,6 +12508,7 @@ paths:
                     additionalProperties: false
                   isVerified:
                     description: "LinkedIn verification status"
+                    nullable: true
                     type: "boolean"
                   lastPosts:
                     description: "Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)"
@@ -12487,7 +12518,6 @@ paths:
                       properties:
                         postUrl:
                           type: "string"
-                          format: "uri"
                         text:
                           type: "string"
                         date:
@@ -12546,6 +12576,9 @@ paths:
                   - "headline"
                   - "profilePic"
                   - "profileUrl"
+                  - "connectionsCount"
+                  - "location"
+                  - "isVerified"
                   - "creditsUsed"
                   - "retryAfter"
                 additionalProperties: false
@@ -13202,6 +13235,7 @@ paths:
                     additionalProperties: false
                   isVerified:
                     description: "LinkedIn verification status"
+                    nullable: true
                     type: "boolean"
                   lastPosts:
                     description: "Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)"
@@ -13211,7 +13245,6 @@ paths:
                       properties:
                         postUrl:
                           type: "string"
-                          format: "uri"
                         text:
                           type: "string"
                         date:
@@ -13274,6 +13307,9 @@ paths:
                   - "headline"
                   - "profilePic"
                   - "profileUrl"
+                  - "connectionsCount"
+                  - "location"
+                  - "isVerified"
                   - "refreshed"
                   - "creditsUsed"
                   - "retryAfter"
@@ -13770,7 +13806,6 @@ paths:
                       properties:
                         postUrl:
                           type: "string"
-                          format: "uri"
                         text:
                           type: "string"
                         date:
@@ -16206,6 +16241,7 @@ paths:
                               lastName:
                                 type: "string"
                               profileUrl:
+                                nullable: true
                                 type: "string"
                               headline:
                                 nullable: true
@@ -16226,6 +16262,7 @@ paths:
                           type: "object"
                           properties:
                             text:
+                              nullable: true
                               type: "string"
                             deliveredAt:
                               type: "integer"
@@ -16769,6 +16806,7 @@ paths:
                               lastName:
                                 type: "string"
                               profileUrl:
+                                nullable: true
                                 type: "string"
                               headline:
                                 nullable: true
@@ -16789,6 +16827,7 @@ paths:
                           type: "object"
                           properties:
                             text:
+                              nullable: true
                               type: "string"
                             deliveredAt:
                               type: "integer"
@@ -17300,83 +17339,14 @@ paths:
                   found:
                     type: "boolean"
                   conversation:
+                    description: "Lightweight conversation reference (O(1) lookup returns URN only, not full details)."
                     nullable: true
                     type: "object"
                     properties:
                       conversationUrn:
                         type: "string"
-                      conversationUrl:
-                        type: "string"
-                      lastActivityAt:
-                        type: "integer"
-                        minimum: -9007199254740991
-                        maximum: 9007199254740991
-                      createdAt:
-                        type: "integer"
-                        minimum: -9007199254740991
-                        maximum: 9007199254740991
-                      read:
-                        type: "boolean"
-                      unreadCount:
-                        type: "integer"
-                        minimum: -9007199254740991
-                        maximum: 9007199254740991
-                      groupChat:
-                        type: "boolean"
-                      participants:
-                        type: "array"
-                        items:
-                          type: "object"
-                          properties:
-                            profileUrn:
-                              type: "string"
-                            firstName:
-                              type: "string"
-                            lastName:
-                              type: "string"
-                            profileUrl:
-                              type: "string"
-                            headline:
-                              nullable: true
-                              type: "string"
-                            profilePicture:
-                              nullable: true
-                              type: "string"
-                          required:
-                            - "profileUrn"
-                            - "firstName"
-                            - "lastName"
-                            - "profileUrl"
-                            - "headline"
-                            - "profilePicture"
-                          additionalProperties: false
-                      lastMessage:
-                        nullable: true
-                        type: "object"
-                        properties:
-                          text:
-                            type: "string"
-                          deliveredAt:
-                            type: "integer"
-                            minimum: -9007199254740991
-                            maximum: 9007199254740991
-                          senderProfileUrn:
-                            type: "string"
-                        required:
-                          - "text"
-                          - "deliveredAt"
-                          - "senderProfileUrn"
-                        additionalProperties: false
                     required:
                       - "conversationUrn"
-                      - "conversationUrl"
-                      - "lastActivityAt"
-                      - "createdAt"
-                      - "read"
-                      - "unreadCount"
-                      - "groupChat"
-                      - "participants"
-                      - "lastMessage"
                     additionalProperties: false
                   messages:
                     nullable: true
@@ -17387,6 +17357,7 @@ paths:
                         messageUrn:
                           type: "string"
                         text:
+                          nullable: true
                           type: "string"
                         deliveredAt:
                           type: "integer"
@@ -17402,6 +17373,7 @@ paths:
                             lastName:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             headline:
                               nullable: true
@@ -17947,6 +17919,7 @@ paths:
                         messageUrn:
                           type: "string"
                         text:
+                          nullable: true
                           type: "string"
                         deliveredAt:
                           type: "integer"
@@ -17962,6 +17935,7 @@ paths:
                             lastName:
                               type: "string"
                             profileUrl:
+                              nullable: true
                               type: "string"
                             headline:
                               nullable: true
