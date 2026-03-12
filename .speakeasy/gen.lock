@@ -5,14 +5,15 @@ management:
   docVersion: 0.2.0
   speakeasyVersion: 1.752.0
   generationVersion: 2.859.2
-  releaseVersion: 1.2.2
-  configChecksum: 5344d4f0def7b715030e90c4ad71ee28
+  releaseVersion: 1.2.3
+  configChecksum: a0b1cba08b8fe73df7632c3749bafcce
   repoURL: https://github.com/berea-ch/bereach-sdk-ts.git
   installationURL: https://github.com/berea-ch/bereach-sdk-ts
+  published: true
 persistentEdits:
-  generation_id: 31d2a337-8560-4e32-8c16-dc20e25533bd
-  pristine_commit_hash: 2e20ef667c7d1a142b7affe41bb8ec70c28a0777
-  pristine_tree_hash: c76e9fcb776e931fc3362fd31c4dfc5d04233988
+  generation_id: bc2571d8-e5af-49a0-a49c-ba7c58e5d5b5
+  pristine_commit_hash: 8efd483e4d294a7d6ef1e4fe38022ec00a7e61e1
+  pristine_tree_hash: ead176b055331c2f34d1bd594a701a58dffee303
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -10675,12 +10676,12 @@ trackedFiles:
     pristine_git_object: d22023452f5c34df564e1a2f20071d483b9dde0d
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:beb3b8c3a7f7bd08a414e4134cb76c6d85f13a57
-    pristine_git_object: 074303987a05facc7c060237ed6acf99e51f5ac2
+    last_write_checksum: sha1:8025677207da7147b3e5f1a7cd4fdb81dc8dc2ad
+    pristine_git_object: 2024b0d44747fe23461511f6203bfb0dc1bbe7f6
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:e4016351c2dea91db6e76ef621ab2038cb810790
-    pristine_git_object: e7f0243ad203e246810c01ea7d81298341819dff
+    last_write_checksum: sha1:7f1e7b608f2b74ac8c1c2ec8eb1d6dd763ef6500
+    pristine_git_object: 396b42c3a959625ca040c7f6a22fbf4efaaccf2c
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:dd9b2e9e929a42b051e9eef718f9fcece32c717a
@@ -11023,8 +11024,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:5176a0515164d3050f7ac4484afa997751aa16c5
-    pristine_git_object: 9162f0df8a682216bde596caa2cc27f1dd9683ff
+    last_write_checksum: sha1:c1537a7642df2d3f524ee4a096036215d365bf3e
+    pristine_git_object: dae629d63af4060794191556bc6359ae2937366c
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
