@@ -13,6 +13,9 @@ targets:
     bereach:
         target: typescript
         source: BeReach API
+        publish:
+            npm:
+                token: $npm_token
         codeSamples:
             registry:
                 location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api-typescript-code-samples
