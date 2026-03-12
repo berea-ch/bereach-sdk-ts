@@ -11,8 +11,8 @@ let value: SearchLinkedInConversationsResponse = {
   success: true,
   conversations: [],
   nextCursor: "<value>",
-  creditsUsed: 206067,
-  retryAfter: 772835,
+  creditsUsed: 982398,
+  retryAfter: 206067,
 };
 ```
 
@@ -20,7 +20,7 @@ let value: SearchLinkedInConversationsResponse = {
 
 | Field                                                                                                                          | Type                                                                                                                           | Required                                                                                                                       | Description                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `success`                                                                                                                      | *boolean*                                                                                                                      | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            |
+| `success`                                                                                                                      | *true*                                                                                                                         | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            |
 | `conversations`                                                                                                                | [operations.SearchLinkedInConversationsConversation](../../models/operations/search-linked-in-conversations-conversation.md)[] | :heavy_check_mark:                                                                                                             | N/A                                                                                                                            |
 | `nextCursor`                                                                                                                   | *string*                                                                                                                       | :heavy_check_mark:                                                                                                             | Cursor for fetching next page                                                                                                  |
 | `creditsUsed`                                                                                                                  | *number*                                                                                                                       | :heavy_check_mark:                                                                                                             | Credits consumed by this call (0 for free endpoints, cached results, or duplicates).                                           |

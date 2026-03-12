@@ -10,9 +10,9 @@ import { PublishLinkedInPostResponse } from "bereach/models/operations";
 let value: PublishLinkedInPostResponse = {
   success: true,
   shareUrn: "<value>",
-  activityUrn: "<value>",
-  creditsUsed: 122502,
-  retryAfter: 968656,
+  activityUrn: null,
+  creditsUsed: 470758,
+  retryAfter: 122502,
 };
 ```
 
@@ -20,7 +20,7 @@ let value: PublishLinkedInPostResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `shareUrn`                                                                           | *string*                                                                             | :heavy_check_mark:                                                                   | URN of the created share (e.g., 'urn:li:fsd_share:urn:li:share:123...')              |
 | `activityUrn`                                                                        | *string*                                                                             | :heavy_check_mark:                                                                   | Activity URN (only available for instant mode)                                       |
 | `duplicate`                                                                          | *boolean*                                                                            | :heavy_minus_sign:                                                                   | True if this action was already executed for the given campaignSlug + target.        |

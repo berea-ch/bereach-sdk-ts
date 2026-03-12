@@ -6,14 +6,20 @@ Endpoints for the authenticated user's own LinkedIn profile
 
 ### Available Operations
 
-* [getLinkedInProfile](#getlinkedinprofile) - Get authenticated user's LinkedIn profile
+* [get](#get) - Get authenticated user's LinkedIn profile
+* [listAccounts](#listaccounts) - List all LinkedIn accounts for the authenticated user
+* [updateAccount](#updateaccount) - Update a LinkedIn account (label, default)
 * [refresh](#refresh) - Refresh authenticated user's LinkedIn profile
 * [getPosts](#getposts) - Get authenticated user's LinkedIn posts
 * [getFollowers](#getfollowers) - Get authenticated user's LinkedIn followers
 * [getLimits](#getlimits) - Get current LinkedIn rate limit status
 * [getCredits](#getcredits) - Get current BeReach credit balance
+* [getProfileViews](#getprofileviews) - Get profile views
+* [getSearchAppearances](#getsearchappearances) - Get search appearances
+* [getPostAnalytics](#getpostanalytics) - Get post analytics
+* [getFollowerAnalytics](#getfolloweranalytics) - Get follower analytics
 
-## getLinkedInProfile
+## get
 
 Returns the authenticated user's stored LinkedIn profile data from the database. No LinkedIn API call, no credits consumed. Call /me/linkedin/refresh first to populate enriched data (positions, education, etc.).
 
@@ -28,7 +34,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.profile.getLinkedInProfile();
+  const result = await bereach.profile.get();
 
   console.log(result);
 }
@@ -42,7 +48,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { profileGetLinkedInProfile } from "bereach/funcs/profile-get-linked-in-profile.js";
+import { profileGet } from "bereach/funcs/profile-get.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -51,12 +57,12 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await profileGetLinkedInProfile(bereach);
+  const res = await profileGet(bereach);
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("profileGetLinkedInProfile failed:", res.error);
+    console.log("profileGet failed:", res.error);
   }
 }
 
@@ -77,18 +83,181 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                          | Status Code                                         | Content Type                                        |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| errors.GetMyLinkedInProfileBadRequestError          | 400                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileUnauthorizedError        | 401                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileForbiddenError           | 403                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileNotFoundError            | 404                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileConflictError            | 409                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileGoneError                | 410                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileUnprocessableEntityError | 422                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileTooManyRequestsError     | 429                                                 | application/json                                    |
+| errors.GetMyLinkedInProfileInternalServerError      | 500                                                 | application/json                                    |
+| errors.BereachDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+
+## listAccounts
+
+Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to. DB-only endpoint — 0 credits.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listLinkedInAccounts" method="post" path="/me/linkedin/accounts" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.listAccounts();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileListAccounts } from "bereach/funcs/profile-list-accounts.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileListAccounts(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileListAccounts failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListLinkedInAccountsResponse](../../models/operations/list-linked-in-accounts-response.md)\>**
+
+### Errors
+
+| Error Type                                          | Status Code                                         | Content Type                                        |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| errors.ListLinkedInAccountsBadRequestError          | 400                                                 | application/json                                    |
+| errors.ListLinkedInAccountsUnauthorizedError        | 401                                                 | application/json                                    |
+| errors.ListLinkedInAccountsForbiddenError           | 403                                                 | application/json                                    |
+| errors.ListLinkedInAccountsNotFoundError            | 404                                                 | application/json                                    |
+| errors.ListLinkedInAccountsConflictError            | 409                                                 | application/json                                    |
+| errors.ListLinkedInAccountsGoneError                | 410                                                 | application/json                                    |
+| errors.ListLinkedInAccountsUnprocessableEntityError | 422                                                 | application/json                                    |
+| errors.ListLinkedInAccountsTooManyRequestsError     | 429                                                 | application/json                                    |
+| errors.ListLinkedInAccountsInternalServerError      | 500                                                 | application/json                                    |
+| errors.BereachDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+
+## updateAccount
+
+Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts. DB-only — 0 credits.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="updateLinkedInAccount" method="patch" path="/me/linkedin/accounts" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.updateAccount({
+    accountId: "clxyz1234",
+    label: "Personal",
+    isDefault: true,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileUpdateAccount } from "bereach/funcs/profile-update-account.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileUpdateAccount(bereach, {
+    accountId: "clxyz1234",
+    label: "Personal",
+    isDefault: true,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileUpdateAccount failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UpdateLinkedInAccountRequest](../../models/operations/update-linked-in-account-request.md)                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.UpdateLinkedInAccountResponse](../../models/operations/update-linked-in-account-response.md)\>**
+
+### Errors
+
+| Error Type                                           | Status Code                                          | Content Type                                         |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| errors.UpdateLinkedInAccountBadRequestError          | 400                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountUnauthorizedError        | 401                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountForbiddenError           | 403                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountNotFoundError            | 404                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountConflictError            | 409                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountGoneError                | 410                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountUnprocessableEntityError | 422                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountTooManyRequestsError     | 429                                                  | application/json                                     |
+| errors.UpdateLinkedInAccountInternalServerError      | 500                                                  | application/json                                     |
+| errors.BereachDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
 
 ## refresh
 
@@ -154,18 +323,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                              | Status Code                                             | Content Type                                            |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| errors.RefreshMyLinkedInProfileBadRequestError          | 400                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileUnauthorizedError        | 401                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileForbiddenError           | 403                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileNotFoundError            | 404                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileConflictError            | 409                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileGoneError                | 410                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileUnprocessableEntityError | 422                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileTooManyRequestsError     | 429                                                     | application/json                                        |
+| errors.RefreshMyLinkedInProfileInternalServerError      | 500                                                     | application/json                                        |
+| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
 
 ## getPosts
 
@@ -238,18 +407,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                        | Status Code                                       | Content Type                                      |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| errors.GetMyLinkedInPostsBadRequestError          | 400                                               | application/json                                  |
+| errors.GetMyLinkedInPostsUnauthorizedError        | 401                                               | application/json                                  |
+| errors.GetMyLinkedInPostsForbiddenError           | 403                                               | application/json                                  |
+| errors.GetMyLinkedInPostsNotFoundError            | 404                                               | application/json                                  |
+| errors.GetMyLinkedInPostsConflictError            | 409                                               | application/json                                  |
+| errors.GetMyLinkedInPostsGoneError                | 410                                               | application/json                                  |
+| errors.GetMyLinkedInPostsUnprocessableEntityError | 422                                               | application/json                                  |
+| errors.GetMyLinkedInPostsTooManyRequestsError     | 429                                               | application/json                                  |
+| errors.GetMyLinkedInPostsInternalServerError      | 500                                               | application/json                                  |
+| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
 
 ## getFollowers
 
@@ -322,18 +491,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                            | Status Code                                           | Content Type                                          |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| errors.GetMyLinkedInFollowersBadRequestError          | 400                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersUnauthorizedError        | 401                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersForbiddenError           | 403                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersNotFoundError            | 404                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersConflictError            | 409                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersGoneError                | 410                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersUnprocessableEntityError | 422                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersTooManyRequestsError     | 429                                                   | application/json                                      |
+| errors.GetMyLinkedInFollowersInternalServerError      | 500                                                   | application/json                                      |
+| errors.BereachDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
 
 ## getLimits
 
@@ -399,18 +568,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                 | Status Code                                | Content Type                               |
+| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
+| errors.GetMyLimitsBadRequestError          | 400                                        | application/json                           |
+| errors.GetMyLimitsUnauthorizedError        | 401                                        | application/json                           |
+| errors.GetMyLimitsForbiddenError           | 403                                        | application/json                           |
+| errors.GetMyLimitsNotFoundError            | 404                                        | application/json                           |
+| errors.GetMyLimitsConflictError            | 409                                        | application/json                           |
+| errors.GetMyLimitsGoneError                | 410                                        | application/json                           |
+| errors.GetMyLimitsUnprocessableEntityError | 422                                        | application/json                           |
+| errors.GetMyLimitsTooManyRequestsError     | 429                                        | application/json                           |
+| errors.GetMyLimitsInternalServerError      | 500                                        | application/json                           |
+| errors.BereachDefaultError                 | 4XX, 5XX                                   | \*/\*                                      |
 
 ## getCredits
 
@@ -476,15 +645,331 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                  | Status Code                                 | Content Type                                |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| errors.GetMyCreditsBadRequestError          | 400                                         | application/json                            |
+| errors.GetMyCreditsUnauthorizedError        | 401                                         | application/json                            |
+| errors.GetMyCreditsForbiddenError           | 403                                         | application/json                            |
+| errors.GetMyCreditsNotFoundError            | 404                                         | application/json                            |
+| errors.GetMyCreditsConflictError            | 409                                         | application/json                            |
+| errors.GetMyCreditsGoneError                | 410                                         | application/json                            |
+| errors.GetMyCreditsUnprocessableEntityError | 422                                         | application/json                            |
+| errors.GetMyCreditsTooManyRequestsError     | 429                                         | application/json                            |
+| errors.GetMyCreditsInternalServerError      | 500                                         | application/json                            |
+| errors.BereachDefaultError                  | 4XX, 5XX                                    | \*/\*                                       |
+
+## getProfileViews
+
+Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getLinkedInProfileViews" method="post" path="/analytics/linkedin/profile-views" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getProfileViews({});
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetProfileViews } from "bereach/funcs/profile-get-profile-views.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetProfileViews(bereach, {});
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetProfileViews failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetLinkedInProfileViewsRequest](../../models/operations/get-linked-in-profile-views-request.md)                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetLinkedInProfileViewsResponse](../../models/operations/get-linked-in-profile-views-response.md)\>**
+
+### Errors
+
+| Error Type                                             | Status Code                                            | Content Type                                           |
+| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
+| errors.GetLinkedInProfileViewsBadRequestError          | 400                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsUnauthorizedError        | 401                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsForbiddenError           | 403                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsNotFoundError            | 404                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsConflictError            | 409                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsGoneError                | 410                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsUnprocessableEntityError | 422                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsTooManyRequestsError     | 429                                                    | application/json                                       |
+| errors.GetLinkedInProfileViewsInternalServerError      | 500                                                    | application/json                                       |
+| errors.BereachDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
+
+## getSearchAppearances
+
+Get how many times you appeared in LinkedIn search results and the top keywords that led to your profile. Returns search count, top keywords, and searcher demographics. 1 credit.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getLinkedInSearchAppearances" method="post" path="/analytics/linkedin/search-appearances" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getSearchAppearances({});
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetSearchAppearances } from "bereach/funcs/profile-get-search-appearances.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetSearchAppearances(bereach, {});
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetSearchAppearances failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetLinkedInSearchAppearancesRequest](../../models/operations/get-linked-in-search-appearances-request.md)                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetLinkedInSearchAppearancesResponse](../../models/operations/get-linked-in-search-appearances-response.md)\>**
+
+### Errors
+
+| Error Type                                                  | Status Code                                                 | Content Type                                                |
+| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| errors.GetLinkedInSearchAppearancesBadRequestError          | 400                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesUnauthorizedError        | 401                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesForbiddenError           | 403                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesNotFoundError            | 404                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesConflictError            | 409                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesGoneError                | 410                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesUnprocessableEntityError | 422                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesTooManyRequestsError     | 429                                                         | application/json                                            |
+| errors.GetLinkedInSearchAppearancesInternalServerError      | 500                                                         | application/json                                            |
+| errors.BereachDefaultError                                  | 4XX, 5XX                                                    | \*/\*                                                       |
+
+## getPostAnalytics
+
+Get impressions, engagement, clicks, reactions, comments, and reposts for a LinkedIn post. Combines data from multiple LinkedIn APIs (analytics + social counts). Returns bad_request for invalid post URL. 1 credit.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getLinkedInPostAnalytics" method="post" path="/analytics/linkedin/post" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getPostAnalytics({
+    postUrl: "https://www.linkedin.com/feed/update/urn:li:activity:123",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetPostAnalytics } from "bereach/funcs/profile-get-post-analytics.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetPostAnalytics(bereach, {
+    postUrl: "https://www.linkedin.com/feed/update/urn:li:activity:123",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetPostAnalytics failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetLinkedInPostAnalyticsRequest](../../models/operations/get-linked-in-post-analytics-request.md)                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetLinkedInPostAnalyticsResponse](../../models/operations/get-linked-in-post-analytics-response.md)\>**
+
+### Errors
+
+| Error Type                                              | Status Code                                             | Content Type                                            |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| errors.GetLinkedInPostAnalyticsBadRequestError          | 400                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsUnauthorizedError        | 401                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsForbiddenError           | 403                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsNotFoundError            | 404                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsConflictError            | 409                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsGoneError                | 410                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsUnprocessableEntityError | 422                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsTooManyRequestsError     | 429                                                     | application/json                                        |
+| errors.GetLinkedInPostAnalyticsInternalServerError      | 500                                                     | application/json                                        |
+| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
+
+## getFollowerAnalytics
+
+Get follower demographics and growth data for your LinkedIn profile. Returns follower count, growth trends, and demographic breakdowns. 1 credit.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getLinkedInFollowerAnalytics" method="post" path="/analytics/linkedin/followers" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getFollowerAnalytics({});
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetFollowerAnalytics } from "bereach/funcs/profile-get-follower-analytics.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetFollowerAnalytics(bereach, {});
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetFollowerAnalytics failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetLinkedInFollowerAnalyticsRequest](../../models/operations/get-linked-in-follower-analytics-request.md)                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetLinkedInFollowerAnalyticsResponse](../../models/operations/get-linked-in-follower-analytics-response.md)\>**
+
+### Errors
+
+| Error Type                                                  | Status Code                                                 | Content Type                                                |
+| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| errors.GetLinkedInFollowerAnalyticsBadRequestError          | 400                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsUnauthorizedError        | 401                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsForbiddenError           | 403                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsNotFoundError            | 404                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsConflictError            | 409                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsGoneError                | 410                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsUnprocessableEntityError | 422                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsTooManyRequestsError     | 429                                                         | application/json                                            |
+| errors.GetLinkedInFollowerAnalyticsInternalServerError      | 500                                                         | application/json                                            |
+| errors.BereachDefaultError                                  | 4XX, 5XX                                                    | \*/\*                                                       |

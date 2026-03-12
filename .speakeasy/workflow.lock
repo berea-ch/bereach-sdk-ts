@@ -1,52 +1,39 @@
-speakeasyVersion: 1.741.6
+speakeasyVersion: 1.752.0
 sources:
     BeReach API:
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:a5ddc9b65f71b0aaddddfafc24ff7b35262104791af02d87a60e1d97d4af29f3
-        sourceBlobDigest: sha256:e044cfdb9930092e1ae53f4ef8de77ffecefa20dbe9cf3360319276c6fc23fcf
+        sourceRevisionDigest: sha256:4883cda37d75af9d5ec2cf278926854caf45aaf556927f91b31e979fc0c4b072
+        sourceBlobDigest: sha256:645c246d909123d6e94555bf53ddcadc15b9869f0aed8cb8e6c28dcbd59fd0c7
         tags:
             - latest
-            - 0.1.0
+            - 0.2.0
 targets:
     bereach:
         source: BeReach API
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:a5ddc9b65f71b0aaddddfafc24ff7b35262104791af02d87a60e1d97d4af29f3
-        sourceBlobDigest: sha256:e044cfdb9930092e1ae53f4ef8de77ffecefa20dbe9cf3360319276c6fc23fcf
+        sourceRevisionDigest: sha256:4883cda37d75af9d5ec2cf278926854caf45aaf556927f91b31e979fc0c4b072
+        sourceBlobDigest: sha256:645c246d909123d6e94555bf53ddcadc15b9869f0aed8cb8e6c28dcbd59fd0c7
         codeSamplesNamespace: be-reach-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:7bcb96148256caf510754b20fdd171a417cea2872b16b4aaef64fab213e9e5fc
-    mcp:
-        source: BeReach API
-        sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:a5ddc9b65f71b0aaddddfafc24ff7b35262104791af02d87a60e1d97d4af29f3
-        sourceBlobDigest: sha256:e044cfdb9930092e1ae53f4ef8de77ffecefa20dbe9cf3360319276c6fc23fcf
+        codeSamplesRevisionDigest: sha256:f4a418cc7882c73ebeddb118dc2f8c6a4d671d9eb0847465510102cfe6162718
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
         BeReach API:
             inputs:
-                - location: http://api.berea.ch
+                - location: https://api.berea.ch
             overlays:
                 - location: .speakeasy/speakeasy-modifications-overlay.yaml
             output: .speakeasy/out.openapi.yaml
             registry:
-                location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api
+                location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api
     targets:
         bereach:
             target: typescript
             source: BeReach API
-            output: sdk-ts
-            publish:
-                npm:
-                    token: $npm_token
             codeSamples:
                 registry:
-                    location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api-typescript-code-samples
+                    location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api-typescript-code-samples
                 labelOverride:
                     fixedValue: Typescript (SDK)
                 blocking: false
-        mcp:
-            target: mcp-typescript
-            source: BeReach API
-            output: mcp

@@ -9,7 +9,7 @@ import { GetMyLimitsResponse } from "bereach/models/operations";
 
 let value: GetMyLimitsResponse = {
   success: true,
-  multiplier: 1063.89,
+  multiplier: 3603.21,
   limits: {
     connectionRequest: {
       daily: {
@@ -72,8 +72,8 @@ let value: GetMyLimitsResponse = {
       nextResetWeekly: new Date("2026-12-14T23:31:15.376Z"),
     },
   },
-  creditsUsed: 901544,
-  retryAfter: 656743,
+  creditsUsed: 106389,
+  retryAfter: 901544,
 };
 ```
 
@@ -81,7 +81,7 @@ let value: GetMyLimitsResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `multiplier`                                                                         | *number*                                                                             | :heavy_check_mark:                                                                   | Workspace limit multiplier applied to all base limits (default 1.0)                  |
 | `limits`                                                                             | [operations.Limits](../../models/operations/limits.md)                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `creditsUsed`                                                                        | *number*                                                                             | :heavy_check_mark:                                                                   | Credits consumed by this call (0 for free endpoints, cached results, or duplicates). |

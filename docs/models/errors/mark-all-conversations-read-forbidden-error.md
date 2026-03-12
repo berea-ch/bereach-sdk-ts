@@ -1,0 +1,18 @@
+# MarkAllConversationsReadForbiddenError
+
+The client does not have access rights to the content.
+
+## Example Usage
+
+```typescript
+import { MarkAllConversationsReadForbiddenError } from "bereach/models/errors";
+
+// No examples available for this model
+```
+
+## Fields
+
+| Field                                                                                                                       | Type                                                                                                                        | Required                                                                                                                    | Description                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `success`                                                                                                                   | *false*                                                                                                                     | :heavy_minus_sign:                                                                                                          | N/A                                                                                                                         |
+| `error`                                                                                                                     | [operations.MarkAllConversationsReadForbiddenError](../../models/operations/mark-all-conversations-read-forbidden-error.md) | :heavy_check_mark:                                                                                                          | N/A                                                                                                                         |

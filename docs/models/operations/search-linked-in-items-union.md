@@ -16,17 +16,12 @@ const value: operations.SearchLinkedInItemsPeople[] = [
   {
     type: "PEOPLE",
     name: "<value>",
-    profileUrl: "https://stiff-legislature.com/",
-    headline: null,
+    profileUrl: null,
+    headline: "<value>",
     location: "<value>",
-    profilePicture: "<value>",
-    networkDistance: "DISTANCE_3",
-    currentPositions: [
-      {
-        company: "Hane - Stanton",
-        role: "<value>",
-      },
-    ],
+    profilePicture: null,
+    networkDistance: null,
+    currentPositions: [],
   },
 ];
 ```
@@ -38,11 +33,11 @@ const value: operations.SearchLinkedInItemsCompany[] = [
   {
     type: "COMPANY",
     name: "<value>",
-    profileUrl: "https://uneven-accelerator.biz/",
-    summary: "<value>",
-    industry: null,
+    profileUrl: "https://accomplished-devastation.name",
+    summary: null,
+    industry: "<value>",
     location: "<value>",
-    followersCount: 986086,
+    followersCount: 222308,
   },
 ];
 ```

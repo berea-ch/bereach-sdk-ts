@@ -8,7 +8,7 @@ Endpoints for managing campaigns and workflow filtering
 
 * [~~filter~~](#filter) - Check if campaign actions are completed :warning: **Deprecated**
 * [getStatus](#getstatus) - Query per-profile action status within a campaign
-* [syncActions](#syncactions) - Mark actions as completed without performing them
+* [sync](#sync) - Mark actions as completed without performing them
 * [getStats](#getstats) - Get aggregate campaign statistics
 
 ## ~~filter~~
@@ -84,18 +84,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                    | Status Code                                   | Content Type                                  |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| errors.FilterCampaignBadRequestError          | 400                                           | application/json                              |
+| errors.FilterCampaignUnauthorizedError        | 401                                           | application/json                              |
+| errors.FilterCampaignForbiddenError           | 403                                           | application/json                              |
+| errors.FilterCampaignNotFoundError            | 404                                           | application/json                              |
+| errors.FilterCampaignConflictError            | 409                                           | application/json                              |
+| errors.FilterCampaignGoneError                | 410                                           | application/json                              |
+| errors.FilterCampaignUnprocessableEntityError | 422                                           | application/json                              |
+| errors.FilterCampaignTooManyRequestsError     | 429                                           | application/json                              |
+| errors.FilterCampaignInternalServerError      | 500                                           | application/json                              |
+| errors.BereachDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
 
 ## getStatus
 
@@ -178,20 +178,20 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                       | Status Code                                      | Content Type                                     |
+| ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------ |
+| errors.GetCampaignStatusBadRequestError          | 400                                              | application/json                                 |
+| errors.GetCampaignStatusUnauthorizedError        | 401                                              | application/json                                 |
+| errors.GetCampaignStatusForbiddenError           | 403                                              | application/json                                 |
+| errors.GetCampaignStatusNotFoundError            | 404                                              | application/json                                 |
+| errors.GetCampaignStatusConflictError            | 409                                              | application/json                                 |
+| errors.GetCampaignStatusGoneError                | 410                                              | application/json                                 |
+| errors.GetCampaignStatusUnprocessableEntityError | 422                                              | application/json                                 |
+| errors.GetCampaignStatusTooManyRequestsError     | 429                                              | application/json                                 |
+| errors.GetCampaignStatusInternalServerError      | 500                                              | application/json                                 |
+| errors.BereachDefaultError                       | 4XX, 5XX                                         | \*/\*                                            |
 
-## syncActions
+## sync
 
 Manually mark actions as completed for profiles within a campaign. Use when actions were performed outside the API (e.g. manual DMs) and need to be synced. 0 credits, no rate limit.
 
@@ -206,7 +206,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.campaigns.syncActions({
+  const result = await bereach.campaigns.sync({
     campaignSlug: "<value>",
     body: {
       profiles: [
@@ -233,7 +233,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { campaignsSyncActions } from "bereach/funcs/campaigns-sync-actions.js";
+import { campaignsSync } from "bereach/funcs/campaigns-sync.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -242,7 +242,7 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await campaignsSyncActions(bereach, {
+  const res = await campaignsSync(bereach, {
     campaignSlug: "<value>",
     body: {
       profiles: [
@@ -260,7 +260,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("campaignsSyncActions failed:", res.error);
+    console.log("campaignsSync failed:", res.error);
   }
 }
 
@@ -282,18 +282,18 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                         | Status Code                                        | Content Type                                       |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| errors.SyncCampaignActionsBadRequestError          | 400                                                | application/json                                   |
+| errors.SyncCampaignActionsUnauthorizedError        | 401                                                | application/json                                   |
+| errors.SyncCampaignActionsForbiddenError           | 403                                                | application/json                                   |
+| errors.SyncCampaignActionsNotFoundError            | 404                                                | application/json                                   |
+| errors.SyncCampaignActionsConflictError            | 409                                                | application/json                                   |
+| errors.SyncCampaignActionsGoneError                | 410                                                | application/json                                   |
+| errors.SyncCampaignActionsUnprocessableEntityError | 422                                                | application/json                                   |
+| errors.SyncCampaignActionsTooManyRequestsError     | 429                                                | application/json                                   |
+| errors.SyncCampaignActionsInternalServerError      | 500                                                | application/json                                   |
+| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
 
 ## getStats
 
@@ -364,15 +364,15 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                      | Status Code                                     | Content Type                                    |
+| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| errors.GetCampaignStatsBadRequestError          | 400                                             | application/json                                |
+| errors.GetCampaignStatsUnauthorizedError        | 401                                             | application/json                                |
+| errors.GetCampaignStatsForbiddenError           | 403                                             | application/json                                |
+| errors.GetCampaignStatsNotFoundError            | 404                                             | application/json                                |
+| errors.GetCampaignStatsConflictError            | 409                                             | application/json                                |
+| errors.GetCampaignStatsGoneError                | 410                                             | application/json                                |
+| errors.GetCampaignStatsUnprocessableEntityError | 422                                             | application/json                                |
+| errors.GetCampaignStatsTooManyRequestsError     | 429                                             | application/json                                |
+| errors.GetCampaignStatsInternalServerError      | 500                                             | application/json                                |
+| errors.BereachDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |

@@ -8,7 +8,7 @@ List of LinkedIn people matching the search criteria
 import { SearchLinkedInPeopleResponse } from "bereach/models/operations";
 
 let value: SearchLinkedInPeopleResponse = {
-  success: false,
+  success: true,
   category: "people",
   items: [
     {
@@ -42,7 +42,7 @@ let value: SearchLinkedInPeopleResponse = {
 
 | Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
 | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| `success`                                                                                              | *boolean*                                                                                              | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
+| `success`                                                                                              | *true*                                                                                                 | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
 | `category`                                                                                             | [operations.SearchLinkedInPeopleCategory](../../models/operations/search-linked-in-people-category.md) | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
 | `items`                                                                                                | [operations.SearchLinkedInPeopleItem](../../models/operations/search-linked-in-people-item.md)[]       | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
 | `paging`                                                                                               | [operations.SearchLinkedInPeoplePaging](../../models/operations/search-linked-in-people-paging.md)     | :heavy_check_mark:                                                                                     | N/A                                                                                                    |

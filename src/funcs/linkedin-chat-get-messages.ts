@@ -43,15 +43,15 @@ export function linkedinChatGetMessages(
 ): APIPromise<
   Result<
     operations.GetConversationMessagesResponse,
-    | errors.BadRequestError
-    | errors.UnauthorizedError
-    | errors.ForbiddenError
-    | errors.NotFoundError
-    | errors.ConflictError
-    | errors.GoneError
-    | errors.UnprocessableEntityError
-    | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.GetConversationMessagesBadRequestError
+    | errors.GetConversationMessagesUnauthorizedError
+    | errors.GetConversationMessagesForbiddenError
+    | errors.GetConversationMessagesNotFoundError
+    | errors.GetConversationMessagesConflictError
+    | errors.GetConversationMessagesGoneError
+    | errors.GetConversationMessagesUnprocessableEntityError
+    | errors.GetConversationMessagesTooManyRequestsError
+    | errors.GetConversationMessagesInternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -77,15 +77,15 @@ async function $do(
   [
     Result<
       operations.GetConversationMessagesResponse,
-      | errors.BadRequestError
-      | errors.UnauthorizedError
-      | errors.ForbiddenError
-      | errors.NotFoundError
-      | errors.ConflictError
-      | errors.GoneError
-      | errors.UnprocessableEntityError
-      | errors.TooManyRequestsError
-      | errors.InternalServerError
+      | errors.GetConversationMessagesBadRequestError
+      | errors.GetConversationMessagesUnauthorizedError
+      | errors.GetConversationMessagesForbiddenError
+      | errors.GetConversationMessagesNotFoundError
+      | errors.GetConversationMessagesConflictError
+      | errors.GetConversationMessagesGoneError
+      | errors.GetConversationMessagesUnprocessableEntityError
+      | errors.GetConversationMessagesTooManyRequestsError
+      | errors.GetConversationMessagesInternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -180,15 +180,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetConversationMessagesResponse,
-    | errors.BadRequestError
-    | errors.UnauthorizedError
-    | errors.ForbiddenError
-    | errors.NotFoundError
-    | errors.ConflictError
-    | errors.GoneError
-    | errors.UnprocessableEntityError
-    | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.GetConversationMessagesBadRequestError
+    | errors.GetConversationMessagesUnauthorizedError
+    | errors.GetConversationMessagesForbiddenError
+    | errors.GetConversationMessagesNotFoundError
+    | errors.GetConversationMessagesConflictError
+    | errors.GetConversationMessagesGoneError
+    | errors.GetConversationMessagesUnprocessableEntityError
+    | errors.GetConversationMessagesTooManyRequestsError
+    | errors.GetConversationMessagesInternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -199,15 +199,27 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetConversationMessagesResponse$inboundSchema),
-    M.jsonErr(400, errors.BadRequestError$inboundSchema),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.NotFoundError$inboundSchema),
-    M.jsonErr(409, errors.ConflictError$inboundSchema),
-    M.jsonErr(410, errors.GoneError$inboundSchema),
-    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(400, errors.GetConversationMessagesBadRequestError$inboundSchema),
+    M.jsonErr(
+      401,
+      errors.GetConversationMessagesUnauthorizedError$inboundSchema,
+    ),
+    M.jsonErr(403, errors.GetConversationMessagesForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetConversationMessagesNotFoundError$inboundSchema),
+    M.jsonErr(409, errors.GetConversationMessagesConflictError$inboundSchema),
+    M.jsonErr(410, errors.GetConversationMessagesGoneError$inboundSchema),
+    M.jsonErr(
+      422,
+      errors.GetConversationMessagesUnprocessableEntityError$inboundSchema,
+    ),
+    M.jsonErr(
+      429,
+      errors.GetConversationMessagesTooManyRequestsError$inboundSchema,
+    ),
+    M.jsonErr(
+      500,
+      errors.GetConversationMessagesInternalServerError$inboundSchema,
+    ),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

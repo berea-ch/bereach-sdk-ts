@@ -8,15 +8,27 @@ Paginated list of the user's own posts
 import { GetMyLinkedInPostsResponse } from "bereach/models/operations";
 
 let value: GetMyLinkedInPostsResponse = {
-  success: false,
-  posts: [],
-  count: 401336,
-  total: 836372,
-  start: 950669,
+  success: true,
+  posts: [
+    {
+      postUrl: "https://important-spear.org/",
+      text: "<value>",
+      date: 955226,
+      likesCount: 177127,
+      commentsCount: 505803,
+      sharesCount: 667656,
+      postUrn: "<value>",
+      postId: "<id>",
+      type: "ugcPost",
+    },
+  ],
+  count: 32836,
+  total: 874592,
+  start: 960089,
   hasMore: false,
-  paginationToken: "<value>",
-  creditsUsed: 505803,
-  retryAfter: 667656,
+  paginationToken: null,
+  creditsUsed: 498106,
+  retryAfter: 364748,
 };
 ```
 
@@ -24,7 +36,7 @@ let value: GetMyLinkedInPostsResponse = {
 
 | Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `success`                                                                                     | *boolean*                                                                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `success`                                                                                     | *true*                                                                                        | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `posts`                                                                                       | [operations.GetMyLinkedInPostsPost](../../models/operations/get-my-linked-in-posts-post.md)[] | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `count`                                                                                       | *number*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `total`                                                                                       | *number*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |

@@ -9,26 +9,29 @@ import { SearchLinkedInByUrlResponse } from "bereach/models/operations";
 
 let value: SearchLinkedInByUrlResponse = {
   success: true,
-  category: "jobs",
+  category: "people",
   items: [
     {
-      type: "COMPANY",
-      name: "<value>",
-      profileUrl: "https://quixotic-strait.com",
-      summary: "<value>",
-      industry: "<value>",
+      type: "JOB",
+      title: "<value>",
+      company: "Ondricka and Sons",
+      companyUrl: null,
+      companyLogo: "<value>",
       location: "<value>",
-      followersCount: null,
+      workplaceType: "<value>",
+      postedAt: null,
+      jobUrl: "https://yellowish-tinderbox.biz",
+      listingId: "<id>",
     },
   ],
   paging: {
-    start: 985260,
-    count: 993595,
-    total: 913942,
+    start: 847473,
+    count: 874101,
+    total: 332652,
   },
   hasMore: true,
-  creditsUsed: 847473,
-  retryAfter: 874101,
+  creditsUsed: 539086,
+  retryAfter: 127049,
 };
 ```
 
@@ -36,7 +39,7 @@ let value: SearchLinkedInByUrlResponse = {
 
 | Field                                                                                                 | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
 | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `success`                                                                                             | *boolean*                                                                                             | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `success`                                                                                             | *true*                                                                                                | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `category`                                                                                            | [operations.SearchLinkedInByUrlCategory](../../models/operations/search-linked-in-by-url-category.md) | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `items`                                                                                               | *operations.SearchLinkedInByUrlItemsUnion*                                                            | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `paging`                                                                                              | [operations.SearchLinkedInByUrlPaging](../../models/operations/search-linked-in-by-url-paging.md)     | :heavy_check_mark:                                                                                    | N/A                                                                                                   |

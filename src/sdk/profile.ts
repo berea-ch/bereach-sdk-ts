@@ -3,11 +3,17 @@
  */
 
 import { profileGetCredits } from "../funcs/profile-get-credits.js";
+import { profileGetFollowerAnalytics } from "../funcs/profile-get-follower-analytics.js";
 import { profileGetFollowers } from "../funcs/profile-get-followers.js";
 import { profileGetLimits } from "../funcs/profile-get-limits.js";
-import { profileGetLinkedInProfile } from "../funcs/profile-get-linked-in-profile.js";
+import { profileGetPostAnalytics } from "../funcs/profile-get-post-analytics.js";
 import { profileGetPosts } from "../funcs/profile-get-posts.js";
+import { profileGetProfileViews } from "../funcs/profile-get-profile-views.js";
+import { profileGetSearchAppearances } from "../funcs/profile-get-search-appearances.js";
+import { profileGet } from "../funcs/profile-get.js";
+import { profileListAccounts } from "../funcs/profile-list-accounts.js";
 import { profileRefresh } from "../funcs/profile-refresh.js";
+import { profileUpdateAccount } from "../funcs/profile-update-account.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -19,11 +25,43 @@ export class Profile extends ClientSDK {
    * @remarks
    * Returns the authenticated user's stored LinkedIn profile data from the database. No LinkedIn API call, no credits consumed. Call /me/linkedin/refresh first to populate enriched data (positions, education, etc.).
    */
-  async getLinkedInProfile(
+  async get(
     options?: RequestOptions,
   ): Promise<operations.GetMyLinkedInProfileResponse> {
-    return unwrapAsync(profileGetLinkedInProfile(
+    return unwrapAsync(profileGet(
       this,
+      options,
+    ));
+  }
+
+  /**
+   * List all LinkedIn accounts for the authenticated user
+   *
+   * @remarks
+   * Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to. DB-only endpoint — 0 credits.
+   */
+  async listAccounts(
+    options?: RequestOptions,
+  ): Promise<operations.ListLinkedInAccountsResponse> {
+    return unwrapAsync(profileListAccounts(
+      this,
+      options,
+    ));
+  }
+
+  /**
+   * Update a LinkedIn account (label, default)
+   *
+   * @remarks
+   * Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts. DB-only — 0 credits.
+   */
+  async updateAccount(
+    request: operations.UpdateLinkedInAccountRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UpdateLinkedInAccountResponse> {
+    return unwrapAsync(profileUpdateAccount(
+      this,
+      request,
       options,
     ));
   }
@@ -103,6 +141,74 @@ export class Profile extends ClientSDK {
   ): Promise<operations.GetMyCreditsResponse> {
     return unwrapAsync(profileGetCredits(
       this,
+      options,
+    ));
+  }
+
+  /**
+   * Get profile views
+   *
+   * @remarks
+   * Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
+   */
+  async getProfileViews(
+    request?: operations.GetLinkedInProfileViewsRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetLinkedInProfileViewsResponse> {
+    return unwrapAsync(profileGetProfileViews(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get search appearances
+   *
+   * @remarks
+   * Get how many times you appeared in LinkedIn search results and the top keywords that led to your profile. Returns search count, top keywords, and searcher demographics. 1 credit.
+   */
+  async getSearchAppearances(
+    request?: operations.GetLinkedInSearchAppearancesRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetLinkedInSearchAppearancesResponse> {
+    return unwrapAsync(profileGetSearchAppearances(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get post analytics
+   *
+   * @remarks
+   * Get impressions, engagement, clicks, reactions, comments, and reposts for a LinkedIn post. Combines data from multiple LinkedIn APIs (analytics + social counts). Returns bad_request for invalid post URL. 1 credit.
+   */
+  async getPostAnalytics(
+    request: operations.GetLinkedInPostAnalyticsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetLinkedInPostAnalyticsResponse> {
+    return unwrapAsync(profileGetPostAnalytics(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get follower analytics
+   *
+   * @remarks
+   * Get follower demographics and growth data for your LinkedIn profile. Returns follower count, growth trends, and demographic breakdowns. 1 credit.
+   */
+  async getFollowerAnalytics(
+    request?: operations.GetLinkedInFollowerAnalyticsRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetLinkedInFollowerAnalyticsResponse> {
+    return unwrapAsync(profileGetFollowerAnalytics(
+      this,
+      request,
       options,
     ));
   }

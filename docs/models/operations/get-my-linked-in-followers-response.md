@@ -10,12 +10,12 @@ import { GetMyLinkedInFollowersResponse } from "bereach/models/operations";
 let value: GetMyLinkedInFollowersResponse = {
   success: true,
   followers: [],
-  count: 745854,
-  totalFollowers: 885802,
-  start: 363269,
+  count: 137239,
+  totalFollowers: 745854,
+  start: 885802,
   hasMore: true,
-  creditsUsed: 474294,
-  retryAfter: 99052,
+  creditsUsed: 16446,
+  retryAfter: 474294,
 };
 ```
 
@@ -23,7 +23,7 @@ let value: GetMyLinkedInFollowersResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `followers`                                                                          | [operations.Follower](../../models/operations/follower.md)[]                         | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `count`                                                                              | *number*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `totalFollowers`                                                                     | *number*                                                                             | :heavy_check_mark:                                                                   | Total reported by LinkedIn (capped at ~1000)                                         |

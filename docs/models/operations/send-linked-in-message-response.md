@@ -8,10 +8,10 @@ Message sent successfully
 import { SendLinkedInMessageResponse } from "bereach/models/operations";
 
 let value: SendLinkedInMessageResponse = {
-  success: false,
+  success: true,
   messageId: "<id>",
-  creditsUsed: 985180,
-  retryAfter: 401778,
+  creditsUsed: 764053,
+  retryAfter: 985180,
 };
 ```
 
@@ -19,7 +19,7 @@ let value: SendLinkedInMessageResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `messageId`                                                                          | *string*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `duplicate`                                                                          | *boolean*                                                                            | :heavy_minus_sign:                                                                   | True if this action was already executed for the given campaignSlug + target.        |
 | `creditsUsed`                                                                        | *number*                                                                             | :heavy_check_mark:                                                                   | Credits consumed by this call (0 for free endpoints, cached results, or duplicates). |

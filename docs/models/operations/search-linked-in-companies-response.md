@@ -8,17 +8,27 @@ List of LinkedIn companies matching the search criteria
 import { SearchLinkedInCompaniesResponse } from "bereach/models/operations";
 
 let value: SearchLinkedInCompaniesResponse = {
-  success: false,
+  success: true,
   category: "companies",
-  items: [],
+  items: [
+    {
+      type: "COMPANY",
+      name: "<value>",
+      profileUrl: null,
+      summary: "<value>",
+      industry: "<value>",
+      location: "<value>",
+      followersCount: null,
+    },
+  ],
   paging: {
-    start: 902348,
-    count: 442491,
-    total: 139971,
+    start: 123084,
+    count: 708841,
+    total: 233268,
   },
   hasMore: true,
-  creditsUsed: 123084,
-  retryAfter: 708841,
+  creditsUsed: 133989,
+  retryAfter: 39570,
 };
 ```
 
@@ -26,7 +36,7 @@ let value: SearchLinkedInCompaniesResponse = {
 
 | Field                                                                                                        | Type                                                                                                         | Required                                                                                                     | Description                                                                                                  |
 | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `success`                                                                                                    | *boolean*                                                                                                    | :heavy_check_mark:                                                                                           | N/A                                                                                                          |
+| `success`                                                                                                    | *true*                                                                                                       | :heavy_check_mark:                                                                                           | N/A                                                                                                          |
 | `category`                                                                                                   | [operations.SearchLinkedInCompaniesCategory](../../models/operations/search-linked-in-companies-category.md) | :heavy_check_mark:                                                                                           | N/A                                                                                                          |
 | `items`                                                                                                      | [operations.SearchLinkedInCompaniesItem](../../models/operations/search-linked-in-companies-item.md)[]       | :heavy_check_mark:                                                                                           | N/A                                                                                                          |
 | `paging`                                                                                                     | [operations.SearchLinkedInCompaniesPaging](../../models/operations/search-linked-in-companies-paging.md)     | :heavy_check_mark:                                                                                           | N/A                                                                                                          |

@@ -10,8 +10,8 @@ import { ConnectLinkedInProfileResponse } from "bereach/models/operations";
 let value: ConnectLinkedInProfileResponse = {
   success: true,
   message: "<value>",
-  creditsUsed: 317533,
-  retryAfter: 363811,
+  creditsUsed: 277760,
+  retryAfter: 317533,
 };
 ```
 
@@ -19,7 +19,7 @@ let value: ConnectLinkedInProfileResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `message`                                                                            | *string*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `duplicate`                                                                          | *boolean*                                                                            | :heavy_minus_sign:                                                                   | True if a connection request was already successfully sent to this profile this week |
 | `creditsUsed`                                                                        | *number*                                                                             | :heavy_check_mark:                                                                   | Credits consumed by this call (0 for free endpoints, cached results, or duplicates). |

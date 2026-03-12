@@ -8,16 +8,26 @@ List of replies to the comment
 import { CollectLinkedInCommentRepliesResponse } from "bereach/models/operations";
 
 let value: CollectLinkedInCommentRepliesResponse = {
-  success: false,
-  replies: [],
-  count: 155853,
-  total: 648296,
-  start: 733991,
+  success: true,
+  replies: [
+    {
+      name: "<value>",
+      headline: "<value>",
+      profileUrl: "https://shimmering-finer.com",
+      imageUrl: "https://assured-mountain.com/",
+      type: "comment",
+      timestamp: 928156,
+      knownDistance: 632615,
+    },
+  ],
+  count: 661519,
+  total: 746735,
+  start: 388666,
   hasMore: true,
   parentCommentUrn: "<value>",
-  previousTotal: null,
-  creditsUsed: 887404,
-  retryAfter: 193536,
+  previousTotal: 951747,
+  creditsUsed: 137926,
+  retryAfter: 971878,
 };
 ```
 
@@ -25,7 +35,7 @@ let value: CollectLinkedInCommentRepliesResponse = {
 
 | Field                                                                                                                                                            | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                                                                        | *boolean*                                                                                                                                                        | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |
+| `success`                                                                                                                                                        | *true*                                                                                                                                                           | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |
 | `replies`                                                                                                                                                        | [operations.Reply](../../models/operations/reply.md)[]                                                                                                           | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |
 | `count`                                                                                                                                                          | *number*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |
 | `total`                                                                                                                                                          | *number*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |

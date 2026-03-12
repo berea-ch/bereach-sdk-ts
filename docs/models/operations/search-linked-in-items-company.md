@@ -8,11 +8,11 @@ import { SearchLinkedInItemsCompany } from "bereach/models/operations";
 let value: SearchLinkedInItemsCompany = {
   type: "COMPANY",
   name: "<value>",
-  profileUrl: "https://misguided-unique.org",
-  summary: "<value>",
-  industry: null,
+  profileUrl: "https://weighty-stool.name",
+  summary: null,
+  industry: "<value>",
   location: "<value>",
-  followersCount: 223330,
+  followersCount: 907246,
 };
 ```
 

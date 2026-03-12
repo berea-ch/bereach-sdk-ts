@@ -3,27 +3,19 @@ speakeasyVersion: latest
 sources:
     BeReach API:
         inputs:
-            - location: http://api.berea.ch
+            - location: https://api.berea.ch
         overlays:
             - location: .speakeasy/speakeasy-modifications-overlay.yaml
         output: .speakeasy/out.openapi.yaml
         registry:
-            location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api
+            location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api
 targets:
     bereach:
         target: typescript
         source: BeReach API
-        output: sdk-ts
-        publish:
-            npm:
-                token: $npm_token
         codeSamples:
             registry:
-                location: registry.speakeasyapi.dev/bereach/bereach/be-reach-api-typescript-code-samples
+                location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api-typescript-code-samples
             labelOverride:
                 fixedValue: Typescript (SDK)
             blocking: false
-    mcp:
-        target: mcp-typescript
-        source: BeReach API
-        output: mcp

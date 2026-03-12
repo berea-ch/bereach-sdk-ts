@@ -35,15 +35,15 @@ export function profileGetCredits(
 ): APIPromise<
   Result<
     operations.GetMyCreditsResponse,
-    | errors.BadRequestError
-    | errors.UnauthorizedError
-    | errors.ForbiddenError
-    | errors.NotFoundError
-    | errors.ConflictError
-    | errors.GoneError
-    | errors.UnprocessableEntityError
-    | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.GetMyCreditsBadRequestError
+    | errors.GetMyCreditsUnauthorizedError
+    | errors.GetMyCreditsForbiddenError
+    | errors.GetMyCreditsNotFoundError
+    | errors.GetMyCreditsConflictError
+    | errors.GetMyCreditsGoneError
+    | errors.GetMyCreditsUnprocessableEntityError
+    | errors.GetMyCreditsTooManyRequestsError
+    | errors.GetMyCreditsInternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -67,15 +67,15 @@ async function $do(
   [
     Result<
       operations.GetMyCreditsResponse,
-      | errors.BadRequestError
-      | errors.UnauthorizedError
-      | errors.ForbiddenError
-      | errors.NotFoundError
-      | errors.ConflictError
-      | errors.GoneError
-      | errors.UnprocessableEntityError
-      | errors.TooManyRequestsError
-      | errors.InternalServerError
+      | errors.GetMyCreditsBadRequestError
+      | errors.GetMyCreditsUnauthorizedError
+      | errors.GetMyCreditsForbiddenError
+      | errors.GetMyCreditsNotFoundError
+      | errors.GetMyCreditsConflictError
+      | errors.GetMyCreditsGoneError
+      | errors.GetMyCreditsUnprocessableEntityError
+      | errors.GetMyCreditsTooManyRequestsError
+      | errors.GetMyCreditsInternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -156,15 +156,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetMyCreditsResponse,
-    | errors.BadRequestError
-    | errors.UnauthorizedError
-    | errors.ForbiddenError
-    | errors.NotFoundError
-    | errors.ConflictError
-    | errors.GoneError
-    | errors.UnprocessableEntityError
-    | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.GetMyCreditsBadRequestError
+    | errors.GetMyCreditsUnauthorizedError
+    | errors.GetMyCreditsForbiddenError
+    | errors.GetMyCreditsNotFoundError
+    | errors.GetMyCreditsConflictError
+    | errors.GetMyCreditsGoneError
+    | errors.GetMyCreditsUnprocessableEntityError
+    | errors.GetMyCreditsTooManyRequestsError
+    | errors.GetMyCreditsInternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -175,15 +175,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetMyCreditsResponse$inboundSchema),
-    M.jsonErr(400, errors.BadRequestError$inboundSchema),
-    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.NotFoundError$inboundSchema),
-    M.jsonErr(409, errors.ConflictError$inboundSchema),
-    M.jsonErr(410, errors.GoneError$inboundSchema),
-    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(400, errors.GetMyCreditsBadRequestError$inboundSchema),
+    M.jsonErr(401, errors.GetMyCreditsUnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.GetMyCreditsForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.GetMyCreditsNotFoundError$inboundSchema),
+    M.jsonErr(409, errors.GetMyCreditsConflictError$inboundSchema),
+    M.jsonErr(410, errors.GetMyCreditsGoneError$inboundSchema),
+    M.jsonErr(422, errors.GetMyCreditsUnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.GetMyCreditsTooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.GetMyCreditsInternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

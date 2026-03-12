@@ -22,11 +22,11 @@ const value: operations.SearchLinkedInByUrlItemsCompany[] = [
   {
     type: "COMPANY",
     name: "<value>",
-    profileUrl: "https://insecure-scenario.name",
+    profileUrl: "https://spherical-napkin.info/",
     summary: "<value>",
     industry: "<value>",
     location: "<value>",
-    followersCount: 946934,
+    followersCount: 313868,
   },
 ];
 ```

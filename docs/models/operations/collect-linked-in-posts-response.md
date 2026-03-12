@@ -8,28 +8,28 @@ Paginated list of posts from the profile
 import { CollectLinkedInPostsResponse } from "bereach/models/operations";
 
 let value: CollectLinkedInPostsResponse = {
-  success: false,
+  success: true,
   posts: [
     {
-      postUrl: "https://slight-mousse.net/",
+      postUrl: "https://heartfelt-resource.name",
       text: "<value>",
-      date: 13322,
-      likesCount: 206224,
-      commentsCount: 171386,
-      sharesCount: 1950,
+      date: 715200,
+      likesCount: 13322,
+      commentsCount: 206224,
+      sharesCount: 171386,
       postUrn: "<value>",
       postId: "<id>",
       type: "activity",
     },
   ],
-  count: 120519,
-  total: 841485,
-  start: 865458,
-  hasMore: true,
-  paginationToken: null,
+  count: 178395,
+  total: 120519,
+  start: 841485,
+  hasMore: false,
+  paginationToken: "<value>",
   previousTotal: null,
-  creditsUsed: 653318,
-  retryAfter: 694800,
+  creditsUsed: 79925,
+  retryAfter: 653318,
 };
 ```
 
@@ -37,7 +37,7 @@ let value: CollectLinkedInPostsResponse = {
 
 | Field                                                                                                                                                          | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                                                                      | *boolean*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
+| `success`                                                                                                                                                      | *true*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `posts`                                                                                                                                                        | [operations.CollectLinkedInPostsPost](../../models/operations/collect-linked-in-posts-post.md)[]                                                               | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `count`                                                                                                                                                        | *number*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `total`                                                                                                                                                        | *number*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |

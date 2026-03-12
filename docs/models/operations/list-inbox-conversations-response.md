@@ -8,11 +8,36 @@ Inbox conversations
 import { ListInboxConversationsResponse } from "bereach/models/operations";
 
 let value: ListInboxConversationsResponse = {
-  success: false,
-  conversations: [],
+  success: true,
+  conversations: [
+    {
+      conversationUrn: "<value>",
+      conversationUrl: "https://shabby-premier.org/",
+      lastActivityAt: 884879,
+      createdAt: 420400,
+      read: false,
+      unreadCount: 405506,
+      groupChat: false,
+      participants: [
+        {
+          profileUrn: "<value>",
+          firstName: "Bianka",
+          lastName: "D'Amore",
+          profileUrl: "https://exalted-approach.name",
+          headline: "<value>",
+          profilePicture: "<value>",
+        },
+      ],
+      lastMessage: {
+        text: "<value>",
+        deliveredAt: 386650,
+        senderProfileUrn: "<value>",
+      },
+    },
+  ],
   nextCursor: "<value>",
-  creditsUsed: 700190,
-  retryAfter: 956075,
+  creditsUsed: 326793,
+  retryAfter: 123536,
 };
 ```
 
@@ -20,7 +45,7 @@ let value: ListInboxConversationsResponse = {
 
 | Field                                                                                                               | Type                                                                                                                | Required                                                                                                            | Description                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                           | *boolean*                                                                                                           | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
+| `success`                                                                                                           | *true*                                                                                                              | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `conversations`                                                                                                     | [operations.ListInboxConversationsConversation](../../models/operations/list-inbox-conversations-conversation.md)[] | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `nextCursor`                                                                                                        | *string*                                                                                                            | :heavy_check_mark:                                                                                                  | Cursor for fetching next page                                                                                       |
 | `creditsUsed`                                                                                                       | *number*                                                                                                            | :heavy_check_mark:                                                                                                  | Credits consumed by this call (0 for free endpoints, cached results, or duplicates).                                |

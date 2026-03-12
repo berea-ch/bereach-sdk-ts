@@ -5,7 +5,7 @@
 import { campaignsFilter } from "../funcs/campaigns-filter.js";
 import { campaignsGetStats } from "../funcs/campaigns-get-stats.js";
 import { campaignsGetStatus } from "../funcs/campaigns-get-status.js";
-import { campaignsSyncActions } from "../funcs/campaigns-sync-actions.js";
+import { campaignsSync } from "../funcs/campaigns-sync.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -53,11 +53,11 @@ export class Campaigns extends ClientSDK {
    * @remarks
    * Manually mark actions as completed for profiles within a campaign. Use when actions were performed outside the API (e.g. manual DMs) and need to be synced. 0 credits, no rate limit.
    */
-  async syncActions(
+  async sync(
     request: operations.SyncCampaignActionsRequest,
     options?: RequestOptions,
   ): Promise<operations.SyncCampaignActionsResponse> {
-    return unwrapAsync(campaignsSyncActions(
+    return unwrapAsync(campaignsSync(
       this,
       request,
       options,

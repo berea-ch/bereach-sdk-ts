@@ -8,7 +8,7 @@ Resolved search parameter items
 import { ResolveLinkedInSearchParametersResponse } from "bereach/models/operations";
 
 let value: ResolveLinkedInSearchParametersResponse = {
-  success: false,
+  success: true,
   items: [
     {
       id: "<id>",
@@ -16,9 +16,9 @@ let value: ResolveLinkedInSearchParametersResponse = {
       type: "<value>",
     },
   ],
-  count: 970892,
-  creditsUsed: 960732,
-  retryAfter: 104643,
+  count: 887158,
+  creditsUsed: 970892,
+  retryAfter: 960732,
 };
 ```
 
@@ -26,7 +26,7 @@ let value: ResolveLinkedInSearchParametersResponse = {
 
 | Field                                                                                                                   | Type                                                                                                                    | Required                                                                                                                | Description                                                                                                             |
 | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                               | *boolean*                                                                                                               | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
+| `success`                                                                                                               | *true*                                                                                                                  | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
 | `items`                                                                                                                 | [operations.ResolveLinkedInSearchParametersItem](../../models/operations/resolve-linked-in-search-parameters-item.md)[] | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
 | `count`                                                                                                                 | *number*                                                                                                                | :heavy_check_mark:                                                                                                      | N/A                                                                                                                     |
 | `creditsUsed`                                                                                                           | *number*                                                                                                                | :heavy_check_mark:                                                                                                      | Credits consumed by this call (0 for free endpoints, cached results, or duplicates).                                    |

@@ -1,0 +1,21 @@
+# SaveLinkedInPostConflictError
+
+## Example Usage
+
+```typescript
+import { SaveLinkedInPostConflictError } from "bereach/models/operations";
+
+let value: SaveLinkedInPostConflictError = {
+  code: "<value>",
+  message: "<value>",
+};
+```
+
+## Fields
+
+| Field                                        | Type                                         | Required                                     | Description                                  |
+| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| `code`                                       | *string*                                     | :heavy_check_mark:                           | N/A                                          |
+| `message`                                    | *string*                                     | :heavy_check_mark:                           | N/A                                          |
+| `docs`                                       | *string*                                     | :heavy_minus_sign:                           | N/A                                          |
+| `details`                                    | *operations.SaveLinkedInPostConflictDetails* | :heavy_minus_sign:                           | N/A                                          |

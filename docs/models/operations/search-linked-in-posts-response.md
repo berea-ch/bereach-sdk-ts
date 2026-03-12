@@ -10,35 +10,15 @@ import { SearchLinkedInPostsResponse } from "bereach/models/operations";
 let value: SearchLinkedInPostsResponse = {
   success: true,
   category: "posts",
-  items: [
-    {
-      type: "POST",
-      postUrl: "https://mature-making.name",
-      text: "<value>",
-      date: 682361,
-      likesCount: 39530,
-      commentsCount: 407238,
-      sharesCount: 376548,
-      postUrn: "<value>",
-      postId: "<id>",
-      author: {
-        name: "<value>",
-        profileUrl: "https://svelte-sport.name/",
-        headline: "<value>",
-        profilePicture: "<value>",
-        isCompany: true,
-      },
-      isRepost: true,
-    },
-  ],
+  items: [],
   paging: {
-    start: 11792,
-    count: 452366,
-    total: 225663,
+    start: 738455,
+    count: 537600,
+    total: 501889,
   },
-  hasMore: true,
-  creditsUsed: 477463,
-  retryAfter: 509810,
+  hasMore: false,
+  creditsUsed: 514601,
+  retryAfter: 682361,
 };
 ```
 
@@ -46,7 +26,7 @@ let value: SearchLinkedInPostsResponse = {
 
 | Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
 | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `success`                                                                                            | *boolean*                                                                                            | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
+| `success`                                                                                            | *true*                                                                                               | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 | `category`                                                                                           | [operations.SearchLinkedInPostsCategory](../../models/operations/search-linked-in-posts-category.md) | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 | `items`                                                                                              | [operations.SearchLinkedInPostsItem](../../models/operations/search-linked-in-posts-item.md)[]       | :heavy_check_mark:                                                                                   | N/A                                                                                                  |
 | `paging`                                                                                             | [operations.SearchLinkedInPostsPaging](../../models/operations/search-linked-in-posts-paging.md)     | :heavy_check_mark:                                                                                   | N/A                                                                                                  |

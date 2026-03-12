@@ -7,7 +7,7 @@ import { ListInboxConversationsLastMessage } from "bereach/models/operations";
 
 let value: ListInboxConversationsLastMessage = {
   text: "<value>",
-  deliveredAt: 174260,
+  deliveredAt: 362507,
   senderProfileUrn: "<value>",
 };
 ```

@@ -8,17 +8,17 @@ Search results for the specified category
 import { SearchLinkedInResponse } from "bereach/models/operations";
 
 let value: SearchLinkedInResponse = {
-  success: false,
+  success: true,
   category: "companies",
   items: [],
   paging: {
-    start: 746156,
-    count: 243245,
-    total: 826762,
+    start: 436162,
+    count: 746156,
+    total: 243245,
   },
-  hasMore: true,
-  creditsUsed: 852821,
-  retryAfter: 28235,
+  hasMore: false,
+  creditsUsed: 391662,
+  retryAfter: 852821,
 };
 ```
 
@@ -26,7 +26,7 @@ let value: SearchLinkedInResponse = {
 
 | Field                                                                                                               | Type                                                                                                                | Required                                                                                                            | Description                                                                                                         |
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                           | *boolean*                                                                                                           | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
+| `success`                                                                                                           | *true*                                                                                                              | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `category`                                                                                                          | [operations.SearchLinkedInCategoryResponseBody](../../models/operations/search-linked-in-category-response-body.md) | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `items`                                                                                                             | *operations.SearchLinkedInItemsUnion*                                                                               | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |
 | `paging`                                                                                                            | [operations.SearchLinkedInPaging](../../models/operations/search-linked-in-paging.md)                               | :heavy_check_mark:                                                                                                  | N/A                                                                                                                 |

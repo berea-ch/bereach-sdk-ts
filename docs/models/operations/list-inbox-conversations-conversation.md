@@ -18,14 +18,14 @@ let value: ListInboxConversationsConversation = {
       profileUrn: "<value>",
       firstName: "Bianka",
       lastName: "D'Amore",
-      profileUrl: "https://tedious-designation.com",
+      profileUrl: "https://exalted-approach.name",
       headline: "<value>",
       profilePicture: "<value>",
     },
   ],
   lastMessage: {
     text: "<value>",
-    deliveredAt: 597678,
+    deliveredAt: 386650,
     senderProfileUrn: "<value>",
   },
 };

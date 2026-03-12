@@ -8,15 +8,25 @@ List of profiles who commented on the post
 import { CollectLinkedInCommentsResponse } from "bereach/models/operations";
 
 let value: CollectLinkedInCommentsResponse = {
-  success: false,
-  profiles: [],
-  count: 853984,
-  total: 624085,
-  start: 973146,
-  hasMore: false,
-  previousTotal: 169900,
-  creditsUsed: 794736,
-  retryAfter: 549835,
+  success: true,
+  profiles: [
+    {
+      name: "<value>",
+      headline: "<value>",
+      profileUrl: "https://winged-term.biz",
+      imageUrl: "https://neighboring-tuba.biz",
+      type: "comment",
+      timestamp: 549293,
+      knownDistance: 242256,
+    },
+  ],
+  count: 563108,
+  total: 89619,
+  start: 526427,
+  hasMore: true,
+  previousTotal: 701385,
+  creditsUsed: 4313,
+  retryAfter: 143921,
 };
 ```
 
@@ -24,7 +34,7 @@ let value: CollectLinkedInCommentsResponse = {
 
 | Field                                                                                                                                                          | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                                                                      | *boolean*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
+| `success`                                                                                                                                                      | *true*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `profiles`                                                                                                                                                     | [operations.CollectLinkedInCommentsProfile](../../models/operations/collect-linked-in-comments-profile.md)[]                                                   | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `count`                                                                                                                                                        | *number*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
 | `total`                                                                                                                                                        | *number*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |

@@ -9,8 +9,8 @@ import { ReplyToLinkedInCommentResponse } from "bereach/models/operations";
 
 let value: ReplyToLinkedInCommentResponse = {
   success: true,
-  creditsUsed: 683276,
-  retryAfter: 180960,
+  creditsUsed: 208821,
+  retryAfter: 683276,
 };
 ```
 
@@ -18,7 +18,7 @@ let value: ReplyToLinkedInCommentResponse = {
 
 | Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `success`                                                                            | *boolean*                                                                            | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `success`                                                                            | *true*                                                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |
 | `replyUrn`                                                                           | *string*                                                                             | :heavy_minus_sign:                                                                   | URN of the created reply comment                                                     |
 | `duplicate`                                                                          | *boolean*                                                                            | :heavy_minus_sign:                                                                   | True if this action was already executed for the given campaignSlug + target.        |
 | `creditsUsed`                                                                        | *number*                                                                             | :heavy_check_mark:                                                                   | Credits consumed by this call (0 for free endpoints, cached results, or duplicates). |

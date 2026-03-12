@@ -9,17 +9,12 @@ import { CollectLinkedInLikesResponse } from "bereach/models/operations";
 
 let value: CollectLinkedInLikesResponse = {
   success: true,
-  profiles: [
-    {
-      name: "<value>",
-      type: "like",
-    },
-  ],
-  count: 686642,
-  total: 854826,
-  start: 487665,
+  profiles: [],
+  count: 596250,
+  total: 686642,
+  start: 854826,
   hasMore: true,
-  previousTotal: null,
+  previousTotal: 61722,
   creditsUsed: 924518,
   retryAfter: 967238,
 };
@@ -29,7 +24,7 @@ let value: CollectLinkedInLikesResponse = {
 
 | Field                                                                                                                                                       | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `success`                                                                                                                                                   | *boolean*                                                                                                                                                   | :heavy_check_mark:                                                                                                                                          | N/A                                                                                                                                                         |
+| `success`                                                                                                                                                   | *true*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                          | N/A                                                                                                                                                         |
 | `profiles`                                                                                                                                                  | [operations.CollectLinkedInLikesProfile](../../models/operations/collect-linked-in-likes-profile.md)[]                                                      | :heavy_check_mark:                                                                                                                                          | N/A                                                                                                                                                         |
 | `count`                                                                                                                                                     | *number*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                          | N/A                                                                                                                                                         |
 | `total`                                                                                                                                                     | *number*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                          | N/A                                                                                                                                                         |

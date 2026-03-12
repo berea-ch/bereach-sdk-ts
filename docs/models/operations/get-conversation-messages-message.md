@@ -8,12 +8,12 @@ import { GetConversationMessagesMessage } from "bereach/models/operations";
 let value: GetConversationMessagesMessage = {
   messageUrn: "<value>",
   text: "<value>",
-  deliveredAt: 121889,
+  deliveredAt: 573952,
   senderProfileUrn: "<value>",
   sender: {
-    firstName: "Kieran",
-    lastName: "Jenkins",
-    profileUrl: "https://speedy-schnitzel.com",
+    firstName: "Paxton",
+    lastName: "Zboncak",
+    profileUrl: "https://altruistic-metabolite.net",
     headline: "<value>",
     profilePicture: "<value>",
   },

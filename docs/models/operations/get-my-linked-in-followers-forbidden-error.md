@@ -1,0 +1,21 @@
+# GetMyLinkedInFollowersForbiddenError
+
+## Example Usage
+
+```typescript
+import { GetMyLinkedInFollowersForbiddenError } from "bereach/models/operations";
+
+let value: GetMyLinkedInFollowersForbiddenError = {
+  code: "<value>",
+  message: "<value>",
+};
+```
+
+## Fields
+
+| Field                                               | Type                                                | Required                                            | Description                                         |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| `code`                                              | *string*                                            | :heavy_check_mark:                                  | N/A                                                 |
+| `message`                                           | *string*                                            | :heavy_check_mark:                                  | N/A                                                 |
+| `docs`                                              | *string*                                            | :heavy_minus_sign:                                  | N/A                                                 |
+| `details`                                           | *operations.GetMyLinkedInFollowersForbiddenDetails* | :heavy_minus_sign:                                  | N/A                                                 |

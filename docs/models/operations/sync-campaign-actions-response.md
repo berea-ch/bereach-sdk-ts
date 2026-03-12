@@ -9,18 +9,9 @@ import { SyncCampaignActionsResponse } from "bereach/models/operations";
 
 let value: SyncCampaignActionsResponse = {
   success: true,
-  synced: [
-    {
-      profile: "<value>",
-      actions: {
-        "key": true,
-        "key1": false,
-        "key2": false,
-      },
-    },
-  ],
-  creditsUsed: 780625,
-  retryAfter: 735917,
+  synced: [],
+  creditsUsed: 872358,
+  retryAfter: 780625,
 };
 ```
 
@@ -28,7 +19,7 @@ let value: SyncCampaignActionsResponse = {
 
 | Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        |
 | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `success`                                                                          | *boolean*                                                                          | :heavy_check_mark:                                                                 | N/A                                                                                |
+| `success`                                                                          | *true*                                                                             | :heavy_check_mark:                                                                 | N/A                                                                                |
 | `synced`                                                                           | [operations.Synced](../../models/operations/synced.md)[]                           | :heavy_check_mark:                                                                 | N/A                                                                                |
 | `creditsUsed`                                                                      | *number*                                                                           | :heavy_check_mark:                                                                 | Credits consumed by this call (always 0 for campaign queries).                     |
 | `retryAfter`                                                                       | *number*                                                                           | :heavy_check_mark:                                                                 | Seconds to wait before next call of the same type (always 0 for campaign queries). |

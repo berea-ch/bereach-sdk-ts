@@ -8,8 +8,8 @@ import { FindLinkedInConversationSender } from "bereach/models/operations";
 let value: FindLinkedInConversationSender = {
   firstName: "Rubye",
   lastName: "Davis",
-  profileUrl: "https://weary-character.biz/",
-  headline: null,
+  profileUrl: "https://cooperative-daddy.com",
+  headline: "<value>",
   profilePicture: "<value>",
 };
 ```
