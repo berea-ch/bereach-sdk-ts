@@ -14,7 +14,7 @@ targets:
         sourceRevisionDigest: sha256:6dbfc584a12d63dbdd4091bf703bdfd22cd647bbf64bf97a5d2a93d1bee64901
         sourceBlobDigest: sha256:b43e1303e1f2c7eb3795ad8982d53dde342349e50858f5b38422f12f4a6cf8b4
         codeSamplesNamespace: be-reach-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:5b3a8e218e3b154f8cb0bd2a53437cfbebe8abf1abb6f6d35ccee238aeb67c08
+        codeSamplesRevisionDigest: sha256:9d72a0d6b2fc95141045de625e282add9e48dcb26143aa8a47611fd42442805b
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -31,6 +31,9 @@ workflow:
         bereach:
             target: typescript
             source: BeReach API
+            publish:
+                npm:
+                    token: $npm_token
             codeSamples:
                 registry:
                     location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api-typescript-code-samples
