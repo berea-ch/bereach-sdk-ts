@@ -43,6 +43,10 @@
     }
   },
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berea-ch/bereach-sdk-ts.git"
+  },
   "scripts": {
     "lint": "oxlint --max-warnings=0 --deny-warnings 'src/**/*.{ts,tsx}'",
     "build": "tsgo",
