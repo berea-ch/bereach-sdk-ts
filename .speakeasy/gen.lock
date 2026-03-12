@@ -5,14 +5,14 @@ management:
   docVersion: 0.2.0
   speakeasyVersion: 1.752.0
   generationVersion: 2.859.2
-  releaseVersion: 1.2.0
-  configChecksum: 5b83e97e9c1f6878e2ca50c5d50dbb4b
+  releaseVersion: 1.2.2
+  configChecksum: 5344d4f0def7b715030e90c4ad71ee28
   repoURL: https://github.com/berea-ch/bereach-sdk-ts.git
   installationURL: https://github.com/berea-ch/bereach-sdk-ts
 persistentEdits:
-  generation_id: f117850e-eade-40c8-8497-c3f012257cb2
-  pristine_commit_hash: f5190224ca2002321d4b592459380aea69016243
-  pristine_tree_hash: 25b9d71fe62e54c10e62b568e29f485ffdfc1bd2
+  generation_id: 31d2a337-8560-4e32-8c16-dc20e25533bd
+  pristine_commit_hash: 2e20ef667c7d1a142b7affe41bb8ec70c28a0777
+  pristine_tree_hash: c76e9fcb776e931fc3362fd31c4dfc5d04233988
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -10675,12 +10675,12 @@ trackedFiles:
     pristine_git_object: d22023452f5c34df564e1a2f20071d483b9dde0d
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:9abb098b55dcbf54e380cc2c1408740c79a71ec1
-    pristine_git_object: 16699fcff22b2af4117165eff25a7375f6f11014
+    last_write_checksum: sha1:beb3b8c3a7f7bd08a414e4134cb76c6d85f13a57
+    pristine_git_object: 074303987a05facc7c060237ed6acf99e51f5ac2
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:94a75f603f57d4a7fa1654522d0ae1f2f359f342
-    pristine_git_object: 148a9c1249702c1d0aefa5419851b3f6a5bc963b
+    last_write_checksum: sha1:e4016351c2dea91db6e76ef621ab2038cb810790
+    pristine_git_object: e7f0243ad203e246810c01ea7d81298341819dff
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:dd9b2e9e929a42b051e9eef718f9fcece32c717a
@@ -11023,8 +11023,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:4ccae1fae9005a696a86b074b4ca7264546e70a8
-    pristine_git_object: 18de66c9e35160812bd531cafce6e859b2f479ed
+    last_write_checksum: sha1:5176a0515164d3050f7ac4484afa997751aa16c5
+    pristine_git_object: 9162f0df8a682216bde596caa2cc27f1dd9683ff
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -13864,163 +13864,3 @@ examples:
         "201":
           application/json: {"success": true, "results": {"created": 447633, "updated": 897450, "skipped": 690225, "errors": ["<value 1>", "<value 2>", "<value 3>"]}, "contacts": [{"id": "<id>", "linkedinUrl": "https://tricky-possession.biz", "name": "<value>", "lifecycleStage": "<value>", "hotScore": 952493, "qualificationNotes": null, "notes": "<value>", "stageChangedAt": "<value>", "profileData": "<value>", "profileUpdatedAt": "<value>", "conversationData": "<value>", "conversationUpdatedAt": "<value>", "outreachStatus": "<value>", "lastContactedAt": "<value>", "lastRepliedAt": "<value>", "nextFollowUpAt": "<value>", "doNotContact": true, "tags": ["<value 1>"], "createdAt": "1717146852520", "updatedAt": "1735657490562"}], "creditsUsed": 498021, "retryAfter": 162724}
 examplesVersion: 1.0.2
-releaseNotes: |
-  ## Typescript SDK Changes:
-  * `bereach.linkedinScrapers.collectLikes()`: **Added**
-  * `bereach.linkedinScrapers.collectComments()`: **Added**
-  * `bereach.linkedinScrapers.visitCompany()`: **Added**
-  * `bereach.linkedinScrapers.listSavedPosts()`: **Added**
-  * `bereach.linkedinScrapers.collectHashtagPosts()`: **Added**
-  * `bereach.linkedInScrapers.collectCommentReplies()`: **Added**
-  * `bereach.linkedInScrapers.getFeed()`: **Added**
-  * `bereach.scrapers.collectPosts()`: **Added**
-  * `bereach.scrapers.visitProfile()`: **Added**
-  * `bereach.linkedInSearch.search()`: **Added**
-  * `bereach.linkedInSearch.searchCompanies()`: **Added**
-  * `bereach.linkedInSearch.resolveParameters()`: **Added**
-  * `bereach.linkedinSearch.searchPosts()`: **Added**
-  * `bereach.linkedinSearch.searchPeople()`: **Added**
-  * `bereach.linkedinSearch.searchJobs()`: **Added**
-  * `bereach.linkedinSearch.searchByUrl()`: **Added**
-  * `bereach.salesNavigatorSearch.search()`: **Added**
-  * `bereach.salesNavigatorSearch.searchCompanies()`: **Added**
-  * `bereach.salesNav.searchPeople()`: **Added**
-  * `bereach.actions.connectProfile()`: **Added**
-  * `bereach.actions.sendMessage()`: **Added**
-  * `bereach.actions.listSentInvitations()`: **Added**
-  * `bereach.actions.followCompany()`: **Added**
-  * `bereach.linkedinActions.listInvitations()`: **Added**
-  * `bereach.linkedinActions.acceptInvitation()`: **Added**
-  * `bereach.linkedinActions.replyToComment()`: **Added**
-  * `bereach.linkedinActions.likePost()`: **Added**
-  * `bereach.linkedinActions.withdrawInvitation()`: **Added**
-  * `bereach.linkedinActions.followProfile()`: **Added**
-  * `bereach.linkedinActions.editPost()`: **Added**
-  * `bereach.linkedinActions.editComment()`: **Added**
-  * `bereach.linkedinActions.repostPost()`: **Added**
-  * `bereach.linkedinActions.unlikePost()`: **Added**
-  * `bereach.linkedinActions.unlikeComment()`: **Added**
-  * `bereach.linkedinActions.unsavePost()`: **Added**
-  * `bereach.linkedinActions.unfollowCompany()`: **Added**
-  * `bereach.linkedInActions.likeComment()`: **Added**
-  * `bereach.linkedInActions.publishPost()`: **Added**
-  * `bereach.linkedInActions.createComment()`: **Added**
-  * `bereach.linkedInActions.declineInvitation()`: **Added**
-  * `bereach.linkedInActions.unfollowProfile()`: **Added**
-  * `bereach.linkedInActions.savePost()`: **Added**
-  * `bereach.profile.get()`: **Added**
-  * `bereach.profile.listAccounts()`: **Added**
-  * `bereach.profile.updateAccount()`: **Added**
-  * `bereach.profile.refresh()`: **Added**
-  * `bereach.profile.getPosts()`: **Added**
-  * `bereach.profile.getFollowers()`: **Added**
-  * `bereach.profile.getLimits()`: **Added**
-  * `bereach.profile.getCredits()`: **Added**
-  * `bereach.profile.getProfileViews()`: **Added**
-  * `bereach.profile.getSearchAppearances()`: **Added**
-  * `bereach.profile.getPostAnalytics()`: **Added**
-  * `bereach.profile.getFollowerAnalytics()`: **Added**
-  * `bereach.companyPages.list()`: **Added**
-  * `bereach.companyPages.getPosts()`: **Added**
-  * `bereach.companyPages.getPermissions()`: **Added**
-  * `bereach.companyPages.getAnalytics()`: **Added**
-  * `bereach.linkedinChat.listInboxConversations()`: **Added**
-  * `bereach.linkedinChat.getMessages()`: **Added**
-  * `bereach.linkedinChat.markAllRead()`: **Added**
-  * `bereach.linkedinChat.listArchived()`: **Added**
-  * `bereach.linkedinChat.react()`: **Added**
-  * `bereach.linkedinChat.sendTypingIndicator()`: **Added**
-  * `bereach.linkedinChat.getUnreadCount()`: **Added**
-  * `bereach.chat.searchConversations()`: **Added**
-  * `bereach.chat.findConversation()`: **Added**
-  * `bereach.chat.archive()`: **Added**
-  * `bereach.chat.unreact()`: **Added**
-  * `bereach.linkedInChat.markSeen()`: **Added**
-  * `bereach.linkedInChat.star()`: **Added**
-  * `bereach.linkedInChat.unstar()`: **Added**
-  * `bereach.linkedInChat.listStarred()`: **Added**
-  * `bereach.linkedInChat.unarchive()`: **Added**
-  * `bereach.campaigns.filter()`: **Added**
-  * `bereach.campaigns.getStatus()`: **Added**
-  * `bereach.campaigns.sync()`: **Added**
-  * `bereach.campaigns.getStats()`: **Added**
-  * `bereach.contacts.upsert()`: **Added**
-  * `bereach.linkedInScrapers.collectLinkedInLikes()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.collectLinkedInComments()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.collectLinkedInCommentReplies()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.collectLinkedInPosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.visitLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.visitLinkedInCompany()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.collectSavedLinkedInPosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.getLinkedInFeed()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInScrapers.collectLinkedInHashtagPosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedIn()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedInPosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedInPeople()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedInCompanies()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedInJobs()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.searchLinkedInByUrl()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInSearch.resolveLinkedInSearchParameters()`: **Removed** (Breaking ⚠️)
-  * `bereach.salesNavigatorSearch.searchSalesNav()`: **Removed** (Breaking ⚠️)
-  * `bereach.salesNavigatorSearch.searchSalesNavPeople()`: **Removed** (Breaking ⚠️)
-  * `bereach.salesNavigatorSearch.searchSalesNavCompanies()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.connectLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.listLinkedInInvitations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.acceptLinkedInInvitation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.sendLinkedInMessage()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.replyToLinkedInComment()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.likeLinkedInComment()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.publishLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.commentOnLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.likeLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.declineLinkedInInvitation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.listSentLinkedInInvitations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.withdrawLinkedInInvitation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.followLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.unfollowLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.editLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.editLinkedInComment()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.repostLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.unlikeLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.unlikeLinkedInComment()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.saveLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.unsaveLinkedInPost()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.followLinkedInCompany()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInActions.unfollowLinkedInCompany()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getMyLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.listLinkedInAccounts()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.updateLinkedInAccount()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.refreshMyLinkedInProfile()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getMyLinkedInPosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getMyLinkedInFollowers()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getMyLimits()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getMyCredits()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getLinkedInProfileViews()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getLinkedInSearchAppearances()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getLinkedInPostAnalytics()`: **Removed** (Breaking ⚠️)
-  * `bereach.profile.getLinkedInFollowerAnalytics()`: **Removed** (Breaking ⚠️)
-  * `bereach.companyPages.listLinkedInCompanyPages()`: **Removed** (Breaking ⚠️)
-  * `bereach.companyPages.getCompanyPagePosts()`: **Removed** (Breaking ⚠️)
-  * `bereach.companyPages.getCompanyPagePermissions()`: **Removed** (Breaking ⚠️)
-  * `bereach.companyPages.getCompanyPageAnalytics()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.listInboxConversations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.searchLinkedInConversations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.findLinkedInConversation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.getConversationMessages()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.markConversationSeen()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.markAllConversationsRead()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.starConversation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.unstarConversation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.listStarredConversations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.archiveConversation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.unarchiveConversation()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.listArchivedConversations()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.reactToMessage()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.unreactToMessage()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.sendTypingIndicator()`: **Removed** (Breaking ⚠️)
-  * `bereach.linkedInChat.getUnreadCount()`: **Removed** (Breaking ⚠️)
-  * `bereach.campaigns.filterCampaign()`: **Removed** (Breaking ⚠️)
-  * `bereach.campaigns.getCampaignStatus()`: **Removed** (Breaking ⚠️)
-  * `bereach.campaigns.syncCampaignActions()`: **Removed** (Breaking ⚠️)
-  * `bereach.campaigns.getCampaignStats()`: **Removed** (Breaking ⚠️)
-  * `bereach.contacts.upsertContacts()`: **Removed** (Breaking ⚠️)
