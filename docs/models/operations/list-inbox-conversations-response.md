@@ -26,11 +26,12 @@ let value: ListInboxConversationsResponse = {
           profileUrl: "https://exalted-approach.name",
           headline: "<value>",
           profilePicture: "<value>",
+          publicIdentifier: "<value>",
         },
       ],
       lastMessage: {
         text: "<value>",
-        deliveredAt: 386650,
+        deliveredAt: 394931,
         senderProfileUrn: "<value>",
       },
     },

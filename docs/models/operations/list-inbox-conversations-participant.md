@@ -12,6 +12,7 @@ let value: ListInboxConversationsParticipant = {
   profileUrl: "https://second-almighty.com",
   headline: "<value>",
   profilePicture: "<value>",
+  publicIdentifier: "<value>",
 };
 ```
 
@@ -25,3 +26,4 @@ let value: ListInboxConversationsParticipant = {
 | `profileUrl`       | *string*           | :heavy_check_mark: | N/A                |
 | `headline`         | *string*           | :heavy_check_mark: | N/A                |
 | `profilePicture`   | *string*           | :heavy_check_mark: | N/A                |
+| `publicIdentifier` | *string*           | :heavy_check_mark: | N/A                |

@@ -12,6 +12,8 @@ let value: FromMember = {
   headline: "<value>",
   profileUrl: null,
   profilePicture: "<value>",
+  publicIdentifier: "<value>",
+  profileUrn: "<value>",
 };
 ```
 
@@ -23,3 +25,5 @@ let value: FromMember = {
 | `headline`         | *string*           | :heavy_check_mark: | N/A                |
 | `profileUrl`       | *string*           | :heavy_check_mark: | N/A                |
 | `profilePicture`   | *string*           | :heavy_check_mark: | N/A                |
+| `publicIdentifier` | *string*           | :heavy_check_mark: | N/A                |
+| `profileUrn`       | *string*           | :heavy_check_mark: | N/A                |

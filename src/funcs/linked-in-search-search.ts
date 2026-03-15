@@ -76,15 +76,15 @@ export function linkedInSearchSearch(
 ): APIPromise<
   Result<
     operations.SearchLinkedInResponse,
-    | errors.SearchLinkedInBadRequestError
-    | errors.SearchLinkedInUnauthorizedError
-    | errors.SearchLinkedInForbiddenError
-    | errors.SearchLinkedInNotFoundError
-    | errors.SearchLinkedInConflictError
-    | errors.SearchLinkedInGoneError
-    | errors.SearchLinkedInUnprocessableEntityError
-    | errors.SearchLinkedInTooManyRequestsError
-    | errors.SearchLinkedInInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -110,15 +110,15 @@ async function $do(
   [
     Result<
       operations.SearchLinkedInResponse,
-      | errors.SearchLinkedInBadRequestError
-      | errors.SearchLinkedInUnauthorizedError
-      | errors.SearchLinkedInForbiddenError
-      | errors.SearchLinkedInNotFoundError
-      | errors.SearchLinkedInConflictError
-      | errors.SearchLinkedInGoneError
-      | errors.SearchLinkedInUnprocessableEntityError
-      | errors.SearchLinkedInTooManyRequestsError
-      | errors.SearchLinkedInInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -212,15 +212,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.SearchLinkedInResponse,
-    | errors.SearchLinkedInBadRequestError
-    | errors.SearchLinkedInUnauthorizedError
-    | errors.SearchLinkedInForbiddenError
-    | errors.SearchLinkedInNotFoundError
-    | errors.SearchLinkedInConflictError
-    | errors.SearchLinkedInGoneError
-    | errors.SearchLinkedInUnprocessableEntityError
-    | errors.SearchLinkedInTooManyRequestsError
-    | errors.SearchLinkedInInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -231,15 +231,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.SearchLinkedInResponse$inboundSchema),
-    M.jsonErr(400, errors.SearchLinkedInBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.SearchLinkedInUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.SearchLinkedInForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.SearchLinkedInNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.SearchLinkedInConflictError$inboundSchema),
-    M.jsonErr(410, errors.SearchLinkedInGoneError$inboundSchema),
-    M.jsonErr(422, errors.SearchLinkedInUnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.SearchLinkedInTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.SearchLinkedInInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

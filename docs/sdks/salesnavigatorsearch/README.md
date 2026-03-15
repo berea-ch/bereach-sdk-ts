@@ -119,18 +119,18 @@ run();
 
 ### Errors
 
-| Error Type                                    | Status Code                                   | Content Type                                  |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| errors.SearchSalesNavBadRequestError          | 400                                           | application/json                              |
-| errors.SearchSalesNavUnauthorizedError        | 401                                           | application/json                              |
-| errors.SearchSalesNavForbiddenError           | 403                                           | application/json                              |
-| errors.SearchSalesNavNotFoundError            | 404                                           | application/json                              |
-| errors.SearchSalesNavConflictError            | 409                                           | application/json                              |
-| errors.SearchSalesNavGoneError                | 410                                           | application/json                              |
-| errors.SearchSalesNavUnprocessableEntityError | 422                                           | application/json                              |
-| errors.SearchSalesNavTooManyRequestsError     | 429                                           | application/json                              |
-| errors.SearchSalesNavInternalServerError      | 500                                           | application/json                              |
-| errors.BereachDefaultError                    | 4XX, 5XX                                      | \*/\*                                         |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchCompanies
 
@@ -226,15 +226,15 @@ run();
 
 ### Errors
 
-| Error Type                                             | Status Code                                            | Content Type                                           |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| errors.SearchSalesNavCompaniesBadRequestError          | 400                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesUnauthorizedError        | 401                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesForbiddenError           | 403                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesNotFoundError            | 404                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesConflictError            | 409                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesGoneError                | 410                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesUnprocessableEntityError | 422                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesTooManyRequestsError     | 429                                                    | application/json                                       |
-| errors.SearchSalesNavCompaniesInternalServerError      | 500                                                    | application/json                                       |
-| errors.BereachDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

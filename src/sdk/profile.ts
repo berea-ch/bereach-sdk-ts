@@ -134,7 +134,7 @@ export class Profile extends ClientSDK {
    * Get current BeReach credit balance
    *
    * @remarks
-   * Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, and usage percentage. No credits consumed.
+   * Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting. No credits consumed.
    */
   async getCredits(
     options?: RequestOptions,

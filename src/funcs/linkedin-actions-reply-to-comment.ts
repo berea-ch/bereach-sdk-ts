@@ -39,15 +39,15 @@ export function linkedinActionsReplyToComment(
 ): APIPromise<
   Result<
     operations.ReplyToLinkedInCommentResponse,
-    | errors.ReplyToLinkedInCommentBadRequestError
-    | errors.ReplyToLinkedInCommentUnauthorizedError
-    | errors.ReplyToLinkedInCommentForbiddenError
-    | errors.ReplyToLinkedInCommentNotFoundError
-    | errors.ReplyToLinkedInCommentConflictError
-    | errors.ReplyToLinkedInCommentGoneError
-    | errors.ReplyToLinkedInCommentUnprocessableEntityError
-    | errors.ReplyToLinkedInCommentTooManyRequestsError
-    | errors.ReplyToLinkedInCommentInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.ReplyToLinkedInCommentResponse,
-      | errors.ReplyToLinkedInCommentBadRequestError
-      | errors.ReplyToLinkedInCommentUnauthorizedError
-      | errors.ReplyToLinkedInCommentForbiddenError
-      | errors.ReplyToLinkedInCommentNotFoundError
-      | errors.ReplyToLinkedInCommentConflictError
-      | errors.ReplyToLinkedInCommentGoneError
-      | errors.ReplyToLinkedInCommentUnprocessableEntityError
-      | errors.ReplyToLinkedInCommentTooManyRequestsError
-      | errors.ReplyToLinkedInCommentInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.ReplyToLinkedInCommentResponse,
-    | errors.ReplyToLinkedInCommentBadRequestError
-    | errors.ReplyToLinkedInCommentUnauthorizedError
-    | errors.ReplyToLinkedInCommentForbiddenError
-    | errors.ReplyToLinkedInCommentNotFoundError
-    | errors.ReplyToLinkedInCommentConflictError
-    | errors.ReplyToLinkedInCommentGoneError
-    | errors.ReplyToLinkedInCommentUnprocessableEntityError
-    | errors.ReplyToLinkedInCommentTooManyRequestsError
-    | errors.ReplyToLinkedInCommentInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,27 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.ReplyToLinkedInCommentResponse$inboundSchema),
-    M.jsonErr(400, errors.ReplyToLinkedInCommentBadRequestError$inboundSchema),
-    M.jsonErr(
-      401,
-      errors.ReplyToLinkedInCommentUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(403, errors.ReplyToLinkedInCommentForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.ReplyToLinkedInCommentNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.ReplyToLinkedInCommentConflictError$inboundSchema),
-    M.jsonErr(410, errors.ReplyToLinkedInCommentGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.ReplyToLinkedInCommentUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ReplyToLinkedInCommentTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.ReplyToLinkedInCommentInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

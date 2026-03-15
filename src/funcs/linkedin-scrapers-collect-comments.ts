@@ -39,15 +39,15 @@ export function linkedinScrapersCollectComments(
 ): APIPromise<
   Result<
     operations.CollectLinkedInCommentsResponse,
-    | errors.CollectLinkedInCommentsBadRequestError
-    | errors.CollectLinkedInCommentsUnauthorizedError
-    | errors.CollectLinkedInCommentsForbiddenError
-    | errors.CollectLinkedInCommentsNotFoundError
-    | errors.CollectLinkedInCommentsConflictError
-    | errors.CollectLinkedInCommentsGoneError
-    | errors.CollectLinkedInCommentsUnprocessableEntityError
-    | errors.CollectLinkedInCommentsTooManyRequestsError
-    | errors.CollectLinkedInCommentsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.CollectLinkedInCommentsResponse,
-      | errors.CollectLinkedInCommentsBadRequestError
-      | errors.CollectLinkedInCommentsUnauthorizedError
-      | errors.CollectLinkedInCommentsForbiddenError
-      | errors.CollectLinkedInCommentsNotFoundError
-      | errors.CollectLinkedInCommentsConflictError
-      | errors.CollectLinkedInCommentsGoneError
-      | errors.CollectLinkedInCommentsUnprocessableEntityError
-      | errors.CollectLinkedInCommentsTooManyRequestsError
-      | errors.CollectLinkedInCommentsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.CollectLinkedInCommentsResponse,
-    | errors.CollectLinkedInCommentsBadRequestError
-    | errors.CollectLinkedInCommentsUnauthorizedError
-    | errors.CollectLinkedInCommentsForbiddenError
-    | errors.CollectLinkedInCommentsNotFoundError
-    | errors.CollectLinkedInCommentsConflictError
-    | errors.CollectLinkedInCommentsGoneError
-    | errors.CollectLinkedInCommentsUnprocessableEntityError
-    | errors.CollectLinkedInCommentsTooManyRequestsError
-    | errors.CollectLinkedInCommentsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,27 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.CollectLinkedInCommentsResponse$inboundSchema),
-    M.jsonErr(400, errors.CollectLinkedInCommentsBadRequestError$inboundSchema),
-    M.jsonErr(
-      401,
-      errors.CollectLinkedInCommentsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(403, errors.CollectLinkedInCommentsForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.CollectLinkedInCommentsNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.CollectLinkedInCommentsConflictError$inboundSchema),
-    M.jsonErr(410, errors.CollectLinkedInCommentsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.CollectLinkedInCommentsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.CollectLinkedInCommentsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.CollectLinkedInCommentsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

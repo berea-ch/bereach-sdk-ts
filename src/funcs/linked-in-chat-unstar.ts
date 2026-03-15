@@ -39,15 +39,15 @@ export function linkedInChatUnstar(
 ): APIPromise<
   Result<
     operations.UnstarConversationResponse,
-    | errors.UnstarConversationBadRequestError
-    | errors.UnstarConversationUnauthorizedError
-    | errors.UnstarConversationForbiddenError
-    | errors.UnstarConversationNotFoundError
-    | errors.UnstarConversationConflictError
-    | errors.UnstarConversationGoneError
-    | errors.UnstarConversationUnprocessableEntityError
-    | errors.UnstarConversationTooManyRequestsError
-    | errors.UnstarConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.UnstarConversationResponse,
-      | errors.UnstarConversationBadRequestError
-      | errors.UnstarConversationUnauthorizedError
-      | errors.UnstarConversationForbiddenError
-      | errors.UnstarConversationNotFoundError
-      | errors.UnstarConversationConflictError
-      | errors.UnstarConversationGoneError
-      | errors.UnstarConversationUnprocessableEntityError
-      | errors.UnstarConversationTooManyRequestsError
-      | errors.UnstarConversationInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.UnstarConversationResponse,
-    | errors.UnstarConversationBadRequestError
-    | errors.UnstarConversationUnauthorizedError
-    | errors.UnstarConversationForbiddenError
-    | errors.UnstarConversationNotFoundError
-    | errors.UnstarConversationConflictError
-    | errors.UnstarConversationGoneError
-    | errors.UnstarConversationUnprocessableEntityError
-    | errors.UnstarConversationTooManyRequestsError
-    | errors.UnstarConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,18 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.UnstarConversationResponse$inboundSchema),
-    M.jsonErr(400, errors.UnstarConversationBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.UnstarConversationUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.UnstarConversationForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.UnstarConversationNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.UnstarConversationConflictError$inboundSchema),
-    M.jsonErr(410, errors.UnstarConversationGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.UnstarConversationUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(429, errors.UnstarConversationTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.UnstarConversationInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

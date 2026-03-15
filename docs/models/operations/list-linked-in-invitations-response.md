@@ -24,6 +24,8 @@ let value: ListLinkedInInvitationsResponse = {
         headline: "<value>",
         profileUrl: "https://glorious-gazebo.info",
         profilePicture: "<value>",
+        publicIdentifier: "<value>",
+        profileUrn: "<value>",
       },
     },
   ],

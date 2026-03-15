@@ -10,6 +10,8 @@ let value: CollectLinkedInLikesProfile = {
   headline: "<value>",
   profileUrl: "https://ornery-traditionalism.org",
   imageUrl: "https://rare-seagull.biz",
+  publicIdentifier: "<value>",
+  profileUrn: "<value>",
   type: "like",
 };
 ```
@@ -22,4 +24,6 @@ let value: CollectLinkedInLikesProfile = {
 | `headline`                                                                                     | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            |
 | `profileUrl`                                                                                   | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            |
 | `imageUrl`                                                                                     | *string*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `publicIdentifier`                                                                             | *string*                                                                                       | :heavy_check_mark:                                                                             | Vanity slug from profile URL (e.g. john-doe) when not URN-based                                |
+| `profileUrn`                                                                                   | *string*                                                                                       | :heavy_check_mark:                                                                             | LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available                        |
 | `type`                                                                                         | [operations.CollectLinkedInLikesType](../../models/operations/collect-linked-in-likes-type.md) | :heavy_check_mark:                                                                             | N/A                                                                                            |

@@ -78,18 +78,18 @@ run();
 
 ### Errors
 
-| Error Type                                                 | Status Code                                                | Content Type                                               |
-| ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| errors.SearchLinkedInConversationsBadRequestError          | 400                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsUnauthorizedError        | 401                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsForbiddenError           | 403                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsNotFoundError            | 404                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsConflictError            | 409                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsGoneError                | 410                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsUnprocessableEntityError | 422                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsTooManyRequestsError     | 429                                                        | application/json                                           |
-| errors.SearchLinkedInConversationsInternalServerError      | 500                                                        | application/json                                           |
-| errors.BereachDefaultError                                 | 4XX, 5XX                                                   | \*/\*                                                      |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## findConversation
 
@@ -169,18 +169,18 @@ run();
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| errors.FindLinkedInConversationBadRequestError          | 400                                                     | application/json                                        |
-| errors.FindLinkedInConversationUnauthorizedError        | 401                                                     | application/json                                        |
-| errors.FindLinkedInConversationForbiddenError           | 403                                                     | application/json                                        |
-| errors.FindLinkedInConversationNotFoundError            | 404                                                     | application/json                                        |
-| errors.FindLinkedInConversationConflictError            | 409                                                     | application/json                                        |
-| errors.FindLinkedInConversationGoneError                | 410                                                     | application/json                                        |
-| errors.FindLinkedInConversationUnprocessableEntityError | 422                                                     | application/json                                        |
-| errors.FindLinkedInConversationTooManyRequestsError     | 429                                                     | application/json                                        |
-| errors.FindLinkedInConversationInternalServerError      | 500                                                     | application/json                                        |
-| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## archive
 
@@ -251,18 +251,18 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.ArchiveConversationBadRequestError          | 400                                                | application/json                                   |
-| errors.ArchiveConversationUnauthorizedError        | 401                                                | application/json                                   |
-| errors.ArchiveConversationForbiddenError           | 403                                                | application/json                                   |
-| errors.ArchiveConversationNotFoundError            | 404                                                | application/json                                   |
-| errors.ArchiveConversationConflictError            | 409                                                | application/json                                   |
-| errors.ArchiveConversationGoneError                | 410                                                | application/json                                   |
-| errors.ArchiveConversationUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.ArchiveConversationTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.ArchiveConversationInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unreact
 
@@ -337,15 +337,15 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.UnreactToMessageBadRequestError          | 400                                             | application/json                                |
-| errors.UnreactToMessageUnauthorizedError        | 401                                             | application/json                                |
-| errors.UnreactToMessageForbiddenError           | 403                                             | application/json                                |
-| errors.UnreactToMessageNotFoundError            | 404                                             | application/json                                |
-| errors.UnreactToMessageConflictError            | 409                                             | application/json                                |
-| errors.UnreactToMessageGoneError                | 410                                             | application/json                                |
-| errors.UnreactToMessageUnprocessableEntityError | 422                                             | application/json                                |
-| errors.UnreactToMessageTooManyRequestsError     | 429                                             | application/json                                |
-| errors.UnreactToMessageInternalServerError      | 500                                             | application/json                                |
-| errors.BereachDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

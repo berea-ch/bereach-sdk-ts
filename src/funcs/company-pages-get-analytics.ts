@@ -39,15 +39,15 @@ export function companyPagesGetAnalytics(
 ): APIPromise<
   Result<
     operations.GetCompanyPageAnalyticsResponse,
-    | errors.GetCompanyPageAnalyticsBadRequestError
-    | errors.GetCompanyPageAnalyticsUnauthorizedError
-    | errors.GetCompanyPageAnalyticsForbiddenError
-    | errors.GetCompanyPageAnalyticsNotFoundError
-    | errors.GetCompanyPageAnalyticsConflictError
-    | errors.GetCompanyPageAnalyticsGoneError
-    | errors.GetCompanyPageAnalyticsUnprocessableEntityError
-    | errors.GetCompanyPageAnalyticsTooManyRequestsError
-    | errors.GetCompanyPageAnalyticsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.GetCompanyPageAnalyticsResponse,
-      | errors.GetCompanyPageAnalyticsBadRequestError
-      | errors.GetCompanyPageAnalyticsUnauthorizedError
-      | errors.GetCompanyPageAnalyticsForbiddenError
-      | errors.GetCompanyPageAnalyticsNotFoundError
-      | errors.GetCompanyPageAnalyticsConflictError
-      | errors.GetCompanyPageAnalyticsGoneError
-      | errors.GetCompanyPageAnalyticsUnprocessableEntityError
-      | errors.GetCompanyPageAnalyticsTooManyRequestsError
-      | errors.GetCompanyPageAnalyticsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetCompanyPageAnalyticsResponse,
-    | errors.GetCompanyPageAnalyticsBadRequestError
-    | errors.GetCompanyPageAnalyticsUnauthorizedError
-    | errors.GetCompanyPageAnalyticsForbiddenError
-    | errors.GetCompanyPageAnalyticsNotFoundError
-    | errors.GetCompanyPageAnalyticsConflictError
-    | errors.GetCompanyPageAnalyticsGoneError
-    | errors.GetCompanyPageAnalyticsUnprocessableEntityError
-    | errors.GetCompanyPageAnalyticsTooManyRequestsError
-    | errors.GetCompanyPageAnalyticsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,27 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetCompanyPageAnalyticsResponse$inboundSchema),
-    M.jsonErr(400, errors.GetCompanyPageAnalyticsBadRequestError$inboundSchema),
-    M.jsonErr(
-      401,
-      errors.GetCompanyPageAnalyticsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(403, errors.GetCompanyPageAnalyticsForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.GetCompanyPageAnalyticsNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.GetCompanyPageAnalyticsConflictError$inboundSchema),
-    M.jsonErr(410, errors.GetCompanyPageAnalyticsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.GetCompanyPageAnalyticsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.GetCompanyPageAnalyticsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.GetCompanyPageAnalyticsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

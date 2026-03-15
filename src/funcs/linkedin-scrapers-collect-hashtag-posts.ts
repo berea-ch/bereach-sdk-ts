@@ -39,15 +39,15 @@ export function linkedinScrapersCollectHashtagPosts(
 ): APIPromise<
   Result<
     operations.CollectLinkedInHashtagPostsResponse,
-    | errors.CollectLinkedInHashtagPostsBadRequestError
-    | errors.CollectLinkedInHashtagPostsUnauthorizedError
-    | errors.CollectLinkedInHashtagPostsForbiddenError
-    | errors.CollectLinkedInHashtagPostsNotFoundError
-    | errors.CollectLinkedInHashtagPostsConflictError
-    | errors.CollectLinkedInHashtagPostsGoneError
-    | errors.CollectLinkedInHashtagPostsUnprocessableEntityError
-    | errors.CollectLinkedInHashtagPostsTooManyRequestsError
-    | errors.CollectLinkedInHashtagPostsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.CollectLinkedInHashtagPostsResponse,
-      | errors.CollectLinkedInHashtagPostsBadRequestError
-      | errors.CollectLinkedInHashtagPostsUnauthorizedError
-      | errors.CollectLinkedInHashtagPostsForbiddenError
-      | errors.CollectLinkedInHashtagPostsNotFoundError
-      | errors.CollectLinkedInHashtagPostsConflictError
-      | errors.CollectLinkedInHashtagPostsGoneError
-      | errors.CollectLinkedInHashtagPostsUnprocessableEntityError
-      | errors.CollectLinkedInHashtagPostsTooManyRequestsError
-      | errors.CollectLinkedInHashtagPostsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -179,15 +179,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.CollectLinkedInHashtagPostsResponse,
-    | errors.CollectLinkedInHashtagPostsBadRequestError
-    | errors.CollectLinkedInHashtagPostsUnauthorizedError
-    | errors.CollectLinkedInHashtagPostsForbiddenError
-    | errors.CollectLinkedInHashtagPostsNotFoundError
-    | errors.CollectLinkedInHashtagPostsConflictError
-    | errors.CollectLinkedInHashtagPostsGoneError
-    | errors.CollectLinkedInHashtagPostsUnprocessableEntityError
-    | errors.CollectLinkedInHashtagPostsTooManyRequestsError
-    | errors.CollectLinkedInHashtagPostsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -198,39 +198,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.CollectLinkedInHashtagPostsResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.CollectLinkedInHashtagPostsBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.CollectLinkedInHashtagPostsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.CollectLinkedInHashtagPostsForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(
-      404,
-      errors.CollectLinkedInHashtagPostsNotFoundError$inboundSchema,
-    ),
-    M.jsonErr(
-      409,
-      errors.CollectLinkedInHashtagPostsConflictError$inboundSchema,
-    ),
-    M.jsonErr(410, errors.CollectLinkedInHashtagPostsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.CollectLinkedInHashtagPostsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.CollectLinkedInHashtagPostsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.CollectLinkedInHashtagPostsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

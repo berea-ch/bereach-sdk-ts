@@ -16,6 +16,8 @@ let value: FindLinkedInConversationMessage = {
     profileUrl: "https://sophisticated-formula.info",
     headline: "<value>",
     profilePicture: "<value>",
+    publicIdentifier: "<value>",
+    profileUrn: "<value>",
   },
   attachments: [
     {

@@ -36,15 +36,15 @@ export function profileGetFollowerAnalytics(
 ): APIPromise<
   Result<
     operations.GetLinkedInFollowerAnalyticsResponse,
-    | errors.GetLinkedInFollowerAnalyticsBadRequestError
-    | errors.GetLinkedInFollowerAnalyticsUnauthorizedError
-    | errors.GetLinkedInFollowerAnalyticsForbiddenError
-    | errors.GetLinkedInFollowerAnalyticsNotFoundError
-    | errors.GetLinkedInFollowerAnalyticsConflictError
-    | errors.GetLinkedInFollowerAnalyticsGoneError
-    | errors.GetLinkedInFollowerAnalyticsUnprocessableEntityError
-    | errors.GetLinkedInFollowerAnalyticsTooManyRequestsError
-    | errors.GetLinkedInFollowerAnalyticsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -70,15 +70,15 @@ async function $do(
   [
     Result<
       operations.GetLinkedInFollowerAnalyticsResponse,
-      | errors.GetLinkedInFollowerAnalyticsBadRequestError
-      | errors.GetLinkedInFollowerAnalyticsUnauthorizedError
-      | errors.GetLinkedInFollowerAnalyticsForbiddenError
-      | errors.GetLinkedInFollowerAnalyticsNotFoundError
-      | errors.GetLinkedInFollowerAnalyticsConflictError
-      | errors.GetLinkedInFollowerAnalyticsGoneError
-      | errors.GetLinkedInFollowerAnalyticsUnprocessableEntityError
-      | errors.GetLinkedInFollowerAnalyticsTooManyRequestsError
-      | errors.GetLinkedInFollowerAnalyticsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -160,15 +160,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetLinkedInFollowerAnalyticsResponse,
-    | errors.GetLinkedInFollowerAnalyticsBadRequestError
-    | errors.GetLinkedInFollowerAnalyticsUnauthorizedError
-    | errors.GetLinkedInFollowerAnalyticsForbiddenError
-    | errors.GetLinkedInFollowerAnalyticsNotFoundError
-    | errors.GetLinkedInFollowerAnalyticsConflictError
-    | errors.GetLinkedInFollowerAnalyticsGoneError
-    | errors.GetLinkedInFollowerAnalyticsUnprocessableEntityError
-    | errors.GetLinkedInFollowerAnalyticsTooManyRequestsError
-    | errors.GetLinkedInFollowerAnalyticsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -179,39 +179,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetLinkedInFollowerAnalyticsResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.GetLinkedInFollowerAnalyticsBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.GetLinkedInFollowerAnalyticsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.GetLinkedInFollowerAnalyticsForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(
-      404,
-      errors.GetLinkedInFollowerAnalyticsNotFoundError$inboundSchema,
-    ),
-    M.jsonErr(
-      409,
-      errors.GetLinkedInFollowerAnalyticsConflictError$inboundSchema,
-    ),
-    M.jsonErr(410, errors.GetLinkedInFollowerAnalyticsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.GetLinkedInFollowerAnalyticsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.GetLinkedInFollowerAnalyticsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.GetLinkedInFollowerAnalyticsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

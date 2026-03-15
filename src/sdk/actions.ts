@@ -32,7 +32,7 @@ export class Actions extends ClientSDK {
    * Send LinkedIn message
    *
    * @remarks
-   * Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 80 messages per day per user.
+   * Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user.
    */
   async sendMessage(
     request: operations.SendLinkedInMessageRequest,

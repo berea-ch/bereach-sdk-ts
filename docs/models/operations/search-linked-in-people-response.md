@@ -25,16 +25,18 @@ let value: SearchLinkedInPeopleResponse = {
           role: "<value>",
         },
       ],
+      profileUrn: null,
+      publicIdentifier: "<value>",
     },
   ],
   paging: {
-    start: 4718,
-    count: 336888,
-    total: 306421,
+    start: 306421,
+    count: 707389,
+    total: 561882,
   },
   hasMore: false,
-  creditsUsed: 561882,
-  retryAfter: 629348,
+  creditsUsed: 471512,
+  retryAfter: 631128,
 };
 ```
 

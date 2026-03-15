@@ -10,7 +10,7 @@ import { BereachError } from "./bereach-error.js";
 /**
  * The server encountered a situation it does not know how to handle.
  */
-export type CollectLinkedInLikesInternalServerErrorData = {
+export type InternalServerErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesInternalServerErrorError;
 };
@@ -18,15 +18,15 @@ export type CollectLinkedInLikesInternalServerErrorData = {
 /**
  * The server encountered a situation it does not know how to handle.
  */
-export class CollectLinkedInLikesInternalServerError extends BereachError {
+export class InternalServerError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesInternalServerErrorError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesInternalServerErrorData;
+  data$: InternalServerErrorData;
 
   constructor(
-    err: CollectLinkedInLikesInternalServerErrorData,
+    err: InternalServerErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -36,14 +36,14 @@ export class CollectLinkedInLikesInternalServerError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesInternalServerError";
+    this.name = "InternalServerError";
   }
 }
 
 /**
  * Rate limit exceeded. Read error.retryAfter for the wait time in seconds.
  */
-export type CollectLinkedInLikesTooManyRequestsErrorData = {
+export type TooManyRequestsErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesTooManyRequestsError;
 };
@@ -51,15 +51,15 @@ export type CollectLinkedInLikesTooManyRequestsErrorData = {
 /**
  * Rate limit exceeded. Read error.retryAfter for the wait time in seconds.
  */
-export class CollectLinkedInLikesTooManyRequestsError extends BereachError {
+export class TooManyRequestsError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesTooManyRequestsError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesTooManyRequestsErrorData;
+  data$: TooManyRequestsErrorData;
 
   constructor(
-    err: CollectLinkedInLikesTooManyRequestsErrorData,
+    err: TooManyRequestsErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -69,14 +69,14 @@ export class CollectLinkedInLikesTooManyRequestsError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesTooManyRequestsError";
+    this.name = "TooManyRequestsError";
   }
 }
 
 /**
  * The request was well-formed but was unable to be followed due to semantic errors.
  */
-export type CollectLinkedInLikesUnprocessableEntityErrorData = {
+export type UnprocessableEntityErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesUnprocessableEntityError;
 };
@@ -84,15 +84,15 @@ export type CollectLinkedInLikesUnprocessableEntityErrorData = {
 /**
  * The request was well-formed but was unable to be followed due to semantic errors.
  */
-export class CollectLinkedInLikesUnprocessableEntityError extends BereachError {
+export class UnprocessableEntityError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesUnprocessableEntityError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesUnprocessableEntityErrorData;
+  data$: UnprocessableEntityErrorData;
 
   constructor(
-    err: CollectLinkedInLikesUnprocessableEntityErrorData,
+    err: UnprocessableEntityErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -102,14 +102,14 @@ export class CollectLinkedInLikesUnprocessableEntityError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesUnprocessableEntityError";
+    this.name = "UnprocessableEntityError";
   }
 }
 
 /**
  * The requested content has been permanently deleted from the server.
  */
-export type CollectLinkedInLikesGoneErrorData = {
+export type GoneErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesGoneError;
 };
@@ -117,15 +117,15 @@ export type CollectLinkedInLikesGoneErrorData = {
 /**
  * The requested content has been permanently deleted from the server.
  */
-export class CollectLinkedInLikesGoneError extends BereachError {
+export class GoneError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesGoneError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesGoneErrorData;
+  data$: GoneErrorData;
 
   constructor(
-    err: CollectLinkedInLikesGoneErrorData,
+    err: GoneErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -135,14 +135,14 @@ export class CollectLinkedInLikesGoneError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesGoneError";
+    this.name = "GoneError";
   }
 }
 
 /**
  * The request conflicts with the current state of the server.
  */
-export type CollectLinkedInLikesConflictErrorData = {
+export type ConflictErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesConflictError;
 };
@@ -150,15 +150,15 @@ export type CollectLinkedInLikesConflictErrorData = {
 /**
  * The request conflicts with the current state of the server.
  */
-export class CollectLinkedInLikesConflictError extends BereachError {
+export class ConflictError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesConflictError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesConflictErrorData;
+  data$: ConflictErrorData;
 
   constructor(
-    err: CollectLinkedInLikesConflictErrorData,
+    err: ConflictErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -168,14 +168,14 @@ export class CollectLinkedInLikesConflictError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesConflictError";
+    this.name = "ConflictError";
   }
 }
 
 /**
  * The server cannot find the requested resource.
  */
-export type CollectLinkedInLikesNotFoundErrorData = {
+export type NotFoundErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesNotFoundError;
 };
@@ -183,15 +183,15 @@ export type CollectLinkedInLikesNotFoundErrorData = {
 /**
  * The server cannot find the requested resource.
  */
-export class CollectLinkedInLikesNotFoundError extends BereachError {
+export class NotFoundError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesNotFoundError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesNotFoundErrorData;
+  data$: NotFoundErrorData;
 
   constructor(
-    err: CollectLinkedInLikesNotFoundErrorData,
+    err: NotFoundErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -201,14 +201,14 @@ export class CollectLinkedInLikesNotFoundError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesNotFoundError";
+    this.name = "NotFoundError";
   }
 }
 
 /**
  * The client does not have access rights to the content.
  */
-export type CollectLinkedInLikesForbiddenErrorData = {
+export type ForbiddenErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesForbiddenError;
 };
@@ -216,15 +216,15 @@ export type CollectLinkedInLikesForbiddenErrorData = {
 /**
  * The client does not have access rights to the content.
  */
-export class CollectLinkedInLikesForbiddenError extends BereachError {
+export class ForbiddenError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesForbiddenError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesForbiddenErrorData;
+  data$: ForbiddenErrorData;
 
   constructor(
-    err: CollectLinkedInLikesForbiddenErrorData,
+    err: ForbiddenErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -234,14 +234,14 @@ export class CollectLinkedInLikesForbiddenError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesForbiddenError";
+    this.name = "ForbiddenError";
   }
 }
 
 /**
  * Although HTTP specifies "unauthorized", this response means "unauthenticated". Authenticate to continue.
  */
-export type CollectLinkedInLikesUnauthorizedErrorData = {
+export type UnauthorizedErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesUnauthorizedError;
 };
@@ -249,15 +249,15 @@ export type CollectLinkedInLikesUnauthorizedErrorData = {
 /**
  * Although HTTP specifies "unauthorized", this response means "unauthenticated". Authenticate to continue.
  */
-export class CollectLinkedInLikesUnauthorizedError extends BereachError {
+export class UnauthorizedError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesUnauthorizedError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesUnauthorizedErrorData;
+  data$: UnauthorizedErrorData;
 
   constructor(
-    err: CollectLinkedInLikesUnauthorizedErrorData,
+    err: UnauthorizedErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -267,14 +267,14 @@ export class CollectLinkedInLikesUnauthorizedError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesUnauthorizedError";
+    this.name = "UnauthorizedError";
   }
 }
 
 /**
  * The server cannot or will not process the request due to something that is perceived to be a client error.
  */
-export type CollectLinkedInLikesBadRequestErrorData = {
+export type BadRequestErrorData = {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesBadRequestError;
 };
@@ -282,15 +282,15 @@ export type CollectLinkedInLikesBadRequestErrorData = {
 /**
  * The server cannot or will not process the request due to something that is perceived to be a client error.
  */
-export class CollectLinkedInLikesBadRequestError extends BereachError {
+export class BadRequestError extends BereachError {
   success?: false | undefined;
   error: operations.CollectLinkedInLikesBadRequestError;
 
   /** The original data that was passed to this error instance. */
-  data$: CollectLinkedInLikesBadRequestErrorData;
+  data$: BadRequestErrorData;
 
   constructor(
-    err: CollectLinkedInLikesBadRequestErrorData,
+    err: BadRequestErrorData,
     httpMeta: { response: Response; request: Request; body: string },
   ) {
     const message = err.error?.message
@@ -300,24 +300,87 @@ export class CollectLinkedInLikesBadRequestError extends BereachError {
     if (err.success != null) this.success = err.success;
     this.error = err.error;
 
-    this.name = "CollectLinkedInLikesBadRequestError";
+    this.name = "BadRequestError";
   }
 }
 
 /** @internal */
-export const CollectLinkedInLikesInternalServerError$inboundSchema:
-  z.ZodMiniType<CollectLinkedInLikesInternalServerError, unknown> = z.pipe(
+export const InternalServerError$inboundSchema: z.ZodMiniType<
+  InternalServerError,
+  unknown
+> = z.pipe(
+  z.object({
+    success: z._default(types.literal(false), false),
+    error:
+      operations.CollectLinkedInLikesInternalServerErrorError$inboundSchema,
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new InternalServerError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const TooManyRequestsError$inboundSchema: z.ZodMiniType<
+  TooManyRequestsError,
+  unknown
+> = z.pipe(
+  z.object({
+    success: z._default(types.literal(false), false),
+    error: operations.CollectLinkedInLikesTooManyRequestsError$inboundSchema,
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new TooManyRequestsError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const UnprocessableEntityError$inboundSchema: z.ZodMiniType<
+  UnprocessableEntityError,
+  unknown
+> = z.pipe(
+  z.object({
+    success: z._default(types.literal(false), false),
+    error:
+      operations.CollectLinkedInLikesUnprocessableEntityError$inboundSchema,
+    request$: z.custom<Request>(x => x instanceof Request),
+    response$: z.custom<Response>(x => x instanceof Response),
+    body$: z.string(),
+  }),
+  z.transform((v) => {
+    return new UnprocessableEntityError(v, {
+      request: v.request$,
+      response: v.response$,
+      body: v.body$,
+    });
+  }),
+);
+
+/** @internal */
+export const GoneError$inboundSchema: z.ZodMiniType<GoneError, unknown> = z
+  .pipe(
     z.object({
       success: z._default(types.literal(false), false),
-      error: z.lazy(() =>
-        operations.CollectLinkedInLikesInternalServerErrorError$inboundSchema
-      ),
+      error: operations.CollectLinkedInLikesGoneError$inboundSchema,
       request$: z.custom<Request>(x => x instanceof Request),
       response$: z.custom<Response>(x => x instanceof Response),
       body$: z.string(),
     }),
     z.transform((v) => {
-      return new CollectLinkedInLikesInternalServerError(v, {
+      return new GoneError(v, {
         request: v.request$,
         response: v.response$,
         body: v.body$,
@@ -326,61 +389,19 @@ export const CollectLinkedInLikesInternalServerError$inboundSchema:
   );
 
 /** @internal */
-export const CollectLinkedInLikesTooManyRequestsError$inboundSchema:
-  z.ZodMiniType<CollectLinkedInLikesTooManyRequestsError, unknown> = z.pipe(
-    z.object({
-      success: z._default(types.literal(false), false),
-      error: z.lazy(() =>
-        operations.CollectLinkedInLikesTooManyRequestsError$inboundSchema
-      ),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new CollectLinkedInLikesTooManyRequestsError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
-/** @internal */
-export const CollectLinkedInLikesUnprocessableEntityError$inboundSchema:
-  z.ZodMiniType<CollectLinkedInLikesUnprocessableEntityError, unknown> = z.pipe(
-    z.object({
-      success: z._default(types.literal(false), false),
-      error: z.lazy(() =>
-        operations.CollectLinkedInLikesUnprocessableEntityError$inboundSchema
-      ),
-      request$: z.custom<Request>(x => x instanceof Request),
-      response$: z.custom<Response>(x => x instanceof Response),
-      body$: z.string(),
-    }),
-    z.transform((v) => {
-      return new CollectLinkedInLikesUnprocessableEntityError(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    }),
-  );
-
-/** @internal */
-export const CollectLinkedInLikesGoneError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesGoneError,
+export const ConflictError$inboundSchema: z.ZodMiniType<
+  ConflictError,
   unknown
 > = z.pipe(
   z.object({
     success: z._default(types.literal(false), false),
-    error: z.lazy(() => operations.CollectLinkedInLikesGoneError$inboundSchema),
+    error: operations.CollectLinkedInLikesConflictError$inboundSchema,
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new CollectLinkedInLikesGoneError(v, {
+    return new ConflictError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -389,21 +410,19 @@ export const CollectLinkedInLikesGoneError$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const CollectLinkedInLikesConflictError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesConflictError,
+export const NotFoundError$inboundSchema: z.ZodMiniType<
+  NotFoundError,
   unknown
 > = z.pipe(
   z.object({
     success: z._default(types.literal(false), false),
-    error: z.lazy(() =>
-      operations.CollectLinkedInLikesConflictError$inboundSchema
-    ),
+    error: operations.CollectLinkedInLikesNotFoundError$inboundSchema,
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new CollectLinkedInLikesConflictError(v, {
+    return new NotFoundError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -412,21 +431,19 @@ export const CollectLinkedInLikesConflictError$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const CollectLinkedInLikesNotFoundError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesNotFoundError,
+export const ForbiddenError$inboundSchema: z.ZodMiniType<
+  ForbiddenError,
   unknown
 > = z.pipe(
   z.object({
     success: z._default(types.literal(false), false),
-    error: z.lazy(() =>
-      operations.CollectLinkedInLikesNotFoundError$inboundSchema
-    ),
+    error: operations.CollectLinkedInLikesForbiddenError$inboundSchema,
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new CollectLinkedInLikesNotFoundError(v, {
+    return new ForbiddenError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -435,21 +452,19 @@ export const CollectLinkedInLikesNotFoundError$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const CollectLinkedInLikesForbiddenError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesForbiddenError,
+export const UnauthorizedError$inboundSchema: z.ZodMiniType<
+  UnauthorizedError,
   unknown
 > = z.pipe(
   z.object({
     success: z._default(types.literal(false), false),
-    error: z.lazy(() =>
-      operations.CollectLinkedInLikesForbiddenError$inboundSchema
-    ),
+    error: operations.CollectLinkedInLikesUnauthorizedError$inboundSchema,
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new CollectLinkedInLikesForbiddenError(v, {
+    return new UnauthorizedError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,
@@ -458,44 +473,19 @@ export const CollectLinkedInLikesForbiddenError$inboundSchema: z.ZodMiniType<
 );
 
 /** @internal */
-export const CollectLinkedInLikesUnauthorizedError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesUnauthorizedError,
+export const BadRequestError$inboundSchema: z.ZodMiniType<
+  BadRequestError,
   unknown
 > = z.pipe(
   z.object({
     success: z._default(types.literal(false), false),
-    error: z.lazy(() =>
-      operations.CollectLinkedInLikesUnauthorizedError$inboundSchema
-    ),
+    error: operations.CollectLinkedInLikesBadRequestError$inboundSchema,
     request$: z.custom<Request>(x => x instanceof Request),
     response$: z.custom<Response>(x => x instanceof Response),
     body$: z.string(),
   }),
   z.transform((v) => {
-    return new CollectLinkedInLikesUnauthorizedError(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  }),
-);
-
-/** @internal */
-export const CollectLinkedInLikesBadRequestError$inboundSchema: z.ZodMiniType<
-  CollectLinkedInLikesBadRequestError,
-  unknown
-> = z.pipe(
-  z.object({
-    success: z._default(types.literal(false), false),
-    error: z.lazy(() =>
-      operations.CollectLinkedInLikesBadRequestError$inboundSchema
-    ),
-    request$: z.custom<Request>(x => x instanceof Request),
-    response$: z.custom<Response>(x => x instanceof Response),
-    body$: z.string(),
-  }),
-  z.transform((v) => {
-    return new CollectLinkedInLikesBadRequestError(v, {
+    return new BadRequestError(v, {
       request: v.request$,
       response: v.response$,
       body: v.body$,

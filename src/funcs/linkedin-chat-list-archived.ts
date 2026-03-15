@@ -39,15 +39,15 @@ export function linkedinChatListArchived(
 ): APIPromise<
   Result<
     operations.ListArchivedConversationsResponse,
-    | errors.ListArchivedConversationsBadRequestError
-    | errors.ListArchivedConversationsUnauthorizedError
-    | errors.ListArchivedConversationsForbiddenError
-    | errors.ListArchivedConversationsNotFoundError
-    | errors.ListArchivedConversationsConflictError
-    | errors.ListArchivedConversationsGoneError
-    | errors.ListArchivedConversationsUnprocessableEntityError
-    | errors.ListArchivedConversationsTooManyRequestsError
-    | errors.ListArchivedConversationsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.ListArchivedConversationsResponse,
-      | errors.ListArchivedConversationsBadRequestError
-      | errors.ListArchivedConversationsUnauthorizedError
-      | errors.ListArchivedConversationsForbiddenError
-      | errors.ListArchivedConversationsNotFoundError
-      | errors.ListArchivedConversationsConflictError
-      | errors.ListArchivedConversationsGoneError
-      | errors.ListArchivedConversationsUnprocessableEntityError
-      | errors.ListArchivedConversationsTooManyRequestsError
-      | errors.ListArchivedConversationsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -181,15 +181,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListArchivedConversationsResponse,
-    | errors.ListArchivedConversationsBadRequestError
-    | errors.ListArchivedConversationsUnauthorizedError
-    | errors.ListArchivedConversationsForbiddenError
-    | errors.ListArchivedConversationsNotFoundError
-    | errors.ListArchivedConversationsConflictError
-    | errors.ListArchivedConversationsGoneError
-    | errors.ListArchivedConversationsUnprocessableEntityError
-    | errors.ListArchivedConversationsTooManyRequestsError
-    | errors.ListArchivedConversationsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -200,33 +200,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.ListArchivedConversationsResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.ListArchivedConversationsBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.ListArchivedConversationsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.ListArchivedConversationsForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(404, errors.ListArchivedConversationsNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.ListArchivedConversationsConflictError$inboundSchema),
-    M.jsonErr(410, errors.ListArchivedConversationsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.ListArchivedConversationsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ListArchivedConversationsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.ListArchivedConversationsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

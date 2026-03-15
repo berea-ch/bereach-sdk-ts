@@ -39,15 +39,15 @@ export function campaignsSync(
 ): APIPromise<
   Result<
     operations.SyncCampaignActionsResponse,
-    | errors.SyncCampaignActionsBadRequestError
-    | errors.SyncCampaignActionsUnauthorizedError
-    | errors.SyncCampaignActionsForbiddenError
-    | errors.SyncCampaignActionsNotFoundError
-    | errors.SyncCampaignActionsConflictError
-    | errors.SyncCampaignActionsGoneError
-    | errors.SyncCampaignActionsUnprocessableEntityError
-    | errors.SyncCampaignActionsTooManyRequestsError
-    | errors.SyncCampaignActionsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.SyncCampaignActionsResponse,
-      | errors.SyncCampaignActionsBadRequestError
-      | errors.SyncCampaignActionsUnauthorizedError
-      | errors.SyncCampaignActionsForbiddenError
-      | errors.SyncCampaignActionsNotFoundError
-      | errors.SyncCampaignActionsConflictError
-      | errors.SyncCampaignActionsGoneError
-      | errors.SyncCampaignActionsUnprocessableEntityError
-      | errors.SyncCampaignActionsTooManyRequestsError
-      | errors.SyncCampaignActionsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -183,15 +183,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.SyncCampaignActionsResponse,
-    | errors.SyncCampaignActionsBadRequestError
-    | errors.SyncCampaignActionsUnauthorizedError
-    | errors.SyncCampaignActionsForbiddenError
-    | errors.SyncCampaignActionsNotFoundError
-    | errors.SyncCampaignActionsConflictError
-    | errors.SyncCampaignActionsGoneError
-    | errors.SyncCampaignActionsUnprocessableEntityError
-    | errors.SyncCampaignActionsTooManyRequestsError
-    | errors.SyncCampaignActionsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -202,21 +202,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.SyncCampaignActionsResponse$inboundSchema),
-    M.jsonErr(400, errors.SyncCampaignActionsBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.SyncCampaignActionsUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.SyncCampaignActionsForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.SyncCampaignActionsNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.SyncCampaignActionsConflictError$inboundSchema),
-    M.jsonErr(410, errors.SyncCampaignActionsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.SyncCampaignActionsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.SyncCampaignActionsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(500, errors.SyncCampaignActionsInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

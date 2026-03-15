@@ -60,15 +60,15 @@ export function salesNavigatorSearchSearch(
 ): APIPromise<
   Result<
     operations.SearchSalesNavResponse,
-    | errors.SearchSalesNavBadRequestError
-    | errors.SearchSalesNavUnauthorizedError
-    | errors.SearchSalesNavForbiddenError
-    | errors.SearchSalesNavNotFoundError
-    | errors.SearchSalesNavConflictError
-    | errors.SearchSalesNavGoneError
-    | errors.SearchSalesNavUnprocessableEntityError
-    | errors.SearchSalesNavTooManyRequestsError
-    | errors.SearchSalesNavInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -94,15 +94,15 @@ async function $do(
   [
     Result<
       operations.SearchSalesNavResponse,
-      | errors.SearchSalesNavBadRequestError
-      | errors.SearchSalesNavUnauthorizedError
-      | errors.SearchSalesNavForbiddenError
-      | errors.SearchSalesNavNotFoundError
-      | errors.SearchSalesNavConflictError
-      | errors.SearchSalesNavGoneError
-      | errors.SearchSalesNavUnprocessableEntityError
-      | errors.SearchSalesNavTooManyRequestsError
-      | errors.SearchSalesNavInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -196,15 +196,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.SearchSalesNavResponse,
-    | errors.SearchSalesNavBadRequestError
-    | errors.SearchSalesNavUnauthorizedError
-    | errors.SearchSalesNavForbiddenError
-    | errors.SearchSalesNavNotFoundError
-    | errors.SearchSalesNavConflictError
-    | errors.SearchSalesNavGoneError
-    | errors.SearchSalesNavUnprocessableEntityError
-    | errors.SearchSalesNavTooManyRequestsError
-    | errors.SearchSalesNavInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -215,15 +215,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.SearchSalesNavResponse$inboundSchema),
-    M.jsonErr(400, errors.SearchSalesNavBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.SearchSalesNavUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.SearchSalesNavForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.SearchSalesNavNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.SearchSalesNavConflictError$inboundSchema),
-    M.jsonErr(410, errors.SearchSalesNavGoneError$inboundSchema),
-    M.jsonErr(422, errors.SearchSalesNavUnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.SearchSalesNavTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.SearchSalesNavInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

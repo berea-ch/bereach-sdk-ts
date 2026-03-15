@@ -39,15 +39,15 @@ export function linkedinActionsUnsavePost(
 ): APIPromise<
   Result<
     operations.UnsaveLinkedInPostResponse,
-    | errors.UnsaveLinkedInPostBadRequestError
-    | errors.UnsaveLinkedInPostUnauthorizedError
-    | errors.UnsaveLinkedInPostForbiddenError
-    | errors.UnsaveLinkedInPostNotFoundError
-    | errors.UnsaveLinkedInPostConflictError
-    | errors.UnsaveLinkedInPostGoneError
-    | errors.UnsaveLinkedInPostUnprocessableEntityError
-    | errors.UnsaveLinkedInPostTooManyRequestsError
-    | errors.UnsaveLinkedInPostInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.UnsaveLinkedInPostResponse,
-      | errors.UnsaveLinkedInPostBadRequestError
-      | errors.UnsaveLinkedInPostUnauthorizedError
-      | errors.UnsaveLinkedInPostForbiddenError
-      | errors.UnsaveLinkedInPostNotFoundError
-      | errors.UnsaveLinkedInPostConflictError
-      | errors.UnsaveLinkedInPostGoneError
-      | errors.UnsaveLinkedInPostUnprocessableEntityError
-      | errors.UnsaveLinkedInPostTooManyRequestsError
-      | errors.UnsaveLinkedInPostInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.UnsaveLinkedInPostResponse,
-    | errors.UnsaveLinkedInPostBadRequestError
-    | errors.UnsaveLinkedInPostUnauthorizedError
-    | errors.UnsaveLinkedInPostForbiddenError
-    | errors.UnsaveLinkedInPostNotFoundError
-    | errors.UnsaveLinkedInPostConflictError
-    | errors.UnsaveLinkedInPostGoneError
-    | errors.UnsaveLinkedInPostUnprocessableEntityError
-    | errors.UnsaveLinkedInPostTooManyRequestsError
-    | errors.UnsaveLinkedInPostInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,18 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.UnsaveLinkedInPostResponse$inboundSchema),
-    M.jsonErr(400, errors.UnsaveLinkedInPostBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.UnsaveLinkedInPostUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.UnsaveLinkedInPostForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.UnsaveLinkedInPostNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.UnsaveLinkedInPostConflictError$inboundSchema),
-    M.jsonErr(410, errors.UnsaveLinkedInPostGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.UnsaveLinkedInPostUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(429, errors.UnsaveLinkedInPostTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.UnsaveLinkedInPostInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

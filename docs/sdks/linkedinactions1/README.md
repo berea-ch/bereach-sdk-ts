@@ -83,18 +83,18 @@ run();
 
 ### Errors
 
-| Error Type                                             | Status Code                                            | Content Type                                           |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| errors.ListLinkedInInvitationsBadRequestError          | 400                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsUnauthorizedError        | 401                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsForbiddenError           | 403                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsNotFoundError            | 404                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsConflictError            | 409                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsGoneError                | 410                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsUnprocessableEntityError | 422                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsTooManyRequestsError     | 429                                                    | application/json                                       |
-| errors.ListLinkedInInvitationsInternalServerError      | 500                                                    | application/json                                       |
-| errors.BereachDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## acceptInvitation
 
@@ -173,18 +173,18 @@ run();
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| errors.AcceptLinkedInInvitationBadRequestError          | 400                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationUnauthorizedError        | 401                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationForbiddenError           | 403                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationNotFoundError            | 404                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationConflictError            | 409                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationGoneError                | 410                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationUnprocessableEntityError | 422                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationTooManyRequestsError     | 429                                                     | application/json                                        |
-| errors.AcceptLinkedInInvitationInternalServerError      | 500                                                     | application/json                                        |
-| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## replyToComment
 
@@ -259,18 +259,18 @@ run();
 
 ### Errors
 
-| Error Type                                            | Status Code                                           | Content Type                                          |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| errors.ReplyToLinkedInCommentBadRequestError          | 400                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentUnauthorizedError        | 401                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentForbiddenError           | 403                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentNotFoundError            | 404                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentConflictError            | 409                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentGoneError                | 410                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentUnprocessableEntityError | 422                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentTooManyRequestsError     | 429                                                   | application/json                                      |
-| errors.ReplyToLinkedInCommentInternalServerError      | 500                                                   | application/json                                      |
-| errors.BereachDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## likePost
 
@@ -343,18 +343,18 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.LikeLinkedInPostBadRequestError          | 400                                             | application/json                                |
-| errors.LikeLinkedInPostUnauthorizedError        | 401                                             | application/json                                |
-| errors.LikeLinkedInPostForbiddenError           | 403                                             | application/json                                |
-| errors.LikeLinkedInPostNotFoundError            | 404                                             | application/json                                |
-| errors.LikeLinkedInPostConflictError            | 409                                             | application/json                                |
-| errors.LikeLinkedInPostGoneError                | 410                                             | application/json                                |
-| errors.LikeLinkedInPostUnprocessableEntityError | 422                                             | application/json                                |
-| errors.LikeLinkedInPostTooManyRequestsError     | 429                                             | application/json                                |
-| errors.LikeLinkedInPostInternalServerError      | 500                                             | application/json                                |
-| errors.BereachDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## withdrawInvitation
 
@@ -425,18 +425,18 @@ run();
 
 ### Errors
 
-| Error Type                                                | Status Code                                               | Content Type                                              |
-| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
-| errors.WithdrawLinkedInInvitationBadRequestError          | 400                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationUnauthorizedError        | 401                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationForbiddenError           | 403                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationNotFoundError            | 404                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationConflictError            | 409                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationGoneError                | 410                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationUnprocessableEntityError | 422                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationTooManyRequestsError     | 429                                                       | application/json                                          |
-| errors.WithdrawLinkedInInvitationInternalServerError      | 500                                                       | application/json                                          |
-| errors.BereachDefaultError                                | 4XX, 5XX                                                  | \*/\*                                                     |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## followProfile
 
@@ -507,18 +507,18 @@ run();
 
 ### Errors
 
-| Error Type                                           | Status Code                                          | Content Type                                         |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.FollowLinkedInProfileBadRequestError          | 400                                                  | application/json                                     |
-| errors.FollowLinkedInProfileUnauthorizedError        | 401                                                  | application/json                                     |
-| errors.FollowLinkedInProfileForbiddenError           | 403                                                  | application/json                                     |
-| errors.FollowLinkedInProfileNotFoundError            | 404                                                  | application/json                                     |
-| errors.FollowLinkedInProfileConflictError            | 409                                                  | application/json                                     |
-| errors.FollowLinkedInProfileGoneError                | 410                                                  | application/json                                     |
-| errors.FollowLinkedInProfileUnprocessableEntityError | 422                                                  | application/json                                     |
-| errors.FollowLinkedInProfileTooManyRequestsError     | 429                                                  | application/json                                     |
-| errors.FollowLinkedInProfileInternalServerError      | 500                                                  | application/json                                     |
-| errors.BereachDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## editPost
 
@@ -591,18 +591,18 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.EditLinkedInPostBadRequestError          | 400                                             | application/json                                |
-| errors.EditLinkedInPostUnauthorizedError        | 401                                             | application/json                                |
-| errors.EditLinkedInPostForbiddenError           | 403                                             | application/json                                |
-| errors.EditLinkedInPostNotFoundError            | 404                                             | application/json                                |
-| errors.EditLinkedInPostConflictError            | 409                                             | application/json                                |
-| errors.EditLinkedInPostGoneError                | 410                                             | application/json                                |
-| errors.EditLinkedInPostUnprocessableEntityError | 422                                             | application/json                                |
-| errors.EditLinkedInPostTooManyRequestsError     | 429                                             | application/json                                |
-| errors.EditLinkedInPostInternalServerError      | 500                                             | application/json                                |
-| errors.BereachDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## editComment
 
@@ -726,18 +726,18 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.EditLinkedInCommentBadRequestError          | 400                                                | application/json                                   |
-| errors.EditLinkedInCommentUnauthorizedError        | 401                                                | application/json                                   |
-| errors.EditLinkedInCommentForbiddenError           | 403                                                | application/json                                   |
-| errors.EditLinkedInCommentNotFoundError            | 404                                                | application/json                                   |
-| errors.EditLinkedInCommentConflictError            | 409                                                | application/json                                   |
-| errors.EditLinkedInCommentGoneError                | 410                                                | application/json                                   |
-| errors.EditLinkedInCommentUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.EditLinkedInCommentTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.EditLinkedInCommentInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## repostPost
 
@@ -810,18 +810,18 @@ run();
 
 ### Errors
 
-| Error Type                                        | Status Code                                       | Content Type                                      |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.RepostLinkedInPostBadRequestError          | 400                                               | application/json                                  |
-| errors.RepostLinkedInPostUnauthorizedError        | 401                                               | application/json                                  |
-| errors.RepostLinkedInPostForbiddenError           | 403                                               | application/json                                  |
-| errors.RepostLinkedInPostNotFoundError            | 404                                               | application/json                                  |
-| errors.RepostLinkedInPostConflictError            | 409                                               | application/json                                  |
-| errors.RepostLinkedInPostGoneError                | 410                                               | application/json                                  |
-| errors.RepostLinkedInPostUnprocessableEntityError | 422                                               | application/json                                  |
-| errors.RepostLinkedInPostTooManyRequestsError     | 429                                               | application/json                                  |
-| errors.RepostLinkedInPostInternalServerError      | 500                                               | application/json                                  |
-| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unlikePost
 
@@ -892,18 +892,18 @@ run();
 
 ### Errors
 
-| Error Type                                        | Status Code                                       | Content Type                                      |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.UnlikeLinkedInPostBadRequestError          | 400                                               | application/json                                  |
-| errors.UnlikeLinkedInPostUnauthorizedError        | 401                                               | application/json                                  |
-| errors.UnlikeLinkedInPostForbiddenError           | 403                                               | application/json                                  |
-| errors.UnlikeLinkedInPostNotFoundError            | 404                                               | application/json                                  |
-| errors.UnlikeLinkedInPostConflictError            | 409                                               | application/json                                  |
-| errors.UnlikeLinkedInPostGoneError                | 410                                               | application/json                                  |
-| errors.UnlikeLinkedInPostUnprocessableEntityError | 422                                               | application/json                                  |
-| errors.UnlikeLinkedInPostTooManyRequestsError     | 429                                               | application/json                                  |
-| errors.UnlikeLinkedInPostInternalServerError      | 500                                               | application/json                                  |
-| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unlikeComment
 
@@ -974,18 +974,18 @@ run();
 
 ### Errors
 
-| Error Type                                           | Status Code                                          | Content Type                                         |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.UnlikeLinkedInCommentBadRequestError          | 400                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentUnauthorizedError        | 401                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentForbiddenError           | 403                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentNotFoundError            | 404                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentConflictError            | 409                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentGoneError                | 410                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentUnprocessableEntityError | 422                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentTooManyRequestsError     | 429                                                  | application/json                                     |
-| errors.UnlikeLinkedInCommentInternalServerError      | 500                                                  | application/json                                     |
-| errors.BereachDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unsavePost
 
@@ -1056,18 +1056,18 @@ run();
 
 ### Errors
 
-| Error Type                                        | Status Code                                       | Content Type                                      |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.UnsaveLinkedInPostBadRequestError          | 400                                               | application/json                                  |
-| errors.UnsaveLinkedInPostUnauthorizedError        | 401                                               | application/json                                  |
-| errors.UnsaveLinkedInPostForbiddenError           | 403                                               | application/json                                  |
-| errors.UnsaveLinkedInPostNotFoundError            | 404                                               | application/json                                  |
-| errors.UnsaveLinkedInPostConflictError            | 409                                               | application/json                                  |
-| errors.UnsaveLinkedInPostGoneError                | 410                                               | application/json                                  |
-| errors.UnsaveLinkedInPostUnprocessableEntityError | 422                                               | application/json                                  |
-| errors.UnsaveLinkedInPostTooManyRequestsError     | 429                                               | application/json                                  |
-| errors.UnsaveLinkedInPostInternalServerError      | 500                                               | application/json                                  |
-| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unfollowCompany
 
@@ -1138,15 +1138,15 @@ run();
 
 ### Errors
 
-| Error Type                                             | Status Code                                            | Content Type                                           |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| errors.UnfollowLinkedInCompanyBadRequestError          | 400                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyUnauthorizedError        | 401                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyForbiddenError           | 403                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyNotFoundError            | 404                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyConflictError            | 409                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyGoneError                | 410                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyUnprocessableEntityError | 422                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyTooManyRequestsError     | 429                                                    | application/json                                       |
-| errors.UnfollowLinkedInCompanyInternalServerError      | 500                                                    | application/json                                       |
-| errors.BereachDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

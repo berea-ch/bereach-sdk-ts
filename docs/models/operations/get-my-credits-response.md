@@ -11,12 +11,13 @@ let value: GetMyCreditsResponse = {
   success: true,
   credits: {
     current: 276462,
-    limit: 81044,
-    remaining: 613462,
-    percentage: 6748.51,
+    limit: null,
+    remaining: 674851,
+    percentage: 1034.24,
+    isUnlimited: false,
   },
-  creditsUsed: 103424,
-  retryAfter: 595654,
+  creditsUsed: 599073,
+  retryAfter: 357615,
 };
 ```
 

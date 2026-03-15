@@ -39,15 +39,15 @@ export function linkedinActionsEditPost(
 ): APIPromise<
   Result<
     operations.EditLinkedInPostResponse,
-    | errors.EditLinkedInPostBadRequestError
-    | errors.EditLinkedInPostUnauthorizedError
-    | errors.EditLinkedInPostForbiddenError
-    | errors.EditLinkedInPostNotFoundError
-    | errors.EditLinkedInPostConflictError
-    | errors.EditLinkedInPostGoneError
-    | errors.EditLinkedInPostUnprocessableEntityError
-    | errors.EditLinkedInPostTooManyRequestsError
-    | errors.EditLinkedInPostInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.EditLinkedInPostResponse,
-      | errors.EditLinkedInPostBadRequestError
-      | errors.EditLinkedInPostUnauthorizedError
-      | errors.EditLinkedInPostForbiddenError
-      | errors.EditLinkedInPostNotFoundError
-      | errors.EditLinkedInPostConflictError
-      | errors.EditLinkedInPostGoneError
-      | errors.EditLinkedInPostUnprocessableEntityError
-      | errors.EditLinkedInPostTooManyRequestsError
-      | errors.EditLinkedInPostInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.EditLinkedInPostResponse,
-    | errors.EditLinkedInPostBadRequestError
-    | errors.EditLinkedInPostUnauthorizedError
-    | errors.EditLinkedInPostForbiddenError
-    | errors.EditLinkedInPostNotFoundError
-    | errors.EditLinkedInPostConflictError
-    | errors.EditLinkedInPostGoneError
-    | errors.EditLinkedInPostUnprocessableEntityError
-    | errors.EditLinkedInPostTooManyRequestsError
-    | errors.EditLinkedInPostInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,18 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.EditLinkedInPostResponse$inboundSchema),
-    M.jsonErr(400, errors.EditLinkedInPostBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.EditLinkedInPostUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.EditLinkedInPostForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.EditLinkedInPostNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.EditLinkedInPostConflictError$inboundSchema),
-    M.jsonErr(410, errors.EditLinkedInPostGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.EditLinkedInPostUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(429, errors.EditLinkedInPostTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.EditLinkedInPostInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

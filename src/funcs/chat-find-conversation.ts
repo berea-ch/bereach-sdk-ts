@@ -46,15 +46,15 @@ export function chatFindConversation(
 ): APIPromise<
   Result<
     operations.FindLinkedInConversationResponse,
-    | errors.FindLinkedInConversationBadRequestError
-    | errors.FindLinkedInConversationUnauthorizedError
-    | errors.FindLinkedInConversationForbiddenError
-    | errors.FindLinkedInConversationNotFoundError
-    | errors.FindLinkedInConversationConflictError
-    | errors.FindLinkedInConversationGoneError
-    | errors.FindLinkedInConversationUnprocessableEntityError
-    | errors.FindLinkedInConversationTooManyRequestsError
-    | errors.FindLinkedInConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -80,15 +80,15 @@ async function $do(
   [
     Result<
       operations.FindLinkedInConversationResponse,
-      | errors.FindLinkedInConversationBadRequestError
-      | errors.FindLinkedInConversationUnauthorizedError
-      | errors.FindLinkedInConversationForbiddenError
-      | errors.FindLinkedInConversationNotFoundError
-      | errors.FindLinkedInConversationConflictError
-      | errors.FindLinkedInConversationGoneError
-      | errors.FindLinkedInConversationUnprocessableEntityError
-      | errors.FindLinkedInConversationTooManyRequestsError
-      | errors.FindLinkedInConversationInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -183,15 +183,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.FindLinkedInConversationResponse,
-    | errors.FindLinkedInConversationBadRequestError
-    | errors.FindLinkedInConversationUnauthorizedError
-    | errors.FindLinkedInConversationForbiddenError
-    | errors.FindLinkedInConversationNotFoundError
-    | errors.FindLinkedInConversationConflictError
-    | errors.FindLinkedInConversationGoneError
-    | errors.FindLinkedInConversationUnprocessableEntityError
-    | errors.FindLinkedInConversationTooManyRequestsError
-    | errors.FindLinkedInConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -202,30 +202,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.FindLinkedInConversationResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.FindLinkedInConversationBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.FindLinkedInConversationUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(403, errors.FindLinkedInConversationForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.FindLinkedInConversationNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.FindLinkedInConversationConflictError$inboundSchema),
-    M.jsonErr(410, errors.FindLinkedInConversationGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.FindLinkedInConversationUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.FindLinkedInConversationTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.FindLinkedInConversationInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

@@ -21,6 +21,8 @@ let value: SearchLinkedInByUrlItemsPost = {
     headline: "<value>",
     profilePicture: "<value>",
     isCompany: true,
+    publicIdentifier: "<value>",
+    profileUrn: null,
   },
   isRepost: true,
 };
@@ -41,3 +43,4 @@ let value: SearchLinkedInByUrlItemsPost = {
 | `postId`                                                                                               | *string*                                                                                               | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
 | `author`                                                                                               | [operations.SearchLinkedInByUrlAuthor](../../models/operations/search-linked-in-by-url-author.md)      | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
 | `isRepost`                                                                                             | *boolean*                                                                                              | :heavy_check_mark:                                                                                     | N/A                                                                                                    |
+| `media`                                                                                                | [operations.SearchLinkedInByUrlMedia](../../models/operations/search-linked-in-by-url-media.md)        | :heavy_minus_sign:                                                                                     | Media attached to the post (image, video, document, or article). Absent when the post is text-only.    |

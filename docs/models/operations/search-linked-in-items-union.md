@@ -22,6 +22,8 @@ const value: operations.SearchLinkedInItemsPeople[] = [
     profilePicture: null,
     networkDistance: null,
     currentPositions: [],
+    profileUrn: "<value>",
+    publicIdentifier: "<value>",
   },
 ];
 ```

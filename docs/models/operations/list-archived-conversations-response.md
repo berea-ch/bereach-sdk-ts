@@ -20,8 +20,8 @@ let value: ListArchivedConversationsResponse = {
       groupChat: false,
       participants: [],
       lastMessage: {
-        text: "<value>",
-        deliveredAt: 58159,
+        text: null,
+        deliveredAt: 547276,
         senderProfileUrn: "<value>",
       },
     },

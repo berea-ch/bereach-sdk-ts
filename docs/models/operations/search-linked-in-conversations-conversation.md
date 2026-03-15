@@ -21,11 +21,12 @@ let value: SearchLinkedInConversationsConversation = {
       profileUrl: "https://artistic-scarification.net/",
       headline: "<value>",
       profilePicture: "<value>",
+      publicIdentifier: "<value>",
     },
   ],
   lastMessage: {
     text: "<value>",
-    deliveredAt: 699347,
+    deliveredAt: 76757,
     senderProfileUrn: "<value>",
   },
 };

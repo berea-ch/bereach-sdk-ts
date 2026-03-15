@@ -35,15 +35,15 @@ export function profileGet(
 ): APIPromise<
   Result<
     operations.GetMyLinkedInProfileResponse,
-    | errors.GetMyLinkedInProfileBadRequestError
-    | errors.GetMyLinkedInProfileUnauthorizedError
-    | errors.GetMyLinkedInProfileForbiddenError
-    | errors.GetMyLinkedInProfileNotFoundError
-    | errors.GetMyLinkedInProfileConflictError
-    | errors.GetMyLinkedInProfileGoneError
-    | errors.GetMyLinkedInProfileUnprocessableEntityError
-    | errors.GetMyLinkedInProfileTooManyRequestsError
-    | errors.GetMyLinkedInProfileInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -67,15 +67,15 @@ async function $do(
   [
     Result<
       operations.GetMyLinkedInProfileResponse,
-      | errors.GetMyLinkedInProfileBadRequestError
-      | errors.GetMyLinkedInProfileUnauthorizedError
-      | errors.GetMyLinkedInProfileForbiddenError
-      | errors.GetMyLinkedInProfileNotFoundError
-      | errors.GetMyLinkedInProfileConflictError
-      | errors.GetMyLinkedInProfileGoneError
-      | errors.GetMyLinkedInProfileUnprocessableEntityError
-      | errors.GetMyLinkedInProfileTooManyRequestsError
-      | errors.GetMyLinkedInProfileInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -156,15 +156,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetMyLinkedInProfileResponse,
-    | errors.GetMyLinkedInProfileBadRequestError
-    | errors.GetMyLinkedInProfileUnauthorizedError
-    | errors.GetMyLinkedInProfileForbiddenError
-    | errors.GetMyLinkedInProfileNotFoundError
-    | errors.GetMyLinkedInProfileConflictError
-    | errors.GetMyLinkedInProfileGoneError
-    | errors.GetMyLinkedInProfileUnprocessableEntityError
-    | errors.GetMyLinkedInProfileTooManyRequestsError
-    | errors.GetMyLinkedInProfileInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -175,24 +175,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetMyLinkedInProfileResponse$inboundSchema),
-    M.jsonErr(400, errors.GetMyLinkedInProfileBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.GetMyLinkedInProfileUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.GetMyLinkedInProfileForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.GetMyLinkedInProfileNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.GetMyLinkedInProfileConflictError$inboundSchema),
-    M.jsonErr(410, errors.GetMyLinkedInProfileGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.GetMyLinkedInProfileUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.GetMyLinkedInProfileTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.GetMyLinkedInProfileInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

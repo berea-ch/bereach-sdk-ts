@@ -68,15 +68,15 @@ export function linkedInSearchResolveParameters(
 ): APIPromise<
   Result<
     operations.ResolveLinkedInSearchParametersResponse,
-    | errors.ResolveLinkedInSearchParametersBadRequestError
-    | errors.ResolveLinkedInSearchParametersUnauthorizedError
-    | errors.ResolveLinkedInSearchParametersForbiddenError
-    | errors.ResolveLinkedInSearchParametersNotFoundError
-    | errors.ResolveLinkedInSearchParametersConflictError
-    | errors.ResolveLinkedInSearchParametersGoneError
-    | errors.ResolveLinkedInSearchParametersUnprocessableEntityError
-    | errors.ResolveLinkedInSearchParametersTooManyRequestsError
-    | errors.ResolveLinkedInSearchParametersInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -102,15 +102,15 @@ async function $do(
   [
     Result<
       operations.ResolveLinkedInSearchParametersResponse,
-      | errors.ResolveLinkedInSearchParametersBadRequestError
-      | errors.ResolveLinkedInSearchParametersUnauthorizedError
-      | errors.ResolveLinkedInSearchParametersForbiddenError
-      | errors.ResolveLinkedInSearchParametersNotFoundError
-      | errors.ResolveLinkedInSearchParametersConflictError
-      | errors.ResolveLinkedInSearchParametersGoneError
-      | errors.ResolveLinkedInSearchParametersUnprocessableEntityError
-      | errors.ResolveLinkedInSearchParametersTooManyRequestsError
-      | errors.ResolveLinkedInSearchParametersInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -208,15 +208,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.ResolveLinkedInSearchParametersResponse,
-    | errors.ResolveLinkedInSearchParametersBadRequestError
-    | errors.ResolveLinkedInSearchParametersUnauthorizedError
-    | errors.ResolveLinkedInSearchParametersForbiddenError
-    | errors.ResolveLinkedInSearchParametersNotFoundError
-    | errors.ResolveLinkedInSearchParametersConflictError
-    | errors.ResolveLinkedInSearchParametersGoneError
-    | errors.ResolveLinkedInSearchParametersUnprocessableEntityError
-    | errors.ResolveLinkedInSearchParametersTooManyRequestsError
-    | errors.ResolveLinkedInSearchParametersInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -230,43 +230,15 @@ async function $do(
       200,
       operations.ResolveLinkedInSearchParametersResponse$inboundSchema,
     ),
-    M.jsonErr(
-      400,
-      errors.ResolveLinkedInSearchParametersBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.ResolveLinkedInSearchParametersUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.ResolveLinkedInSearchParametersForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(
-      404,
-      errors.ResolveLinkedInSearchParametersNotFoundError$inboundSchema,
-    ),
-    M.jsonErr(
-      409,
-      errors.ResolveLinkedInSearchParametersConflictError$inboundSchema,
-    ),
-    M.jsonErr(
-      410,
-      errors.ResolveLinkedInSearchParametersGoneError$inboundSchema,
-    ),
-    M.jsonErr(
-      422,
-      errors
-        .ResolveLinkedInSearchParametersUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ResolveLinkedInSearchParametersTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.ResolveLinkedInSearchParametersInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

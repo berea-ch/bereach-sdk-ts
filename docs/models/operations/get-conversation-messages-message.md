@@ -16,6 +16,8 @@ let value: GetConversationMessagesMessage = {
     profileUrl: "https://altruistic-metabolite.net",
     headline: "<value>",
     profilePicture: "<value>",
+    publicIdentifier: "<value>",
+    profileUrn: "<value>",
   },
   attachments: [],
 };

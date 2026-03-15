@@ -19,6 +19,8 @@ let value: Invitation = {
     headline: "<value>",
     profileUrl: "https://glorious-gazebo.info",
     profilePicture: "<value>",
+    publicIdentifier: "<value>",
+    profileUrn: "<value>",
   },
 };
 ```

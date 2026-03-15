@@ -39,15 +39,15 @@ export function profileGetFollowers(
 ): APIPromise<
   Result<
     operations.GetMyLinkedInFollowersResponse,
-    | errors.GetMyLinkedInFollowersBadRequestError
-    | errors.GetMyLinkedInFollowersUnauthorizedError
-    | errors.GetMyLinkedInFollowersForbiddenError
-    | errors.GetMyLinkedInFollowersNotFoundError
-    | errors.GetMyLinkedInFollowersConflictError
-    | errors.GetMyLinkedInFollowersGoneError
-    | errors.GetMyLinkedInFollowersUnprocessableEntityError
-    | errors.GetMyLinkedInFollowersTooManyRequestsError
-    | errors.GetMyLinkedInFollowersInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.GetMyLinkedInFollowersResponse,
-      | errors.GetMyLinkedInFollowersBadRequestError
-      | errors.GetMyLinkedInFollowersUnauthorizedError
-      | errors.GetMyLinkedInFollowersForbiddenError
-      | errors.GetMyLinkedInFollowersNotFoundError
-      | errors.GetMyLinkedInFollowersConflictError
-      | errors.GetMyLinkedInFollowersGoneError
-      | errors.GetMyLinkedInFollowersUnprocessableEntityError
-      | errors.GetMyLinkedInFollowersTooManyRequestsError
-      | errors.GetMyLinkedInFollowersInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -181,15 +181,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetMyLinkedInFollowersResponse,
-    | errors.GetMyLinkedInFollowersBadRequestError
-    | errors.GetMyLinkedInFollowersUnauthorizedError
-    | errors.GetMyLinkedInFollowersForbiddenError
-    | errors.GetMyLinkedInFollowersNotFoundError
-    | errors.GetMyLinkedInFollowersConflictError
-    | errors.GetMyLinkedInFollowersGoneError
-    | errors.GetMyLinkedInFollowersUnprocessableEntityError
-    | errors.GetMyLinkedInFollowersTooManyRequestsError
-    | errors.GetMyLinkedInFollowersInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -200,27 +200,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetMyLinkedInFollowersResponse$inboundSchema),
-    M.jsonErr(400, errors.GetMyLinkedInFollowersBadRequestError$inboundSchema),
-    M.jsonErr(
-      401,
-      errors.GetMyLinkedInFollowersUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(403, errors.GetMyLinkedInFollowersForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.GetMyLinkedInFollowersNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.GetMyLinkedInFollowersConflictError$inboundSchema),
-    M.jsonErr(410, errors.GetMyLinkedInFollowersGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.GetMyLinkedInFollowersUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.GetMyLinkedInFollowersTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.GetMyLinkedInFollowersInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

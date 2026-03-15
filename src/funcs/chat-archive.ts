@@ -39,15 +39,15 @@ export function chatArchive(
 ): APIPromise<
   Result<
     operations.ArchiveConversationResponse,
-    | errors.ArchiveConversationBadRequestError
-    | errors.ArchiveConversationUnauthorizedError
-    | errors.ArchiveConversationForbiddenError
-    | errors.ArchiveConversationNotFoundError
-    | errors.ArchiveConversationConflictError
-    | errors.ArchiveConversationGoneError
-    | errors.ArchiveConversationUnprocessableEntityError
-    | errors.ArchiveConversationTooManyRequestsError
-    | errors.ArchiveConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.ArchiveConversationResponse,
-      | errors.ArchiveConversationBadRequestError
-      | errors.ArchiveConversationUnauthorizedError
-      | errors.ArchiveConversationForbiddenError
-      | errors.ArchiveConversationNotFoundError
-      | errors.ArchiveConversationConflictError
-      | errors.ArchiveConversationGoneError
-      | errors.ArchiveConversationUnprocessableEntityError
-      | errors.ArchiveConversationTooManyRequestsError
-      | errors.ArchiveConversationInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.ArchiveConversationResponse,
-    | errors.ArchiveConversationBadRequestError
-    | errors.ArchiveConversationUnauthorizedError
-    | errors.ArchiveConversationForbiddenError
-    | errors.ArchiveConversationNotFoundError
-    | errors.ArchiveConversationConflictError
-    | errors.ArchiveConversationGoneError
-    | errors.ArchiveConversationUnprocessableEntityError
-    | errors.ArchiveConversationTooManyRequestsError
-    | errors.ArchiveConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,21 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.ArchiveConversationResponse$inboundSchema),
-    M.jsonErr(400, errors.ArchiveConversationBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.ArchiveConversationUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.ArchiveConversationForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.ArchiveConversationNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.ArchiveConversationConflictError$inboundSchema),
-    M.jsonErr(410, errors.ArchiveConversationGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.ArchiveConversationUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ArchiveConversationTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(500, errors.ArchiveConversationInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

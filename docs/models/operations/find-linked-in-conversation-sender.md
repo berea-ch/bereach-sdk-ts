@@ -11,6 +11,8 @@ let value: FindLinkedInConversationSender = {
   profileUrl: "https://cooperative-daddy.com",
   headline: "<value>",
   profilePicture: "<value>",
+  publicIdentifier: "<value>",
+  profileUrn: "<value>",
 };
 ```
 
@@ -23,3 +25,5 @@ let value: FindLinkedInConversationSender = {
 | `profileUrl`       | *string*           | :heavy_check_mark: | N/A                |
 | `headline`         | *string*           | :heavy_check_mark: | N/A                |
 | `profilePicture`   | *string*           | :heavy_check_mark: | N/A                |
+| `publicIdentifier` | *string*           | :heavy_check_mark: | N/A                |
+| `profileUrn`       | *string*           | :heavy_check_mark: | N/A                |

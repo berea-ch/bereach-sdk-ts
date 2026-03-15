@@ -139,18 +139,18 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.SearchLinkedInPostsBadRequestError          | 400                                                | application/json                                   |
-| errors.SearchLinkedInPostsUnauthorizedError        | 401                                                | application/json                                   |
-| errors.SearchLinkedInPostsForbiddenError           | 403                                                | application/json                                   |
-| errors.SearchLinkedInPostsNotFoundError            | 404                                                | application/json                                   |
-| errors.SearchLinkedInPostsConflictError            | 409                                                | application/json                                   |
-| errors.SearchLinkedInPostsGoneError                | 410                                                | application/json                                   |
-| errors.SearchLinkedInPostsUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.SearchLinkedInPostsTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.SearchLinkedInPostsInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchPeople
 
@@ -308,18 +308,18 @@ run();
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| errors.SearchLinkedInPeopleBadRequestError          | 400                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleUnauthorizedError        | 401                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleForbiddenError           | 403                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleNotFoundError            | 404                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleConflictError            | 409                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleGoneError                | 410                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleUnprocessableEntityError | 422                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleTooManyRequestsError     | 429                                                 | application/json                                    |
-| errors.SearchLinkedInPeopleInternalServerError      | 500                                                 | application/json                                    |
-| errors.BereachDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchJobs
 
@@ -498,18 +498,18 @@ run();
 
 ### Errors
 
-| Error Type                                        | Status Code                                       | Content Type                                      |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.SearchLinkedInJobsBadRequestError          | 400                                               | application/json                                  |
-| errors.SearchLinkedInJobsUnauthorizedError        | 401                                               | application/json                                  |
-| errors.SearchLinkedInJobsForbiddenError           | 403                                               | application/json                                  |
-| errors.SearchLinkedInJobsNotFoundError            | 404                                               | application/json                                  |
-| errors.SearchLinkedInJobsConflictError            | 409                                               | application/json                                  |
-| errors.SearchLinkedInJobsGoneError                | 410                                               | application/json                                  |
-| errors.SearchLinkedInJobsUnprocessableEntityError | 422                                               | application/json                                  |
-| errors.SearchLinkedInJobsTooManyRequestsError     | 429                                               | application/json                                  |
-| errors.SearchLinkedInJobsInternalServerError      | 500                                               | application/json                                  |
-| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchByUrl
 
@@ -633,15 +633,15 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.SearchLinkedInByUrlBadRequestError          | 400                                                | application/json                                   |
-| errors.SearchLinkedInByUrlUnauthorizedError        | 401                                                | application/json                                   |
-| errors.SearchLinkedInByUrlForbiddenError           | 403                                                | application/json                                   |
-| errors.SearchLinkedInByUrlNotFoundError            | 404                                                | application/json                                   |
-| errors.SearchLinkedInByUrlConflictError            | 409                                                | application/json                                   |
-| errors.SearchLinkedInByUrlGoneError                | 410                                                | application/json                                   |
-| errors.SearchLinkedInByUrlUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.SearchLinkedInByUrlTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.SearchLinkedInByUrlInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

@@ -126,15 +126,15 @@ run();
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| errors.SearchSalesNavPeopleBadRequestError          | 400                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleUnauthorizedError        | 401                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleForbiddenError           | 403                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleNotFoundError            | 404                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleConflictError            | 409                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleGoneError                | 410                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleUnprocessableEntityError | 422                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleTooManyRequestsError     | 429                                                 | application/json                                    |
-| errors.SearchSalesNavPeopleInternalServerError      | 500                                                 | application/json                                    |
-| errors.BereachDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

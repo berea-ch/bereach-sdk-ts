@@ -2,7 +2,7 @@ openapi: "3.0.3"
 info:
   title: "BeReach API"
   description: "BeReach | Unofficial Linkedin API"
-  version: "0.2.0"
+  version: "0.3.0"
   contact:
     name: "BeReach Support"
     email: "alexandre@berea.ch"
@@ -79,6 +79,8 @@ paths:
                     headline: "Growth Lead @ Example"
                     profileUrl: "https://www.linkedin.com/in/alex-doe"
                     imageUrl: "https://media.licdn.com/dms/image/C4D03AQG1/profile-displayphoto-shrink_200_200/0/..."
+                    publicIdentifier: "alex-doe"
+                    profileUrn: "urn:li:fsd_profile:ACoAABZ0Qo4B6pt58d4FVmts1F7TPi4D1-uL1fw"
                     type: "like"
                 count: 1
                 total: 250
@@ -109,6 +111,14 @@ paths:
                         imageUrl:
                           nullable: true
                           type: "string"
+                        publicIdentifier:
+                          description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                          nullable: true
+                          type: "string"
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
+                          nullable: true
+                          type: "string"
                         type:
                           type: "string"
                           enum:
@@ -118,6 +128,8 @@ paths:
                         - "headline"
                         - "profileUrl"
                         - "imageUrl"
+                        - "publicIdentifier"
+                        - "profileUrn"
                         - "type"
                       additionalProperties: false
                   count:
@@ -634,6 +646,8 @@ paths:
                     headline: "Founder @ Startup"
                     profileUrl: "https://www.linkedin.com/in/sam-smith"
                     imageUrl: "https://media.licdn.com/dms/image/C4D03AQG1/profile-displayphoto-shrink_200_200/0/..."
+                    publicIdentifier: "sam-smith"
+                    profileUrn: "urn:li:fsd_profile:ACoAABZ0Qo4B6pt58d4FVmts1F7TPi4D1-uL1fw"
                     commentText: "Love this insight!"
                     timestamp: 1731547200000
                     isEdited: false
@@ -673,6 +687,14 @@ paths:
                           nullable: true
                           type: "string"
                         imageUrl:
+                          nullable: true
+                          type: "string"
+                        publicIdentifier:
+                          description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                          nullable: true
+                          type: "string"
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
                           nullable: true
                           type: "string"
                         type:
@@ -742,6 +764,8 @@ paths:
                         - "headline"
                         - "profileUrl"
                         - "imageUrl"
+                        - "publicIdentifier"
+                        - "profileUrn"
                         - "type"
                         - "timestamp"
                         - "knownDistance"
@@ -1265,6 +1289,8 @@ paths:
                     headline: "Product Manager at Acme"
                     profileUrl: "https://www.linkedin.com/in/janedoe"
                     imageUrl: "https://media.licdn.com/dms/image/example/photo.jpg"
+                    publicIdentifier: "janedoe"
+                    profileUrn: "urn:li:fsd_profile:ACoAABZ0Qo4B6pt58d4FVmts1F7TPi4D1-uL1fw"
                     type: "comment"
                     commentText: "Great point! I totally agree."
                     timestamp: 1700000000000
@@ -1298,6 +1324,14 @@ paths:
                           nullable: true
                           type: "string"
                         imageUrl:
+                          nullable: true
+                          type: "string"
+                        publicIdentifier:
+                          description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                          nullable: true
+                          type: "string"
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
                           nullable: true
                           type: "string"
                         type:
@@ -1367,6 +1401,8 @@ paths:
                         - "headline"
                         - "profileUrl"
                         - "imageUrl"
+                        - "publicIdentifier"
+                        - "profileUrn"
                         - "type"
                         - "timestamp"
                         - "knownDistance"
@@ -1859,7 +1895,7 @@ paths:
               type: "object"
               properties:
                 profileUrl:
-                  description: "LinkedIn profile URL to fetch posts from."
+                  description: "LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...)."
                   type: "string"
                 count:
                   description: "Number of posts to fetch (0-100, default 20). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed)."
@@ -1942,6 +1978,33 @@ paths:
                             - "activity"
                             - "ugcPost"
                             - "share"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "postUrl"
                         - "text"
@@ -2623,6 +2686,8 @@ paths:
                     currentPositions:
                       - company: "Google"
                         role: "Senior Software Engineer"
+                    publicIdentifier: "janesmith"
+                    profileUrn: "urn:li:fsd_profile:ACoAAB1234567890"
                 paging:
                   start: 0
                   count: 10
@@ -2694,15 +2759,52 @@ paths:
                                   type: "string"
                                 isCompany:
                                   type: "boolean"
+                                publicIdentifier:
+                                  description: "Vanity slug when not URN-based"
+                                  nullable: true
+                                  type: "string"
+                                profileUrn:
+                                  description: "LinkedIn profile URN when available"
+                                  nullable: true
+                                  type: "string"
                               required:
                                 - "name"
                                 - "profileUrl"
                                 - "headline"
                                 - "profilePicture"
                                 - "isCompany"
+                                - "publicIdentifier"
+                                - "profileUrn"
                               additionalProperties: false
                             isRepost:
                               type: "boolean"
+                            media:
+                              description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                              type: "object"
+                              properties:
+                                type:
+                                  description: "Type of media attached to the post."
+                                  type: "string"
+                                  enum:
+                                    - "image"
+                                    - "video"
+                                    - "document"
+                                    - "article"
+                                urls:
+                                  description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                                  type: "array"
+                                  items:
+                                    type: "string"
+                                title:
+                                  description: "Title of the article or document, when available."
+                                  type: "string"
+                                thumbnailUrl:
+                                  description: "Thumbnail URL for videos, articles, or document covers."
+                                  type: "string"
+                              required:
+                                - "type"
+                                - "urls"
+                              additionalProperties: false
                           required:
                             - "type"
                             - "postUrl"
@@ -2761,6 +2863,14 @@ paths:
                                   - "company"
                                   - "role"
                                 additionalProperties: false
+                            profileUrn:
+                              description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
+                              nullable: true
+                              type: "string"
+                            publicIdentifier:
+                              description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                              nullable: true
+                              type: "string"
                           required:
                             - "type"
                             - "name"
@@ -2770,6 +2880,8 @@ paths:
                             - "profilePicture"
                             - "networkDistance"
                             - "currentPositions"
+                            - "profileUrn"
+                            - "publicIdentifier"
                           additionalProperties: false
                       - type: "array"
                         items:
@@ -3409,6 +3521,8 @@ paths:
                       headline: "VP Engineering at TechCo"
                       profilePicture: null
                       isCompany: false
+                      publicIdentifier: "sarahchen"
+                      profileUrn: "urn:li:fsd_profile:ACoAAC9876543210"
                     isRepost: false
                 paging:
                   start: 0
@@ -3477,15 +3591,52 @@ paths:
                               type: "string"
                             isCompany:
                               type: "boolean"
+                            publicIdentifier:
+                              description: "Vanity slug when not URN-based"
+                              nullable: true
+                              type: "string"
+                            profileUrn:
+                              description: "LinkedIn profile URN when available"
+                              nullable: true
+                              type: "string"
                           required:
                             - "name"
                             - "profileUrl"
                             - "headline"
                             - "profilePicture"
                             - "isCompany"
+                            - "publicIdentifier"
+                            - "profileUrn"
                           additionalProperties: false
                         isRepost:
                           type: "boolean"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "type"
                         - "postUrl"
@@ -4075,6 +4226,8 @@ paths:
                     currentPositions:
                       - company: "Google"
                         role: "Senior Product Manager"
+                    publicIdentifier: "janesmith"
+                    profileUrn: "urn:li:fsd_profile:ACoAAB1234567890"
                 paging:
                   start: 0
                   count: 10
@@ -4139,6 +4292,14 @@ paths:
                               - "company"
                               - "role"
                             additionalProperties: false
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
+                          nullable: true
+                          type: "string"
+                        publicIdentifier:
+                          description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                          nullable: true
+                          type: "string"
                       required:
                         - "type"
                         - "name"
@@ -4148,6 +4309,8 @@ paths:
                         - "profilePicture"
                         - "networkDistance"
                         - "currentPositions"
+                        - "profileUrn"
+                        - "publicIdentifier"
                       additionalProperties: false
                   paging:
                     type: "object"
@@ -5981,15 +6144,52 @@ paths:
                                   type: "string"
                                 isCompany:
                                   type: "boolean"
+                                publicIdentifier:
+                                  description: "Vanity slug when not URN-based"
+                                  nullable: true
+                                  type: "string"
+                                profileUrn:
+                                  description: "LinkedIn profile URN when available"
+                                  nullable: true
+                                  type: "string"
                               required:
                                 - "name"
                                 - "profileUrl"
                                 - "headline"
                                 - "profilePicture"
                                 - "isCompany"
+                                - "publicIdentifier"
+                                - "profileUrn"
                               additionalProperties: false
                             isRepost:
                               type: "boolean"
+                            media:
+                              description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                              type: "object"
+                              properties:
+                                type:
+                                  description: "Type of media attached to the post."
+                                  type: "string"
+                                  enum:
+                                    - "image"
+                                    - "video"
+                                    - "document"
+                                    - "article"
+                                urls:
+                                  description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                                  type: "array"
+                                  items:
+                                    type: "string"
+                                title:
+                                  description: "Title of the article or document, when available."
+                                  type: "string"
+                                thumbnailUrl:
+                                  description: "Thumbnail URL for videos, articles, or document covers."
+                                  type: "string"
+                              required:
+                                - "type"
+                                - "urls"
+                              additionalProperties: false
                           required:
                             - "type"
                             - "postUrl"
@@ -6048,6 +6248,14 @@ paths:
                                   - "company"
                                   - "role"
                                 additionalProperties: false
+                            profileUrn:
+                              description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
+                              nullable: true
+                              type: "string"
+                            publicIdentifier:
+                              description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                              nullable: true
+                              type: "string"
                           required:
                             - "type"
                             - "name"
@@ -6057,6 +6265,8 @@ paths:
                             - "profilePicture"
                             - "networkDistance"
                             - "currentPositions"
+                            - "profileUrn"
+                            - "publicIdentifier"
                           additionalProperties: false
                       - type: "array"
                         items:
@@ -9435,7 +9645,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "LinkedIn profile URL (e.g., 'https://www.linkedin.com/in/username') or profile URN (e.g., 'urn:li:fsd_profile:ACoAABZ0Qo4B6pt58d4FVmts1F7TPi4D1-uL1fw')"
+                  description: "LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...)."
                   type: "string"
                 campaignSlug:
                   description: "Optional campaign identifier for tracking only. No dedup — visit always executes."
@@ -9707,6 +9917,33 @@ paths:
                             - "activity"
                             - "ugcPost"
                             - "share"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "postUrl"
                         - "text"
@@ -10960,7 +11197,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "LinkedIn profile URL (e.g., 'https://www.linkedin.com/in/username') or profile URN (e.g., 'urn:li:fsd_profile:ACoAABZ0Qo4B6pt58d4FVmts1F7TPi4D1-uL1fw')"
+                  description: "LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...)."
                   type: "string"
                 campaignSlug:
                   description: "Campaign identifier for deduplication. Dedup by profile automatically."
@@ -11486,6 +11723,8 @@ paths:
                       headline: "Marketing Director at Acme Corp"
                       profileUrl: "https://www.linkedin.com/in/cindy-singer"
                       profilePicture: "https://media.licdn.com/dms/image/v2/example.jpg"
+                      publicIdentifier: "cindy-singer"
+                      profileUrn: "urn:li:fsd_profile:ACoAAB6pI5sBCHuu"
                 total: 36
                 start: 0
                 count: 10
@@ -11549,11 +11788,19 @@ paths:
                             profilePicture:
                               nullable: true
                               type: "string"
+                            publicIdentifier:
+                              nullable: true
+                              type: "string"
+                            profileUrn:
+                              nullable: true
+                              type: "string"
                           required:
                             - "name"
                             - "headline"
                             - "profileUrl"
                             - "profilePicture"
+                            - "publicIdentifier"
+                            - "profileUrn"
                           additionalProperties: false
                       required:
                         - "invitationId"
@@ -12517,7 +12764,7 @@ paths:
     post:
       operationId: "sendLinkedInMessage"
       summary: "Send LinkedIn message"
-      description: "Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 80 messages per day per user."
+      description: "Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user."
       tags:
         - "LinkedIn Actions"
       security:
@@ -12534,7 +12781,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "LinkedIn profile URL (e.g., 'https://www.linkedin.com/in/username') or profile URN (e.g., 'urn:li:member:123456')"
+                  description: "Accepts full LinkedIn profile URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:member:123456)."
                   type: "string"
                 conversationUrn:
                   description: "LinkedIn conversation URN. When provided, bypasses profile URL lookup and replies to an existing conversation."
@@ -15864,6 +16111,33 @@ paths:
                             - "activity"
                             - "ugcPost"
                             - "share"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "postUrl"
                         - "text"
@@ -16883,6 +17157,33 @@ paths:
                 isDefault:
                   description: "Set as the default account. Clears default from other accounts."
                   type: "boolean"
+                useProxy:
+                  description: "Enable/disable residential proxy for this account."
+                  type: "boolean"
+                proxyProvider:
+                  description: "Residential proxy provider. Default: decodo."
+                  type: "string"
+                  enum:
+                    - "decodo"
+                    - "oxylabs"
+                    - "brightdata"
+                proxyCountry:
+                  description: "ISO 3166-1 alpha-2 country code for proxy geo-targeting. Null = use user.country."
+                  nullable: true
+                  type: "string"
+                  minLength: 2
+                  maxLength: 2
+                  pattern: "^[A-Za-z]{2}$"
+                proxyCity:
+                  description: "City override for proxy geo-targeting."
+                  nullable: true
+                  type: "string"
+                  maxLength: 200
+                proxyRotationHours:
+                  description: "Sticky IP rotation period in hours (default 336 = 14 days)."
+                  type: "integer"
+                  minimum: 1
+                  maximum: 720
               required:
                 - "accountId"
       responses:
@@ -19867,6 +20168,33 @@ paths:
                             - "activity"
                             - "ugcPost"
                             - "share"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "postUrl"
                         - "text"
@@ -20428,6 +20756,33 @@ paths:
                             - "activity"
                             - "ugcPost"
                             - "share"
+                        media:
+                          description: "Media attached to the post (image, video, document, or article). Absent when the post is text-only."
+                          type: "object"
+                          properties:
+                            type:
+                              description: "Type of media attached to the post."
+                              type: "string"
+                              enum:
+                                - "image"
+                                - "video"
+                                - "document"
+                                - "article"
+                            urls:
+                              description: "Media URLs (image URLs for carousels, video streaming URL, article link, etc.)."
+                              type: "array"
+                              items:
+                                type: "string"
+                            title:
+                              description: "Title of the article or document, when available."
+                              type: "string"
+                            thumbnailUrl:
+                              description: "Thumbnail URL for videos, articles, or document covers."
+                              type: "string"
+                          required:
+                            - "type"
+                            - "urls"
+                          additionalProperties: false
                       required:
                         - "postUrl"
                         - "text"
@@ -20942,6 +21297,8 @@ paths:
                     profilePicture: "https://media.licdn.com/dms/image/v2/D4E03AQG1/profile-displayphoto-shrink_400_400/profile.jpg"
                     followerCount: 1250
                     following: false
+                    publicIdentifier: "alex-doe"
+                    profileUrn: "urn:li:fsd_profile:ACoAAD5544332211"
                 count: 1
                 totalFollowers: 3718
                 start: 0
@@ -20979,6 +21336,14 @@ paths:
                         following:
                           description: "Whether you follow this person back"
                           type: "boolean"
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available"
+                          nullable: true
+                          type: "string"
+                        publicIdentifier:
+                          description: "Vanity slug from profile URL (e.g. john-doe) when not URN-based"
+                          nullable: true
+                          type: "string"
                       required:
                         - "name"
                         - "headline"
@@ -20986,6 +21351,8 @@ paths:
                         - "profilePicture"
                         - "followerCount"
                         - "following"
+                        - "profileUrn"
+                        - "publicIdentifier"
                       additionalProperties: false
                   count:
                     type: "integer"
@@ -22275,7 +22642,7 @@ paths:
     post:
       operationId: "getMyCredits"
       summary: "Get current BeReach credit balance"
-      description: "Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, and usage percentage. No credits consumed."
+      description: "Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting. No credits consumed."
       tags:
         - "Profile"
       security:
@@ -22285,15 +22652,6 @@ paths:
           description: "Credit balance for the workspace"
           content:
             application/json:
-              example:
-                success: true
-                credits:
-                  current: 142
-                  limit: 600
-                  remaining: 458
-                  percentage: 23.67
-                creditsUsed: 0
-                retryAfter: 0
               schema:
                 type: "object"
                 properties:
@@ -22310,23 +22668,29 @@ paths:
                         minimum: -9007199254740991
                         maximum: 9007199254740991
                       limit:
-                        description: "Maximum credits available for the workspace"
+                        description: "Maximum credits available for the workspace, or null if unlimited"
+                        nullable: true
                         type: "integer"
                         minimum: -9007199254740991
                         maximum: 9007199254740991
                       remaining:
-                        description: "Credits remaining before hitting the limit"
+                        description: "Credits remaining before hitting the limit, or null if unlimited"
+                        nullable: true
                         type: "integer"
                         minimum: -9007199254740991
                         maximum: 9007199254740991
                       percentage:
-                        description: "Percentage of credits used (0-100, rounded to 2 decimal places)"
+                        description: "Percentage of credits used (0-100, capped at 100, rounded to 2 decimal places). 0 when unlimited"
                         type: "number"
+                      isUnlimited:
+                        description: "Whether the workspace has unlimited credits (Pro plan). When true, limit and remaining are null"
+                        type: "boolean"
                     required:
                       - "current"
                       - "limit"
                       - "remaining"
                       - "percentage"
+                      - "isUnlimited"
                     additionalProperties: false
                   creditsUsed:
                     description: "Credits consumed by this call (0 for free endpoints, cached results, or duplicates)."
@@ -22344,6 +22708,31 @@ paths:
                   - "creditsUsed"
                   - "retryAfter"
                 additionalProperties: false
+              examples:
+                free:
+                  summary: "Free plan (limited credits)"
+                  value:
+                    success: true
+                    credits:
+                      current: 142
+                      limit: 600
+                      remaining: 458
+                      percentage: 23.67
+                      isUnlimited: false
+                    creditsUsed: 0
+                    retryAfter: 0
+                unlimited:
+                  summary: "Pro plan (unlimited credits)"
+                  value:
+                    success: true
+                    credits:
+                      current: 87
+                      limit: null
+                      remaining: null
+                      percentage: 0
+                      isUnlimited: true
+                    creditsUsed: 0
+                    retryAfter: 0
         "400":
           description: "The server cannot or will not process the request due to something that is perceived to be a client error."
           content:
@@ -22843,6 +23232,9 @@ paths:
                               profilePicture:
                                 nullable: true
                                 type: "string"
+                              publicIdentifier:
+                                nullable: true
+                                type: "string"
                             required:
                               - "profileUrn"
                               - "firstName"
@@ -22850,6 +23242,7 @@ paths:
                               - "profileUrl"
                               - "headline"
                               - "profilePicture"
+                              - "publicIdentifier"
                             additionalProperties: false
                         lastMessage:
                           nullable: true
@@ -23407,6 +23800,9 @@ paths:
                               profilePicture:
                                 nullable: true
                                 type: "string"
+                              publicIdentifier:
+                                nullable: true
+                                type: "string"
                             required:
                               - "profileUrn"
                               - "firstName"
@@ -23414,6 +23810,7 @@ paths:
                               - "profileUrl"
                               - "headline"
                               - "profilePicture"
+                              - "publicIdentifier"
                             additionalProperties: false
                         lastMessage:
                           nullable: true
@@ -23908,7 +24305,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "Profile URL or URN (e.g. 'https://linkedin.com/in/marie-sandre' or 'urn:li:fsd_profile:ACoAA...'). Direct O(1) conversation lookup via LinkedIn's compose API — no search, no inbox scan. 0 credits."
+                  description: "Accepts full profile URLs, vanity names (e.g. marie-sandre), or profile URNs. Direct O(1) conversation lookup via LinkedIn's compose API — no search, no inbox scan. 0 credits."
                   type: "string"
                   minLength: 1
                 includeMessages:
@@ -23974,12 +24371,20 @@ paths:
                             profilePicture:
                               nullable: true
                               type: "string"
+                            publicIdentifier:
+                              nullable: true
+                              type: "string"
+                            profileUrn:
+                              nullable: true
+                              type: "string"
                           required:
                             - "firstName"
                             - "lastName"
                             - "profileUrl"
                             - "headline"
                             - "profilePicture"
+                            - "publicIdentifier"
+                            - "profileUrn"
                           additionalProperties: false
                         attachments:
                           type: "array"
@@ -24536,12 +24941,20 @@ paths:
                             profilePicture:
                               nullable: true
                               type: "string"
+                            publicIdentifier:
+                              nullable: true
+                              type: "string"
+                            profileUrn:
+                              nullable: true
+                              type: "string"
                           required:
                             - "firstName"
                             - "lastName"
                             - "profileUrl"
                             - "headline"
                             - "profilePicture"
+                            - "publicIdentifier"
+                            - "profileUrn"
                           additionalProperties: false
                         attachments:
                           type: "array"
@@ -26996,6 +27409,9 @@ paths:
                               profilePicture:
                                 nullable: true
                                 type: "string"
+                              publicIdentifier:
+                                nullable: true
+                                type: "string"
                             required:
                               - "profileUrn"
                               - "firstName"
@@ -27003,6 +27419,7 @@ paths:
                               - "profileUrl"
                               - "headline"
                               - "profilePicture"
+                              - "publicIdentifier"
                             additionalProperties: false
                         lastMessage:
                           nullable: true
@@ -28502,6 +28919,9 @@ paths:
                               profilePicture:
                                 nullable: true
                                 type: "string"
+                              publicIdentifier:
+                                nullable: true
+                                type: "string"
                             required:
                               - "profileUrn"
                               - "firstName"
@@ -28509,6 +28929,7 @@ paths:
                               - "profileUrl"
                               - "headline"
                               - "profilePicture"
+                              - "publicIdentifier"
                             additionalProperties: false
                         lastMessage:
                           nullable: true
@@ -34427,7 +34848,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "LinkedIn profile URL (linkedin.com/in/username), full URN, or vanity name"
+                  description: "Accepts full LinkedIn profile URLs (e.g. linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...)."
                   type: "string"
                   minLength: 1
               required:
@@ -34904,7 +35325,7 @@ paths:
               type: "object"
               properties:
                 profile:
-                  description: "LinkedIn profile URL (linkedin.com/in/username), full URN, or vanity name"
+                  description: "Accepts full LinkedIn profile URLs (e.g. linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...)."
                   type: "string"
                   minLength: 1
               required:
@@ -43050,7 +43471,13 @@ paths:
                     type: "object"
                     properties:
                       linkedinUrl:
-                        description: "LinkedIn profile URL"
+                        description: "LinkedIn profile URL, URN, or bare vanity name"
+                        type: "string"
+                      profileUrn:
+                        description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...). Improves dedup when provided alongside a vanity URL."
+                        type: "string"
+                      publicIdentifier:
+                        description: "LinkedIn vanity slug (e.g. joshuaau). Improves dedup when provided alongside a URN."
                         type: "string"
                       name:
                         description: "Profile name"
@@ -43151,6 +43578,14 @@ paths:
                           type: "string"
                         linkedinUrl:
                           type: "string"
+                        profileUrn:
+                          description: "LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...)"
+                          nullable: true
+                          type: "string"
+                        publicIdentifier:
+                          description: "LinkedIn vanity slug (e.g. joshuaau)"
+                          nullable: true
+                          type: "string"
                         name:
                           type: "string"
                         lifecycleStage:
@@ -43189,6 +43624,12 @@ paths:
                         nextFollowUpAt:
                           nullable: true
                           type: "string"
+                        draftNextDm:
+                          nullable: true
+                          type: "string"
+                        draftNextDmGeneratedAt:
+                          nullable: true
+                          type: "string"
                         doNotContact:
                           type: "boolean"
                         tags:
@@ -43202,6 +43643,8 @@ paths:
                       required:
                         - "id"
                         - "linkedinUrl"
+                        - "profileUrn"
+                        - "publicIdentifier"
                         - "name"
                         - "lifecycleStage"
                         - "hotScore"
@@ -43216,6 +43659,8 @@ paths:
                         - "lastContactedAt"
                         - "lastRepliedAt"
                         - "nextFollowUpAt"
+                        - "draftNextDm"
+                        - "draftNextDmGeneratedAt"
                         - "doNotContact"
                         - "tags"
                         - "createdAt"

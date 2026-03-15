@@ -21,11 +21,12 @@ let value: ListArchivedConversationsConversation = {
       profileUrl: "https://pleasing-integer.org/",
       headline: "<value>",
       profilePicture: "<value>",
+      publicIdentifier: "<value>",
     },
   ],
   lastMessage: {
-    text: "<value>",
-    deliveredAt: 58159,
+    text: null,
+    deliveredAt: 547276,
     senderProfileUrn: "<value>",
   },
 };

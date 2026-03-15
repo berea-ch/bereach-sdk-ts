@@ -79,18 +79,18 @@ run();
 
 ### Errors
 
-| Error Type                                          | Status Code                                         | Content Type                                        |
-| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
-| errors.MarkConversationSeenBadRequestError          | 400                                                 | application/json                                    |
-| errors.MarkConversationSeenUnauthorizedError        | 401                                                 | application/json                                    |
-| errors.MarkConversationSeenForbiddenError           | 403                                                 | application/json                                    |
-| errors.MarkConversationSeenNotFoundError            | 404                                                 | application/json                                    |
-| errors.MarkConversationSeenConflictError            | 409                                                 | application/json                                    |
-| errors.MarkConversationSeenGoneError                | 410                                                 | application/json                                    |
-| errors.MarkConversationSeenUnprocessableEntityError | 422                                                 | application/json                                    |
-| errors.MarkConversationSeenTooManyRequestsError     | 429                                                 | application/json                                    |
-| errors.MarkConversationSeenInternalServerError      | 500                                                 | application/json                                    |
-| errors.BereachDefaultError                          | 4XX, 5XX                                            | \*/\*                                               |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## star
 
@@ -161,18 +161,18 @@ run();
 
 ### Errors
 
-| Error Type                                      | Status Code                                     | Content Type                                    |
-| ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| errors.StarConversationBadRequestError          | 400                                             | application/json                                |
-| errors.StarConversationUnauthorizedError        | 401                                             | application/json                                |
-| errors.StarConversationForbiddenError           | 403                                             | application/json                                |
-| errors.StarConversationNotFoundError            | 404                                             | application/json                                |
-| errors.StarConversationConflictError            | 409                                             | application/json                                |
-| errors.StarConversationGoneError                | 410                                             | application/json                                |
-| errors.StarConversationUnprocessableEntityError | 422                                             | application/json                                |
-| errors.StarConversationTooManyRequestsError     | 429                                             | application/json                                |
-| errors.StarConversationInternalServerError      | 500                                             | application/json                                |
-| errors.BereachDefaultError                      | 4XX, 5XX                                        | \*/\*                                           |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unstar
 
@@ -243,18 +243,18 @@ run();
 
 ### Errors
 
-| Error Type                                        | Status Code                                       | Content Type                                      |
-| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| errors.UnstarConversationBadRequestError          | 400                                               | application/json                                  |
-| errors.UnstarConversationUnauthorizedError        | 401                                               | application/json                                  |
-| errors.UnstarConversationForbiddenError           | 403                                               | application/json                                  |
-| errors.UnstarConversationNotFoundError            | 404                                               | application/json                                  |
-| errors.UnstarConversationConflictError            | 409                                               | application/json                                  |
-| errors.UnstarConversationGoneError                | 410                                               | application/json                                  |
-| errors.UnstarConversationUnprocessableEntityError | 422                                               | application/json                                  |
-| errors.UnstarConversationTooManyRequestsError     | 429                                               | application/json                                  |
-| errors.UnstarConversationInternalServerError      | 500                                               | application/json                                  |
-| errors.BereachDefaultError                        | 4XX, 5XX                                          | \*/\*                                             |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## listStarred
 
@@ -321,18 +321,18 @@ run();
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| errors.ListStarredConversationsBadRequestError          | 400                                                     | application/json                                        |
-| errors.ListStarredConversationsUnauthorizedError        | 401                                                     | application/json                                        |
-| errors.ListStarredConversationsForbiddenError           | 403                                                     | application/json                                        |
-| errors.ListStarredConversationsNotFoundError            | 404                                                     | application/json                                        |
-| errors.ListStarredConversationsConflictError            | 409                                                     | application/json                                        |
-| errors.ListStarredConversationsGoneError                | 410                                                     | application/json                                        |
-| errors.ListStarredConversationsUnprocessableEntityError | 422                                                     | application/json                                        |
-| errors.ListStarredConversationsTooManyRequestsError     | 429                                                     | application/json                                        |
-| errors.ListStarredConversationsInternalServerError      | 500                                                     | application/json                                        |
-| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unarchive
 
@@ -403,15 +403,15 @@ run();
 
 ### Errors
 
-| Error Type                                           | Status Code                                          | Content Type                                         |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.UnarchiveConversationBadRequestError          | 400                                                  | application/json                                     |
-| errors.UnarchiveConversationUnauthorizedError        | 401                                                  | application/json                                     |
-| errors.UnarchiveConversationForbiddenError           | 403                                                  | application/json                                     |
-| errors.UnarchiveConversationNotFoundError            | 404                                                  | application/json                                     |
-| errors.UnarchiveConversationConflictError            | 409                                                  | application/json                                     |
-| errors.UnarchiveConversationGoneError                | 410                                                  | application/json                                     |
-| errors.UnarchiveConversationUnprocessableEntityError | 422                                                  | application/json                                     |
-| errors.UnarchiveConversationTooManyRequestsError     | 429                                                  | application/json                                     |
-| errors.UnarchiveConversationInternalServerError      | 500                                                  | application/json                                     |
-| errors.BereachDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

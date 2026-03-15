@@ -21,11 +21,12 @@ let value: ListStarredConversationsConversation = {
       profileUrl: "https://instructive-lashes.com",
       headline: "<value>",
       profilePicture: "<value>",
+      publicIdentifier: "<value>",
     },
   ],
   lastMessage: {
     text: "<value>",
-    deliveredAt: 495495,
+    deliveredAt: 281166,
     senderProfileUrn: "<value>",
   },
 };

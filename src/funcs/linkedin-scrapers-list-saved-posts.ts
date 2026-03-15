@@ -39,15 +39,15 @@ export function linkedinScrapersListSavedPosts(
 ): APIPromise<
   Result<
     operations.CollectSavedLinkedInPostsResponse,
-    | errors.CollectSavedLinkedInPostsBadRequestError
-    | errors.CollectSavedLinkedInPostsUnauthorizedError
-    | errors.CollectSavedLinkedInPostsForbiddenError
-    | errors.CollectSavedLinkedInPostsNotFoundError
-    | errors.CollectSavedLinkedInPostsConflictError
-    | errors.CollectSavedLinkedInPostsGoneError
-    | errors.CollectSavedLinkedInPostsUnprocessableEntityError
-    | errors.CollectSavedLinkedInPostsTooManyRequestsError
-    | errors.CollectSavedLinkedInPostsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.CollectSavedLinkedInPostsResponse,
-      | errors.CollectSavedLinkedInPostsBadRequestError
-      | errors.CollectSavedLinkedInPostsUnauthorizedError
-      | errors.CollectSavedLinkedInPostsForbiddenError
-      | errors.CollectSavedLinkedInPostsNotFoundError
-      | errors.CollectSavedLinkedInPostsConflictError
-      | errors.CollectSavedLinkedInPostsGoneError
-      | errors.CollectSavedLinkedInPostsUnprocessableEntityError
-      | errors.CollectSavedLinkedInPostsTooManyRequestsError
-      | errors.CollectSavedLinkedInPostsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -179,15 +179,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.CollectSavedLinkedInPostsResponse,
-    | errors.CollectSavedLinkedInPostsBadRequestError
-    | errors.CollectSavedLinkedInPostsUnauthorizedError
-    | errors.CollectSavedLinkedInPostsForbiddenError
-    | errors.CollectSavedLinkedInPostsNotFoundError
-    | errors.CollectSavedLinkedInPostsConflictError
-    | errors.CollectSavedLinkedInPostsGoneError
-    | errors.CollectSavedLinkedInPostsUnprocessableEntityError
-    | errors.CollectSavedLinkedInPostsTooManyRequestsError
-    | errors.CollectSavedLinkedInPostsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -198,33 +198,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.CollectSavedLinkedInPostsResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.CollectSavedLinkedInPostsBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.CollectSavedLinkedInPostsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.CollectSavedLinkedInPostsForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(404, errors.CollectSavedLinkedInPostsNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.CollectSavedLinkedInPostsConflictError$inboundSchema),
-    M.jsonErr(410, errors.CollectSavedLinkedInPostsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.CollectSavedLinkedInPostsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.CollectSavedLinkedInPostsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.CollectSavedLinkedInPostsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

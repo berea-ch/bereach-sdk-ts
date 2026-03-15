@@ -39,15 +39,15 @@ export function actionsListSentInvitations(
 ): APIPromise<
   Result<
     operations.ListSentLinkedInInvitationsResponse,
-    | errors.ListSentLinkedInInvitationsBadRequestError
-    | errors.ListSentLinkedInInvitationsUnauthorizedError
-    | errors.ListSentLinkedInInvitationsForbiddenError
-    | errors.ListSentLinkedInInvitationsNotFoundError
-    | errors.ListSentLinkedInInvitationsConflictError
-    | errors.ListSentLinkedInInvitationsGoneError
-    | errors.ListSentLinkedInInvitationsUnprocessableEntityError
-    | errors.ListSentLinkedInInvitationsTooManyRequestsError
-    | errors.ListSentLinkedInInvitationsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.ListSentLinkedInInvitationsResponse,
-      | errors.ListSentLinkedInInvitationsBadRequestError
-      | errors.ListSentLinkedInInvitationsUnauthorizedError
-      | errors.ListSentLinkedInInvitationsForbiddenError
-      | errors.ListSentLinkedInInvitationsNotFoundError
-      | errors.ListSentLinkedInInvitationsConflictError
-      | errors.ListSentLinkedInInvitationsGoneError
-      | errors.ListSentLinkedInInvitationsUnprocessableEntityError
-      | errors.ListSentLinkedInInvitationsTooManyRequestsError
-      | errors.ListSentLinkedInInvitationsInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -179,15 +179,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.ListSentLinkedInInvitationsResponse,
-    | errors.ListSentLinkedInInvitationsBadRequestError
-    | errors.ListSentLinkedInInvitationsUnauthorizedError
-    | errors.ListSentLinkedInInvitationsForbiddenError
-    | errors.ListSentLinkedInInvitationsNotFoundError
-    | errors.ListSentLinkedInInvitationsConflictError
-    | errors.ListSentLinkedInInvitationsGoneError
-    | errors.ListSentLinkedInInvitationsUnprocessableEntityError
-    | errors.ListSentLinkedInInvitationsTooManyRequestsError
-    | errors.ListSentLinkedInInvitationsInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -198,39 +198,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.ListSentLinkedInInvitationsResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.ListSentLinkedInInvitationsBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.ListSentLinkedInInvitationsUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.ListSentLinkedInInvitationsForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(
-      404,
-      errors.ListSentLinkedInInvitationsNotFoundError$inboundSchema,
-    ),
-    M.jsonErr(
-      409,
-      errors.ListSentLinkedInInvitationsConflictError$inboundSchema,
-    ),
-    M.jsonErr(410, errors.ListSentLinkedInInvitationsGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.ListSentLinkedInInvitationsUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.ListSentLinkedInInvitationsTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.ListSentLinkedInInvitationsInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

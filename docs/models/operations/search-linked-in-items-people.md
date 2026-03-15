@@ -14,6 +14,8 @@ let value: SearchLinkedInItemsPeople = {
   profilePicture: "<value>",
   networkDistance: "DISTANCE_3",
   currentPositions: [],
+  profileUrn: "<value>",
+  publicIdentifier: "<value>",
 };
 ```
 
@@ -29,3 +31,5 @@ let value: SearchLinkedInItemsPeople = {
 | `profilePicture`                                                                                           | *string*                                                                                                   | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
 | `networkDistance`                                                                                          | [operations.SearchLinkedInNetworkDistance](../../models/operations/search-linked-in-network-distance.md)   | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
 | `currentPositions`                                                                                         | [operations.SearchLinkedInCurrentPosition](../../models/operations/search-linked-in-current-position.md)[] | :heavy_check_mark:                                                                                         | N/A                                                                                                        |
+| `profileUrn`                                                                                               | *string*                                                                                                   | :heavy_check_mark:                                                                                         | LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available                                    |
+| `publicIdentifier`                                                                                         | *string*                                                                                                   | :heavy_check_mark:                                                                                         | Vanity slug from profile URL (e.g. john-doe) when not URN-based                                            |

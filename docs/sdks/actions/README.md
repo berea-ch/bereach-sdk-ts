@@ -78,22 +78,22 @@ run();
 
 ### Errors
 
-| Error Type                                            | Status Code                                           | Content Type                                          |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| errors.ConnectLinkedInProfileBadRequestError          | 400                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileUnauthorizedError        | 401                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileForbiddenError           | 403                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileNotFoundError            | 404                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileConflictError            | 409                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileGoneError                | 410                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileUnprocessableEntityError | 422                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileTooManyRequestsError     | 429                                                   | application/json                                      |
-| errors.ConnectLinkedInProfileInternalServerError      | 500                                                   | application/json                                      |
-| errors.BereachDefaultError                            | 4XX, 5XX                                              | \*/\*                                                 |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## sendMessage
 
-Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 80 messages per day per user.
+Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user.
 
 ### Example Usage
 
@@ -164,18 +164,18 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.SendLinkedInMessageBadRequestError          | 400                                                | application/json                                   |
-| errors.SendLinkedInMessageUnauthorizedError        | 401                                                | application/json                                   |
-| errors.SendLinkedInMessageForbiddenError           | 403                                                | application/json                                   |
-| errors.SendLinkedInMessageNotFoundError            | 404                                                | application/json                                   |
-| errors.SendLinkedInMessageConflictError            | 409                                                | application/json                                   |
-| errors.SendLinkedInMessageGoneError                | 410                                                | application/json                                   |
-| errors.SendLinkedInMessageUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.SendLinkedInMessageTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.SendLinkedInMessageInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## listSentInvitations
 
@@ -242,18 +242,18 @@ run();
 
 ### Errors
 
-| Error Type                                                 | Status Code                                                | Content Type                                               |
-| ---------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
-| errors.ListSentLinkedInInvitationsBadRequestError          | 400                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsUnauthorizedError        | 401                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsForbiddenError           | 403                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsNotFoundError            | 404                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsConflictError            | 409                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsGoneError                | 410                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsUnprocessableEntityError | 422                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsTooManyRequestsError     | 429                                                        | application/json                                           |
-| errors.ListSentLinkedInInvitationsInternalServerError      | 500                                                        | application/json                                           |
-| errors.BereachDefaultError                                 | 4XX, 5XX                                                   | \*/\*                                                      |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## followCompany
 
@@ -324,15 +324,15 @@ run();
 
 ### Errors
 
-| Error Type                                           | Status Code                                          | Content Type                                         |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| errors.FollowLinkedInCompanyBadRequestError          | 400                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyUnauthorizedError        | 401                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyForbiddenError           | 403                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyNotFoundError            | 404                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyConflictError            | 409                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyGoneError                | 410                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyUnprocessableEntityError | 422                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyTooManyRequestsError     | 429                                                  | application/json                                     |
-| errors.FollowLinkedInCompanyInternalServerError      | 500                                                  | application/json                                     |
-| errors.BereachDefaultError                           | 4XX, 5XX                                             | \*/\*                                                |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

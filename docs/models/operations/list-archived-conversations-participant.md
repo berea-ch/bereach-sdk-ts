@@ -12,6 +12,7 @@ let value: ListArchivedConversationsParticipant = {
   profileUrl: "https://functional-suv.org",
   headline: "<value>",
   profilePicture: "<value>",
+  publicIdentifier: "<value>",
 };
 ```
 
@@ -25,3 +26,4 @@ let value: ListArchivedConversationsParticipant = {
 | `profileUrl`       | *string*           | :heavy_check_mark: | N/A                |
 | `headline`         | *string*           | :heavy_check_mark: | N/A                |
 | `profilePicture`   | *string*           | :heavy_check_mark: | N/A                |
+| `publicIdentifier` | *string*           | :heavy_check_mark: | N/A                |

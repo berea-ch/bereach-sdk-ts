@@ -52,9 +52,17 @@ export type LifecycleStage = ClosedEnum<typeof LifecycleStage>;
 
 export type ContactRequest = {
   /**
-   * LinkedIn profile URL
+   * LinkedIn profile URL, URN, or bare vanity name
    */
   linkedinUrl: string;
+  /**
+   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...). Improves dedup when provided alongside a vanity URL.
+   */
+  profileUrn?: string | undefined;
+  /**
+   * LinkedIn vanity slug (e.g. joshuaau). Improves dedup when provided alongside a URN.
+   */
+  publicIdentifier?: string | undefined;
   /**
    * Profile name
    */
@@ -99,6 +107,14 @@ export type Results = {
 export type ContactResponse = {
   id: string;
   linkedinUrl: string;
+  /**
+   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...)
+   */
+  profileUrn: string | null;
+  /**
+   * LinkedIn vanity slug (e.g. joshuaau)
+   */
+  publicIdentifier: string | null;
   name: string;
   lifecycleStage: string;
   hotScore: number;
@@ -113,6 +129,8 @@ export type ContactResponse = {
   lastContactedAt: string | null;
   lastRepliedAt: string | null;
   nextFollowUpAt: string | null;
+  draftNextDm: string | null;
+  draftNextDmGeneratedAt: string | null;
   doNotContact: boolean;
   tags: Array<string>;
   createdAt: string;
@@ -152,6 +170,8 @@ export const LifecycleStage$outboundSchema: z.ZodMiniEnum<
 /** @internal */
 export type ContactRequest$Outbound = {
   linkedinUrl: string;
+  profileUrn?: string | undefined;
+  publicIdentifier?: string | undefined;
   name: string;
   source: string;
   sourceAngle?: string | undefined;
@@ -167,6 +187,8 @@ export const ContactRequest$outboundSchema: z.ZodMiniType<
   ContactRequest
 > = z.object({
   linkedinUrl: z.string(),
+  profileUrn: z.optional(z.string()),
+  publicIdentifier: z.optional(z.string()),
   name: z.string(),
   source: z._default(Source$outboundSchema, "manual_import"),
   sourceAngle: z.optional(z.string()),
@@ -226,6 +248,8 @@ export const ContactResponse$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   linkedinUrl: types.string(),
+  profileUrn: types.nullable(types.string()),
+  publicIdentifier: types.nullable(types.string()),
   name: types.string(),
   lifecycleStage: types.string(),
   hotScore: types.number(),
@@ -240,6 +264,8 @@ export const ContactResponse$inboundSchema: z.ZodMiniType<
   lastContactedAt: types.nullable(types.string()),
   lastRepliedAt: types.nullable(types.string()),
   nextFollowUpAt: types.nullable(types.string()),
+  draftNextDm: types.nullable(types.string()),
+  draftNextDmGeneratedAt: types.nullable(types.string()),
   doNotContact: types.boolean(),
   tags: z.array(types.string()),
   createdAt: types.string(),

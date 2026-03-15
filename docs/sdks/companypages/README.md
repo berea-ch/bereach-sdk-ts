@@ -73,18 +73,18 @@ run();
 
 ### Errors
 
-| Error Type                                              | Status Code                                             | Content Type                                            |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| errors.ListLinkedInCompanyPagesBadRequestError          | 400                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesUnauthorizedError        | 401                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesForbiddenError           | 403                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesNotFoundError            | 404                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesConflictError            | 409                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesGoneError                | 410                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesUnprocessableEntityError | 422                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesTooManyRequestsError     | 429                                                     | application/json                                        |
-| errors.ListLinkedInCompanyPagesInternalServerError      | 500                                                     | application/json                                        |
-| errors.BereachDefaultError                              | 4XX, 5XX                                                | \*/\*                                                   |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getPosts
 
@@ -155,18 +155,18 @@ run();
 
 ### Errors
 
-| Error Type                                         | Status Code                                        | Content Type                                       |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| errors.GetCompanyPagePostsBadRequestError          | 400                                                | application/json                                   |
-| errors.GetCompanyPagePostsUnauthorizedError        | 401                                                | application/json                                   |
-| errors.GetCompanyPagePostsForbiddenError           | 403                                                | application/json                                   |
-| errors.GetCompanyPagePostsNotFoundError            | 404                                                | application/json                                   |
-| errors.GetCompanyPagePostsConflictError            | 409                                                | application/json                                   |
-| errors.GetCompanyPagePostsGoneError                | 410                                                | application/json                                   |
-| errors.GetCompanyPagePostsUnprocessableEntityError | 422                                                | application/json                                   |
-| errors.GetCompanyPagePostsTooManyRequestsError     | 429                                                | application/json                                   |
-| errors.GetCompanyPagePostsInternalServerError      | 500                                                | application/json                                   |
-| errors.BereachDefaultError                         | 4XX, 5XX                                           | \*/\*                                              |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getPermissions
 
@@ -237,18 +237,18 @@ run();
 
 ### Errors
 
-| Error Type                                               | Status Code                                              | Content Type                                             |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| errors.GetCompanyPagePermissionsBadRequestError          | 400                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsUnauthorizedError        | 401                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsForbiddenError           | 403                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsNotFoundError            | 404                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsConflictError            | 409                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsGoneError                | 410                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsUnprocessableEntityError | 422                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsTooManyRequestsError     | 429                                                      | application/json                                         |
-| errors.GetCompanyPagePermissionsInternalServerError      | 500                                                      | application/json                                         |
-| errors.BereachDefaultError                               | 4XX, 5XX                                                 | \*/\*                                                    |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getAnalytics
 
@@ -319,15 +319,15 @@ run();
 
 ### Errors
 
-| Error Type                                             | Status Code                                            | Content Type                                           |
-| ------------------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------ |
-| errors.GetCompanyPageAnalyticsBadRequestError          | 400                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsUnauthorizedError        | 401                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsForbiddenError           | 403                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsNotFoundError            | 404                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsConflictError            | 409                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsGoneError                | 410                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsUnprocessableEntityError | 422                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsTooManyRequestsError     | 429                                                    | application/json                                       |
-| errors.GetCompanyPageAnalyticsInternalServerError      | 500                                                    | application/json                                       |
-| errors.BereachDefaultError                             | 4XX, 5XX                                               | \*/\*                                                  |
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

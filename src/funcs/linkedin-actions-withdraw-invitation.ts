@@ -39,15 +39,15 @@ export function linkedinActionsWithdrawInvitation(
 ): APIPromise<
   Result<
     operations.WithdrawLinkedInInvitationResponse,
-    | errors.WithdrawLinkedInInvitationBadRequestError
-    | errors.WithdrawLinkedInInvitationUnauthorizedError
-    | errors.WithdrawLinkedInInvitationForbiddenError
-    | errors.WithdrawLinkedInInvitationNotFoundError
-    | errors.WithdrawLinkedInInvitationConflictError
-    | errors.WithdrawLinkedInInvitationGoneError
-    | errors.WithdrawLinkedInInvitationUnprocessableEntityError
-    | errors.WithdrawLinkedInInvitationTooManyRequestsError
-    | errors.WithdrawLinkedInInvitationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.WithdrawLinkedInInvitationResponse,
-      | errors.WithdrawLinkedInInvitationBadRequestError
-      | errors.WithdrawLinkedInInvitationUnauthorizedError
-      | errors.WithdrawLinkedInInvitationForbiddenError
-      | errors.WithdrawLinkedInInvitationNotFoundError
-      | errors.WithdrawLinkedInInvitationConflictError
-      | errors.WithdrawLinkedInInvitationGoneError
-      | errors.WithdrawLinkedInInvitationUnprocessableEntityError
-      | errors.WithdrawLinkedInInvitationTooManyRequestsError
-      | errors.WithdrawLinkedInInvitationInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -179,15 +179,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.WithdrawLinkedInInvitationResponse,
-    | errors.WithdrawLinkedInInvitationBadRequestError
-    | errors.WithdrawLinkedInInvitationUnauthorizedError
-    | errors.WithdrawLinkedInInvitationForbiddenError
-    | errors.WithdrawLinkedInInvitationNotFoundError
-    | errors.WithdrawLinkedInInvitationConflictError
-    | errors.WithdrawLinkedInInvitationGoneError
-    | errors.WithdrawLinkedInInvitationUnprocessableEntityError
-    | errors.WithdrawLinkedInInvitationTooManyRequestsError
-    | errors.WithdrawLinkedInInvitationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -198,39 +198,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.WithdrawLinkedInInvitationResponse$inboundSchema),
-    M.jsonErr(
-      400,
-      errors.WithdrawLinkedInInvitationBadRequestError$inboundSchema,
-    ),
-    M.jsonErr(
-      401,
-      errors.WithdrawLinkedInInvitationUnauthorizedError$inboundSchema,
-    ),
-    M.jsonErr(
-      403,
-      errors.WithdrawLinkedInInvitationForbiddenError$inboundSchema,
-    ),
-    M.jsonErr(
-      404,
-      errors.WithdrawLinkedInInvitationNotFoundError$inboundSchema,
-    ),
-    M.jsonErr(
-      409,
-      errors.WithdrawLinkedInInvitationConflictError$inboundSchema,
-    ),
-    M.jsonErr(410, errors.WithdrawLinkedInInvitationGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.WithdrawLinkedInInvitationUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(
-      429,
-      errors.WithdrawLinkedInInvitationTooManyRequestsError$inboundSchema,
-    ),
-    M.jsonErr(
-      500,
-      errors.WithdrawLinkedInInvitationInternalServerError$inboundSchema,
-    ),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

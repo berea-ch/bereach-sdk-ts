@@ -5,6 +5,7 @@ generation:
     schemaPath: .speakeasy/out.openapi.yaml
   sdkClassName: Bereach
   maintainOpenAPIOrder: true
+  deduplicateErrors: true
   usageSnippets:
     optionalPropertyRendering: withExample
     sdkInitStyle: constructor
@@ -34,7 +35,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 1.2.3
+  version: 1.3.2
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}

@@ -39,15 +39,15 @@ export function linkedInChatStar(
 ): APIPromise<
   Result<
     operations.StarConversationResponse,
-    | errors.StarConversationBadRequestError
-    | errors.StarConversationUnauthorizedError
-    | errors.StarConversationForbiddenError
-    | errors.StarConversationNotFoundError
-    | errors.StarConversationConflictError
-    | errors.StarConversationGoneError
-    | errors.StarConversationUnprocessableEntityError
-    | errors.StarConversationTooManyRequestsError
-    | errors.StarConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -73,15 +73,15 @@ async function $do(
   [
     Result<
       operations.StarConversationResponse,
-      | errors.StarConversationBadRequestError
-      | errors.StarConversationUnauthorizedError
-      | errors.StarConversationForbiddenError
-      | errors.StarConversationNotFoundError
-      | errors.StarConversationConflictError
-      | errors.StarConversationGoneError
-      | errors.StarConversationUnprocessableEntityError
-      | errors.StarConversationTooManyRequestsError
-      | errors.StarConversationInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -176,15 +176,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.StarConversationResponse,
-    | errors.StarConversationBadRequestError
-    | errors.StarConversationUnauthorizedError
-    | errors.StarConversationForbiddenError
-    | errors.StarConversationNotFoundError
-    | errors.StarConversationConflictError
-    | errors.StarConversationGoneError
-    | errors.StarConversationUnprocessableEntityError
-    | errors.StarConversationTooManyRequestsError
-    | errors.StarConversationInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -195,18 +195,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.StarConversationResponse$inboundSchema),
-    M.jsonErr(400, errors.StarConversationBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.StarConversationUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.StarConversationForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.StarConversationNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.StarConversationConflictError$inboundSchema),
-    M.jsonErr(410, errors.StarConversationGoneError$inboundSchema),
-    M.jsonErr(
-      422,
-      errors.StarConversationUnprocessableEntityError$inboundSchema,
-    ),
-    M.jsonErr(429, errors.StarConversationTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.StarConversationInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

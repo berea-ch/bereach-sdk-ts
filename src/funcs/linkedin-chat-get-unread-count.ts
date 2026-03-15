@@ -36,15 +36,15 @@ export function linkedinChatGetUnreadCount(
 ): APIPromise<
   Result<
     operations.GetUnreadCountResponse,
-    | errors.GetUnreadCountBadRequestError
-    | errors.GetUnreadCountUnauthorizedError
-    | errors.GetUnreadCountForbiddenError
-    | errors.GetUnreadCountNotFoundError
-    | errors.GetUnreadCountConflictError
-    | errors.GetUnreadCountGoneError
-    | errors.GetUnreadCountUnprocessableEntityError
-    | errors.GetUnreadCountTooManyRequestsError
-    | errors.GetUnreadCountInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -70,15 +70,15 @@ async function $do(
   [
     Result<
       operations.GetUnreadCountResponse,
-      | errors.GetUnreadCountBadRequestError
-      | errors.GetUnreadCountUnauthorizedError
-      | errors.GetUnreadCountForbiddenError
-      | errors.GetUnreadCountNotFoundError
-      | errors.GetUnreadCountConflictError
-      | errors.GetUnreadCountGoneError
-      | errors.GetUnreadCountUnprocessableEntityError
-      | errors.GetUnreadCountTooManyRequestsError
-      | errors.GetUnreadCountInternalServerError
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -160,15 +160,15 @@ async function $do(
 
   const [result] = await M.match<
     operations.GetUnreadCountResponse,
-    | errors.GetUnreadCountBadRequestError
-    | errors.GetUnreadCountUnauthorizedError
-    | errors.GetUnreadCountForbiddenError
-    | errors.GetUnreadCountNotFoundError
-    | errors.GetUnreadCountConflictError
-    | errors.GetUnreadCountGoneError
-    | errors.GetUnreadCountUnprocessableEntityError
-    | errors.GetUnreadCountTooManyRequestsError
-    | errors.GetUnreadCountInternalServerError
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -179,15 +179,15 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, operations.GetUnreadCountResponse$inboundSchema),
-    M.jsonErr(400, errors.GetUnreadCountBadRequestError$inboundSchema),
-    M.jsonErr(401, errors.GetUnreadCountUnauthorizedError$inboundSchema),
-    M.jsonErr(403, errors.GetUnreadCountForbiddenError$inboundSchema),
-    M.jsonErr(404, errors.GetUnreadCountNotFoundError$inboundSchema),
-    M.jsonErr(409, errors.GetUnreadCountConflictError$inboundSchema),
-    M.jsonErr(410, errors.GetUnreadCountGoneError$inboundSchema),
-    M.jsonErr(422, errors.GetUnreadCountUnprocessableEntityError$inboundSchema),
-    M.jsonErr(429, errors.GetUnreadCountTooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.GetUnreadCountInternalServerError$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });
