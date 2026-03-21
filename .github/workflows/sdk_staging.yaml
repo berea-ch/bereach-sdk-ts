@@ -1,0 +1,65 @@
+name: Staging SDK
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+  statuses: write
+  id-token: write
+"on":
+  push:
+    branches:
+      - "staging/**"
+  workflow_dispatch: {}
+
+jobs:
+  generate-and-publish-beta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Speakeasy CLI
+        uses: speakeasy-api/speakeasy-action/setup@v15
+        with:
+          speakeasy-version: latest
+          speakeasy-api-key: ${{ secrets.SPEAKEASY_API_KEY }}
+
+      - name: Fetch staging OpenAPI spec
+        run: curl -sSf https://api-staging.berea.ch/openapi.json -o .speakeasy/staging-openapi.json
+
+      - name: Apply overlay and generate SDK
+        run: |
+          speakeasy overlay apply \
+            -s .speakeasy/staging-openapi.json \
+            -o .speakeasy/speakeasy-modifications-overlay.yaml \
+            > .speakeasy/staging-openapi-final.json
+          speakeasy generate sdk \
+            -s .speakeasy/staging-openapi-final.json \
+            -l typescript \
+            -o .
+
+      - name: Set beta version
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          BASE=$(echo "$CURRENT" | sed 's/-.*//')
+          MAJOR=$(echo "$BASE" | cut -d. -f1)
+          MINOR=$(echo "$BASE" | cut -d. -f2)
+          NEXT_MINOR=$((MINOR + 1))
+          BETA_VERSION="${MAJOR}.${NEXT_MINOR}.0-beta.${GITHUB_RUN_NUMBER}"
+          echo "Publishing version: $BETA_VERSION"
+          npm version "$BETA_VERSION" --no-git-tag-version
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish beta
+        run: npm publish --tag beta --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
