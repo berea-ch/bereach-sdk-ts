@@ -1,6 +1,6 @@
 # LifecycleStage
 
-Initial lifecycle stage
+Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
 
 ## Example Usage
 

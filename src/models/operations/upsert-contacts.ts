@@ -36,7 +36,7 @@ export const Source = {
 export type Source = ClosedEnum<typeof Source>;
 
 /**
- * Initial lifecycle stage
+ * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
  */
 export const LifecycleStage = {
   Contact: "contact",
@@ -46,7 +46,7 @@ export const LifecycleStage = {
   Rejected: "rejected",
 } as const;
 /**
- * Initial lifecycle stage
+ * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
  */
 export type LifecycleStage = ClosedEnum<typeof LifecycleStage>;
 
@@ -76,7 +76,7 @@ export type ContactRequest = {
    */
   sourceAngle?: string | undefined;
   /**
-   * Initial lifecycle stage
+   * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
    */
   lifecycleStage?: LifecycleStage | undefined;
   /**
@@ -175,7 +175,7 @@ export type ContactRequest$Outbound = {
   name: string;
   source: string;
   sourceAngle?: string | undefined;
-  lifecycleStage: string;
+  lifecycleStage?: string | undefined;
   hotScore?: number | undefined;
   qualificationNotes?: string | undefined;
   notes?: string | undefined;
@@ -192,7 +192,7 @@ export const ContactRequest$outboundSchema: z.ZodMiniType<
   name: z.string(),
   source: z._default(Source$outboundSchema, "manual_import"),
   sourceAngle: z.optional(z.string()),
-  lifecycleStage: z._default(LifecycleStage$outboundSchema, "contact"),
+  lifecycleStage: z.optional(LifecycleStage$outboundSchema),
   hotScore: z.optional(z.int()),
   qualificationNotes: z.optional(z.string()),
   notes: z.optional(z.string()),

@@ -1871,7 +1871,6 @@ export type ListLinkedInAccountsResponse = {
 export const ProxyProvider = {
   Decodo: "decodo",
   Oxylabs: "oxylabs",
-  Brightdata: "brightdata",
 } as const;
 /**
  * Residential proxy provider. Default: decodo.
@@ -1908,7 +1907,7 @@ export type UpdateLinkedInAccountRequest = {
    */
   proxyCity?: string | null | undefined;
   /**
-   * Sticky IP rotation period in hours (default 336 = 14 days).
+   * Sticky IP rotation period in hours (default 24 = 1 day).
    */
   proxyRotationHours?: number | undefined;
 };
