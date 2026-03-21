@@ -13,5 +13,5 @@ let value: ProxyProvider = "decodo";
 ## Values
 
 ```typescript
-"decodo" | "oxylabs" | "brightdata"
+"decodo" | "oxylabs"
 ```

@@ -113,7 +113,6 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
   const path = pathToFunc("/campaigns/{campaignSlug}/filter")(pathParams);
 
   const query = encodeFormQuery({
