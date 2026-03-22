@@ -7,13 +7,15 @@ import { profileGetFollowerAnalytics } from "../funcs/profile-get-follower-analy
 import { profileGetFollowers } from "../funcs/profile-get-followers.js";
 import { profileGetLimits } from "../funcs/profile-get-limits.js";
 import { profileGetPostAnalytics } from "../funcs/profile-get-post-analytics.js";
-import { profileGetPosts } from "../funcs/profile-get-posts.js";
-import { profileGetProfileViews } from "../funcs/profile-get-profile-views.js";
 import { profileGetSearchAppearances } from "../funcs/profile-get-search-appearances.js";
 import { profileGet } from "../funcs/profile-get.js";
 import { profileListAccounts } from "../funcs/profile-list-accounts.js";
+import { profileListConnections } from "../funcs/profile-list-connections.js";
+import { profilePosts } from "../funcs/profile-posts.js";
 import { profileRefresh } from "../funcs/profile-refresh.js";
+import { profileSwitchAccount } from "../funcs/profile-switch-account.js";
 import { profileUpdateAccount } from "../funcs/profile-update-account.js";
+import { profileViews } from "../funcs/profile-views.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -27,7 +29,7 @@ export class Profile extends ClientSDK {
    */
   async get(
     options?: RequestOptions,
-  ): Promise<operations.GetMyLinkedInProfileResponse> {
+  ): Promise<operations.GetProfileResponse> {
     return unwrapAsync(profileGet(
       this,
       options,
@@ -42,7 +44,7 @@ export class Profile extends ClientSDK {
    */
   async listAccounts(
     options?: RequestOptions,
-  ): Promise<operations.ListLinkedInAccountsResponse> {
+  ): Promise<operations.ListAccountsResponse> {
     return unwrapAsync(profileListAccounts(
       this,
       options,
@@ -56,9 +58,9 @@ export class Profile extends ClientSDK {
    * Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts. DB-only — 0 credits.
    */
   async updateAccount(
-    request: operations.UpdateLinkedInAccountRequest,
+    request: operations.UpdateAccountRequest,
     options?: RequestOptions,
-  ): Promise<operations.UpdateLinkedInAccountResponse> {
+  ): Promise<operations.UpdateAccountResponse> {
     return unwrapAsync(profileUpdateAccount(
       this,
       request,
@@ -74,7 +76,7 @@ export class Profile extends ClientSDK {
    */
   async refresh(
     options?: RequestOptions,
-  ): Promise<operations.RefreshMyLinkedInProfileResponse> {
+  ): Promise<operations.RefreshResponse> {
     return unwrapAsync(profileRefresh(
       this,
       options,
@@ -87,11 +89,11 @@ export class Profile extends ClientSDK {
    * @remarks
    * Returns paginated posts from the authenticated user's own LinkedIn profile. No credits consumed. Requires valid LinkedIn credentials and a stored profileUrn (call /me/linkedin/refresh first if needed).
    */
-  async getPosts(
-    request?: operations.GetMyLinkedInPostsRequest | undefined,
+  async posts(
+    request?: operations.GetMyPostsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetMyLinkedInPostsResponse> {
-    return unwrapAsync(profileGetPosts(
+  ): Promise<operations.GetMyPostsResponse> {
+    return unwrapAsync(profilePosts(
       this,
       request,
       options,
@@ -105,9 +107,9 @@ export class Profile extends ClientSDK {
    * Returns a paginated list of the authenticated user's LinkedIn followers. LinkedIn caps visible results at ~1 000. No credits consumed. Requires valid LinkedIn credentials.
    */
   async getFollowers(
-    request?: operations.GetMyLinkedInFollowersRequest | undefined,
+    request?: operations.GetFollowersRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetMyLinkedInFollowersResponse> {
+  ): Promise<operations.GetFollowersResponse> {
     return unwrapAsync(profileGetFollowers(
       this,
       request,
@@ -123,7 +125,7 @@ export class Profile extends ClientSDK {
    */
   async getLimits(
     options?: RequestOptions,
-  ): Promise<operations.GetMyLimitsResponse> {
+  ): Promise<operations.GetLimitsResponse> {
     return unwrapAsync(profileGetLimits(
       this,
       options,
@@ -138,7 +140,7 @@ export class Profile extends ClientSDK {
    */
   async getCredits(
     options?: RequestOptions,
-  ): Promise<operations.GetMyCreditsResponse> {
+  ): Promise<operations.GetCreditsResponse> {
     return unwrapAsync(profileGetCredits(
       this,
       options,
@@ -151,11 +153,11 @@ export class Profile extends ClientSDK {
    * @remarks
    * Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
    */
-  async getProfileViews(
-    request?: operations.GetLinkedInProfileViewsRequest | undefined,
+  async views(
+    request?: operations.GetProfileViewsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetLinkedInProfileViewsResponse> {
-    return unwrapAsync(profileGetProfileViews(
+  ): Promise<operations.GetProfileViewsResponse> {
+    return unwrapAsync(profileViews(
       this,
       request,
       options,
@@ -169,9 +171,9 @@ export class Profile extends ClientSDK {
    * Get how many times you appeared in LinkedIn search results and the top keywords that led to your profile. Returns search count, top keywords, and searcher demographics. 1 credit.
    */
   async getSearchAppearances(
-    request?: operations.GetLinkedInSearchAppearancesRequest | undefined,
+    request?: operations.GetSearchAppearancesRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetLinkedInSearchAppearancesResponse> {
+  ): Promise<operations.GetSearchAppearancesResponse> {
     return unwrapAsync(profileGetSearchAppearances(
       this,
       request,
@@ -183,12 +185,12 @@ export class Profile extends ClientSDK {
    * Get post analytics
    *
    * @remarks
-   * Get impressions, engagement, clicks, reactions, comments, and reposts for a LinkedIn post. Combines data from multiple LinkedIn APIs (analytics + social counts). Returns bad_request for invalid post URL. 1 credit.
+   * Get reactions and comments data for a LinkedIn post. Returns reaction counts, comment count, and post URN. Returns bad_request for invalid post URL. 1 credit.
    */
   async getPostAnalytics(
-    request: operations.GetLinkedInPostAnalyticsRequest,
+    request: operations.GetPostAnalyticsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetLinkedInPostAnalyticsResponse> {
+  ): Promise<operations.GetPostAnalyticsResponse> {
     return unwrapAsync(profileGetPostAnalytics(
       this,
       request,
@@ -203,10 +205,44 @@ export class Profile extends ClientSDK {
    * Get follower demographics and growth data for your LinkedIn profile. Returns follower count, growth trends, and demographic breakdowns. 1 credit.
    */
   async getFollowerAnalytics(
-    request?: operations.GetLinkedInFollowerAnalyticsRequest | undefined,
+    request?: operations.GetFollowerAnalyticsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetLinkedInFollowerAnalyticsResponse> {
+  ): Promise<operations.GetFollowerAnalyticsResponse> {
     return unwrapAsync(profileGetFollowerAnalytics(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Switch active LinkedIn account
+   *
+   * @remarks
+   * Switch the active LinkedIn account. All subsequent API calls will use the selected account's credentials. 0 credits.
+   */
+  async switchAccount(
+    request: operations.SwitchAccountRequest,
+    options?: RequestOptions,
+  ): Promise<operations.SwitchAccountResponse> {
+    return unwrapAsync(profileSwitchAccount(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * List LinkedIn connections
+   *
+   * @remarks
+   * List your LinkedIn connections (1st degree) with name, headline, profile URL, and connection date. 1 credit per page.
+   */
+  async listConnections(
+    request?: operations.ListConnectionsRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.ListConnectionsResponse> {
+    return unwrapAsync(profileListConnections(
       this,
       request,
       options,

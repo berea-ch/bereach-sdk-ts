@@ -34,7 +34,7 @@ export function profileGet(
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.GetMyLinkedInProfileResponse,
+    operations.GetProfileResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -44,6 +44,8 @@ export function profileGet(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -66,7 +68,7 @@ async function $do(
 ): Promise<
   [
     Result<
-      operations.GetMyLinkedInProfileResponse,
+      operations.GetProfileResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -76,6 +78,8 @@ async function $do(
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -101,7 +105,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "getMyLinkedInProfile",
+    operationID: "getProfile",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -115,7 +119,7 @@ async function $do(
 
   const requestRes = client._createRequest(context, {
     security: requestSecurity,
-    method: "POST",
+    method: "GET",
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
@@ -140,6 +144,8 @@ async function $do(
       "429",
       "4XX",
       "500",
+      "502",
+      "503",
       "5XX",
     ],
     retryConfig: context.retryConfig,
@@ -155,7 +161,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.GetMyLinkedInProfileResponse,
+    operations.GetProfileResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -165,6 +171,8 @@ async function $do(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -174,7 +182,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.GetMyLinkedInProfileResponse$inboundSchema),
+    M.json(200, operations.GetProfileResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
@@ -184,6 +192,8 @@ async function $do(
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
     M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

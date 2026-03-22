@@ -30,22 +30,15 @@ import { Result } from "../types/fp.js";
  * Find a conversation with a specific person
  *
  * @remarks
- * Find a conversation with a specific person by name. Two strategies tried in order:
- *
- * 1. **Resource slug search (free)**: if `resourceSlug` provided, searches message content for the slug and filters by participant name. This is the recommended approach for DM guard dedup — pass the unique part of your resource link.
- * 2. **Inbox scan (1 credit/page)**: scans inbox pages looking for a participant name match. Used as fallback when no resource slug.
- *
- * Optionally returns messages from the found conversation (`includeMessages: true`).
- *
- * Max 5 pages searched in each strategy.
+ * Find a conversation with a specific person by profile URL or URN. Uses O(1) composeOptions lookup. Optionally returns messages from the found conversation (`includeMessages: true`). 0 credits.
  */
 export function chatFindConversation(
   client: BereachCore,
-  request: operations.FindLinkedInConversationRequest,
+  request: operations.FindConversationRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.FindLinkedInConversationResponse,
+    operations.FindConversationResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -55,6 +48,8 @@ export function chatFindConversation(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -74,12 +69,12 @@ export function chatFindConversation(
 
 async function $do(
   client: BereachCore,
-  request: operations.FindLinkedInConversationRequest,
+  request: operations.FindConversationRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.FindLinkedInConversationResponse,
+      operations.FindConversationResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -89,6 +84,8 @@ async function $do(
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -104,7 +101,7 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      z.parse(operations.FindLinkedInConversationRequest$outboundSchema, value),
+      z.parse(operations.FindConversationRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -127,7 +124,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "findLinkedInConversation",
+    operationID: "findConversation",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -167,6 +164,8 @@ async function $do(
       "429",
       "4XX",
       "500",
+      "502",
+      "503",
       "5XX",
     ],
     retryConfig: context.retryConfig,
@@ -182,7 +181,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.FindLinkedInConversationResponse,
+    operations.FindConversationResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -192,6 +191,8 @@ async function $do(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -201,7 +202,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.FindLinkedInConversationResponse$inboundSchema),
+    M.json(200, operations.FindConversationResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
@@ -211,6 +212,8 @@ async function $do(
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
     M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

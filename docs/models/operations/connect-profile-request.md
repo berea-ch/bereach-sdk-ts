@@ -1,0 +1,19 @@
+# ConnectProfileRequest
+
+## Example Usage
+
+```typescript
+import { ConnectProfileRequest } from "bereach/models/operations";
+
+let value: ConnectProfileRequest = {
+  profile: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                                          | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `profile`                                                                                                                                                                      | *string*                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                             | LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...). |
+| `campaignSlug`                                                                                                                                                                 | *string*                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                             | Campaign identifier for deduplication. Dedup by profile automatically.                                                                                                         |
+| ~~`actionSlug`~~                                                                                                                                                               | *string*                                                                                                                                                                       | :heavy_minus_sign:                                                                                                                                                             | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>Deprecated. Use campaignSlug only.            |

@@ -4,8 +4,6 @@ sources:
     BeReach API:
         inputs:
             - location: https://api.berea.ch
-        overlays:
-            - location: .speakeasy/speakeasy-modifications-overlay.yaml
         output: .speakeasy/out.openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api

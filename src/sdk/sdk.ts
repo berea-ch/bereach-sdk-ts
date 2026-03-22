@@ -8,50 +8,23 @@ import { Campaigns } from "./campaigns.js";
 import { Chat } from "./chat.js";
 import { CompanyPages } from "./company-pages.js";
 import { Contacts } from "./contacts.js";
-import { LinkedInActions2 } from "./linked-in-actions-2.js";
-import { LinkedInChat2 } from "./linked-in-chat-2.js";
-import { LinkedInScrapers2 } from "./linked-in-scrapers-2.js";
-import { LinkedInSearch1 } from "./linked-in-search-1.js";
-import { LinkedinActions1 } from "./linkedin-actions-1.js";
-import { LinkedinChat1 } from "./linkedin-chat-1.js";
-import { LinkedinScrapers1 } from "./linkedin-scrapers-1.js";
-import { LinkedinSearch2 } from "./linkedin-search-2.js";
+import { Context } from "./context.js";
+import { Cron } from "./cron.js";
 import { Profile } from "./profile.js";
 import { SalesNav } from "./sales-nav.js";
-import { SalesNavigatorSearch } from "./sales-navigator-search.js";
+import { ScheduledMessages } from "./scheduled-messages.js";
 import { Scrapers } from "./scrapers.js";
+import { Search } from "./search.js";
 
 export class Bereach extends ClientSDK {
-  private _linkedinScrapers?: LinkedinScrapers1;
-  get linkedinScrapers(): LinkedinScrapers1 {
-    return (this._linkedinScrapers ??= new LinkedinScrapers1(this._options));
-  }
-
-  private _linkedInScrapers?: LinkedInScrapers2;
-  get linkedInScrapers(): LinkedInScrapers2 {
-    return (this._linkedInScrapers ??= new LinkedInScrapers2(this._options));
-  }
-
   private _scrapers?: Scrapers;
   get scrapers(): Scrapers {
     return (this._scrapers ??= new Scrapers(this._options));
   }
 
-  private _linkedInSearch?: LinkedInSearch1;
-  get linkedInSearch(): LinkedInSearch1 {
-    return (this._linkedInSearch ??= new LinkedInSearch1(this._options));
-  }
-
-  private _linkedinSearch?: LinkedinSearch2;
-  get linkedinSearch(): LinkedinSearch2 {
-    return (this._linkedinSearch ??= new LinkedinSearch2(this._options));
-  }
-
-  private _salesNavigatorSearch?: SalesNavigatorSearch;
-  get salesNavigatorSearch(): SalesNavigatorSearch {
-    return (this._salesNavigatorSearch ??= new SalesNavigatorSearch(
-      this._options,
-    ));
+  private _search?: Search;
+  get search(): Search {
+    return (this._search ??= new Search(this._options));
   }
 
   private _salesNav?: SalesNav;
@@ -64,16 +37,6 @@ export class Bereach extends ClientSDK {
     return (this._actions ??= new Actions(this._options));
   }
 
-  private _linkedinActions?: LinkedinActions1;
-  get linkedinActions(): LinkedinActions1 {
-    return (this._linkedinActions ??= new LinkedinActions1(this._options));
-  }
-
-  private _linkedInActions?: LinkedInActions2;
-  get linkedInActions(): LinkedInActions2 {
-    return (this._linkedInActions ??= new LinkedInActions2(this._options));
-  }
-
   private _profile?: Profile;
   get profile(): Profile {
     return (this._profile ??= new Profile(this._options));
@@ -84,19 +47,9 @@ export class Bereach extends ClientSDK {
     return (this._companyPages ??= new CompanyPages(this._options));
   }
 
-  private _linkedinChat?: LinkedinChat1;
-  get linkedinChat(): LinkedinChat1 {
-    return (this._linkedinChat ??= new LinkedinChat1(this._options));
-  }
-
   private _chat?: Chat;
   get chat(): Chat {
     return (this._chat ??= new Chat(this._options));
-  }
-
-  private _linkedInChat?: LinkedInChat2;
-  get linkedInChat(): LinkedInChat2 {
-    return (this._linkedInChat ??= new LinkedInChat2(this._options));
   }
 
   private _campaigns?: Campaigns;
@@ -107,5 +60,20 @@ export class Bereach extends ClientSDK {
   private _contacts?: Contacts;
   get contacts(): Contacts {
     return (this._contacts ??= new Contacts(this._options));
+  }
+
+  private _scheduledMessages?: ScheduledMessages;
+  get scheduledMessages(): ScheduledMessages {
+    return (this._scheduledMessages ??= new ScheduledMessages(this._options));
+  }
+
+  private _context?: Context;
+  get context(): Context {
+    return (this._context ??= new Context(this._options));
+  }
+
+  private _cron?: Cron;
+  get cron(): Cron {
+    return (this._cron ??= new Cron(this._options));
   }
 }

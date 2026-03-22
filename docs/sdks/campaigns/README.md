@@ -9,7 +9,7 @@ Endpoints for managing campaigns and workflow filtering
 * [~~filter~~](#filter) - Check if campaign actions are completed :warning: **Deprecated**
 * [getStatus](#getstatus) - Query per-profile action status within a campaign
 * [sync](#sync) - Mark actions as completed without performing them
-* [getStats](#getstats) - Get aggregate campaign statistics
+* [stats](#stats) - Get aggregate campaign statistics
 
 ## ~~filter~~
 
@@ -19,7 +19,7 @@ Check if all provided actionSlugs are completed for a given campaignSlug. Used b
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="filterCampaign" method="get" path="/campaigns/{campaignSlug}/filter" -->
+<!-- UsageSnippet language="typescript" operationID="filter" method="get" path="/campaigns/{campaignSlug}/filter" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -73,14 +73,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.FilterCampaignRequest](../../models/operations/filter-campaign-request.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.FilterRequest](../../models/operations/filter-request.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.FilterCampaignResponse](../../models/operations/filter-campaign-response.md)\>**
+**Promise\<[operations.FilterResponse](../../models/operations/filter-response.md)\>**
 
 ### Errors
 
@@ -95,6 +95,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getStatus
@@ -103,7 +105,7 @@ Returns which actions (message, reply, like, visit, connect) have been completed
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getCampaignStatus" method="post" path="/campaigns/{campaignSlug}/status" -->
+<!-- UsageSnippet language="typescript" operationID="getStatus" method="post" path="/campaigns/{campaignSlug}/status" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -167,14 +169,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetCampaignStatusRequest](../../models/operations/get-campaign-status-request.md)                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.GetStatusRequest](../../models/operations/get-status-request.md)                                                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetCampaignStatusResponse](../../models/operations/get-campaign-status-response.md)\>**
+**Promise\<[operations.GetStatusResponse](../../models/operations/get-status-response.md)\>**
 
 ### Errors
 
@@ -189,6 +191,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## sync
@@ -197,7 +201,7 @@ Manually mark actions as completed for profiles within a campaign. Use when acti
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="syncCampaignActions" method="post" path="/campaigns/{campaignSlug}/sync" -->
+<!-- UsageSnippet language="typescript" operationID="sync" method="post" path="/campaigns/{campaignSlug}/sync" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -271,14 +275,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SyncCampaignActionsRequest](../../models/operations/sync-campaign-actions-request.md)                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SyncRequest](../../models/operations/sync-request.md)                                                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SyncCampaignActionsResponse](../../models/operations/sync-campaign-actions-response.md)\>**
+**Promise\<[operations.SyncResponse](../../models/operations/sync-response.md)\>**
 
 ### Errors
 
@@ -293,15 +297,17 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## getStats
+## stats
 
 Returns per-action counts, unique profile count, and total credits used for a campaign. 0 credits, no rate limit.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getCampaignStats" method="post" path="/campaigns/{campaignSlug}/stats" -->
+<!-- UsageSnippet language="typescript" operationID="getCampaignStats" method="get" path="/campaigns/{campaignSlug}/stats" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -310,7 +316,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.campaigns.getStats({
+  const result = await bereach.campaigns.stats({
     campaignSlug: "<value>",
   });
 
@@ -326,7 +332,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { campaignsGetStats } from "bereach/funcs/campaigns-get-stats.js";
+import { campaignsStats } from "bereach/funcs/campaigns-stats.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -335,14 +341,14 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await campaignsGetStats(bereach, {
+  const res = await campaignsStats(bereach, {
     campaignSlug: "<value>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("campaignsGetStats failed:", res.error);
+    console.log("campaignsStats failed:", res.error);
   }
 }
 
@@ -375,4 +381,6 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

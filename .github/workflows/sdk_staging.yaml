@@ -22,38 +22,39 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Install Speakeasy CLI
+        run: curl -fsSL https://raw.githubusercontent.com/speakeasy-api/speakeasy/main/install.sh | sh
+        env:
+          SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
+
+      - name: Save pre-generation version
+        id: pre_version
+        run: |
+          git fetch origin main --depth=1
+          VERSION=$(git show origin/main:package.json | grep '"version"' | head -1 | sed 's/.*"version": "//;s/".*//')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Point workflow to staging API
+        run: |
+          sed -i 's|location: https://api.berea.ch|location: https://api-staging.berea.ch|' .speakeasy/workflow.yaml
+
+      - name: Generate SDK via speakeasy run
+        run: speakeasy run -t bereach -y
+        env:
+          SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
+
       - name: Install dependencies
         run: npm install
 
-      - name: Install Speakeasy CLI
-        uses: speakeasy-api/speakeasy-action/setup@v15
-        with:
-          speakeasy-version: latest
-          speakeasy-api-key: ${{ secrets.SPEAKEASY_API_KEY }}
-
-      - name: Fetch staging OpenAPI spec
-        run: curl -sSf https://api-staging.berea.ch/openapi.json -o .speakeasy/staging-openapi.json
-
-      - name: Apply overlay and generate SDK
-        run: |
-          speakeasy overlay apply \
-            -s .speakeasy/staging-openapi.json \
-            -o .speakeasy/speakeasy-modifications-overlay.yaml \
-            > .speakeasy/staging-openapi-final.json
-          speakeasy generate sdk \
-            -s .speakeasy/staging-openapi-final.json \
-            -l typescript \
-            -o .
-
       - name: Set beta version
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          BASE=$(echo "$CURRENT" | sed 's/-.*//')
+          ORIGINAL="${{ steps.pre_version.outputs.version }}"
+          BASE=$(echo "$ORIGINAL" | sed 's/-.*//')
           MAJOR=$(echo "$BASE" | cut -d. -f1)
           MINOR=$(echo "$BASE" | cut -d. -f2)
           NEXT_MINOR=$((MINOR + 1))
           BETA_VERSION="${MAJOR}.${NEXT_MINOR}.0-beta.${GITHUB_RUN_NUMBER}"
-          echo "Publishing version: $BETA_VERSION"
+          echo "Original version: $ORIGINAL -> Beta version: $BETA_VERSION"
           npm version "$BETA_VERSION" --no-git-tag-version
 
       - name: Build

@@ -19,6 +19,7 @@ import {
   RequestTimeoutError,
   UnexpectedClientError,
 } from "../models/errors/http-client-errors.js";
+import * as errors from "../models/errors/index.js";
 import { ResponseValidationError } from "../models/errors/response-validation-error.js";
 import { SDKValidationError } from "../models/errors/sdk-validation-error.js";
 import * as operations from "../models/operations/index.js";
@@ -29,15 +30,26 @@ import { Result } from "../types/fp.js";
  * Create or upsert contacts (no campaign required)
  *
  * @remarks
- * Save contacts organically without creating a campaign first. Upserts by LinkedIn URL — if the contact already exists for this user, it updates the name and optional fields. Returns full contact objects with IDs so the AI agent can immediately log activities and update lifecycle stages.
+ * Save contacts organically without creating a campaign first. Upserts by LinkedIn URL — if the contact already exists for this user, it updates the name and optional fields. Returns full contact objects with IDs so the AI agent can immediately log activities and update lifecycle stages. 0 credits.
  */
 export function contactsUpsert(
   client: BereachCore,
-  request: operations.UpsertContactsRequest,
+  request: operations.UpsertRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.UpsertContactsResponse,
+    operations.UpsertResponse,
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -57,12 +69,23 @@ export function contactsUpsert(
 
 async function $do(
   client: BereachCore,
-  request: operations.UpsertContactsRequest,
+  request: operations.UpsertRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.UpsertContactsResponse,
+      operations.UpsertResponse,
+      | errors.BadRequestError
+      | errors.UnauthorizedError
+      | errors.ForbiddenError
+      | errors.NotFoundError
+      | errors.ConflictError
+      | errors.GoneError
+      | errors.UnprocessableEntityError
+      | errors.TooManyRequestsError
+      | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -77,7 +100,7 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => z.parse(operations.UpsertContactsRequest$outboundSchema, value),
+    (value) => z.parse(operations.UpsertRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -100,7 +123,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "upsertContacts",
+    operationID: "upsert",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -129,7 +152,21 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["4XX", "5XX"],
+    errorCodes: [
+      "400",
+      "401",
+      "403",
+      "404",
+      "409",
+      "410",
+      "422",
+      "429",
+      "4XX",
+      "500",
+      "502",
+      "503",
+      "5XX",
+    ],
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -138,8 +175,23 @@ async function $do(
   }
   const response = doResult.value;
 
+  const responseFields = {
+    HttpMeta: { Response: response, Request: req },
+  };
+
   const [result] = await M.match<
-    operations.UpsertContactsResponse,
+    operations.UpsertResponse,
+    | errors.BadRequestError
+    | errors.UnauthorizedError
+    | errors.ForbiddenError
+    | errors.NotFoundError
+    | errors.ConflictError
+    | errors.GoneError
+    | errors.UnprocessableEntityError
+    | errors.TooManyRequestsError
+    | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -149,10 +201,21 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(201, operations.UpsertContactsResponse$inboundSchema),
+    M.json(201, operations.UpsertResponse$inboundSchema),
+    M.jsonErr(400, errors.BadRequestError$inboundSchema),
+    M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
+    M.jsonErr(403, errors.ForbiddenError$inboundSchema),
+    M.jsonErr(404, errors.NotFoundError$inboundSchema),
+    M.jsonErr(409, errors.ConflictError$inboundSchema),
+    M.jsonErr(410, errors.GoneError$inboundSchema),
+    M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
+    M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
+    M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
-  )(response, req);
+  )(response, req, { extraFields: responseFields });
   if (!result.ok) {
     return [result, { status: "complete", request: req, response }];
   }
