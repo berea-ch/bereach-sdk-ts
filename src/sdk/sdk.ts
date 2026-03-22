@@ -8,6 +8,8 @@ import { Campaigns } from "./campaigns.js";
 import { Chat } from "./chat.js";
 import { CompanyPages } from "./company-pages.js";
 import { Contacts } from "./contacts.js";
+import { Context } from "./context.js";
+import { Cron } from "./cron.js";
 import { LinkedInActions2 } from "./linked-in-actions-2.js";
 import { LinkedInChat2 } from "./linked-in-chat-2.js";
 import { LinkedInScrapers2 } from "./linked-in-scrapers-2.js";
@@ -19,7 +21,9 @@ import { LinkedinSearch2 } from "./linkedin-search-2.js";
 import { Profile } from "./profile.js";
 import { SalesNav } from "./sales-nav.js";
 import { SalesNavigatorSearch } from "./sales-navigator-search.js";
+import { ScheduledMessages } from "./scheduled-messages.js";
 import { Scrapers } from "./scrapers.js";
+import { Search } from "./search.js";
 
 export class Bereach extends ClientSDK {
   private _linkedinScrapers?: LinkedinScrapers1;
@@ -45,6 +49,11 @@ export class Bereach extends ClientSDK {
   private _linkedinSearch?: LinkedinSearch2;
   get linkedinSearch(): LinkedinSearch2 {
     return (this._linkedinSearch ??= new LinkedinSearch2(this._options));
+  }
+
+  private _search?: Search;
+  get search(): Search {
+    return (this._search ??= new Search(this._options));
   }
 
   private _salesNavigatorSearch?: SalesNavigatorSearch;
@@ -107,5 +116,20 @@ export class Bereach extends ClientSDK {
   private _contacts?: Contacts;
   get contacts(): Contacts {
     return (this._contacts ??= new Contacts(this._options));
+  }
+
+  private _scheduledMessages?: ScheduledMessages;
+  get scheduledMessages(): ScheduledMessages {
+    return (this._scheduledMessages ??= new ScheduledMessages(this._options));
+  }
+
+  private _context?: Context;
+  get context(): Context {
+    return (this._context ??= new Context(this._options));
+  }
+
+  private _cron?: Cron;
+  get cron(): Cron {
+    return (this._cron ??= new Cron(this._options));
   }
 }

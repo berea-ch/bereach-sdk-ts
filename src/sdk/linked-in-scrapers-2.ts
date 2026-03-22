@@ -13,12 +13,12 @@ export class LinkedInScrapers2 extends ClientSDK {
    * Scrape replies to a LinkedIn comment
    *
    * @remarks
-   * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response.
+   * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty).
    */
   async collectCommentReplies(
-    request: operations.CollectLinkedInCommentRepliesRequest,
+    request: operations.CollectCommentRepliesRequest,
     options?: RequestOptions,
-  ): Promise<operations.CollectLinkedInCommentRepliesResponse> {
+  ): Promise<operations.CollectCommentRepliesResponse> {
     return unwrapAsync(linkedInScrapersCollectCommentReplies(
       this,
       request,
@@ -33,9 +33,9 @@ export class LinkedInScrapers2 extends ClientSDK {
    * Get posts from the LinkedIn home feed using GraphQL. Supports algorithmic (RELEVANCE) or chronological (REV_CHRON) sorting. Returns parsed post objects with author info, text, engagement counts. No pagination token support currently. 1 credit.
    */
   async getFeed(
-    request?: operations.GetLinkedInFeedRequest | undefined,
+    request?: operations.GetFeedRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetLinkedInFeedResponse> {
+  ): Promise<operations.GetFeedResponse> {
     return unwrapAsync(linkedInScrapersGetFeed(
       this,
       request,

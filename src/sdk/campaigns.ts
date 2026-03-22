@@ -3,8 +3,8 @@
  */
 
 import { campaignsFilter } from "../funcs/campaigns-filter.js";
-import { campaignsGetStats } from "../funcs/campaigns-get-stats.js";
 import { campaignsGetStatus } from "../funcs/campaigns-get-status.js";
+import { campaignsStats } from "../funcs/campaigns-stats.js";
 import { campaignsSync } from "../funcs/campaigns-sync.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
@@ -20,9 +20,9 @@ export class Campaigns extends ClientSDK {
    * @deprecated method: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   async filter(
-    request: operations.FilterCampaignRequest,
+    request: operations.FilterRequest,
     options?: RequestOptions,
-  ): Promise<operations.FilterCampaignResponse> {
+  ): Promise<operations.FilterResponse> {
     return unwrapAsync(campaignsFilter(
       this,
       request,
@@ -37,9 +37,9 @@ export class Campaigns extends ClientSDK {
    * Returns which actions (message, reply, like, visit, connect) have been completed for each profile within a campaign. Replaces the slug-based filter endpoint — query by profile URLs instead of building slug lists. 0 credits, no rate limit.
    */
   async getStatus(
-    request: operations.GetCampaignStatusRequest,
+    request: operations.GetStatusRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetCampaignStatusResponse> {
+  ): Promise<operations.GetStatusResponse> {
     return unwrapAsync(campaignsGetStatus(
       this,
       request,
@@ -54,9 +54,9 @@ export class Campaigns extends ClientSDK {
    * Manually mark actions as completed for profiles within a campaign. Use when actions were performed outside the API (e.g. manual DMs) and need to be synced. 0 credits, no rate limit.
    */
   async sync(
-    request: operations.SyncCampaignActionsRequest,
+    request: operations.SyncRequest,
     options?: RequestOptions,
-  ): Promise<operations.SyncCampaignActionsResponse> {
+  ): Promise<operations.SyncResponse> {
     return unwrapAsync(campaignsSync(
       this,
       request,
@@ -70,11 +70,11 @@ export class Campaigns extends ClientSDK {
    * @remarks
    * Returns per-action counts, unique profile count, and total credits used for a campaign. 0 credits, no rate limit.
    */
-  async getStats(
+  async stats(
     request: operations.GetCampaignStatsRequest,
     options?: RequestOptions,
   ): Promise<operations.GetCampaignStatsResponse> {
-    return unwrapAsync(campaignsGetStats(
+    return unwrapAsync(campaignsStats(
       this,
       request,
       options,

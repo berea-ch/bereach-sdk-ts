@@ -19,7 +19,7 @@ export class CompanyPages extends ClientSDK {
    */
   async list(
     options?: RequestOptions,
-  ): Promise<operations.ListLinkedInCompanyPagesResponse> {
+  ): Promise<operations.ListPagesResponse> {
     return unwrapAsync(companyPagesList(
       this,
       options,
@@ -33,9 +33,9 @@ export class CompanyPages extends ClientSDK {
    * Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page. Costs 1 credit.
    */
   async getPosts(
-    request: operations.GetCompanyPagePostsRequest,
+    request: operations.GetCompanyPostsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetCompanyPagePostsResponse> {
+  ): Promise<operations.GetCompanyPostsResponse> {
     return unwrapAsync(companyPagesGetPosts(
       this,
       request,
@@ -50,9 +50,9 @@ export class CompanyPages extends ClientSDK {
    * Returns the authenticated user's admin permissions on a given LinkedIn company page. Use this to check what actions (post, comment, like, message, analytics) are available before calling write endpoints. Costs 1 credit.
    */
   async getPermissions(
-    request: operations.GetCompanyPagePermissionsRequest,
+    request: operations.GetPermissionsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetCompanyPagePermissionsResponse> {
+  ): Promise<operations.GetPermissionsResponse> {
     return unwrapAsync(companyPagesGetPermissions(
       this,
       request,
@@ -67,9 +67,9 @@ export class CompanyPages extends ClientSDK {
    * Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Costs 1 credit.
    */
   async getAnalytics(
-    request: operations.GetCompanyPageAnalyticsRequest,
+    request: operations.GetAnalyticsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetCompanyPageAnalyticsResponse> {
+  ): Promise<operations.GetAnalyticsResponse> {
     return unwrapAsync(companyPagesGetAnalytics(
       this,
       request,

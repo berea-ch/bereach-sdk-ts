@@ -9,11 +9,11 @@
 
 ## collectCommentReplies
 
-Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response.
+Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty).
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="collectLinkedInCommentReplies" method="post" path="/collect/linkedin/comments/replies" -->
+<!-- UsageSnippet language="typescript" operationID="collectCommentReplies" method="post" path="/collect/linkedin/comments/replies" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -65,14 +65,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CollectLinkedInCommentRepliesRequest](../../models/operations/collect-linked-in-comment-replies-request.md)                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CollectCommentRepliesRequest](../../models/operations/collect-comment-replies-request.md)                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.CollectLinkedInCommentRepliesResponse](../../models/operations/collect-linked-in-comment-replies-response.md)\>**
+**Promise\<[operations.CollectCommentRepliesResponse](../../models/operations/collect-comment-replies-response.md)\>**
 
 ### Errors
 
@@ -87,6 +87,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## getFeed
@@ -95,7 +97,7 @@ Get posts from the LinkedIn home feed using GraphQL. Supports algorithmic (RELEV
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getLinkedInFeed" method="post" path="/feed/linkedin" -->
+<!-- UsageSnippet language="typescript" operationID="getFeed" method="post" path="/feed/linkedin" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -143,14 +145,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetLinkedInFeedRequest](../../models/operations/get-linked-in-feed-request.md)                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.GetFeedRequest](../../models/operations/get-feed-request.md)                                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetLinkedInFeedResponse](../../models/operations/get-linked-in-feed-response.md)\>**
+**Promise\<[operations.GetFeedResponse](../../models/operations/get-feed-response.md)\>**
 
 ### Errors
 
@@ -165,4 +167,6 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

@@ -15,12 +15,12 @@ export class Actions extends ClientSDK {
    * Send LinkedIn connection request
    *
    * @remarks
-   * Authenticates the requester, validates LinkedIn credentials, and sends a connection request to the specified LinkedIn profile. Rate limited to 80 requests per day per user.
+   * Send a connection request to the specified LinkedIn profile. Rate limited to 80 requests per day per user. 1 credit.
    */
   async connectProfile(
-    request: operations.ConnectLinkedInProfileRequest,
+    request: operations.ConnectProfileRequest,
     options?: RequestOptions,
-  ): Promise<operations.ConnectLinkedInProfileResponse> {
+  ): Promise<operations.ConnectProfileResponse> {
     return unwrapAsync(actionsConnectProfile(
       this,
       request,
@@ -32,12 +32,12 @@ export class Actions extends ClientSDK {
    * Send LinkedIn message
    *
    * @remarks
-   * Authenticates the requester, validates LinkedIn credentials, and sends a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user.
+   * Send a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user. 1 credit.
    */
   async sendMessage(
-    request: operations.SendLinkedInMessageRequest,
+    request: operations.SendMessageRequest,
     options?: RequestOptions,
-  ): Promise<operations.SendLinkedInMessageResponse> {
+  ): Promise<operations.SendMessageResponse> {
     return unwrapAsync(actionsSendMessage(
       this,
       request,
@@ -52,9 +52,9 @@ export class Actions extends ClientSDK {
    * List sent (pending) LinkedIn connection invitations. 1 credit.
    */
   async listSentInvitations(
-    request: operations.ListSentLinkedInInvitationsRequest,
+    request: operations.ListSentInvitationsRequest,
     options?: RequestOptions,
-  ): Promise<operations.ListSentLinkedInInvitationsResponse> {
+  ): Promise<operations.ListSentInvitationsResponse> {
     return unwrapAsync(actionsListSentInvitations(
       this,
       request,
@@ -69,9 +69,9 @@ export class Actions extends ClientSDK {
    * Follow a LinkedIn company page. 0 credits.
    */
   async followCompany(
-    request: operations.FollowLinkedInCompanyRequest,
+    request: operations.FollowCompanyRequest,
     options?: RequestOptions,
-  ): Promise<operations.FollowLinkedInCompanyResponse> {
+  ): Promise<operations.FollowCompanyResponse> {
     return unwrapAsync(actionsFollowCompany(
       this,
       request,
