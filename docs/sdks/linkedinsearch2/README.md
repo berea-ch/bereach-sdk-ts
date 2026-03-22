@@ -68,7 +68,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="searchLinkedInPosts" method="post" path="/search/linkedin/posts" -->
+<!-- UsageSnippet language="typescript" operationID="searchPosts" method="post" path="/search/linkedin/posts" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -128,14 +128,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SearchLinkedInPostsRequest](../../models/operations/search-linked-in-posts-request.md)                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchPostsRequest](../../models/operations/search-posts-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SearchLinkedInPostsResponse](../../models/operations/search-linked-in-posts-response.md)\>**
+**Promise\<[operations.SearchPostsResponse](../../models/operations/search-posts-response.md)\>**
 
 ### Errors
 
@@ -150,6 +150,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchPeople
@@ -223,7 +225,7 @@ Step 3: POST /search/linkedin/people { keywords: 'product manager', location: ['
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="searchLinkedInPeople" method="post" path="/search/linkedin/people" -->
+<!-- UsageSnippet language="typescript" operationID="searchPeople" method="post" path="/search/linkedin/people" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -297,14 +299,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SearchLinkedInPeopleRequest](../../models/operations/search-linked-in-people-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchPeopleRequest](../../models/operations/search-people-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SearchLinkedInPeopleResponse](../../models/operations/search-linked-in-people-response.md)\>**
+**Promise\<[operations.SearchPeopleResponse](../../models/operations/search-people-response.md)\>**
 
 ### Errors
 
@@ -319,6 +321,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchJobs
@@ -405,7 +409,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="searchLinkedInJobs" method="post" path="/search/linkedin/jobs" -->
+<!-- UsageSnippet language="typescript" operationID="searchJobs" method="post" path="/search/linkedin/jobs" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -487,14 +491,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SearchLinkedInJobsRequest](../../models/operations/search-linked-in-jobs-request.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchJobsRequest](../../models/operations/search-jobs-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SearchLinkedInJobsResponse](../../models/operations/search-linked-in-jobs-response.md)\>**
+**Promise\<[operations.SearchJobsResponse](../../models/operations/search-jobs-response.md)\>**
 
 ### Errors
 
@@ -509,6 +513,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## searchByUrl
@@ -568,7 +574,7 @@ You can optionally pass `start` and `count` to override the pagination embedded 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="searchLinkedInByUrl" method="post" path="/search/linkedin/url" -->
+<!-- UsageSnippet language="typescript" operationID="searchByUrl" method="post" path="/search/linkedin/url" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -622,14 +628,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SearchLinkedInByUrlRequest](../../models/operations/search-linked-in-by-url-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchByUrlRequest](../../models/operations/search-by-url-request.md)                                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SearchLinkedInByUrlResponse](../../models/operations/search-linked-in-by-url-response.md)\>**
+**Promise\<[operations.SearchByUrlResponse](../../models/operations/search-by-url-response.md)\>**
 
 ### Errors
 
@@ -644,4 +650,6 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

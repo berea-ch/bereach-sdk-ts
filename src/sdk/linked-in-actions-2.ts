@@ -20,9 +20,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Reacts to a LinkedIn comment. Use the commentUrn returned by /collect/linkedin/comments directly — do NOT reconstruct it from hash fields.
    */
   async likeComment(
-    request: operations.LikeLinkedInCommentRequest,
+    request: operations.LikeCommentRequest,
     options?: RequestOptions,
-  ): Promise<operations.LikeLinkedInCommentResponse> {
+  ): Promise<operations.LikeCommentResponse> {
     return unwrapAsync(linkedInActionsLikeComment(
       this,
       request,
@@ -37,9 +37,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Creates a new LinkedIn post. Supports instant publishing and scheduled posting. Optionally attach an image by providing its URL (imageUrl) or base64-encoded data (imageBase64). Rate limited to 80 actions per day per user. Consumes 1 credit per post.
    */
   async publishPost(
-    request: operations.PublishLinkedInPostRequest,
+    request: operations.PublishPostRequest,
     options?: RequestOptions,
-  ): Promise<operations.PublishLinkedInPostResponse> {
+  ): Promise<operations.PublishPostResponse> {
     return unwrapAsync(linkedInActionsPublishPost(
       this,
       request,
@@ -54,9 +54,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Adds a top-level comment on a LinkedIn post. Consumes 1 credit per comment. Supports deduplication via campaignSlug.
    */
   async createComment(
-    request: operations.CommentOnLinkedInPostRequest,
+    request: operations.CreateCommentRequest,
     options?: RequestOptions,
-  ): Promise<operations.CommentOnLinkedInPostResponse> {
+  ): Promise<operations.CreateCommentResponse> {
     return unwrapAsync(linkedInActionsCreateComment(
       this,
       request,
@@ -71,9 +71,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Decline a pending LinkedIn connection invitation. Uses the SDUI endpoint. Both invitationId and sharedSecret are required (obtained from the list invitations endpoint). 1 credit.
    */
   async declineInvitation(
-    request: operations.DeclineLinkedInInvitationRequest,
+    request: operations.DeclineInvitationRequest,
     options?: RequestOptions,
-  ): Promise<operations.DeclineLinkedInInvitationResponse> {
+  ): Promise<operations.DeclineInvitationResponse> {
     return unwrapAsync(linkedInActionsDeclineInvitation(
       this,
       request,
@@ -88,9 +88,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Unfollow a LinkedIn profile. Uses SDUI endpoint. Same input formats as follow. 1 credit.
    */
   async unfollowProfile(
-    request: operations.UnfollowLinkedInProfileRequest,
+    request: operations.UnfollowProfileRequest,
     options?: RequestOptions,
-  ): Promise<operations.UnfollowLinkedInProfileResponse> {
+  ): Promise<operations.UnfollowProfileResponse> {
     return unwrapAsync(linkedInActionsUnfollowProfile(
       this,
       request,
@@ -105,9 +105,9 @@ export class LinkedInActions2 extends ClientSDK {
    * Save a LinkedIn post to bookmarks using REST PARTIAL_UPDATE. Idempotent — saving an already-saved post succeeds silently. Uses the post type (activity/ugcPost/share) for correct URN construction. 0 credits.
    */
   async savePost(
-    request: operations.SaveLinkedInPostRequest,
+    request: operations.SavePostRequest,
     options?: RequestOptions,
-  ): Promise<operations.SaveLinkedInPostResponse> {
+  ): Promise<operations.SavePostResponse> {
     return unwrapAsync(linkedInActionsSavePost(
       this,
       request,

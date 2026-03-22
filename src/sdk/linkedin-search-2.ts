@@ -71,9 +71,9 @@ export class LinkedinSearch2 extends ClientSDK {
    * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
    */
   async searchPosts(
-    request: operations.SearchLinkedInPostsRequest,
+    request: operations.SearchPostsRequest,
     options?: RequestOptions,
-  ): Promise<operations.SearchLinkedInPostsResponse> {
+  ): Promise<operations.SearchPostsResponse> {
     return unwrapAsync(linkedinSearchSearchPosts(
       this,
       request,
@@ -153,9 +153,9 @@ export class LinkedinSearch2 extends ClientSDK {
    * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
    */
   async searchPeople(
-    request: operations.SearchLinkedInPeopleRequest,
+    request: operations.SearchPeopleRequest,
     options?: RequestOptions,
-  ): Promise<operations.SearchLinkedInPeopleResponse> {
+  ): Promise<operations.SearchPeopleResponse> {
     return unwrapAsync(linkedinSearchSearchPeople(
       this,
       request,
@@ -248,9 +248,9 @@ export class LinkedinSearch2 extends ClientSDK {
    * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
    */
   async searchJobs(
-    request: operations.SearchLinkedInJobsRequest,
+    request: operations.SearchJobsRequest,
     options?: RequestOptions,
-  ): Promise<operations.SearchLinkedInJobsResponse> {
+  ): Promise<operations.SearchJobsResponse> {
     return unwrapAsync(linkedinSearchSearchJobs(
       this,
       request,
@@ -316,9 +316,9 @@ export class LinkedinSearch2 extends ClientSDK {
    * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
    */
   async searchByUrl(
-    request: operations.SearchLinkedInByUrlRequest,
+    request: operations.SearchByUrlRequest,
     options?: RequestOptions,
-  ): Promise<operations.SearchLinkedInByUrlResponse> {
+  ): Promise<operations.SearchByUrlResponse> {
     return unwrapAsync(linkedinSearchSearchByUrl(
       this,
       request,

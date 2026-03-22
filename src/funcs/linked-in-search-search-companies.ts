@@ -91,11 +91,11 @@ import { Result } from "../types/fp.js";
  */
 export function linkedInSearchSearchCompanies(
   client: BereachCore,
-  request: operations.SearchLinkedInCompaniesRequest,
+  request: operations.SearchCompaniesRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.SearchLinkedInCompaniesResponse,
+    operations.SearchCompaniesResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -105,6 +105,8 @@ export function linkedInSearchSearchCompanies(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -124,12 +126,12 @@ export function linkedInSearchSearchCompanies(
 
 async function $do(
   client: BereachCore,
-  request: operations.SearchLinkedInCompaniesRequest,
+  request: operations.SearchCompaniesRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.SearchLinkedInCompaniesResponse,
+      operations.SearchCompaniesResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -139,6 +141,8 @@ async function $do(
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -153,8 +157,7 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) =>
-      z.parse(operations.SearchLinkedInCompaniesRequest$outboundSchema, value),
+    (value) => z.parse(operations.SearchCompaniesRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -177,7 +180,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "searchLinkedInCompanies",
+    operationID: "searchCompanies",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -217,6 +220,8 @@ async function $do(
       "429",
       "4XX",
       "500",
+      "502",
+      "503",
       "5XX",
     ],
     retryConfig: context.retryConfig,
@@ -232,7 +237,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.SearchLinkedInCompaniesResponse,
+    operations.SearchCompaniesResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -242,6 +247,8 @@ async function $do(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -251,7 +258,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.SearchLinkedInCompaniesResponse$inboundSchema),
+    M.json(200, operations.SearchCompaniesResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
@@ -261,6 +268,8 @@ async function $do(
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
     M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

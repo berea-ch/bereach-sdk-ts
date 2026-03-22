@@ -16,12 +16,12 @@ export class LinkedinScrapers1 extends ClientSDK {
    * Scrape LinkedIn post likes
    *
    * @remarks
-   * Authenticates the requester, validates LinkedIn credentials, and returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination.
+   * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
    */
   async collectLikes(
-    request: operations.CollectLinkedInLikesRequest,
+    request: operations.CollectLikesRequest,
     options?: RequestOptions,
-  ): Promise<operations.CollectLinkedInLikesResponse> {
+  ): Promise<operations.CollectLikesResponse> {
     return unwrapAsync(linkedinScrapersCollectLikes(
       this,
       request,
@@ -33,12 +33,12 @@ export class LinkedinScrapers1 extends ClientSDK {
    * Scrape LinkedIn post comments
    *
    * @remarks
-   * Returns paginated top-level comments for a LinkedIn post (newest first). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
+   * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
    */
   async collectComments(
-    request: operations.CollectLinkedInCommentsRequest,
+    request: operations.CollectCommentsRequest,
     options?: RequestOptions,
-  ): Promise<operations.CollectLinkedInCommentsResponse> {
+  ): Promise<operations.CollectCommentsResponse> {
     return unwrapAsync(linkedinScrapersCollectComments(
       this,
       request,
@@ -53,9 +53,9 @@ export class LinkedinScrapers1 extends ClientSDK {
    * Fetches a LinkedIn company profile by URL or universal name. Returns structured company data including description, industry, employee count, headquarters, logo, affiliated/similar companies, and more. Optionally enriches with workplace policy data (costs 1 extra credit per optional API call). Base cost: 1 credit.
    */
   async visitCompany(
-    request: operations.VisitLinkedInCompanyRequest,
+    request: operations.VisitCompanyRequest,
     options?: RequestOptions,
-  ): Promise<operations.VisitLinkedInCompanyResponse> {
+  ): Promise<operations.VisitCompanyResponse> {
     return unwrapAsync(linkedinScrapersVisitCompany(
       this,
       request,
@@ -70,9 +70,9 @@ export class LinkedinScrapers1 extends ClientSDK {
    * List posts saved to bookmarks. 1 credit.
    */
   async listSavedPosts(
-    request: operations.CollectSavedLinkedInPostsRequest,
+    request: operations.ListSavedPostsRequest,
     options?: RequestOptions,
-  ): Promise<operations.CollectSavedLinkedInPostsResponse> {
+  ): Promise<operations.ListSavedPostsResponse> {
     return unwrapAsync(linkedinScrapersListSavedPosts(
       this,
       request,
@@ -87,9 +87,9 @@ export class LinkedinScrapers1 extends ClientSDK {
    * Collect posts from a LinkedIn hashtag feed. Pass hashtag name without # prefix. Supports pagination with start/count. Returns parsed post objects. 1 credit.
    */
   async collectHashtagPosts(
-    request: operations.CollectLinkedInHashtagPostsRequest,
+    request: operations.CollectHashtagPostsRequest,
     options?: RequestOptions,
-  ): Promise<operations.CollectLinkedInHashtagPostsResponse> {
+  ): Promise<operations.CollectHashtagPostsResponse> {
     return unwrapAsync(linkedinScrapersCollectHashtagPosts(
       this,
       request,

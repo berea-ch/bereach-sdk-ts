@@ -12,11 +12,11 @@
 
 ## collectLikes
 
-Authenticates the requester, validates LinkedIn credentials, and returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination.
+Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="collectLinkedInLikes" method="post" path="/collect/linkedin/likes" -->
+<!-- UsageSnippet language="typescript" operationID="collectLikes" method="post" path="/collect/linkedin/likes" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -70,14 +70,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CollectLinkedInLikesRequest](../../models/operations/collect-linked-in-likes-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CollectLikesRequest](../../models/operations/collect-likes-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.CollectLinkedInLikesResponse](../../models/operations/collect-linked-in-likes-response.md)\>**
+**Promise\<[operations.CollectLikesResponse](../../models/operations/collect-likes-response.md)\>**
 
 ### Errors
 
@@ -92,15 +92,17 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## collectComments
 
-Returns paginated top-level comments for a LinkedIn post (newest first). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
+Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="collectLinkedInComments" method="post" path="/collect/linkedin/comments" -->
+<!-- UsageSnippet language="typescript" operationID="collectComments" method="post" path="/collect/linkedin/comments" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -156,14 +158,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CollectLinkedInCommentsRequest](../../models/operations/collect-linked-in-comments-request.md)                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CollectCommentsRequest](../../models/operations/collect-comments-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.CollectLinkedInCommentsResponse](../../models/operations/collect-linked-in-comments-response.md)\>**
+**Promise\<[operations.CollectCommentsResponse](../../models/operations/collect-comments-response.md)\>**
 
 ### Errors
 
@@ -178,6 +180,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## visitCompany
@@ -186,7 +190,7 @@ Fetches a LinkedIn company profile by URL or universal name. Returns structured 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="visitLinkedInCompany" method="post" path="/visit/linkedin/company" -->
+<!-- UsageSnippet language="typescript" operationID="visitCompany" method="post" path="/visit/linkedin/company" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -240,14 +244,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.VisitLinkedInCompanyRequest](../../models/operations/visit-linked-in-company-request.md)                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.VisitCompanyRequest](../../models/operations/visit-company-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.VisitLinkedInCompanyResponse](../../models/operations/visit-linked-in-company-response.md)\>**
+**Promise\<[operations.VisitCompanyResponse](../../models/operations/visit-company-response.md)\>**
 
 ### Errors
 
@@ -262,6 +266,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## listSavedPosts
@@ -270,7 +276,7 @@ List posts saved to bookmarks. 1 credit.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="collectSavedLinkedInPosts" method="post" path="/collect/linkedin/saved" -->
+<!-- UsageSnippet language="typescript" operationID="listSavedPosts" method="post" path="/collect/linkedin/saved" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -318,14 +324,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CollectSavedLinkedInPostsRequest](../../models/operations/collect-saved-linked-in-posts-request.md)                                                                | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.ListSavedPostsRequest](../../models/operations/list-saved-posts-request.md)                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.CollectSavedLinkedInPostsResponse](../../models/operations/collect-saved-linked-in-posts-response.md)\>**
+**Promise\<[operations.ListSavedPostsResponse](../../models/operations/list-saved-posts-response.md)\>**
 
 ### Errors
 
@@ -340,6 +346,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## collectHashtagPosts
@@ -348,7 +356,7 @@ Collect posts from a LinkedIn hashtag feed. Pass hashtag name without # prefix. 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="collectLinkedInHashtagPosts" method="post" path="/collect/linkedin/hashtag" -->
+<!-- UsageSnippet language="typescript" operationID="collectHashtagPosts" method="post" path="/collect/linkedin/hashtag" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -400,14 +408,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CollectLinkedInHashtagPostsRequest](../../models/operations/collect-linked-in-hashtag-posts-request.md)                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CollectHashtagPostsRequest](../../models/operations/collect-hashtag-posts-request.md)                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.CollectLinkedInHashtagPostsResponse](../../models/operations/collect-linked-in-hashtag-posts-response.md)\>**
+**Promise\<[operations.CollectHashtagPostsResponse](../../models/operations/collect-hashtag-posts-response.md)\>**
 
 ### Errors
 
@@ -422,4 +430,6 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

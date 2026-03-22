@@ -24,7 +24,7 @@ Returns pending connection invitations received by the authenticated LinkedIn ac
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="listLinkedInInvitations" method="post" path="/invitations/linkedin" -->
+<!-- UsageSnippet language="typescript" operationID="listInvitations" method="post" path="/invitations/linkedin" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -72,14 +72,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListLinkedInInvitationsRequest](../../models/operations/list-linked-in-invitations-request.md)                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.ListInvitationsRequest](../../models/operations/list-invitations-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.ListLinkedInInvitationsResponse](../../models/operations/list-linked-in-invitations-response.md)\>**
+**Promise\<[operations.ListInvitationsResponse](../../models/operations/list-invitations-response.md)\>**
 
 ### Errors
 
@@ -94,6 +94,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## acceptInvitation
@@ -102,7 +104,7 @@ Accepts a pending connection invitation. Requires the invitationId and sharedSec
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="acceptLinkedInInvitation" method="post" path="/accept/linkedin/invitation" -->
+<!-- UsageSnippet language="typescript" operationID="acceptInvitation" method="post" path="/accept/linkedin/invitation" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -162,14 +164,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.AcceptLinkedInInvitationRequest](../../models/operations/accept-linked-in-invitation-request.md)                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.AcceptInvitationRequest](../../models/operations/accept-invitation-request.md)                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.AcceptLinkedInInvitationResponse](../../models/operations/accept-linked-in-invitation-response.md)\>**
+**Promise\<[operations.AcceptInvitationResponse](../../models/operations/accept-invitation-response.md)\>**
 
 ### Errors
 
@@ -184,6 +186,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## replyToComment
@@ -192,7 +196,7 @@ Sends a reply to a LinkedIn comment. Use the commentUrn returned by /collect/lin
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="replyToLinkedInComment" method="post" path="/reply/linkedin/comment" -->
+<!-- UsageSnippet language="typescript" operationID="replyToComment" method="post" path="/reply/linkedin/comment" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -248,14 +252,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ReplyToLinkedInCommentRequest](../../models/operations/reply-to-linked-in-comment-request.md)                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.ReplyToCommentRequest](../../models/operations/reply-to-comment-request.md)                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.ReplyToLinkedInCommentResponse](../../models/operations/reply-to-linked-in-comment-response.md)\>**
+**Promise\<[operations.ReplyToCommentResponse](../../models/operations/reply-to-comment-response.md)\>**
 
 ### Errors
 
@@ -270,6 +274,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## likePost
@@ -278,7 +284,7 @@ Reacts to a LinkedIn post. Accepts a post URL and an optional reaction type. Con
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="likeLinkedInPost" method="post" path="/like/linkedin/post" -->
+<!-- UsageSnippet language="typescript" operationID="likePost" method="post" path="/like/linkedin/post" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -332,14 +338,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.LikeLinkedInPostRequest](../../models/operations/like-linked-in-post-request.md)                                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.LikePostRequest](../../models/operations/like-post-request.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.LikeLinkedInPostResponse](../../models/operations/like-linked-in-post-response.md)\>**
+**Promise\<[operations.LikePostResponse](../../models/operations/like-post-response.md)\>**
 
 ### Errors
 
@@ -354,6 +360,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## withdrawInvitation
@@ -362,7 +370,7 @@ Withdraw a pending sent connection invitation. Pre-fetches invitee details from 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="withdrawLinkedInInvitation" method="post" path="/withdraw/linkedin/invitation" -->
+<!-- UsageSnippet language="typescript" operationID="withdrawInvitation" method="post" path="/withdraw/linkedin/invitation" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -414,14 +422,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.WithdrawLinkedInInvitationRequest](../../models/operations/withdraw-linked-in-invitation-request.md)                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.WithdrawInvitationRequest](../../models/operations/withdraw-invitation-request.md)                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.WithdrawLinkedInInvitationResponse](../../models/operations/withdraw-linked-in-invitation-response.md)\>**
+**Promise\<[operations.WithdrawInvitationResponse](../../models/operations/withdraw-invitation-response.md)\>**
 
 ### Errors
 
@@ -436,6 +444,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## followProfile
@@ -444,7 +454,7 @@ Follow a LinkedIn profile without connecting. Uses SDUI endpoint. Accepts profil
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="followLinkedInProfile" method="post" path="/follow/linkedin/profile" -->
+<!-- UsageSnippet language="typescript" operationID="followProfile" method="post" path="/follow/linkedin/profile" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -496,14 +506,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.FollowLinkedInProfileRequest](../../models/operations/follow-linked-in-profile-request.md)                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.FollowProfileRequest](../../models/operations/follow-profile-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.FollowLinkedInProfileResponse](../../models/operations/follow-linked-in-profile-response.md)\>**
+**Promise\<[operations.FollowProfileResponse](../../models/operations/follow-profile-response.md)\>**
 
 ### Errors
 
@@ -518,6 +528,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## editPost
@@ -526,7 +538,7 @@ Edit the text content of an existing LinkedIn post. Only text can be changed; me
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="editLinkedInPost" method="post" path="/edit/linkedin/post" -->
+<!-- UsageSnippet language="typescript" operationID="editPost" method="post" path="/edit/linkedin/post" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -580,14 +592,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.EditLinkedInPostRequest](../../models/operations/edit-linked-in-post-request.md)                                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.EditPostRequest](../../models/operations/edit-post-request.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.EditLinkedInPostResponse](../../models/operations/edit-linked-in-post-response.md)\>**
+**Promise\<[operations.EditPostResponse](../../models/operations/edit-post-response.md)\>**
 
 ### Errors
 
@@ -602,6 +614,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## editComment
@@ -610,7 +624,7 @@ Edit the text of an existing LinkedIn comment. Provide either fsdCommentUrn (pre
 
 ### Example Usage: commentUrn
 
-<!-- UsageSnippet language="typescript" operationID="editLinkedInComment" method="post" path="/edit/linkedin/comment" example="commentUrn" -->
+<!-- UsageSnippet language="typescript" operationID="editComment" method="post" path="/edit/linkedin/comment" example="commentUrn" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -661,7 +675,7 @@ run();
 ```
 ### Example Usage: fsdCommentUrn
 
-<!-- UsageSnippet language="typescript" operationID="editLinkedInComment" method="post" path="/edit/linkedin/comment" example="fsdCommentUrn" -->
+<!-- UsageSnippet language="typescript" operationID="editComment" method="post" path="/edit/linkedin/comment" example="fsdCommentUrn" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -715,14 +729,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.EditLinkedInCommentRequest](../../models/operations/edit-linked-in-comment-request.md)                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.EditCommentRequest](../../models/operations/edit-comment-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.EditLinkedInCommentResponse](../../models/operations/edit-linked-in-comment-response.md)\>**
+**Promise\<[operations.EditCommentResponse](../../models/operations/edit-comment-response.md)\>**
 
 ### Errors
 
@@ -737,15 +751,17 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## repostPost
 
-Repost/share a LinkedIn post with quote text. Text is required by LinkedIn. Returns shareUrn on success. Returns bad_request if post URL is invalid, duplicate if already reposted. 1 credit.
+Repost/share a LinkedIn post with quote text. Text is required by LinkedIn. Returns shareUrn on success. Returns bad_request if post URL is invalid. 1 credit.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="repostLinkedInPost" method="post" path="/repost/linkedin/post" -->
+<!-- UsageSnippet language="typescript" operationID="repostPost" method="post" path="/repost/linkedin/post" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -799,14 +815,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.RepostLinkedInPostRequest](../../models/operations/repost-linked-in-post-request.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.RepostPostRequest](../../models/operations/repost-post-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.RepostLinkedInPostResponse](../../models/operations/repost-linked-in-post-response.md)\>**
+**Promise\<[operations.RepostPostResponse](../../models/operations/repost-post-response.md)\>**
 
 ### Errors
 
@@ -821,6 +837,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unlikePost
@@ -829,7 +847,7 @@ Remove your reaction from a LinkedIn post using GraphQL mutation. Idempotent if 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="unlikeLinkedInPost" method="post" path="/unlike/linkedin/post" -->
+<!-- UsageSnippet language="typescript" operationID="unlikePost" method="post" path="/unlike/linkedin/post" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -881,14 +899,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnlikeLinkedInPostRequest](../../models/operations/unlike-linked-in-post-request.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.UnlikePostRequest](../../models/operations/unlike-post-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.UnlikeLinkedInPostResponse](../../models/operations/unlike-linked-in-post-response.md)\>**
+**Promise\<[operations.UnlikePostResponse](../../models/operations/unlike-post-response.md)\>**
 
 ### Errors
 
@@ -903,6 +921,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unlikeComment
@@ -911,7 +931,7 @@ Remove your reaction from a LinkedIn comment using GraphQL mutation. Accepts bot
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="unlikeLinkedInComment" method="post" path="/unlike/linkedin/comment" -->
+<!-- UsageSnippet language="typescript" operationID="unlikeComment" method="post" path="/unlike/linkedin/comment" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -963,14 +983,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnlikeLinkedInCommentRequest](../../models/operations/unlike-linked-in-comment-request.md)                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.UnlikeCommentRequest](../../models/operations/unlike-comment-request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.UnlikeLinkedInCommentResponse](../../models/operations/unlike-linked-in-comment-response.md)\>**
+**Promise\<[operations.UnlikeCommentResponse](../../models/operations/unlike-comment-response.md)\>**
 
 ### Errors
 
@@ -985,6 +1005,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unsavePost
@@ -993,7 +1015,7 @@ Remove a LinkedIn post from bookmarks. Idempotent — unsaving a non-saved post 
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="unsaveLinkedInPost" method="post" path="/unsave/linkedin/post" -->
+<!-- UsageSnippet language="typescript" operationID="unsavePost" method="post" path="/unsave/linkedin/post" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -1045,14 +1067,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnsaveLinkedInPostRequest](../../models/operations/unsave-linked-in-post-request.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.UnsavePostRequest](../../models/operations/unsave-post-request.md)                                                                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.UnsaveLinkedInPostResponse](../../models/operations/unsave-linked-in-post-response.md)\>**
+**Promise\<[operations.UnsavePostResponse](../../models/operations/unsave-post-response.md)\>**
 
 ### Errors
 
@@ -1067,6 +1089,8 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
 ## unfollowCompany
@@ -1075,7 +1099,7 @@ Unfollow a LinkedIn company page. 0 credits.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="unfollowLinkedInCompany" method="post" path="/unfollow/linkedin/company" -->
+<!-- UsageSnippet language="typescript" operationID="unfollowCompany" method="post" path="/unfollow/linkedin/company" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -1127,14 +1151,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UnfollowLinkedInCompanyRequest](../../models/operations/unfollow-linked-in-company-request.md)                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.UnfollowCompanyRequest](../../models/operations/unfollow-company-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.UnfollowLinkedInCompanyResponse](../../models/operations/unfollow-linked-in-company-response.md)\>**
+**Promise\<[operations.UnfollowCompanyResponse](../../models/operations/unfollow-company-response.md)\>**
 
 ### Errors
 
@@ -1149,4 +1173,6 @@ run();
 | errors.UnprocessableEntityError | 422                             | application/json                |
 | errors.TooManyRequestsError     | 429                             | application/json                |
 | errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |

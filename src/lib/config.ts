@@ -15,6 +15,10 @@ export const ServerList = [
    * Production API
    */
   "https://api.berea.ch",
+  /**
+   * Staging API
+   */
+  "https://api-staging.berea.ch",
 ] as const;
 
 export type SDKOptions = {
@@ -60,8 +64,8 @@ export function serverURLFromOptions(options: SDKOptions): URL | null {
 
 export const SDK_METADATA = {
   language: "typescript",
-  openapiDocVersion: "0.2.0",
-  sdkVersion: "1.3.3",
-  genVersion: "2.869.3",
-  userAgent: "speakeasy-sdk/typescript 1.3.3 2.869.3 0.2.0 bereach",
+  openapiDocVersion: "1.4.0",
+  sdkVersion: "1.4.0",
+  genVersion: "2.869.10",
+  userAgent: "speakeasy-sdk/typescript 1.4.0 2.869.10 1.4.0 bereach",
 } as const;

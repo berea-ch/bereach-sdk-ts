@@ -23,14 +23,14 @@ let value: Limits = {
   },
   message: {
     daily: {
-      current: 278613,
-      limit: 537376,
-      remaining: 221249,
+      current: 330522,
+      limit: 442686,
+      remaining: 567882,
     },
     weekly: {
-      current: 252572,
-      limit: 664834,
-      remaining: 626371,
+      current: 636753,
+      limit: 830346,
+      remaining: 534020,
     },
     minIntervalSeconds: 748795,
     nextResetDaily: new Date("2026-11-25T05:18:15.375Z"),
@@ -74,6 +74,6 @@ let value: Limits = {
 | Field                                                                                                           | Type                                                                                                            | Required                                                                                                        | Description                                                                                                     |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | `connectionRequest`                                                                                             | [operations.ConnectionRequest](../../models/operations/connection-request.md)                                   | :heavy_check_mark:                                                                                              | Limits for sending LinkedIn connection requests                                                                 |
-| `message`                                                                                                       | [operations.GetMyLimitsMessage](../../models/operations/get-my-limits-message.md)                               | :heavy_check_mark:                                                                                              | Limits for social engagement actions: sending messages, publishing posts, replying to comments, liking comments |
+| `message`                                                                                                       | [operations.GetLimitsMessage](../../models/operations/get-limits-message.md)                                    | :heavy_check_mark:                                                                                              | Limits for social engagement actions: sending messages, publishing posts, replying to comments, liking comments |
 | `profileVisit`                                                                                                  | [operations.ProfileVisit](../../models/operations/profile-visit.md)                                             | :heavy_check_mark:                                                                                              | Limits for visiting LinkedIn profiles and company pages                                                         |
 | `scraping`                                                                                                      | [operations.Scraping](../../models/operations/scraping.md)                                                      | :heavy_check_mark:                                                                                              | Limits for data collection: search, collecting posts/likes/comments, fetching followers, listing chats          |

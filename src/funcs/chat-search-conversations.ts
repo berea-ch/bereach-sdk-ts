@@ -4,7 +4,7 @@
 
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
-import { encodeJSON } from "../lib/encodings.js";
+import { encodeFormQuery } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +30,15 @@ import { Result } from "../types/fp.js";
  * Search LinkedIn conversations
  *
  * @remarks
- * Search inbox conversations by keyword. Returns matching conversations with participants and last message. 0 credits.
+ * Search inbox conversations by keyword via query parameters. Returns matching conversations with participants and last message. 0 credits. Example: GET /chats/linkedin/search?keywords=project
  */
 export function chatSearchConversations(
   client: BereachCore,
-  request: operations.SearchLinkedInConversationsRequest,
+  request: operations.SearchConversationsRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.SearchLinkedInConversationsResponse,
+    operations.SearchConversationsResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -48,6 +48,8 @@ export function chatSearchConversations(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -67,12 +69,12 @@ export function chatSearchConversations(
 
 async function $do(
   client: BereachCore,
-  request: operations.SearchLinkedInConversationsRequest,
+  request: operations.SearchConversationsRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.SearchLinkedInConversationsResponse,
+      operations.SearchConversationsResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -82,6 +84,8 @@ async function $do(
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -97,22 +101,23 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      z.parse(
-        operations.SearchLinkedInConversationsRequest$outboundSchema,
-        value,
-      ),
+      z.parse(operations.SearchConversationsRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload, { explode: true });
+  const body = null;
 
   const path = pathToFunc("/chats/linkedin/search")();
 
+  const query = encodeFormQuery({
+    "keywords": payload.keywords,
+    "nextCursor": payload.nextCursor,
+  });
+
   const headers = new Headers(compactMap({
-    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -123,7 +128,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "searchLinkedInConversations",
+    operationID: "searchConversations",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -137,10 +142,11 @@ async function $do(
 
   const requestRes = client._createRequest(context, {
     security: requestSecurity,
-    method: "POST",
+    method: "GET",
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -163,6 +169,8 @@ async function $do(
       "429",
       "4XX",
       "500",
+      "502",
+      "503",
       "5XX",
     ],
     retryConfig: context.retryConfig,
@@ -178,7 +186,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.SearchLinkedInConversationsResponse,
+    operations.SearchConversationsResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -188,6 +196,8 @@ async function $do(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -197,7 +207,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.SearchLinkedInConversationsResponse$inboundSchema),
+    M.json(200, operations.SearchConversationsResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
@@ -207,6 +217,8 @@ async function $do(
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
     M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

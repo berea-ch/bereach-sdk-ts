@@ -34,11 +34,11 @@ import { Result } from "../types/fp.js";
  */
 export function linkedinActionsReplyToComment(
   client: BereachCore,
-  request: operations.ReplyToLinkedInCommentRequest,
+  request: operations.ReplyToCommentRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.ReplyToLinkedInCommentResponse,
+    operations.ReplyToCommentResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -48,6 +48,8 @@ export function linkedinActionsReplyToComment(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -67,12 +69,12 @@ export function linkedinActionsReplyToComment(
 
 async function $do(
   client: BereachCore,
-  request: operations.ReplyToLinkedInCommentRequest,
+  request: operations.ReplyToCommentRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.ReplyToLinkedInCommentResponse,
+      operations.ReplyToCommentResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -82,6 +84,8 @@ async function $do(
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
       | errors.InternalServerError
+      | errors.BadGatewayError
+      | errors.ServiceUnavailableError
       | BereachError
       | ResponseValidationError
       | ConnectionError
@@ -96,8 +100,7 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) =>
-      z.parse(operations.ReplyToLinkedInCommentRequest$outboundSchema, value),
+    (value) => z.parse(operations.ReplyToCommentRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -120,7 +123,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "replyToLinkedInComment",
+    operationID: "replyToComment",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -160,6 +163,8 @@ async function $do(
       "429",
       "4XX",
       "500",
+      "502",
+      "503",
       "5XX",
     ],
     retryConfig: context.retryConfig,
@@ -175,7 +180,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.ReplyToLinkedInCommentResponse,
+    operations.ReplyToCommentResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -185,6 +190,8 @@ async function $do(
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
     | errors.InternalServerError
+    | errors.BadGatewayError
+    | errors.ServiceUnavailableError
     | BereachError
     | ResponseValidationError
     | ConnectionError
@@ -194,7 +201,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.ReplyToLinkedInCommentResponse$inboundSchema),
+    M.json(200, operations.ReplyToCommentResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
@@ -204,6 +211,8 @@ async function $do(
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
     M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(502, errors.BadGatewayError$inboundSchema),
+    M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });
