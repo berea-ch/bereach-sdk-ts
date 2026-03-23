@@ -2,8 +2,8 @@ speakeasyVersion: 1.759.1
 sources:
     BeReach API:
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:b2f13f38292a8696c83176c026d0bd103e4346703a3d8929fb13e11d4d7e6a00
-        sourceBlobDigest: sha256:79aa9ce7dc2bf926147ce043d1599fd73cb5bfd0de58857004fda6e29e6756da
+        sourceRevisionDigest: sha256:cf736a7fbd9aa558dcde39be4087ce8e323487fe6353244f1e4e1e1a03959107
+        sourceBlobDigest: sha256:4250cb6da515de3c9ac7a44587b8d80cfc89356a8c1fe840736c6d868ae2a8b1
         tags:
             - latest
             - 1.4.0
@@ -11,10 +11,10 @@ targets:
     bereach:
         source: BeReach API
         sourceNamespace: be-reach-api
-        sourceRevisionDigest: sha256:b2f13f38292a8696c83176c026d0bd103e4346703a3d8929fb13e11d4d7e6a00
-        sourceBlobDigest: sha256:79aa9ce7dc2bf926147ce043d1599fd73cb5bfd0de58857004fda6e29e6756da
+        sourceRevisionDigest: sha256:cf736a7fbd9aa558dcde39be4087ce8e323487fe6353244f1e4e1e1a03959107
+        sourceBlobDigest: sha256:4250cb6da515de3c9ac7a44587b8d80cfc89356a8c1fe840736c6d868ae2a8b1
         codeSamplesNamespace: be-reach-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:2f404e86e413d0709fba4425684f66b6b2ba4a498a9007b71b6b82fba291712b
+        codeSamplesRevisionDigest: sha256:4f04df17d3f307b660381ca3b4cbfa236f5617111835b690e6c7d6b8acd03303
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -22,8 +22,6 @@ workflow:
         BeReach API:
             inputs:
                 - location: https://api.berea.ch
-            overlays:
-                - location: .speakeasy/speakeasy-modifications-overlay.yaml
             output: .speakeasy/out.openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/bereach-h29/bereach/be-reach-api

@@ -1224,75 +1224,6 @@ export type ListInboxResponse = {
   retryAfter: number;
 };
 
-export type MarkAllReadRequest = {};
-
-/**
- * All conversations marked as read
- */
-export type MarkAllReadResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type ReactRequest = {
-  /**
-   * Full message URN (e.g. 'urn:li:msg_message:(urn:li:fsd_profile:ACoAAXXX,2-MTcw...)')
-   */
-  messageUrn: string;
-  /**
-   * Emoji character to react with (e.g. '👍', '❤️', '😂')
-   */
-  emoji: string;
-  /**
-   * Conversation URN (required for the old messaging API fallback)
-   */
-  conversationUrn: string;
-};
-
-/**
- * Reaction added
- */
-export type ReactResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type SendTypingIndicatorRequest = {
-  /**
-   * Full conversation URN
-   */
-  conversationUrn: string;
-};
-
-/**
- * Typing indicator sent
- */
-export type SendTypingIndicatorResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
 export type SearchConversationsRequest = {
   /**
    * Search keywords
@@ -1504,6 +1435,89 @@ export type GetMessagesResponse = {
   retryAfter: number;
 };
 
+export type MarkSeenRequest = {
+  /**
+   * Full conversation URN (e.g. 'urn:li:msg_conversation:(urn:li:fsd_profile:ACoAAXXX,2-YWUx...)')
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Conversation marked as read
+ */
+export type MarkSeenResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type MarkAllReadRequest = {};
+
+/**
+ * All conversations marked as read
+ */
+export type MarkAllReadResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type StarRequest = {
+  /**
+   * Full conversation URN
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Conversation starred
+ */
+export type StarResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type UnstarRequest = {
+  /**
+   * Full conversation URN
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Conversation unstarred
+ */
+export type UnstarResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type ListStarredRequest = {
   /**
    * Pagination cursor from a previous response
@@ -1581,6 +1595,28 @@ export type ArchiveResponse = {
   retryAfter: number;
 };
 
+export type UnarchiveRequest = {
+  /**
+   * Full conversation URN
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Conversation unarchived
+ */
+export type UnarchiveResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type ListArchivedRequest = {
   /**
    * Pagination cursor from a previous response
@@ -1636,6 +1672,36 @@ export type ListArchivedResponse = {
   retryAfter: number;
 };
 
+export type ReactRequest = {
+  /**
+   * Full message URN (e.g. 'urn:li:msg_message:(urn:li:fsd_profile:ACoAAXXX,2-MTcw...)')
+   */
+  messageUrn: string;
+  /**
+   * Emoji character to react with (e.g. '👍', '❤️', '😂')
+   */
+  emoji: string;
+  /**
+   * Conversation URN (required for the old messaging API fallback)
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Reaction added
+ */
+export type ReactResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type UnreactRequest = {
   /**
    * Full message URN (e.g. 'urn:li:msg_message:(urn:li:fsd_profile:ACoAAXXX,2-MTcw...)')
@@ -1666,6 +1732,28 @@ export type UnreactResponse = {
   retryAfter: number;
 };
 
+export type SendTypingIndicatorRequest = {
+  /**
+   * Full conversation URN
+   */
+  conversationUrn: string;
+};
+
+/**
+ * Typing indicator sent
+ */
+export type SendTypingIndicatorResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 /**
  * Unread count
  */
@@ -1675,94 +1763,6 @@ export type GetUnreadCountResponse = {
    * Number of unread conversations/messages
    */
   unreadCount: number;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type MarkSeenRequest = {
-  /**
-   * Full conversation URN (e.g. 'urn:li:msg_conversation:(urn:li:fsd_profile:ACoAAXXX,2-YWUx...)')
-   */
-  conversationUrn: string;
-};
-
-/**
- * Conversation marked as read
- */
-export type MarkSeenResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type StarRequest = {
-  /**
-   * Full conversation URN
-   */
-  conversationUrn: string;
-};
-
-/**
- * Conversation starred
- */
-export type StarResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnstarRequest = {
-  /**
-   * Full conversation URN
-   */
-  conversationUrn: string;
-};
-
-/**
- * Conversation unstarred
- */
-export type UnstarResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnarchiveRequest = {
-  /**
-   * Full conversation URN
-   */
-  conversationUrn: string;
-};
-
-/**
- * Conversation unarchived
- */
-export type UnarchiveResponse = {
-  success: true;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -3746,125 +3746,6 @@ export function listInboxResponseFromJSON(
 }
 
 /** @internal */
-export type MarkAllReadRequest$Outbound = {};
-
-/** @internal */
-export const MarkAllReadRequest$outboundSchema: z.ZodMiniType<
-  MarkAllReadRequest$Outbound,
-  MarkAllReadRequest
-> = z.object({});
-
-export function markAllReadRequestToJSON(
-  markAllReadRequest: MarkAllReadRequest,
-): string {
-  return JSON.stringify(
-    MarkAllReadRequest$outboundSchema.parse(markAllReadRequest),
-  );
-}
-
-/** @internal */
-export const MarkAllReadResponse$inboundSchema: z.ZodMiniType<
-  MarkAllReadResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function markAllReadResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<MarkAllReadResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => MarkAllReadResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MarkAllReadResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type ReactRequest$Outbound = {
-  messageUrn: string;
-  emoji: string;
-  conversationUrn: string;
-};
-
-/** @internal */
-export const ReactRequest$outboundSchema: z.ZodMiniType<
-  ReactRequest$Outbound,
-  ReactRequest
-> = z.object({
-  messageUrn: z.string(),
-  emoji: z.string(),
-  conversationUrn: z.string(),
-});
-
-export function reactRequestToJSON(reactRequest: ReactRequest): string {
-  return JSON.stringify(ReactRequest$outboundSchema.parse(reactRequest));
-}
-
-/** @internal */
-export const ReactResponse$inboundSchema: z.ZodMiniType<
-  ReactResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function reactResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ReactResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ReactResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ReactResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type SendTypingIndicatorRequest$Outbound = {
-  conversationUrn: string;
-};
-
-/** @internal */
-export const SendTypingIndicatorRequest$outboundSchema: z.ZodMiniType<
-  SendTypingIndicatorRequest$Outbound,
-  SendTypingIndicatorRequest
-> = z.object({
-  conversationUrn: z.string(),
-});
-
-export function sendTypingIndicatorRequestToJSON(
-  sendTypingIndicatorRequest: SendTypingIndicatorRequest,
-): string {
-  return JSON.stringify(
-    SendTypingIndicatorRequest$outboundSchema.parse(sendTypingIndicatorRequest),
-  );
-}
-
-/** @internal */
-export const SendTypingIndicatorResponse$inboundSchema: z.ZodMiniType<
-  SendTypingIndicatorResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function sendTypingIndicatorResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SendTypingIndicatorResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SendTypingIndicatorResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SendTypingIndicatorResponse' from JSON`,
-  );
-}
-
-/** @internal */
 export type SearchConversationsRequest$Outbound = {
   keywords: string;
   nextCursor?: string | undefined;
@@ -4257,6 +4138,154 @@ export function getMessagesResponseFromJSON(
 }
 
 /** @internal */
+export type MarkSeenRequest$Outbound = {
+  conversationUrn: string;
+};
+
+/** @internal */
+export const MarkSeenRequest$outboundSchema: z.ZodMiniType<
+  MarkSeenRequest$Outbound,
+  MarkSeenRequest
+> = z.object({
+  conversationUrn: z.string(),
+});
+
+export function markSeenRequestToJSON(
+  markSeenRequest: MarkSeenRequest,
+): string {
+  return JSON.stringify(MarkSeenRequest$outboundSchema.parse(markSeenRequest));
+}
+
+/** @internal */
+export const MarkSeenResponse$inboundSchema: z.ZodMiniType<
+  MarkSeenResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function markSeenResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<MarkSeenResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MarkSeenResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MarkSeenResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type MarkAllReadRequest$Outbound = {};
+
+/** @internal */
+export const MarkAllReadRequest$outboundSchema: z.ZodMiniType<
+  MarkAllReadRequest$Outbound,
+  MarkAllReadRequest
+> = z.object({});
+
+export function markAllReadRequestToJSON(
+  markAllReadRequest: MarkAllReadRequest,
+): string {
+  return JSON.stringify(
+    MarkAllReadRequest$outboundSchema.parse(markAllReadRequest),
+  );
+}
+
+/** @internal */
+export const MarkAllReadResponse$inboundSchema: z.ZodMiniType<
+  MarkAllReadResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function markAllReadResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<MarkAllReadResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => MarkAllReadResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MarkAllReadResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type StarRequest$Outbound = {
+  conversationUrn: string;
+};
+
+/** @internal */
+export const StarRequest$outboundSchema: z.ZodMiniType<
+  StarRequest$Outbound,
+  StarRequest
+> = z.object({
+  conversationUrn: z.string(),
+});
+
+export function starRequestToJSON(starRequest: StarRequest): string {
+  return JSON.stringify(StarRequest$outboundSchema.parse(starRequest));
+}
+
+/** @internal */
+export const StarResponse$inboundSchema: z.ZodMiniType<StarResponse, unknown> =
+  z.object({
+    success: types.literal(true),
+    creditsUsed: types.number(),
+    retryAfter: types.number(),
+  });
+
+export function starResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<StarResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => StarResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'StarResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type UnstarRequest$Outbound = {
+  conversationUrn: string;
+};
+
+/** @internal */
+export const UnstarRequest$outboundSchema: z.ZodMiniType<
+  UnstarRequest$Outbound,
+  UnstarRequest
+> = z.object({
+  conversationUrn: z.string(),
+});
+
+export function unstarRequestToJSON(unstarRequest: UnstarRequest): string {
+  return JSON.stringify(UnstarRequest$outboundSchema.parse(unstarRequest));
+}
+
+/** @internal */
+export const UnstarResponse$inboundSchema: z.ZodMiniType<
+  UnstarResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function unstarResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<UnstarResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnstarResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnstarResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type ListStarredRequest$Outbound = {
   nextCursor?: string | undefined;
 };
@@ -4409,6 +4438,47 @@ export function archiveResponseFromJSON(
 }
 
 /** @internal */
+export type UnarchiveRequest$Outbound = {
+  conversationUrn: string;
+};
+
+/** @internal */
+export const UnarchiveRequest$outboundSchema: z.ZodMiniType<
+  UnarchiveRequest$Outbound,
+  UnarchiveRequest
+> = z.object({
+  conversationUrn: z.string(),
+});
+
+export function unarchiveRequestToJSON(
+  unarchiveRequest: UnarchiveRequest,
+): string {
+  return JSON.stringify(
+    UnarchiveRequest$outboundSchema.parse(unarchiveRequest),
+  );
+}
+
+/** @internal */
+export const UnarchiveResponse$inboundSchema: z.ZodMiniType<
+  UnarchiveResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function unarchiveResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<UnarchiveResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnarchiveResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnarchiveResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type ListArchivedRequest$Outbound = {
   nextCursor?: string | undefined;
 };
@@ -4524,6 +4594,47 @@ export function listArchivedResponseFromJSON(
 }
 
 /** @internal */
+export type ReactRequest$Outbound = {
+  messageUrn: string;
+  emoji: string;
+  conversationUrn: string;
+};
+
+/** @internal */
+export const ReactRequest$outboundSchema: z.ZodMiniType<
+  ReactRequest$Outbound,
+  ReactRequest
+> = z.object({
+  messageUrn: z.string(),
+  emoji: z.string(),
+  conversationUrn: z.string(),
+});
+
+export function reactRequestToJSON(reactRequest: ReactRequest): string {
+  return JSON.stringify(ReactRequest$outboundSchema.parse(reactRequest));
+}
+
+/** @internal */
+export const ReactResponse$inboundSchema: z.ZodMiniType<
+  ReactResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function reactResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<ReactResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReactResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReactResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type UnreactRequest$Outbound = {
   messageUrn: string;
   emoji: string;
@@ -4565,6 +4676,47 @@ export function unreactResponseFromJSON(
 }
 
 /** @internal */
+export type SendTypingIndicatorRequest$Outbound = {
+  conversationUrn: string;
+};
+
+/** @internal */
+export const SendTypingIndicatorRequest$outboundSchema: z.ZodMiniType<
+  SendTypingIndicatorRequest$Outbound,
+  SendTypingIndicatorRequest
+> = z.object({
+  conversationUrn: z.string(),
+});
+
+export function sendTypingIndicatorRequestToJSON(
+  sendTypingIndicatorRequest: SendTypingIndicatorRequest,
+): string {
+  return JSON.stringify(
+    SendTypingIndicatorRequest$outboundSchema.parse(sendTypingIndicatorRequest),
+  );
+}
+
+/** @internal */
+export const SendTypingIndicatorResponse$inboundSchema: z.ZodMiniType<
+  SendTypingIndicatorResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function sendTypingIndicatorResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<SendTypingIndicatorResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SendTypingIndicatorResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SendTypingIndicatorResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export const GetUnreadCountResponse$inboundSchema: z.ZodMiniType<
   GetUnreadCountResponse,
   unknown
@@ -4582,158 +4734,6 @@ export function getUnreadCountResponseFromJSON(
     jsonString,
     (x) => GetUnreadCountResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'GetUnreadCountResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type MarkSeenRequest$Outbound = {
-  conversationUrn: string;
-};
-
-/** @internal */
-export const MarkSeenRequest$outboundSchema: z.ZodMiniType<
-  MarkSeenRequest$Outbound,
-  MarkSeenRequest
-> = z.object({
-  conversationUrn: z.string(),
-});
-
-export function markSeenRequestToJSON(
-  markSeenRequest: MarkSeenRequest,
-): string {
-  return JSON.stringify(MarkSeenRequest$outboundSchema.parse(markSeenRequest));
-}
-
-/** @internal */
-export const MarkSeenResponse$inboundSchema: z.ZodMiniType<
-  MarkSeenResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function markSeenResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<MarkSeenResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => MarkSeenResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MarkSeenResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type StarRequest$Outbound = {
-  conversationUrn: string;
-};
-
-/** @internal */
-export const StarRequest$outboundSchema: z.ZodMiniType<
-  StarRequest$Outbound,
-  StarRequest
-> = z.object({
-  conversationUrn: z.string(),
-});
-
-export function starRequestToJSON(starRequest: StarRequest): string {
-  return JSON.stringify(StarRequest$outboundSchema.parse(starRequest));
-}
-
-/** @internal */
-export const StarResponse$inboundSchema: z.ZodMiniType<StarResponse, unknown> =
-  z.object({
-    success: types.literal(true),
-    creditsUsed: types.number(),
-    retryAfter: types.number(),
-  });
-
-export function starResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<StarResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => StarResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'StarResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type UnstarRequest$Outbound = {
-  conversationUrn: string;
-};
-
-/** @internal */
-export const UnstarRequest$outboundSchema: z.ZodMiniType<
-  UnstarRequest$Outbound,
-  UnstarRequest
-> = z.object({
-  conversationUrn: z.string(),
-});
-
-export function unstarRequestToJSON(unstarRequest: UnstarRequest): string {
-  return JSON.stringify(UnstarRequest$outboundSchema.parse(unstarRequest));
-}
-
-/** @internal */
-export const UnstarResponse$inboundSchema: z.ZodMiniType<
-  UnstarResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function unstarResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UnstarResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UnstarResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UnstarResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type UnarchiveRequest$Outbound = {
-  conversationUrn: string;
-};
-
-/** @internal */
-export const UnarchiveRequest$outboundSchema: z.ZodMiniType<
-  UnarchiveRequest$Outbound,
-  UnarchiveRequest
-> = z.object({
-  conversationUrn: z.string(),
-});
-
-export function unarchiveRequestToJSON(
-  unarchiveRequest: UnarchiveRequest,
-): string {
-  return JSON.stringify(
-    UnarchiveRequest$outboundSchema.parse(unarchiveRequest),
-  );
-}
-
-/** @internal */
-export const UnarchiveResponse$inboundSchema: z.ZodMiniType<
-  UnarchiveResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function unarchiveResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UnarchiveResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UnarchiveResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UnarchiveResponse' from JSON`,
   );
 }
 

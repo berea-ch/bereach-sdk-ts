@@ -32,7 +32,7 @@ jobs:
           speakeasy-api-key: ${{ secrets.SPEAKEASY_API_KEY }}
 
       - name: Fetch staging OpenAPI spec
-        run: curl -sSf https://api-staging.berea.ch/openapi.json -o .speakeasy/staging-openapi.json
+        run: curl -sSf https://api-staging.bereach.ai -o .speakeasy/staging-openapi.json
 
       - name: Apply overlay and generate SDK
         run: |

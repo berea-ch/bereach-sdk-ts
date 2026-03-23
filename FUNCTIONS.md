@@ -20,7 +20,7 @@ specific category of applications.
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { linkedinScrapersCollectLikes } from "bereach/funcs/linkedin-scrapers-collect-likes.js";
+import { scrapersCollectLikes } from "bereach/funcs/scrapers-collect-likes.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -29,7 +29,7 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await linkedinScrapersCollectLikes(bereach, {
+  const res = await scrapersCollectLikes(bereach, {
     postUrl: "https://www.linkedin.com/feed/update/urn:li:activity:1234567890123456789/",
     start: 0,
   });
@@ -37,7 +37,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("linkedinScrapersCollectLikes failed:", res.error);
+    console.log("scrapersCollectLikes failed:", res.error);
   }
 }
 

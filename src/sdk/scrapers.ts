@@ -4,13 +4,71 @@
 
 import { scrapersBulkVisitBatchStatus } from "../funcs/scrapers-bulk-visit-batch-status.js";
 import { scrapersBulkVisitProfile } from "../funcs/scrapers-bulk-visit-profile.js";
+import { scrapersCollectCommentReplies } from "../funcs/scrapers-collect-comment-replies.js";
+import { scrapersCollectComments } from "../funcs/scrapers-collect-comments.js";
+import { scrapersCollectHashtagPosts } from "../funcs/scrapers-collect-hashtag-posts.js";
+import { scrapersCollectLikes } from "../funcs/scrapers-collect-likes.js";
 import { scrapersCollectPosts } from "../funcs/scrapers-collect-posts.js";
+import { scrapersGetFeed } from "../funcs/scrapers-get-feed.js";
+import { scrapersListSavedPosts } from "../funcs/scrapers-list-saved-posts.js";
+import { scrapersVisitCompany } from "../funcs/scrapers-visit-company.js";
 import { scrapersVisitProfile } from "../funcs/scrapers-visit-profile.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Scrapers extends ClientSDK {
+  /**
+   * Scrape LinkedIn post likes
+   *
+   * @remarks
+   * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
+   */
+  async collectLikes(
+    request: operations.CollectLikesRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CollectLikesResponse> {
+    return unwrapAsync(scrapersCollectLikes(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Scrape LinkedIn post comments
+   *
+   * @remarks
+   * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
+   */
+  async collectComments(
+    request: operations.CollectCommentsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CollectCommentsResponse> {
+    return unwrapAsync(scrapersCollectComments(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Scrape replies to a LinkedIn comment
+   *
+   * @remarks
+   * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty).
+   */
+  async collectCommentReplies(
+    request: operations.CollectCommentRepliesRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CollectCommentRepliesResponse> {
+    return unwrapAsync(scrapersCollectCommentReplies(
+      this,
+      request,
+      options,
+    ));
+  }
+
   /**
    * Scrape LinkedIn profile posts
    *
@@ -75,6 +133,74 @@ export class Scrapers extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.BulkVisitBatchStatusResponse> {
     return unwrapAsync(scrapersBulkVisitBatchStatus(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Visit LinkedIn company page and extract profile data
+   *
+   * @remarks
+   * Fetches a LinkedIn company profile by URL or universal name. Returns structured company data including description, industry, employee count, headquarters, logo, affiliated/similar companies, and more. Optionally enriches with workplace policy data (costs 1 extra credit per optional API call). Base cost: 1 credit.
+   */
+  async visitCompany(
+    request: operations.VisitCompanyRequest,
+    options?: RequestOptions,
+  ): Promise<operations.VisitCompanyResponse> {
+    return unwrapAsync(scrapersVisitCompany(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * List saved posts
+   *
+   * @remarks
+   * List posts saved to bookmarks. 1 credit.
+   */
+  async listSavedPosts(
+    request: operations.ListSavedPostsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ListSavedPostsResponse> {
+    return unwrapAsync(scrapersListSavedPosts(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get home feed
+   *
+   * @remarks
+   * Get posts from the LinkedIn home feed using GraphQL. Supports algorithmic (RELEVANCE) or chronological (REV_CHRON) sorting. Returns parsed post objects with author info, text, engagement counts. No pagination token support currently. 1 credit.
+   */
+  async getFeed(
+    request?: operations.GetFeedRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetFeedResponse> {
+    return unwrapAsync(scrapersGetFeed(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Collect posts from a hashtag
+   *
+   * @remarks
+   * Collect posts from a LinkedIn hashtag feed. Pass hashtag name without # prefix. Supports pagination with start/count. Returns parsed post objects. 1 credit.
+   */
+  async collectHashtagPosts(
+    request: operations.CollectHashtagPostsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.CollectHashtagPostsResponse> {
+    return unwrapAsync(scrapersCollectHashtagPosts(
       this,
       request,
       options,

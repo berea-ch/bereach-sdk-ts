@@ -7,14 +7,39 @@ import { chatFindConversation } from "../funcs/chat-find-conversation.js";
 import { chatGetMessages } from "../funcs/chat-get-messages.js";
 import { chatGetUnreadCount } from "../funcs/chat-get-unread-count.js";
 import { chatListArchived } from "../funcs/chat-list-archived.js";
+import { chatListInbox } from "../funcs/chat-list-inbox.js";
 import { chatListStarred } from "../funcs/chat-list-starred.js";
+import { chatMarkAllRead } from "../funcs/chat-mark-all-read.js";
+import { chatMarkSeen } from "../funcs/chat-mark-seen.js";
+import { chatReact } from "../funcs/chat-react.js";
 import { chatSearchConversations } from "../funcs/chat-search-conversations.js";
+import { chatSendTypingIndicator } from "../funcs/chat-send-typing-indicator.js";
+import { chatStar } from "../funcs/chat-star.js";
+import { chatUnarchive } from "../funcs/chat-unarchive.js";
 import { chatUnreact } from "../funcs/chat-unreact.js";
+import { chatUnstar } from "../funcs/chat-unstar.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Chat extends ClientSDK {
+  /**
+   * List LinkedIn inbox conversations
+   *
+   * @remarks
+   * List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Paginate via nextCursor. 0 credits.
+   */
+  async listInbox(
+    request?: operations.ListInboxRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.ListInboxResponse> {
+    return unwrapAsync(chatListInbox(
+      this,
+      request,
+      options,
+    ));
+  }
+
   /**
    * Search LinkedIn conversations
    *
@@ -71,6 +96,74 @@ export class Chat extends ClientSDK {
   }
 
   /**
+   * Mark a conversation as read
+   *
+   * @remarks
+   * Mark a LinkedIn conversation as read/seen. 0 credits.
+   */
+  async markSeen(
+    request: operations.MarkSeenRequest,
+    options?: RequestOptions,
+  ): Promise<operations.MarkSeenResponse> {
+    return unwrapAsync(chatMarkSeen(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Mark all conversations as read
+   *
+   * @remarks
+   * Mark all LinkedIn inbox conversations as read. 0 credits.
+   */
+  async markAllRead(
+    request?: operations.MarkAllReadRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.MarkAllReadResponse> {
+    return unwrapAsync(chatMarkAllRead(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Star a conversation
+   *
+   * @remarks
+   * Star/favorite a LinkedIn conversation. 0 credits.
+   */
+  async star(
+    request: operations.StarRequest,
+    options?: RequestOptions,
+  ): Promise<operations.StarResponse> {
+    return unwrapAsync(chatStar(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Unstar a conversation
+   *
+   * @remarks
+   * Remove star from a LinkedIn conversation. 0 credits.
+   */
+  async unstar(
+    request: operations.UnstarRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UnstarResponse> {
+    return unwrapAsync(chatUnstar(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * List starred conversations
    *
    * @remarks
@@ -105,6 +198,23 @@ export class Chat extends ClientSDK {
   }
 
   /**
+   * Unarchive a conversation
+   *
+   * @remarks
+   * Move a LinkedIn conversation back from archive to inbox. 0 credits.
+   */
+  async unarchive(
+    request: operations.UnarchiveRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UnarchiveResponse> {
+    return unwrapAsync(chatUnarchive(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * List archived conversations
    *
    * @remarks
@@ -122,6 +232,23 @@ export class Chat extends ClientSDK {
   }
 
   /**
+   * React to a message with emoji
+   *
+   * @remarks
+   * Add an emoji reaction to a LinkedIn message. 0 credits.
+   */
+  async react(
+    request: operations.ReactRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ReactResponse> {
+    return unwrapAsync(chatReact(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
    * Remove emoji reaction from a message
    *
    * @remarks
@@ -132,6 +259,23 @@ export class Chat extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.UnreactResponse> {
     return unwrapAsync(chatUnreact(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Send typing indicator
+   *
+   * @remarks
+   * Send a typing indicator to a LinkedIn conversation, simulating natural typing behavior. 0 credits.
+   */
+  async sendTypingIndicator(
+    request: operations.SendTypingIndicatorRequest,
+    options?: RequestOptions,
+  ): Promise<operations.SendTypingIndicatorResponse> {
+    return unwrapAsync(chatSendTypingIndicator(
       this,
       request,
       options,

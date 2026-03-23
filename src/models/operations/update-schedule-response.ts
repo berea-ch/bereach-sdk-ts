@@ -677,6 +677,28 @@ export type SetAgentStateResponse = {
   retryAfter: number;
 };
 
+export type DeleteAgentStateRequest = {
+  /**
+   * State key
+   */
+  key: string;
+};
+
+/**
+ * State deleted
+ */
+export type DeleteAgentStateResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (always 0 for contacts queries).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before next call of the same type (always 0 for contacts queries).
+   */
+  retryAfter: number;
+};
+
 export type PatchAgentStateRequestBody = {
   /**
    * Partial state fields to merge
@@ -713,28 +735,6 @@ export type PatchAgentStateResponse = {
   retryAfter: number;
 };
 
-export type DeleteAgentStateRequest = {
-  /**
-   * State key
-   */
-  key: string;
-};
-
-/**
- * State deleted
- */
-export type DeleteAgentStateResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (always 0 for contacts queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for contacts queries).
-   */
-  retryAfter: number;
-};
-
 export const ListCampaignsType = {
   Outreach: "outreach",
   LeadGen: "lead_gen",
@@ -758,8 +758,18 @@ export type ListCampaignsStageCounts = {
 };
 
 export type ListCampaignsCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -836,7 +846,7 @@ export type CreateCampaignType = ClosedEnum<typeof CreateCampaignType>;
 
 export type CreateCampaignRequest = {
   /**
-   * Campaign name (e.g., 'lg-engagement-competitor-openai')
+   * Human-readable campaign name. Use a clear, descriptive title (e.g., 'Reverse Prospecting — LinkedIn Connections', 'SaaS Sales Leaders EU'). Do NOT use slugs or technical IDs.
    */
   name: string;
   /**
@@ -862,8 +872,18 @@ export type CreateCampaignStageCounts = {
 };
 
 export type CreateCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -934,8 +954,18 @@ export type GetCampaignStageCounts = {
 };
 
 export type GetCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -990,6 +1020,28 @@ export type GetCampaignResponse = {
   retryAfter: number;
 };
 
+export type DeleteCampaignRequest = {
+  /**
+   * Campaign ID
+   */
+  campaignId: string;
+};
+
+/**
+ * Campaign deleted
+ */
+export type DeleteCampaignResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (always 0 for contacts queries).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before next call of the same type (always 0 for contacts queries).
+   */
+  retryAfter: number;
+};
+
 export const UpdateCampaignStatus = {
   Draft: "draft",
   Scheduled: "scheduled",
@@ -1029,8 +1081,18 @@ export type UpdateCampaignStageCounts = {
 };
 
 export type UpdateCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -1085,28 +1147,6 @@ export type UpdateCampaignResponse = {
   retryAfter: number;
 };
 
-export type DeleteCampaignRequest = {
-  /**
-   * Campaign ID
-   */
-  campaignId: string;
-};
-
-/**
- * Campaign deleted
- */
-export type DeleteCampaignResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (always 0 for contacts queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for contacts queries).
-   */
-  retryAfter: number;
-};
-
 export const CampaignStatusTransitionAction = {
   Activate: "activate",
   Start: "start",
@@ -1145,8 +1185,18 @@ export type CampaignStatusTransitionStageCounts = {
 };
 
 export type CampaignStatusTransitionCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -2996,6 +3046,47 @@ export function setAgentStateResponseFromJSON(
 }
 
 /** @internal */
+export type DeleteAgentStateRequest$Outbound = {
+  key: string;
+};
+
+/** @internal */
+export const DeleteAgentStateRequest$outboundSchema: z.ZodMiniType<
+  DeleteAgentStateRequest$Outbound,
+  DeleteAgentStateRequest
+> = z.object({
+  key: z.string(),
+});
+
+export function deleteAgentStateRequestToJSON(
+  deleteAgentStateRequest: DeleteAgentStateRequest,
+): string {
+  return JSON.stringify(
+    DeleteAgentStateRequest$outboundSchema.parse(deleteAgentStateRequest),
+  );
+}
+
+/** @internal */
+export const DeleteAgentStateResponse$inboundSchema: z.ZodMiniType<
+  DeleteAgentStateResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function deleteAgentStateResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<DeleteAgentStateResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => DeleteAgentStateResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DeleteAgentStateResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type PatchAgentStateRequestBody$Outbound = {
   data: { [k: string]: any };
 };
@@ -3063,47 +3154,6 @@ export function patchAgentStateResponseFromJSON(
 }
 
 /** @internal */
-export type DeleteAgentStateRequest$Outbound = {
-  key: string;
-};
-
-/** @internal */
-export const DeleteAgentStateRequest$outboundSchema: z.ZodMiniType<
-  DeleteAgentStateRequest$Outbound,
-  DeleteAgentStateRequest
-> = z.object({
-  key: z.string(),
-});
-
-export function deleteAgentStateRequestToJSON(
-  deleteAgentStateRequest: DeleteAgentStateRequest,
-): string {
-  return JSON.stringify(
-    DeleteAgentStateRequest$outboundSchema.parse(deleteAgentStateRequest),
-  );
-}
-
-/** @internal */
-export const DeleteAgentStateResponse$inboundSchema: z.ZodMiniType<
-  DeleteAgentStateResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function deleteAgentStateResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<DeleteAgentStateResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeleteAgentStateResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteAgentStateResponse' from JSON`,
-  );
-}
-
-/** @internal */
 export const ListCampaignsType$outboundSchema: z.ZodMiniEnum<
   typeof ListCampaignsType
 > = z.enum(ListCampaignsType);
@@ -3164,6 +3214,7 @@ export const ListCampaignsCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3296,6 +3347,7 @@ export const CreateCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3396,6 +3448,7 @@ export const GetCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3443,6 +3496,47 @@ export function getCampaignResponseFromJSON(
     jsonString,
     (x) => GetCampaignResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'GetCampaignResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type DeleteCampaignRequest$Outbound = {
+  campaignId: string;
+};
+
+/** @internal */
+export const DeleteCampaignRequest$outboundSchema: z.ZodMiniType<
+  DeleteCampaignRequest$Outbound,
+  DeleteCampaignRequest
+> = z.object({
+  campaignId: z.string(),
+});
+
+export function deleteCampaignRequestToJSON(
+  deleteCampaignRequest: DeleteCampaignRequest,
+): string {
+  return JSON.stringify(
+    DeleteCampaignRequest$outboundSchema.parse(deleteCampaignRequest),
+  );
+}
+
+/** @internal */
+export const DeleteCampaignResponse$inboundSchema: z.ZodMiniType<
+  DeleteCampaignResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function deleteCampaignResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<DeleteCampaignResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => DeleteCampaignResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DeleteCampaignResponse' from JSON`,
   );
 }
 
@@ -3540,6 +3634,7 @@ export const UpdateCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3587,47 +3682,6 @@ export function updateCampaignResponseFromJSON(
     jsonString,
     (x) => UpdateCampaignResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'UpdateCampaignResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type DeleteCampaignRequest$Outbound = {
-  campaignId: string;
-};
-
-/** @internal */
-export const DeleteCampaignRequest$outboundSchema: z.ZodMiniType<
-  DeleteCampaignRequest$Outbound,
-  DeleteCampaignRequest
-> = z.object({
-  campaignId: z.string(),
-});
-
-export function deleteCampaignRequestToJSON(
-  deleteCampaignRequest: DeleteCampaignRequest,
-): string {
-  return JSON.stringify(
-    DeleteCampaignRequest$outboundSchema.parse(deleteCampaignRequest),
-  );
-}
-
-/** @internal */
-export const DeleteCampaignResponse$inboundSchema: z.ZodMiniType<
-  DeleteCampaignResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function deleteCampaignResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<DeleteCampaignResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeleteCampaignResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteCampaignResponse' from JSON`,
   );
 }
 
@@ -3724,6 +3778,7 @@ export const CampaignStatusTransitionCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
