@@ -758,8 +758,18 @@ export type ListCampaignsStageCounts = {
 };
 
 export type ListCampaignsCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -836,7 +846,7 @@ export type CreateCampaignType = ClosedEnum<typeof CreateCampaignType>;
 
 export type CreateCampaignRequest = {
   /**
-   * Campaign name (e.g., 'lg-engagement-competitor-openai')
+   * Human-readable campaign name. Use a clear, descriptive title (e.g., 'Reverse Prospecting — LinkedIn Connections', 'SaaS Sales Leaders EU'). Do NOT use slugs or technical IDs.
    */
   name: string;
   /**
@@ -862,8 +872,18 @@ export type CreateCampaignStageCounts = {
 };
 
 export type CreateCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -934,8 +954,18 @@ export type GetCampaignStageCounts = {
 };
 
 export type GetCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -1029,8 +1059,18 @@ export type UpdateCampaignStageCounts = {
 };
 
 export type UpdateCampaignCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -1145,8 +1185,18 @@ export type CampaignStatusTransitionStageCounts = {
 };
 
 export type CampaignStatusTransitionCampaign = {
+  /**
+   * Campaign unique ID (nanoid). Use this as campaignSlug in API calls.
+   */
   id: string;
+  /**
+   * Human-readable campaign name.
+   */
   name: string;
+  /**
+   * URL-safe slug auto-generated from name.
+   */
+  slug?: string | null | undefined;
   description: string | null;
   context: string | null;
   type: string;
@@ -3164,6 +3214,7 @@ export const ListCampaignsCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3296,6 +3347,7 @@ export const CreateCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3396,6 +3448,7 @@ export const GetCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3540,6 +3593,7 @@ export const UpdateCampaignCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),
@@ -3724,6 +3778,7 @@ export const CampaignStatusTransitionCampaign$inboundSchema: z.ZodMiniType<
 > = z.object({
   id: types.string(),
   name: types.string(),
+  slug: z.optional(z.nullable(types.string())),
   description: types.nullable(types.string()),
   context: types.nullable(types.string()),
   type: types.string(),

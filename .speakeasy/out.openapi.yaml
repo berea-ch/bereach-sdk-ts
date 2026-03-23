@@ -60216,7 +60216,13 @@ paths:
                       properties:
                         id:
                           type: "string"
+                          description: "Campaign unique ID (nanoid). Use this as campaignSlug in API calls."
                         name:
+                          type: "string"
+                          description: "Human-readable campaign name."
+                        slug:
+                          description: "URL-safe slug auto-generated from name."
+                          nullable: true
                           type: "string"
                         description:
                           nullable: true
@@ -60871,7 +60877,7 @@ paths:
                   type: "string"
                   minLength: 1
                   maxLength: 200
-                  description: "Campaign name (e.g., 'lg-engagement-competitor-openai')"
+                  description: "Human-readable campaign name. Use a clear, descriptive title (e.g., 'Reverse Prospecting — LinkedIn Connections', 'SaaS Sales Leaders EU'). Do NOT use slugs or technical IDs."
                 description:
                   description: "Optional campaign description"
                   type: "string"
@@ -60906,7 +60912,13 @@ paths:
                     properties:
                       id:
                         type: "string"
+                        description: "Campaign unique ID (nanoid). Use this as campaignSlug in API calls."
                       name:
+                        type: "string"
+                        description: "Human-readable campaign name."
+                      slug:
+                        description: "URL-safe slug auto-generated from name."
+                        nullable: true
                         type: "string"
                       description:
                         nullable: true
@@ -61554,7 +61566,13 @@ paths:
                     properties:
                       id:
                         type: "string"
+                        description: "Campaign unique ID (nanoid). Use this as campaignSlug in API calls."
                       name:
+                        type: "string"
+                        description: "Human-readable campaign name."
+                      slug:
+                        description: "URL-safe slug auto-generated from name."
+                        nullable: true
                         type: "string"
                       description:
                         nullable: true
@@ -62241,7 +62259,13 @@ paths:
                     properties:
                       id:
                         type: "string"
+                        description: "Campaign unique ID (nanoid). Use this as campaignSlug in API calls."
                       name:
+                        type: "string"
+                        description: "Human-readable campaign name."
+                      slug:
+                        description: "URL-safe slug auto-generated from name."
+                        nullable: true
                         type: "string"
                       description:
                         nullable: true
@@ -63469,7 +63493,13 @@ paths:
                     properties:
                       id:
                         type: "string"
+                        description: "Campaign unique ID (nanoid). Use this as campaignSlug in API calls."
                       name:
+                        type: "string"
+                        description: "Human-readable campaign name."
+                      slug:
+                        description: "URL-safe slug auto-generated from name."
+                        nullable: true
                         type: "string"
                       description:
                         nullable: true

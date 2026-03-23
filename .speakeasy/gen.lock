@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: fb86790e-7ac1-445c-be63-3533e7a97e1f
 management:
-  docChecksum: 7a525eab4997bee0f0faa6b05f764377
+  docChecksum: 77ee91f631608694326474ae316c465c
   docVersion: 1.4.0
   speakeasyVersion: 1.759.1
   generationVersion: 2.869.10
-  releaseVersion: 1.4.0
-  configChecksum: ea44c4982d41cb453a26438b1c1736b5
+  releaseVersion: 1.4.1
+  configChecksum: 43d5e742db71f429f36267c00863c73c
   repoURL: https://github.com/berea-ch/bereach-sdk-ts.git
   installationURL: https://github.com/berea-ch/bereach-sdk-ts
   published: true
 persistentEdits:
-  generation_id: 6d631a89-5b4d-4d72-934e-0a2235aef7d4
-  pristine_commit_hash: 23c1a47e6f092d055faff0f2aa1b7e9b5e049209
-  pristine_tree_hash: 7fd27913c936f1a93b39b66aa0d0e34e1da883c2
+  generation_id: d7e07127-bd8c-49b9-961f-56e5cce9e2c3
+  pristine_commit_hash: d394439199c01dfc98f0181e9454bb6c923e5beb
+  pristine_tree_hash: 5f0401ff91c99639cfdcd8689a3af6857d5db7e2
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -273,8 +273,8 @@ trackedFiles:
     pristine_git_object: e59150ed578ef3e4bec719f1cc57fe327932d8bc
   docs/models/operations/campaign-status-transition-campaign.md:
     id: dd91b9ef7fba
-    last_write_checksum: sha1:192fafa27a43094d20620e0c1db2adf7fdcfc746
-    pristine_git_object: e7a8106bb8958facd64deba2d827f7cea228ef11
+    last_write_checksum: sha1:641d4d1bda8dd8c62bbc29e72e503260bfaaad16
+    pristine_git_object: 66ca8d91ab0ffd25dad882c05c244265d79e5752
   docs/models/operations/campaign-status-transition-request-body.md:
     id: c4d66fd910b2
     last_write_checksum: sha1:fc00e2bf3349d534666e63dfe38eea9efa17f1ec
@@ -529,12 +529,12 @@ trackedFiles:
     pristine_git_object: e7382441df412d4ad91d4895568f2a103c0077cf
   docs/models/operations/create-campaign-campaign.md:
     id: dee8ebbdd900
-    last_write_checksum: sha1:3073d1625487ad2be0d4eaa4a67f04c1fda3dec9
-    pristine_git_object: 065f9b8fee635394ed6015a35642cd8abed948af
+    last_write_checksum: sha1:25ae7045f343d5ade0cfd5bb6db6b9ded2532cd6
+    pristine_git_object: 60916e843d9278603f4637914b8edfa803b6fcb2
   docs/models/operations/create-campaign-request.md:
     id: 33ffbd1f51ea
-    last_write_checksum: sha1:7ff606a7094ee5185d7bfab4d41f9934432c7ca3
-    pristine_git_object: 27190cf9b5c49b5c67e2dfa891c3fde0f4041acd
+    last_write_checksum: sha1:d233e068ea71c214910028cc216b403e06cb68a8
+    pristine_git_object: 1e9a799e3e248f94c7294de9ccabc3ddecc6cb7b
   docs/models/operations/create-campaign-response.md:
     id: e6a12e76373e
     last_write_checksum: sha1:1bb3b2033e42dfe3e66f4230d04ce3067e2abc36
@@ -741,8 +741,8 @@ trackedFiles:
     pristine_git_object: 4dc9987f79768cc89f2e3aaed62e2996aadf9db8
   docs/models/operations/get-campaign-campaign.md:
     id: 72b0a13c6715
-    last_write_checksum: sha1:a296c64459d46345e6e495576de048717bb3b6de
-    pristine_git_object: 32fc5b9daf3c0e1054d0ed3380a43080982a1190
+    last_write_checksum: sha1:fffa5acc7239017e6708c5715f6fed4b14ac4689
+    pristine_git_object: 9cb97c83c97dbb04a999fe27d0c408ffe503447c
   docs/models/operations/get-campaign-request.md:
     id: c44fd7d2aa4b
     last_write_checksum: sha1:c4e1b1ac2bf769190debff032616005b8823f228
@@ -1137,8 +1137,8 @@ trackedFiles:
     pristine_git_object: 2c22540188344a3db2f326cda534cb283d829d1b
   docs/models/operations/list-campaigns-campaign.md:
     id: 02525aedfa0f
-    last_write_checksum: sha1:cfd1c818d888b8de0cb43ce12517d3d89112a746
-    pristine_git_object: 55c1ff087e1a033597ffcc2373d3c69a1384bb62
+    last_write_checksum: sha1:e2c8ca0b737113884d8941d3bfa45cbc9dafa04a
+    pristine_git_object: 1612928f689790500dfec8b383885267b1ed2844
   docs/models/operations/list-campaigns-pagination.md:
     id: 751e1c7b54a7
     last_write_checksum: sha1:cfa76848f0b7ea5ed01b7ab46627e3ecf01ccdaf
@@ -2261,8 +2261,8 @@ trackedFiles:
     pristine_git_object: d63a3bc308b22150001b229ef6bf151e345e0696
   docs/models/operations/update-campaign-campaign.md:
     id: 7b1f2ffa3b00
-    last_write_checksum: sha1:a58c97efe61989889763ba052feea856b548c748
-    pristine_git_object: 3542e3c833002d901485143a0330899b2c2380fe
+    last_write_checksum: sha1:5428839db0edb479069c9a91bb397d38804e4143
+    pristine_git_object: 5aff0449bbd53c22e8f820bdd398673944cee5eb
   docs/models/operations/update-campaign-request-body.md:
     id: 797539d383ec
     last_write_checksum: sha1:62c410bcc18a6078b9d5ff100c8249f6d36ffa19
@@ -2549,12 +2549,12 @@ trackedFiles:
     pristine_git_object: d22023452f5c34df564e1a2f20071d483b9dde0d
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:fcf8bd8c8922c7dc4e8deebe3e1e2f082fcf7cdd
-    pristine_git_object: e07df94e18e02292d257d9dbf616d64a2553ad78
+    last_write_checksum: sha1:6bbdaf1b6b2e0102f188c5a711dedb5ee82b090f
+    pristine_git_object: f357ed47ff5f2d139fbec90453a37c65e13ca44a
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:268fb7e93b5f0941b0cc50c5935a5f1bf2ef684c
-    pristine_git_object: cf6b9af57cdee4ef2c228add4ceabb1e00fa7682
+    last_write_checksum: sha1:4bc4c8e1b9647e41f1ac2f93910bbe49ef1c0e62
+    pristine_git_object: b93d771e268e27eb0a6393a12a5e467d804c3a47
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:dd9b2e9e929a42b051e9eef718f9fcece32c717a
@@ -3033,8 +3033,8 @@ trackedFiles:
     pristine_git_object: 44be0eae8246521b230e8e711a88eff738fc015d
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:42cb2c12d9074ecb7907edea1e7cec7499a59de1
-    pristine_git_object: 2eb0fc856706e9ebd6ab699db624f2fea8ee2674
+    last_write_checksum: sha1:b13f13f8b7cc0d9802fc6ab7316221f54bbfbbab
+    pristine_git_object: da83d8fb475f257ac42b88c9ae2fdf0ee2843215
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -3141,8 +3141,8 @@ trackedFiles:
     pristine_git_object: 1e89e559efa6e70a4b870a621c24d49045d817a0
   src/models/operations/update-schedule-response.ts:
     id: 28d2bcfed46a
-    last_write_checksum: sha1:8d223ac963dd68f663adde731ad673dae19e1be0
-    pristine_git_object: b8b2f8cd2439c72962511a41adee322fbf07c5c9
+    last_write_checksum: sha1:33c89c5203e85be420a7bfbab8f6da53fb601518
+    pristine_git_object: 82bc5adae3d7ec330df43e2093a06d943a9f00b1
   src/models/security.ts:
     id: d90c6c784ca5
     last_write_checksum: sha1:9d9fcced07f32963f3101a1bab33b88f2d40e675
@@ -8500,4 +8500,10 @@ examples:
         "503":
           application/json: {"success": false, "error": {"code": "<value>", "message": "<value>"}}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `bereach.linkedinScrapers.collectComments()`: \n  *  `response.profiles[]` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.linkedinScrapers.listSavedPosts()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.linkedinScrapers.collectHashtagPosts()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.linkedInScrapers.collectCommentReplies()`: \n  *  `response.replies[]` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.linkedInScrapers.getFeed()`: \n  *  `response.posts[]` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.linkedinActions.repostPost()`: \n  *  `request.campaignSlug` **Removed** (Breaking ⚠️)\n  *  `response.duplicate` **Removed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.actions.listSentInvitations()`: \n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `bereach.profile.getFollowers()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.get()`: **Added**\n* `bereach.profile.getProfileViews()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.updateAccount()`: **Added**\n* `bereach.profile.refresh()`: **Added**\n* `bereach.profile.getPosts()`: **Added**\n* `bereach.profile.getFollowers()`: **Added**\n* `bereach.profile.getLimits()`: **Added**\n* `bereach.profile.getCredits()`: **Added**\n* `bereach.profile.getProfileViews()`: **Added**\n* `bereach.profile.getPostAnalytics()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.getPostAnalytics()`: **Added**\n* `bereach.profile.getFollowerAnalytics()`: **Added**\n* `bereach.profile.switchAccount()`: **Added**\n* `bereach.profile.listConnections()`: **Added**\n* `bereach.linkedinChat.listInbox()`: **Added**\n* `bereach.chat.getMessages()`: **Added**\n* `bereach.chat.listStarred()`: **Added**\n* `bereach.chat.listArchived()`: **Added**\n* `bereach.chat.getUnreadCount()`: **Added**\n* `bereach.campaigns.filter()`: **Added**\n* `bereach.campaigns.getStatus()`: **Added**\n* `bereach.campaigns.sync()`: **Added**\n* `bereach.campaigns.stats()`: **Added**\n* `bereach.contacts.upsert()`: **Added**\n* `bereach.contacts.search()`: **Added**\n* `bereach.contacts.get()`: **Added**\n* `bereach.contacts.update()`: **Added**\n* `bereach.contacts.listActivities()`: **Added**\n* `bereach.contacts.addActivities()`: **Added**\n* `bereach.contacts.bulkUpdate()`: **Added**\n* `bereach.contacts.stats()`: **Added**\n* `bereach.contacts.listAgentStates()`: **Added**\n* `bereach.contacts.getAgentState()`: **Added**\n* `bereach.contacts.setAgentState()`: **Added**\n* `bereach.contacts.patchAgentState()`: **Added**\n* `bereach.contacts.deleteAgentState()`: **Added**\n* `bereach.contacts.listCampaigns()`: **Added**\n* `bereach.contacts.createCampaign()`: **Added**\n* `bereach.contacts.getCampaign()`: **Added**\n* `bereach.contacts.updateCampaign()`: **Added**\n* `bereach.contacts.deleteCampaign()`: **Added**\n* `bereach.contacts.campaignStatusTransition()`: **Added**\n* `bereach.contacts.listByCampaign()`: **Added**\n* `bereach.contacts.addToCampaign()`: **Added**\n* `bereach.contacts.getByUrl()`: **Added**\n* `bereach.scheduledMessages.list()`: **Added**\n* `bereach.scheduledMessages.create()`: **Added**\n* `bereach.scheduledMessages.batchSchedule()`: **Added**\n* `bereach.scheduledMessages.cancel()`: **Added**\n* `bereach.context.listEntries()`: **Added**\n* `bereach.context.set()`: **Added**\n* `bereach.context.delete()`: **Added**\n* `bereach.cron.listSchedules()`: **Added**\n* `bereach.cron.updateSchedule()`: **Added**\n* `bereach.linkedInSearch.resolveParameters()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.get()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.listAccounts()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.updateAccount()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.refresh()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.getPosts()`: **Removed** (Breaking ⚠️)\n* `bereach.search.resolveParameters()`: **Added**\n* `bereach.profile.getLimits()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.getCredits()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.listAccounts()`: **Added**\n* `bereach.profile.getSearchAppearances()`: **Removed** (Breaking ⚠️)\n* `bereach.profile.getSearchAppearances()`: **Added**\n* `bereach.profile.getFollowerAnalytics()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedinChat.listInboxConversations()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedinChat.getMessages()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedinChat.listArchived()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedinChat.getUnreadCount()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedInChat.listStarred()`: **Removed** (Breaking ⚠️)\n* `bereach.campaigns.filter()`: **Removed** (Breaking ⚠️)\n* `bereach.campaigns.getStatus()`: **Removed** (Breaking ⚠️)\n* `bereach.campaigns.sync()`: **Removed** (Breaking ⚠️)\n* `bereach.campaigns.getStats()`: **Removed** (Breaking ⚠️)\n* `bereach.contacts.upsert()`: **Removed** (Breaking ⚠️)\n* `bereach.linkedinScrapers.collectLikes()`: \n  *  `response.profiles[].reactionType` **Added**\n  *  `error` **Changed**\n* `bereach.linkedinScrapers.visitCompany()`:  `error` **Changed**\n* `bereach.scrapers.collectPosts()`:  `error` **Changed**\n* `bereach.scrapers.visitProfile()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n  *  `error` **Changed**\n* `bereach.linkedInSearch.search()`:  `error` **Changed**\n* `bereach.linkedInSearch.searchCompanies()`:  `error` **Changed**\n* `bereach.linkedinSearch.searchPosts()`:  `error` **Changed**\n* `bereach.linkedinSearch.searchPeople()`:  `error` **Changed**\n* `bereach.linkedinSearch.searchJobs()`:  `error` **Changed**\n* `bereach.linkedinSearch.searchByUrl()`:  `error` **Changed**\n* `bereach.salesNavigatorSearch.search()`:  `error` **Changed**\n* `bereach.salesNavigatorSearch.searchCompanies()`:  `error` **Changed**\n* `bereach.salesNav.searchPeople()`:  `error` **Changed**\n* `bereach.actions.connectProfile()`:  `error` **Changed**\n* `bereach.actions.sendMessage()`:  `error` **Changed**\n* `bereach.scrapers.bulkVisitBatchStatus()`: **Added**\n* `bereach.actions.followCompany()`:  `error` **Changed**\n* `bereach.linkedinActions.listInvitations()`:  `error` **Changed**\n* `bereach.linkedinActions.acceptInvitation()`:  `error` **Changed**\n* `bereach.linkedinActions.replyToComment()`:  `error` **Changed**\n* `bereach.linkedinActions.likePost()`:  `error` **Changed**\n* `bereach.linkedinActions.withdrawInvitation()`:  `error` **Changed**\n* `bereach.linkedinActions.followProfile()`:  `error` **Changed**\n* `bereach.linkedinActions.editPost()`:  `error` **Changed**\n* `bereach.linkedinActions.editComment()`:  `error` **Changed**\n* `bereach.scrapers.bulkVisitProfile()`: **Added**\n* `bereach.linkedinActions.unlikePost()`:  `error` **Changed**\n* `bereach.linkedinActions.unlikeComment()`:  `error` **Changed**\n* `bereach.linkedinActions.unsavePost()`:  `error` **Changed**\n* `bereach.linkedinActions.unfollowCompany()`:  `error` **Changed**\n* `bereach.linkedInActions.likeComment()`:  `error` **Changed**\n* `bereach.linkedInActions.publishPost()`:  `error` **Changed**\n* `bereach.linkedInActions.createComment()`: \n  *  `response.fsdCommentUrn` **Added**\n  *  `error` **Changed**\n* `bereach.linkedInActions.declineInvitation()`:  `error` **Changed**\n* `bereach.linkedInActions.unfollowProfile()`:  `error` **Changed**\n* `bereach.linkedInActions.savePost()`:  `error` **Changed**\n* `bereach.companyPages.list()`:  `error` **Changed**\n* `bereach.companyPages.getPosts()`:  `error` **Changed**\n* `bereach.companyPages.getPermissions()`:  `error` **Changed**\n* `bereach.companyPages.getAnalytics()`:  `error` **Changed**\n* `bereach.linkedinChat.markAllRead()`:  `error` **Changed**\n* `bereach.linkedinChat.react()`:  `error` **Changed**\n* `bereach.linkedinChat.sendTypingIndicator()`:  `error` **Changed**\n* `bereach.chat.searchConversations()`: \n  *  `request` **Changed**\n  *  `error` **Changed**\n* `bereach.chat.findConversation()`: \n  *  `request.includeMessages` **Changed**\n  *  `error` **Changed**\n* `bereach.chat.archive()`:  `error` **Changed**\n* `bereach.chat.unreact()`:  `error` **Changed**\n* `bereach.linkedInChat.markSeen()`:  `error` **Changed**\n* `bereach.linkedInChat.star()`:  `error` **Changed**\n* `bereach.linkedInChat.unstar()`:  `error` **Changed**\n* `bereach.linkedInChat.unarchive()`:  `error` **Changed**\n"
+releaseNotes: |
+  ## Typescript SDK Changes:
+  * `bereach.contacts.listCampaigns()`:  `response.campaigns[].slug` **Added**
+  * `bereach.contacts.createCampaign()`:  `response.campaign.slug` **Added**
+  * `bereach.contacts.getCampaign()`:  `response.campaign.slug` **Added**
+  * `bereach.contacts.updateCampaign()`:  `response.campaign.slug` **Added**
+  * `bereach.contacts.campaignStatusTransition()`:  `response.campaign.slug` **Added**
