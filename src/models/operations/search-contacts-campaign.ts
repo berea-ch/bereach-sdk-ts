@@ -122,6 +122,10 @@ export type RefreshLastPost = {
   postId: string;
   type: RefreshType;
   /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
+  /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
   media?: RefreshMedia | undefined;
@@ -267,6 +271,10 @@ export type GetMyPostsPost = {
   postUrn: string;
   postId: string;
   type: GetMyPostsType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -2358,6 +2366,7 @@ export const RefreshLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: RefreshType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => RefreshMedia$inboundSchema)),
 });
 
@@ -2484,6 +2493,7 @@ export const GetMyPostsPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: GetMyPostsType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => GetMyPostsMedia$inboundSchema)),
 });
 

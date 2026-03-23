@@ -2075,6 +2075,10 @@ export type GetProfileLastPost = {
   postId: string;
   type: GetProfileType;
   /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
+  /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
   media?: GetProfileMedia | undefined;
@@ -5050,6 +5054,7 @@ export const GetProfileLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: GetProfileType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => GetProfileMedia$inboundSchema)),
 });
 
