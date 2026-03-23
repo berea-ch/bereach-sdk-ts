@@ -7,15 +7,15 @@ import { profileGetFollowerAnalytics } from "../funcs/profile-get-follower-analy
 import { profileGetFollowers } from "../funcs/profile-get-followers.js";
 import { profileGetLimits } from "../funcs/profile-get-limits.js";
 import { profileGetPostAnalytics } from "../funcs/profile-get-post-analytics.js";
-import { profileGetPosts } from "../funcs/profile-get-posts.js";
-import { profileGetProfileViews } from "../funcs/profile-get-profile-views.js";
 import { profileGetSearchAppearances } from "../funcs/profile-get-search-appearances.js";
 import { profileGet } from "../funcs/profile-get.js";
 import { profileListAccounts } from "../funcs/profile-list-accounts.js";
 import { profileListConnections } from "../funcs/profile-list-connections.js";
+import { profilePosts } from "../funcs/profile-posts.js";
 import { profileRefresh } from "../funcs/profile-refresh.js";
 import { profileSwitchAccount } from "../funcs/profile-switch-account.js";
 import { profileUpdateAccount } from "../funcs/profile-update-account.js";
+import { profileViews } from "../funcs/profile-views.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -89,11 +89,11 @@ export class Profile extends ClientSDK {
    * @remarks
    * Returns paginated posts from the authenticated user's own LinkedIn profile. No credits consumed. Requires valid LinkedIn credentials and a stored profileUrn (call /me/linkedin/refresh first if needed).
    */
-  async getPosts(
+  async posts(
     request?: operations.GetMyPostsRequest | undefined,
     options?: RequestOptions,
   ): Promise<operations.GetMyPostsResponse> {
-    return unwrapAsync(profileGetPosts(
+    return unwrapAsync(profilePosts(
       this,
       request,
       options,
@@ -153,11 +153,11 @@ export class Profile extends ClientSDK {
    * @remarks
    * Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
    */
-  async getProfileViews(
+  async views(
     request?: operations.GetProfileViewsRequest | undefined,
     options?: RequestOptions,
   ): Promise<operations.GetProfileViewsResponse> {
-    return unwrapAsync(profileGetProfileViews(
+    return unwrapAsync(profileViews(
       this,
       request,
       options,

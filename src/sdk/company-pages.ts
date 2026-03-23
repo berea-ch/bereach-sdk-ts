@@ -4,8 +4,8 @@
 
 import { companyPagesGetAnalytics } from "../funcs/company-pages-get-analytics.js";
 import { companyPagesGetPermissions } from "../funcs/company-pages-get-permissions.js";
-import { companyPagesGetPosts } from "../funcs/company-pages-get-posts.js";
 import { companyPagesList } from "../funcs/company-pages-list.js";
+import { companyPagesPosts } from "../funcs/company-pages-posts.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -32,11 +32,11 @@ export class CompanyPages extends ClientSDK {
    * @remarks
    * Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page. Costs 1 credit.
    */
-  async getPosts(
+  async posts(
     request: operations.GetCompanyPostsRequest,
     options?: RequestOptions,
   ): Promise<operations.GetCompanyPostsResponse> {
-    return unwrapAsync(companyPagesGetPosts(
+    return unwrapAsync(companyPagesPosts(
       this,
       request,
       options,
