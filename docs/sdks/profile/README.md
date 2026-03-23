@@ -10,11 +10,11 @@ Endpoints for the authenticated user's own LinkedIn profile
 * [listAccounts](#listaccounts) - List all LinkedIn accounts for the authenticated user
 * [updateAccount](#updateaccount) - Update a LinkedIn account (label, default)
 * [refresh](#refresh) - Refresh authenticated user's LinkedIn profile
-* [getPosts](#getposts) - Get authenticated user's LinkedIn posts
+* [posts](#posts) - Get authenticated user's LinkedIn posts
 * [getFollowers](#getfollowers) - Get authenticated user's LinkedIn followers
 * [getLimits](#getlimits) - Get current LinkedIn rate limit status
 * [getCredits](#getcredits) - Get current BeReach credit balance
-* [getProfileViews](#getprofileviews) - Get profile views
+* [views](#views) - Get profile views
 * [getSearchAppearances](#getsearchappearances) - Get search appearances
 * [getPostAnalytics](#getpostanalytics) - Get post analytics
 * [getFollowerAnalytics](#getfolloweranalytics) - Get follower analytics
@@ -346,7 +346,7 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## getPosts
+## posts
 
 Returns paginated posts from the authenticated user's own LinkedIn profile. No credits consumed. Requires valid LinkedIn credentials and a stored profileUrn (call /me/linkedin/refresh first if needed).
 
@@ -361,7 +361,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.profile.getPosts({
+  const result = await bereach.profile.posts({
     count: 20,
     start: 0,
   });
@@ -378,7 +378,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { profileGetPosts } from "bereach/funcs/profile-get-posts.js";
+import { profilePosts } from "bereach/funcs/profile-posts.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -387,7 +387,7 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await profileGetPosts(bereach, {
+  const res = await profilePosts(bereach, {
     count: 20,
     start: 0,
   });
@@ -395,7 +395,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("profileGetPosts failed:", res.error);
+    console.log("profilePosts failed:", res.error);
   }
 }
 
@@ -721,7 +721,7 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## getProfileViews
+## views
 
 Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
 
@@ -736,7 +736,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.profile.getProfileViews({});
+  const result = await bereach.profile.views({});
 
   console.log(result);
 }
@@ -750,7 +750,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { profileGetProfileViews } from "bereach/funcs/profile-get-profile-views.js";
+import { profileViews } from "bereach/funcs/profile-views.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -759,12 +759,12 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await profileGetProfileViews(bereach, {});
+  const res = await profileViews(bereach, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("profileGetProfileViews failed:", res.error);
+    console.log("profileViews failed:", res.error);
   }
 }
 

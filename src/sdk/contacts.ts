@@ -217,23 +217,6 @@ export class Contacts extends ClientSDK {
   }
 
   /**
-   * Merge-update agent state by key
-   *
-   * @remarks
-   * Merge partial fields into an existing state entry. 0 credits.
-   */
-  async patchAgentState(
-    request: operations.PatchAgentStateRequest,
-    options?: RequestOptions,
-  ): Promise<operations.PatchAgentStateResponse> {
-    return unwrapAsync(contactsPatchAgentState(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Delete agent state by key
    *
    * @remarks
@@ -244,6 +227,23 @@ export class Contacts extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.DeleteAgentStateResponse> {
     return unwrapAsync(contactsDeleteAgentState(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Merge-update agent state by key
+   *
+   * @remarks
+   * Merge partial fields into an existing state entry. 0 credits.
+   */
+  async patchAgentState(
+    request: operations.PatchAgentStateRequest,
+    options?: RequestOptions,
+  ): Promise<operations.PatchAgentStateResponse> {
+    return unwrapAsync(contactsPatchAgentState(
       this,
       request,
       options,
@@ -302,23 +302,6 @@ export class Contacts extends ClientSDK {
   }
 
   /**
-   * Update campaign settings
-   *
-   * @remarks
-   * Update campaign name, description, context, or schedule settings. 0 credits.
-   */
-  async updateCampaign(
-    request: operations.UpdateCampaignRequest,
-    options?: RequestOptions,
-  ): Promise<operations.UpdateCampaignResponse> {
-    return unwrapAsync(contactsUpdateCampaign(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Delete a campaign
    *
    * @remarks
@@ -329,6 +312,23 @@ export class Contacts extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.DeleteCampaignResponse> {
     return unwrapAsync(contactsDeleteCampaign(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Update campaign settings
+   *
+   * @remarks
+   * Update campaign name, description, context, or schedule settings. 0 credits.
+   */
+  async updateCampaign(
+    request: operations.UpdateCampaignRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UpdateCampaignResponse> {
+    return unwrapAsync(contactsUpdateCampaign(
       this,
       request,
       options,

@@ -45,3 +45,13 @@ Based on:
 - [typescript v1.4.0] .
 ### Releases
 - [NPM v1.4.0] https://www.npmjs.com/package/bereach/v/1.4.0 - .
+
+## 2026-03-23 00:52:54
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.759.1 (2.869.10) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [typescript v1.4.2] .
+### Releases
+- [NPM v1.4.2] https://www.npmjs.com/package/bereach/v/1.4.2 - .

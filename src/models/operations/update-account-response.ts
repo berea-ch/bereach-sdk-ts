@@ -706,136 +706,6 @@ export type SearchSalesNavResponse =
 /**
  * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
  */
-export const SearchSalesNavCompaniesCategoryRequest = {
-  People: "people",
-  Companies: "companies",
-} as const;
-/**
- * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
- */
-export type SearchSalesNavCompaniesCategoryRequest = ClosedEnum<
-  typeof SearchSalesNavCompaniesCategoryRequest
->;
-
-/**
- * Industry filter with include/exclude. Use LinkedIn industry IDs. Resolve via /search/linkedin/parameters with type='INDUSTRY'.
- */
-export type SearchSalesNavCompaniesIndustry = {
-  /**
-   * IDs to include
-   */
-  include?: Array<string> | undefined;
-  /**
-   * IDs to exclude
-   */
-  exclude?: Array<string> | undefined;
-};
-
-export type SearchSalesNavCompaniesRequest = {
-  /**
-   * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
-   */
-  category?: SearchSalesNavCompaniesCategoryRequest | undefined;
-  /**
-   * Sales Navigator search URL — paste directly from your browser. Category and filters are extracted automatically. Explicit params override URL-derived values. Example: https://www.linkedin.com/sales/search/people?query=...
-   */
-  url?: string | undefined;
-  /**
-   * Search keywords. Supports LinkedIn Boolean syntax: use double quotes for exact phrases, AND/OR/NOT operators (UPPERCASE), and parentheses for grouping.
-   */
-  keywords?: string | undefined;
-  /**
-   * Industry filter with include/exclude. Use LinkedIn industry IDs. Resolve via /search/linkedin/parameters with type='INDUSTRY'.
-   */
-  industry?: SearchSalesNavCompaniesIndustry | undefined;
-  /**
-   * Geography IDs (people & companies). Resolve via /search/linkedin/parameters with type='GEO'.
-   */
-  location?: Array<string> | undefined;
-  /**
-   * Employee count ranges (companies only). Values: 'A'=1-10, 'B'=11-50, 'C'=51-200, 'D'=201-500, 'E'=501-1K, 'F'=1K-5K, 'G'=5K-10K, 'H'=10K+.
-   */
-  companyHeadcount?: Array<string> | undefined;
-  /**
-   * Company types (companies only). Values: 'C'=Public, 'D'=Educational, 'N'=Non-profit, 'O'=Privately Held, 'P'=Partnership, 'S'=Self-Employed, 'G'=Government.
-   */
-  companyType?: Array<string> | undefined;
-  /**
-   * Annual revenue ranges (companies only).
-   */
-  annualRevenue?: Array<string> | undefined;
-  /**
-   * Pagination offset (default 0).
-   */
-  start?: number | undefined;
-  /**
-   * Results per page (default 25, max 25).
-   */
-  count?: number | undefined;
-};
-
-export const SearchSalesNavCompaniesCategoryCompanies = {
-  Companies: "companies",
-} as const;
-export type SearchSalesNavCompaniesCategoryCompanies = ClosedEnum<
-  typeof SearchSalesNavCompaniesCategoryCompanies
->;
-
-export const SearchSalesNavCompaniesType = {
-  Company: "COMPANY",
-} as const;
-export type SearchSalesNavCompaniesType = ClosedEnum<
-  typeof SearchSalesNavCompaniesType
->;
-
-export type SearchSalesNavCompaniesItem = {
-  type: SearchSalesNavCompaniesType;
-  /**
-   * Sales Navigator company ID
-   */
-  id: string;
-  name: string;
-  /**
-   * Sales Navigator company URL
-   */
-  profileUrl: string | null;
-  summary: string | null;
-  industry: string | null;
-  location: string | null;
-  /**
-   * Employee count or range
-   */
-  headcount: string | null;
-};
-
-export type SearchSalesNavCompaniesPaging = {
-  start: number;
-  count: number;
-  total: number;
-};
-
-/**
- * Sales Navigator company search results
- */
-export type SearchSalesNavCompaniesResponse = {
-  success: true;
-  category: SearchSalesNavCompaniesCategoryCompanies;
-  items: Array<SearchSalesNavCompaniesItem>;
-  paging: SearchSalesNavCompaniesPaging;
-  hasMore: boolean;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-/**
- * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
- */
 export const SearchSalesNavPeopleCategoryRequest = {
   People: "people",
   Companies: "companies",
@@ -1057,6 +927,136 @@ export type SearchSalesNavPeopleResponse = {
   retryAfter: number;
 };
 
+/**
+ * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
+ */
+export const SearchSalesNavCompaniesCategoryRequest = {
+  People: "people",
+  Companies: "companies",
+} as const;
+/**
+ * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
+ */
+export type SearchSalesNavCompaniesCategoryRequest = ClosedEnum<
+  typeof SearchSalesNavCompaniesCategoryRequest
+>;
+
+/**
+ * Industry filter with include/exclude. Use LinkedIn industry IDs. Resolve via /search/linkedin/parameters with type='INDUSTRY'.
+ */
+export type SearchSalesNavCompaniesIndustry = {
+  /**
+   * IDs to include
+   */
+  include?: Array<string> | undefined;
+  /**
+   * IDs to exclude
+   */
+  exclude?: Array<string> | undefined;
+};
+
+export type SearchSalesNavCompaniesRequest = {
+  /**
+   * Type of Sales Navigator search: 'people' (leads) or 'companies' (accounts). Required unless url is provided.
+   */
+  category?: SearchSalesNavCompaniesCategoryRequest | undefined;
+  /**
+   * Sales Navigator search URL — paste directly from your browser. Category and filters are extracted automatically. Explicit params override URL-derived values. Example: https://www.linkedin.com/sales/search/people?query=...
+   */
+  url?: string | undefined;
+  /**
+   * Search keywords. Supports LinkedIn Boolean syntax: use double quotes for exact phrases, AND/OR/NOT operators (UPPERCASE), and parentheses for grouping.
+   */
+  keywords?: string | undefined;
+  /**
+   * Industry filter with include/exclude. Use LinkedIn industry IDs. Resolve via /search/linkedin/parameters with type='INDUSTRY'.
+   */
+  industry?: SearchSalesNavCompaniesIndustry | undefined;
+  /**
+   * Geography IDs (people & companies). Resolve via /search/linkedin/parameters with type='GEO'.
+   */
+  location?: Array<string> | undefined;
+  /**
+   * Employee count ranges (companies only). Values: 'A'=1-10, 'B'=11-50, 'C'=51-200, 'D'=201-500, 'E'=501-1K, 'F'=1K-5K, 'G'=5K-10K, 'H'=10K+.
+   */
+  companyHeadcount?: Array<string> | undefined;
+  /**
+   * Company types (companies only). Values: 'C'=Public, 'D'=Educational, 'N'=Non-profit, 'O'=Privately Held, 'P'=Partnership, 'S'=Self-Employed, 'G'=Government.
+   */
+  companyType?: Array<string> | undefined;
+  /**
+   * Annual revenue ranges (companies only).
+   */
+  annualRevenue?: Array<string> | undefined;
+  /**
+   * Pagination offset (default 0).
+   */
+  start?: number | undefined;
+  /**
+   * Results per page (default 25, max 25).
+   */
+  count?: number | undefined;
+};
+
+export const SearchSalesNavCompaniesCategoryCompanies = {
+  Companies: "companies",
+} as const;
+export type SearchSalesNavCompaniesCategoryCompanies = ClosedEnum<
+  typeof SearchSalesNavCompaniesCategoryCompanies
+>;
+
+export const SearchSalesNavCompaniesType = {
+  Company: "COMPANY",
+} as const;
+export type SearchSalesNavCompaniesType = ClosedEnum<
+  typeof SearchSalesNavCompaniesType
+>;
+
+export type SearchSalesNavCompaniesItem = {
+  type: SearchSalesNavCompaniesType;
+  /**
+   * Sales Navigator company ID
+   */
+  id: string;
+  name: string;
+  /**
+   * Sales Navigator company URL
+   */
+  profileUrl: string | null;
+  summary: string | null;
+  industry: string | null;
+  location: string | null;
+  /**
+   * Employee count or range
+   */
+  headcount: string | null;
+};
+
+export type SearchSalesNavCompaniesPaging = {
+  start: number;
+  count: number;
+  total: number;
+};
+
+/**
+ * Sales Navigator company search results
+ */
+export type SearchSalesNavCompaniesResponse = {
+  success: true;
+  category: SearchSalesNavCompaniesCategoryCompanies;
+  items: Array<SearchSalesNavCompaniesItem>;
+  paging: SearchSalesNavCompaniesPaging;
+  hasMore: boolean;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type ConnectProfileRequest = {
   /**
    * LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...).
@@ -1084,124 +1084,6 @@ export type ConnectProfileResponse = {
    * True if a connection request was already successfully sent to this profile this week
    */
   duplicate?: boolean | undefined;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type SendMessageRequest = {
-  /**
-   * Accepts full LinkedIn profile URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:member:123456).
-   */
-  profile?: string | undefined;
-  /**
-   * LinkedIn conversation URN. When provided, bypasses profile URL lookup and replies to an existing conversation.
-   */
-  conversationUrn?: string | undefined;
-  /**
-   * Message content to send
-   */
-  message: string;
-  /**
-   * Campaign identifier for deduplication. Dedup by profile automatically.
-   */
-  campaignSlug?: string | undefined;
-  /**
-   * Deprecated. Use campaignSlug only.
-   *
-   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  actionSlug?: string | undefined;
-};
-
-/**
- * Message sent successfully
- */
-export type SendMessageResponse = {
-  success: true;
-  messageId: string;
-  /**
-   * True if this action was already executed for the given campaignSlug + target.
-   */
-  duplicate?: boolean | undefined;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type ListSentInvitationsRequest = {
-  /**
-   * Pagination offset
-   */
-  start?: number | undefined;
-  /**
-   * Number of invitations to return
-   */
-  count?: number | undefined;
-};
-
-export type ToMember = {
-  name: string;
-  headline: string | null;
-  profileUrl: string | null;
-  profilePicture: string | null;
-  publicIdentifier: string | null;
-  profileUrn: string | null;
-};
-
-export type ListSentInvitationsInvitation = {
-  invitationId: string;
-  invitationUrn: string;
-  entityUrn: string;
-  sentAt: string | null;
-  message: string | null;
-  targetProfileId: string | null;
-  targetFirstName: string | null;
-  targetLastName: string | null;
-  toMember: ToMember | null;
-};
-
-/**
- * Sent invitations
- */
-export type ListSentInvitationsResponse = {
-  success: true;
-  invitations: Array<ListSentInvitationsInvitation>;
-  total: number;
-  start: number;
-  count: number;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type FollowCompanyRequest = {
-  /**
-   * LinkedIn company URL or URN
-   */
-  company: string;
-};
-
-/**
- * Company followed
- */
-export type FollowCompanyResponse = {
-  success: true;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -1335,6 +1217,51 @@ export type AcceptInvitationResponse = {
   retryAfter: number;
 };
 
+export type SendMessageRequest = {
+  /**
+   * Accepts full LinkedIn profile URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:member:123456).
+   */
+  profile?: string | undefined;
+  /**
+   * LinkedIn conversation URN. When provided, bypasses profile URL lookup and replies to an existing conversation.
+   */
+  conversationUrn?: string | undefined;
+  /**
+   * Message content to send
+   */
+  message: string;
+  /**
+   * Campaign identifier for deduplication. Dedup by profile automatically.
+   */
+  campaignSlug?: string | undefined;
+  /**
+   * Deprecated. Use campaignSlug only.
+   *
+   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+   */
+  actionSlug?: string | undefined;
+};
+
+/**
+ * Message sent successfully
+ */
+export type SendMessageResponse = {
+  success: true;
+  messageId: string;
+  /**
+   * True if this action was already executed for the given campaignSlug + target.
+   */
+  duplicate?: boolean | undefined;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type ReplyToCommentRequest = {
   /**
    * LinkedIn comment URN (e.g., 'urn:li:comment:(activity:7399026485694537728,7399230513867026433)')
@@ -1369,287 +1296,6 @@ export type ReplyToCommentResponse = {
    * True if this action was already executed for the given campaignSlug + target.
    */
   duplicate?: boolean | undefined;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-/**
- * Reaction type (default: LIKE)
- */
-export const LikePostReactionType = {
-  Like: "LIKE",
-  Love: "LOVE",
-  Celebrate: "CELEBRATE",
-  Support: "SUPPORT",
-  Funny: "FUNNY",
-  Insightful: "INSIGHTFUL",
-} as const;
-/**
- * Reaction type (default: LIKE)
- */
-export type LikePostReactionType = ClosedEnum<typeof LikePostReactionType>;
-
-export type LikePostRequest = {
-  /**
-   * LinkedIn post URL (e.g., 'https://www.linkedin.com/feed/update/urn:li:activity:7399026485694537728/')
-   */
-  postUrl: string;
-  /**
-   * Reaction type (default: LIKE)
-   */
-  reactionType?: LikePostReactionType | undefined;
-  /**
-   * Act as a company page. Pass the numeric company ID from listCompanyPages. Requires admin access.
-   */
-  companyId?: string | undefined;
-  /**
-   * Campaign identifier for deduplication. Dedup by postUrl automatically.
-   */
-  campaignSlug?: string | undefined;
-  /**
-   * Deprecated. Use campaignSlug only.
-   *
-   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  actionSlug?: string | undefined;
-};
-
-/**
- * Post liked successfully
- */
-export type LikePostResponse = {
-  success: true;
-  /**
-   * Resource key of the created reaction
-   */
-  resourceKey?: string | undefined;
-  /**
-   * True if this action was already executed for the given campaignSlug + target.
-   */
-  duplicate?: boolean | undefined;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type WithdrawInvitationRequest = {
-  /**
-   * Full invitation URN (e.g. urn:li:fs_relInvitation:123) or numeric invitation ID
-   */
-  invitationUrn: string;
-};
-
-/**
- * Invitation withdrawn
- */
-export type WithdrawInvitationResponse = {
-  success: true;
-  message: string;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type FollowProfileRequest = {
-  /**
-   * Accepts full LinkedIn profile URLs (e.g. linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...).
-   */
-  profile: string;
-};
-
-/**
- * Profile followed
- */
-export type FollowProfileResponse = {
-  success: true;
-  message: string;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type EditPostRequest = {
-  /**
-   * LinkedIn post URL or URN
-   */
-  postUrl: string;
-  /**
-   * New text content for the post
-   */
-  text: string;
-};
-
-/**
- * Post edited
- */
-export type EditPostResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type EditCommentRequest = {
-  /**
-   * urn:li:fsd_comment:(COMMENT_ID,urn:li:ugcPost:POST_ID) - from comment API response
-   */
-  fsdCommentUrn?: string | undefined;
-  /**
-   * Legacy comment URN format
-   */
-  commentUrn?: string | undefined;
-  /**
-   * New comment text
-   */
-  text: string;
-};
-
-/**
- * Comment edited
- */
-export type EditCommentResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type RepostPostRequest = {
-  /**
-   * LinkedIn post URL to repost
-   */
-  postUrl: string;
-  /**
-   * Quote text for the repost (required by LinkedIn)
-   */
-  text: string;
-};
-
-/**
- * Post reposted
- */
-export type RepostPostResponse = {
-  success: true;
-  shareUrn: string;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnlikePostRequest = {
-  /**
-   * LinkedIn post URL or URN to unlike
-   */
-  postUrl: string;
-};
-
-/**
- * Reaction removed
- */
-export type UnlikePostResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnlikeCommentRequest = {
-  /**
-   * Full comment URN to unlike (e.g. urn:li:comment:(urn:li:activity:123,456))
-   */
-  commentUrn: string;
-};
-
-/**
- * Reaction removed
- */
-export type UnlikeCommentResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnsavePostRequest = {
-  /**
-   * LinkedIn post URL or URN to save/unsave
-   */
-  postUrl: string;
-};
-
-/**
- * Post unsaved
- */
-export type UnsavePostResponse = {
-  success: true;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
-};
-
-export type UnfollowCompanyRequest = {
-  /**
-   * LinkedIn company URL or URN
-   */
-  company: string;
-};
-
-/**
- * Company unfollowed
- */
-export type UnfollowCompanyResponse = {
-  success: true;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -1889,6 +1535,70 @@ export type CreateCommentResponse = {
   retryAfter: number;
 };
 
+/**
+ * Reaction type (default: LIKE)
+ */
+export const LikePostReactionType = {
+  Like: "LIKE",
+  Love: "LOVE",
+  Celebrate: "CELEBRATE",
+  Support: "SUPPORT",
+  Funny: "FUNNY",
+  Insightful: "INSIGHTFUL",
+} as const;
+/**
+ * Reaction type (default: LIKE)
+ */
+export type LikePostReactionType = ClosedEnum<typeof LikePostReactionType>;
+
+export type LikePostRequest = {
+  /**
+   * LinkedIn post URL (e.g., 'https://www.linkedin.com/feed/update/urn:li:activity:7399026485694537728/')
+   */
+  postUrl: string;
+  /**
+   * Reaction type (default: LIKE)
+   */
+  reactionType?: LikePostReactionType | undefined;
+  /**
+   * Act as a company page. Pass the numeric company ID from listCompanyPages. Requires admin access.
+   */
+  companyId?: string | undefined;
+  /**
+   * Campaign identifier for deduplication. Dedup by postUrl automatically.
+   */
+  campaignSlug?: string | undefined;
+  /**
+   * Deprecated. Use campaignSlug only.
+   *
+   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+   */
+  actionSlug?: string | undefined;
+};
+
+/**
+ * Post liked successfully
+ */
+export type LikePostResponse = {
+  success: true;
+  /**
+   * Resource key of the created reaction
+   */
+  resourceKey?: string | undefined;
+  /**
+   * True if this action was already executed for the given campaignSlug + target.
+   */
+  duplicate?: boolean | undefined;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type DeclineInvitationRequest = {
   /**
    * Invitation ID from the list invitations endpoint
@@ -1908,6 +1618,103 @@ export type DeclineInvitationRequest = {
  * Invitation declined
  */
 export type DeclineInvitationResponse = {
+  success: true;
+  message: string;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type ListSentInvitationsRequest = {
+  /**
+   * Pagination offset
+   */
+  start?: number | undefined;
+  /**
+   * Number of invitations to return
+   */
+  count?: number | undefined;
+};
+
+export type ToMember = {
+  name: string;
+  headline: string | null;
+  profileUrl: string | null;
+  profilePicture: string | null;
+  publicIdentifier: string | null;
+  profileUrn: string | null;
+};
+
+export type ListSentInvitationsInvitation = {
+  invitationId: string;
+  invitationUrn: string;
+  entityUrn: string;
+  sentAt: string | null;
+  message: string | null;
+  targetProfileId: string | null;
+  targetFirstName: string | null;
+  targetLastName: string | null;
+  toMember: ToMember | null;
+};
+
+/**
+ * Sent invitations
+ */
+export type ListSentInvitationsResponse = {
+  success: true;
+  invitations: Array<ListSentInvitationsInvitation>;
+  total: number;
+  start: number;
+  count: number;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type WithdrawInvitationRequest = {
+  /**
+   * Full invitation URN (e.g. urn:li:fs_relInvitation:123) or numeric invitation ID
+   */
+  invitationUrn: string;
+};
+
+/**
+ * Invitation withdrawn
+ */
+export type WithdrawInvitationResponse = {
+  success: true;
+  message: string;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type FollowProfileRequest = {
+  /**
+   * Accepts full LinkedIn profile URLs (e.g. linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...).
+   */
+  profile: string;
+};
+
+/**
+ * Profile followed
+ */
+export type FollowProfileResponse = {
   success: true;
   message: string;
   /**
@@ -1943,6 +1750,133 @@ export type UnfollowProfileResponse = {
   retryAfter: number;
 };
 
+export type EditPostRequest = {
+  /**
+   * LinkedIn post URL or URN
+   */
+  postUrl: string;
+  /**
+   * New text content for the post
+   */
+  text: string;
+};
+
+/**
+ * Post edited
+ */
+export type EditPostResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type EditCommentRequest = {
+  /**
+   * urn:li:fsd_comment:(COMMENT_ID,urn:li:ugcPost:POST_ID) - from comment API response
+   */
+  fsdCommentUrn?: string | undefined;
+  /**
+   * Legacy comment URN format
+   */
+  commentUrn?: string | undefined;
+  /**
+   * New comment text
+   */
+  text: string;
+};
+
+/**
+ * Comment edited
+ */
+export type EditCommentResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type RepostPostRequest = {
+  /**
+   * LinkedIn post URL to repost
+   */
+  postUrl: string;
+  /**
+   * Quote text for the repost (required by LinkedIn)
+   */
+  text: string;
+};
+
+/**
+ * Post reposted
+ */
+export type RepostPostResponse = {
+  success: true;
+  shareUrn: string;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type UnlikePostRequest = {
+  /**
+   * LinkedIn post URL or URN to unlike
+   */
+  postUrl: string;
+};
+
+/**
+ * Reaction removed
+ */
+export type UnlikePostResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type UnlikeCommentRequest = {
+  /**
+   * Full comment URN to unlike (e.g. urn:li:comment:(urn:li:activity:123,456))
+   */
+  commentUrn: string;
+};
+
+/**
+ * Reaction removed
+ */
+export type UnlikeCommentResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type SavePostRequest = {
   /**
    * LinkedIn post URL or URN to save/unsave
@@ -1954,6 +1888,72 @@ export type SavePostRequest = {
  * Post saved
  */
 export type SavePostResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type UnsavePostRequest = {
+  /**
+   * LinkedIn post URL or URN to save/unsave
+   */
+  postUrl: string;
+};
+
+/**
+ * Post unsaved
+ */
+export type UnsavePostResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type FollowCompanyRequest = {
+  /**
+   * LinkedIn company URL or URN
+   */
+  company: string;
+};
+
+/**
+ * Company followed
+ */
+export type FollowCompanyResponse = {
+  success: true;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type UnfollowCompanyRequest = {
+  /**
+   * LinkedIn company URL or URN
+   */
+  company: string;
+};
+
+/**
+ * Company unfollowed
+ */
+export type UnfollowCompanyResponse = {
   success: true;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
@@ -3211,160 +3211,6 @@ export function searchSalesNavResponseFromJSON(
 }
 
 /** @internal */
-export const SearchSalesNavCompaniesCategoryRequest$outboundSchema:
-  z.ZodMiniEnum<typeof SearchSalesNavCompaniesCategoryRequest> = z.enum(
-    SearchSalesNavCompaniesCategoryRequest,
-  );
-
-/** @internal */
-export type SearchSalesNavCompaniesIndustry$Outbound = {
-  include?: Array<string> | undefined;
-  exclude?: Array<string> | undefined;
-};
-
-/** @internal */
-export const SearchSalesNavCompaniesIndustry$outboundSchema: z.ZodMiniType<
-  SearchSalesNavCompaniesIndustry$Outbound,
-  SearchSalesNavCompaniesIndustry
-> = z.object({
-  include: z.optional(z.array(z.string())),
-  exclude: z.optional(z.array(z.string())),
-});
-
-export function searchSalesNavCompaniesIndustryToJSON(
-  searchSalesNavCompaniesIndustry: SearchSalesNavCompaniesIndustry,
-): string {
-  return JSON.stringify(
-    SearchSalesNavCompaniesIndustry$outboundSchema.parse(
-      searchSalesNavCompaniesIndustry,
-    ),
-  );
-}
-
-/** @internal */
-export type SearchSalesNavCompaniesRequest$Outbound = {
-  category?: string | undefined;
-  url?: string | undefined;
-  keywords?: string | undefined;
-  industry?: SearchSalesNavCompaniesIndustry$Outbound | undefined;
-  location?: Array<string> | undefined;
-  companyHeadcount?: Array<string> | undefined;
-  companyType?: Array<string> | undefined;
-  annualRevenue?: Array<string> | undefined;
-  start?: number | undefined;
-  count?: number | undefined;
-};
-
-/** @internal */
-export const SearchSalesNavCompaniesRequest$outboundSchema: z.ZodMiniType<
-  SearchSalesNavCompaniesRequest$Outbound,
-  SearchSalesNavCompaniesRequest
-> = z.object({
-  category: z.optional(SearchSalesNavCompaniesCategoryRequest$outboundSchema),
-  url: z.optional(z.string()),
-  keywords: z.optional(z.string()),
-  industry: z.optional(
-    z.lazy(() => SearchSalesNavCompaniesIndustry$outboundSchema),
-  ),
-  location: z.optional(z.array(z.string())),
-  companyHeadcount: z.optional(z.array(z.string())),
-  companyType: z.optional(z.array(z.string())),
-  annualRevenue: z.optional(z.array(z.string())),
-  start: z.optional(z.int()),
-  count: z.optional(z.int()),
-});
-
-export function searchSalesNavCompaniesRequestToJSON(
-  searchSalesNavCompaniesRequest: SearchSalesNavCompaniesRequest,
-): string {
-  return JSON.stringify(
-    SearchSalesNavCompaniesRequest$outboundSchema.parse(
-      searchSalesNavCompaniesRequest,
-    ),
-  );
-}
-
-/** @internal */
-export const SearchSalesNavCompaniesCategoryCompanies$inboundSchema:
-  z.ZodMiniEnum<typeof SearchSalesNavCompaniesCategoryCompanies> = z.enum(
-    SearchSalesNavCompaniesCategoryCompanies,
-  );
-
-/** @internal */
-export const SearchSalesNavCompaniesType$inboundSchema: z.ZodMiniEnum<
-  typeof SearchSalesNavCompaniesType
-> = z.enum(SearchSalesNavCompaniesType);
-
-/** @internal */
-export const SearchSalesNavCompaniesItem$inboundSchema: z.ZodMiniType<
-  SearchSalesNavCompaniesItem,
-  unknown
-> = z.object({
-  type: SearchSalesNavCompaniesType$inboundSchema,
-  id: types.string(),
-  name: types.string(),
-  profileUrl: types.nullable(types.string()),
-  summary: types.nullable(types.string()),
-  industry: types.nullable(types.string()),
-  location: types.nullable(types.string()),
-  headcount: types.nullable(types.string()),
-});
-
-export function searchSalesNavCompaniesItemFromJSON(
-  jsonString: string,
-): SafeParseResult<SearchSalesNavCompaniesItem, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SearchSalesNavCompaniesItem$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SearchSalesNavCompaniesItem' from JSON`,
-  );
-}
-
-/** @internal */
-export const SearchSalesNavCompaniesPaging$inboundSchema: z.ZodMiniType<
-  SearchSalesNavCompaniesPaging,
-  unknown
-> = z.object({
-  start: types.number(),
-  count: types.number(),
-  total: types.number(),
-});
-
-export function searchSalesNavCompaniesPagingFromJSON(
-  jsonString: string,
-): SafeParseResult<SearchSalesNavCompaniesPaging, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SearchSalesNavCompaniesPaging$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SearchSalesNavCompaniesPaging' from JSON`,
-  );
-}
-
-/** @internal */
-export const SearchSalesNavCompaniesResponse$inboundSchema: z.ZodMiniType<
-  SearchSalesNavCompaniesResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  category: SearchSalesNavCompaniesCategoryCompanies$inboundSchema,
-  items: z.array(z.lazy(() => SearchSalesNavCompaniesItem$inboundSchema)),
-  paging: z.lazy(() => SearchSalesNavCompaniesPaging$inboundSchema),
-  hasMore: types.boolean(),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function searchSalesNavCompaniesResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SearchSalesNavCompaniesResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SearchSalesNavCompaniesResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SearchSalesNavCompaniesResponse' from JSON`,
-  );
-}
-
-/** @internal */
 export const SearchSalesNavPeopleCategoryRequest$outboundSchema: z.ZodMiniEnum<
   typeof SearchSalesNavPeopleCategoryRequest
 > = z.enum(SearchSalesNavPeopleCategoryRequest);
@@ -3666,6 +3512,160 @@ export function searchSalesNavPeopleResponseFromJSON(
 }
 
 /** @internal */
+export const SearchSalesNavCompaniesCategoryRequest$outboundSchema:
+  z.ZodMiniEnum<typeof SearchSalesNavCompaniesCategoryRequest> = z.enum(
+    SearchSalesNavCompaniesCategoryRequest,
+  );
+
+/** @internal */
+export type SearchSalesNavCompaniesIndustry$Outbound = {
+  include?: Array<string> | undefined;
+  exclude?: Array<string> | undefined;
+};
+
+/** @internal */
+export const SearchSalesNavCompaniesIndustry$outboundSchema: z.ZodMiniType<
+  SearchSalesNavCompaniesIndustry$Outbound,
+  SearchSalesNavCompaniesIndustry
+> = z.object({
+  include: z.optional(z.array(z.string())),
+  exclude: z.optional(z.array(z.string())),
+});
+
+export function searchSalesNavCompaniesIndustryToJSON(
+  searchSalesNavCompaniesIndustry: SearchSalesNavCompaniesIndustry,
+): string {
+  return JSON.stringify(
+    SearchSalesNavCompaniesIndustry$outboundSchema.parse(
+      searchSalesNavCompaniesIndustry,
+    ),
+  );
+}
+
+/** @internal */
+export type SearchSalesNavCompaniesRequest$Outbound = {
+  category?: string | undefined;
+  url?: string | undefined;
+  keywords?: string | undefined;
+  industry?: SearchSalesNavCompaniesIndustry$Outbound | undefined;
+  location?: Array<string> | undefined;
+  companyHeadcount?: Array<string> | undefined;
+  companyType?: Array<string> | undefined;
+  annualRevenue?: Array<string> | undefined;
+  start?: number | undefined;
+  count?: number | undefined;
+};
+
+/** @internal */
+export const SearchSalesNavCompaniesRequest$outboundSchema: z.ZodMiniType<
+  SearchSalesNavCompaniesRequest$Outbound,
+  SearchSalesNavCompaniesRequest
+> = z.object({
+  category: z.optional(SearchSalesNavCompaniesCategoryRequest$outboundSchema),
+  url: z.optional(z.string()),
+  keywords: z.optional(z.string()),
+  industry: z.optional(
+    z.lazy(() => SearchSalesNavCompaniesIndustry$outboundSchema),
+  ),
+  location: z.optional(z.array(z.string())),
+  companyHeadcount: z.optional(z.array(z.string())),
+  companyType: z.optional(z.array(z.string())),
+  annualRevenue: z.optional(z.array(z.string())),
+  start: z.optional(z.int()),
+  count: z.optional(z.int()),
+});
+
+export function searchSalesNavCompaniesRequestToJSON(
+  searchSalesNavCompaniesRequest: SearchSalesNavCompaniesRequest,
+): string {
+  return JSON.stringify(
+    SearchSalesNavCompaniesRequest$outboundSchema.parse(
+      searchSalesNavCompaniesRequest,
+    ),
+  );
+}
+
+/** @internal */
+export const SearchSalesNavCompaniesCategoryCompanies$inboundSchema:
+  z.ZodMiniEnum<typeof SearchSalesNavCompaniesCategoryCompanies> = z.enum(
+    SearchSalesNavCompaniesCategoryCompanies,
+  );
+
+/** @internal */
+export const SearchSalesNavCompaniesType$inboundSchema: z.ZodMiniEnum<
+  typeof SearchSalesNavCompaniesType
+> = z.enum(SearchSalesNavCompaniesType);
+
+/** @internal */
+export const SearchSalesNavCompaniesItem$inboundSchema: z.ZodMiniType<
+  SearchSalesNavCompaniesItem,
+  unknown
+> = z.object({
+  type: SearchSalesNavCompaniesType$inboundSchema,
+  id: types.string(),
+  name: types.string(),
+  profileUrl: types.nullable(types.string()),
+  summary: types.nullable(types.string()),
+  industry: types.nullable(types.string()),
+  location: types.nullable(types.string()),
+  headcount: types.nullable(types.string()),
+});
+
+export function searchSalesNavCompaniesItemFromJSON(
+  jsonString: string,
+): SafeParseResult<SearchSalesNavCompaniesItem, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SearchSalesNavCompaniesItem$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SearchSalesNavCompaniesItem' from JSON`,
+  );
+}
+
+/** @internal */
+export const SearchSalesNavCompaniesPaging$inboundSchema: z.ZodMiniType<
+  SearchSalesNavCompaniesPaging,
+  unknown
+> = z.object({
+  start: types.number(),
+  count: types.number(),
+  total: types.number(),
+});
+
+export function searchSalesNavCompaniesPagingFromJSON(
+  jsonString: string,
+): SafeParseResult<SearchSalesNavCompaniesPaging, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SearchSalesNavCompaniesPaging$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SearchSalesNavCompaniesPaging' from JSON`,
+  );
+}
+
+/** @internal */
+export const SearchSalesNavCompaniesResponse$inboundSchema: z.ZodMiniType<
+  SearchSalesNavCompaniesResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  category: SearchSalesNavCompaniesCategoryCompanies$inboundSchema,
+  items: z.array(z.lazy(() => SearchSalesNavCompaniesItem$inboundSchema)),
+  paging: z.lazy(() => SearchSalesNavCompaniesPaging$inboundSchema),
+  hasMore: types.boolean(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function searchSalesNavCompaniesResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<SearchSalesNavCompaniesResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SearchSalesNavCompaniesResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SearchSalesNavCompaniesResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type ConnectProfileRequest$Outbound = {
   profile: string;
   campaignSlug?: string | undefined;
@@ -3709,194 +3709,6 @@ export function connectProfileResponseFromJSON(
     jsonString,
     (x) => ConnectProfileResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'ConnectProfileResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type SendMessageRequest$Outbound = {
-  profile?: string | undefined;
-  conversationUrn?: string | undefined;
-  message: string;
-  campaignSlug?: string | undefined;
-  actionSlug?: string | undefined;
-};
-
-/** @internal */
-export const SendMessageRequest$outboundSchema: z.ZodMiniType<
-  SendMessageRequest$Outbound,
-  SendMessageRequest
-> = z.object({
-  profile: z.optional(z.string()),
-  conversationUrn: z.optional(z.string()),
-  message: z.string(),
-  campaignSlug: z.optional(z.string()),
-  actionSlug: z.optional(z.string()),
-});
-
-export function sendMessageRequestToJSON(
-  sendMessageRequest: SendMessageRequest,
-): string {
-  return JSON.stringify(
-    SendMessageRequest$outboundSchema.parse(sendMessageRequest),
-  );
-}
-
-/** @internal */
-export const SendMessageResponse$inboundSchema: z.ZodMiniType<
-  SendMessageResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  messageId: types.string(),
-  duplicate: types.optional(types.boolean()),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function sendMessageResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SendMessageResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SendMessageResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SendMessageResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type ListSentInvitationsRequest$Outbound = {
-  start: number;
-  count: number;
-};
-
-/** @internal */
-export const ListSentInvitationsRequest$outboundSchema: z.ZodMiniType<
-  ListSentInvitationsRequest$Outbound,
-  ListSentInvitationsRequest
-> = z.object({
-  start: z._default(z.int(), 0),
-  count: z._default(z.int(), 10),
-});
-
-export function listSentInvitationsRequestToJSON(
-  listSentInvitationsRequest: ListSentInvitationsRequest,
-): string {
-  return JSON.stringify(
-    ListSentInvitationsRequest$outboundSchema.parse(listSentInvitationsRequest),
-  );
-}
-
-/** @internal */
-export const ToMember$inboundSchema: z.ZodMiniType<ToMember, unknown> = z
-  .object({
-    name: types.string(),
-    headline: types.nullable(types.string()),
-    profileUrl: types.nullable(types.string()),
-    profilePicture: types.nullable(types.string()),
-    publicIdentifier: types.nullable(types.string()),
-    profileUrn: types.nullable(types.string()),
-  });
-
-export function toMemberFromJSON(
-  jsonString: string,
-): SafeParseResult<ToMember, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ToMember$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ToMember' from JSON`,
-  );
-}
-
-/** @internal */
-export const ListSentInvitationsInvitation$inboundSchema: z.ZodMiniType<
-  ListSentInvitationsInvitation,
-  unknown
-> = z.object({
-  invitationId: types.string(),
-  invitationUrn: types.string(),
-  entityUrn: types.string(),
-  sentAt: types.nullable(types.string()),
-  message: types.nullable(types.string()),
-  targetProfileId: types.nullable(types.string()),
-  targetFirstName: types.nullable(types.string()),
-  targetLastName: types.nullable(types.string()),
-  toMember: types.nullable(z.lazy(() => ToMember$inboundSchema)),
-});
-
-export function listSentInvitationsInvitationFromJSON(
-  jsonString: string,
-): SafeParseResult<ListSentInvitationsInvitation, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListSentInvitationsInvitation$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListSentInvitationsInvitation' from JSON`,
-  );
-}
-
-/** @internal */
-export const ListSentInvitationsResponse$inboundSchema: z.ZodMiniType<
-  ListSentInvitationsResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  invitations: z.array(
-    z.lazy(() => ListSentInvitationsInvitation$inboundSchema),
-  ),
-  total: types.number(),
-  start: types.number(),
-  count: types.number(),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function listSentInvitationsResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ListSentInvitationsResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListSentInvitationsResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListSentInvitationsResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type FollowCompanyRequest$Outbound = {
-  company: string;
-};
-
-/** @internal */
-export const FollowCompanyRequest$outboundSchema: z.ZodMiniType<
-  FollowCompanyRequest$Outbound,
-  FollowCompanyRequest
-> = z.object({
-  company: z.string(),
-});
-
-export function followCompanyRequestToJSON(
-  followCompanyRequest: FollowCompanyRequest,
-): string {
-  return JSON.stringify(
-    FollowCompanyRequest$outboundSchema.parse(followCompanyRequest),
-  );
-}
-
-/** @internal */
-export const FollowCompanyResponse$inboundSchema: z.ZodMiniType<
-  FollowCompanyResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function followCompanyResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<FollowCompanyResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => FollowCompanyResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FollowCompanyResponse' from JSON`,
   );
 }
 
@@ -4045,6 +3857,57 @@ export function acceptInvitationResponseFromJSON(
 }
 
 /** @internal */
+export type SendMessageRequest$Outbound = {
+  profile?: string | undefined;
+  conversationUrn?: string | undefined;
+  message: string;
+  campaignSlug?: string | undefined;
+  actionSlug?: string | undefined;
+};
+
+/** @internal */
+export const SendMessageRequest$outboundSchema: z.ZodMiniType<
+  SendMessageRequest$Outbound,
+  SendMessageRequest
+> = z.object({
+  profile: z.optional(z.string()),
+  conversationUrn: z.optional(z.string()),
+  message: z.string(),
+  campaignSlug: z.optional(z.string()),
+  actionSlug: z.optional(z.string()),
+});
+
+export function sendMessageRequestToJSON(
+  sendMessageRequest: SendMessageRequest,
+): string {
+  return JSON.stringify(
+    SendMessageRequest$outboundSchema.parse(sendMessageRequest),
+  );
+}
+
+/** @internal */
+export const SendMessageResponse$inboundSchema: z.ZodMiniType<
+  SendMessageResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  messageId: types.string(),
+  duplicate: types.optional(types.boolean()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function sendMessageResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<SendMessageResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SendMessageResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SendMessageResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type ReplyToCommentRequest$Outbound = {
   commentUrn: string;
   message: string;
@@ -4090,6 +3953,204 @@ export function replyToCommentResponseFromJSON(
     jsonString,
     (x) => ReplyToCommentResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'ReplyToCommentResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export const LikeCommentReactionType$outboundSchema: z.ZodMiniEnum<
+  typeof LikeCommentReactionType
+> = z.enum(LikeCommentReactionType);
+
+/** @internal */
+export type LikeCommentRequest$Outbound = {
+  commentUrn: string;
+  reactionType: string;
+  campaignSlug?: string | undefined;
+  actionSlug?: string | undefined;
+};
+
+/** @internal */
+export const LikeCommentRequest$outboundSchema: z.ZodMiniType<
+  LikeCommentRequest$Outbound,
+  LikeCommentRequest
+> = z.object({
+  commentUrn: z.string(),
+  reactionType: z._default(LikeCommentReactionType$outboundSchema, "LIKE"),
+  campaignSlug: z.optional(z.string()),
+  actionSlug: z.optional(z.string()),
+});
+
+export function likeCommentRequestToJSON(
+  likeCommentRequest: LikeCommentRequest,
+): string {
+  return JSON.stringify(
+    LikeCommentRequest$outboundSchema.parse(likeCommentRequest),
+  );
+}
+
+/** @internal */
+export const LikeCommentResponse$inboundSchema: z.ZodMiniType<
+  LikeCommentResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  resourceKey: types.optional(types.string()),
+  duplicate: types.optional(types.boolean()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function likeCommentResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<LikeCommentResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LikeCommentResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LikeCommentResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export const PublishPostMode$outboundSchema: z.ZodMiniEnum<
+  typeof PublishPostMode
+> = z.enum(PublishPostMode);
+
+/** @internal */
+export const Visibility$outboundSchema: z.ZodMiniEnum<typeof Visibility> = z
+  .enum(Visibility);
+
+/** @internal */
+export type Mention$Outbound = {
+  profileUrn: string;
+  start: number;
+  length: number;
+};
+
+/** @internal */
+export const Mention$outboundSchema: z.ZodMiniType<Mention$Outbound, Mention> =
+  z.object({
+    profileUrn: z.string(),
+    start: z.int(),
+    length: z.int(),
+  });
+
+export function mentionToJSON(mention: Mention): string {
+  return JSON.stringify(Mention$outboundSchema.parse(mention));
+}
+
+/** @internal */
+export type PublishPostRequest$Outbound = {
+  text: string;
+  mode: string;
+  scheduledAt?: number | undefined;
+  companyId?: string | undefined;
+  imageUrl?: string | undefined;
+  imageBase64?: string | undefined;
+  imageFileName?: string | undefined;
+  visibility: string;
+  mentions?: Array<Mention$Outbound> | undefined;
+  campaignSlug?: string | undefined;
+  actionSlug?: string | undefined;
+};
+
+/** @internal */
+export const PublishPostRequest$outboundSchema: z.ZodMiniType<
+  PublishPostRequest$Outbound,
+  PublishPostRequest
+> = z.object({
+  text: z.string(),
+  mode: PublishPostMode$outboundSchema,
+  scheduledAt: z.optional(z.int()),
+  companyId: z.optional(z.string()),
+  imageUrl: z.optional(z.string()),
+  imageBase64: z.optional(z.string()),
+  imageFileName: z.optional(z.string()),
+  visibility: z._default(Visibility$outboundSchema, "ANYONE"),
+  mentions: z.optional(z.array(z.lazy(() => Mention$outboundSchema))),
+  campaignSlug: z.optional(z.string()),
+  actionSlug: z.optional(z.string()),
+});
+
+export function publishPostRequestToJSON(
+  publishPostRequest: PublishPostRequest,
+): string {
+  return JSON.stringify(
+    PublishPostRequest$outboundSchema.parse(publishPostRequest),
+  );
+}
+
+/** @internal */
+export const PublishPostResponse$inboundSchema: z.ZodMiniType<
+  PublishPostResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  shareUrn: types.string(),
+  activityUrn: types.nullable(types.string()),
+  duplicate: types.optional(types.boolean()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function publishPostResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<PublishPostResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PublishPostResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PublishPostResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type CreateCommentRequest$Outbound = {
+  postUrl: string;
+  message: string;
+  companyId?: string | undefined;
+  campaignSlug?: string | undefined;
+  actionSlug?: string | undefined;
+};
+
+/** @internal */
+export const CreateCommentRequest$outboundSchema: z.ZodMiniType<
+  CreateCommentRequest$Outbound,
+  CreateCommentRequest
+> = z.object({
+  postUrl: z.string(),
+  message: z.string(),
+  companyId: z.optional(z.string()),
+  campaignSlug: z.optional(z.string()),
+  actionSlug: z.optional(z.string()),
+});
+
+export function createCommentRequestToJSON(
+  createCommentRequest: CreateCommentRequest,
+): string {
+  return JSON.stringify(
+    CreateCommentRequest$outboundSchema.parse(createCommentRequest),
+  );
+}
+
+/** @internal */
+export const CreateCommentResponse$inboundSchema: z.ZodMiniType<
+  CreateCommentResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  commentUrn: types.optional(types.string()),
+  fsdCommentUrn: types.optional(types.string()),
+  duplicate: types.optional(types.boolean()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function createCommentResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<CreateCommentResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreateCommentResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateCommentResponse' from JSON`,
   );
 }
 
@@ -4144,6 +4205,148 @@ export function likePostResponseFromJSON(
     jsonString,
     (x) => LikePostResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'LikePostResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type DeclineInvitationRequest$Outbound = {
+  invitationId: string;
+  sharedSecret: string;
+  senderProfileId?: string | undefined;
+};
+
+/** @internal */
+export const DeclineInvitationRequest$outboundSchema: z.ZodMiniType<
+  DeclineInvitationRequest$Outbound,
+  DeclineInvitationRequest
+> = z.object({
+  invitationId: z.string(),
+  sharedSecret: z.string(),
+  senderProfileId: z.optional(z.string()),
+});
+
+export function declineInvitationRequestToJSON(
+  declineInvitationRequest: DeclineInvitationRequest,
+): string {
+  return JSON.stringify(
+    DeclineInvitationRequest$outboundSchema.parse(declineInvitationRequest),
+  );
+}
+
+/** @internal */
+export const DeclineInvitationResponse$inboundSchema: z.ZodMiniType<
+  DeclineInvitationResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  message: types.string(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function declineInvitationResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<DeclineInvitationResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => DeclineInvitationResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DeclineInvitationResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type ListSentInvitationsRequest$Outbound = {
+  start: number;
+  count: number;
+};
+
+/** @internal */
+export const ListSentInvitationsRequest$outboundSchema: z.ZodMiniType<
+  ListSentInvitationsRequest$Outbound,
+  ListSentInvitationsRequest
+> = z.object({
+  start: z._default(z.int(), 0),
+  count: z._default(z.int(), 10),
+});
+
+export function listSentInvitationsRequestToJSON(
+  listSentInvitationsRequest: ListSentInvitationsRequest,
+): string {
+  return JSON.stringify(
+    ListSentInvitationsRequest$outboundSchema.parse(listSentInvitationsRequest),
+  );
+}
+
+/** @internal */
+export const ToMember$inboundSchema: z.ZodMiniType<ToMember, unknown> = z
+  .object({
+    name: types.string(),
+    headline: types.nullable(types.string()),
+    profileUrl: types.nullable(types.string()),
+    profilePicture: types.nullable(types.string()),
+    publicIdentifier: types.nullable(types.string()),
+    profileUrn: types.nullable(types.string()),
+  });
+
+export function toMemberFromJSON(
+  jsonString: string,
+): SafeParseResult<ToMember, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ToMember$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ToMember' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListSentInvitationsInvitation$inboundSchema: z.ZodMiniType<
+  ListSentInvitationsInvitation,
+  unknown
+> = z.object({
+  invitationId: types.string(),
+  invitationUrn: types.string(),
+  entityUrn: types.string(),
+  sentAt: types.nullable(types.string()),
+  message: types.nullable(types.string()),
+  targetProfileId: types.nullable(types.string()),
+  targetFirstName: types.nullable(types.string()),
+  targetLastName: types.nullable(types.string()),
+  toMember: types.nullable(z.lazy(() => ToMember$inboundSchema)),
+});
+
+export function listSentInvitationsInvitationFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSentInvitationsInvitation, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSentInvitationsInvitation$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSentInvitationsInvitation' from JSON`,
+  );
+}
+
+/** @internal */
+export const ListSentInvitationsResponse$inboundSchema: z.ZodMiniType<
+  ListSentInvitationsResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  invitations: z.array(
+    z.lazy(() => ListSentInvitationsInvitation$inboundSchema),
+  ),
+  total: types.number(),
+  start: types.number(),
+  count: types.number(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function listSentInvitationsResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<ListSentInvitationsResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ListSentInvitationsResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ListSentInvitationsResponse' from JSON`,
   );
 }
 
@@ -4228,6 +4431,48 @@ export function followProfileResponseFromJSON(
     jsonString,
     (x) => FollowProfileResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'FollowProfileResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type UnfollowProfileRequest$Outbound = {
+  profile: string;
+};
+
+/** @internal */
+export const UnfollowProfileRequest$outboundSchema: z.ZodMiniType<
+  UnfollowProfileRequest$Outbound,
+  UnfollowProfileRequest
+> = z.object({
+  profile: z.string(),
+});
+
+export function unfollowProfileRequestToJSON(
+  unfollowProfileRequest: UnfollowProfileRequest,
+): string {
+  return JSON.stringify(
+    UnfollowProfileRequest$outboundSchema.parse(unfollowProfileRequest),
+  );
+}
+
+/** @internal */
+export const UnfollowProfileResponse$inboundSchema: z.ZodMiniType<
+  UnfollowProfileResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  message: types.string(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function unfollowProfileResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<UnfollowProfileResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UnfollowProfileResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UnfollowProfileResponse' from JSON`,
   );
 }
 
@@ -4444,6 +4689,45 @@ export function unlikeCommentResponseFromJSON(
 }
 
 /** @internal */
+export type SavePostRequest$Outbound = {
+  postUrl: string;
+};
+
+/** @internal */
+export const SavePostRequest$outboundSchema: z.ZodMiniType<
+  SavePostRequest$Outbound,
+  SavePostRequest
+> = z.object({
+  postUrl: z.string(),
+});
+
+export function savePostRequestToJSON(
+  savePostRequest: SavePostRequest,
+): string {
+  return JSON.stringify(SavePostRequest$outboundSchema.parse(savePostRequest));
+}
+
+/** @internal */
+export const SavePostResponse$inboundSchema: z.ZodMiniType<
+  SavePostResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function savePostResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<SavePostResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SavePostResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SavePostResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type UnsavePostRequest$Outbound = {
   postUrl: string;
 };
@@ -4485,6 +4769,47 @@ export function unsavePostResponseFromJSON(
 }
 
 /** @internal */
+export type FollowCompanyRequest$Outbound = {
+  company: string;
+};
+
+/** @internal */
+export const FollowCompanyRequest$outboundSchema: z.ZodMiniType<
+  FollowCompanyRequest$Outbound,
+  FollowCompanyRequest
+> = z.object({
+  company: z.string(),
+});
+
+export function followCompanyRequestToJSON(
+  followCompanyRequest: FollowCompanyRequest,
+): string {
+  return JSON.stringify(
+    FollowCompanyRequest$outboundSchema.parse(followCompanyRequest),
+  );
+}
+
+/** @internal */
+export const FollowCompanyResponse$inboundSchema: z.ZodMiniType<
+  FollowCompanyResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function followCompanyResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<FollowCompanyResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FollowCompanyResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FollowCompanyResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type UnfollowCompanyRequest$Outbound = {
   company: string;
 };
@@ -4522,331 +4847,6 @@ export function unfollowCompanyResponseFromJSON(
     jsonString,
     (x) => UnfollowCompanyResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'UnfollowCompanyResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const LikeCommentReactionType$outboundSchema: z.ZodMiniEnum<
-  typeof LikeCommentReactionType
-> = z.enum(LikeCommentReactionType);
-
-/** @internal */
-export type LikeCommentRequest$Outbound = {
-  commentUrn: string;
-  reactionType: string;
-  campaignSlug?: string | undefined;
-  actionSlug?: string | undefined;
-};
-
-/** @internal */
-export const LikeCommentRequest$outboundSchema: z.ZodMiniType<
-  LikeCommentRequest$Outbound,
-  LikeCommentRequest
-> = z.object({
-  commentUrn: z.string(),
-  reactionType: z._default(LikeCommentReactionType$outboundSchema, "LIKE"),
-  campaignSlug: z.optional(z.string()),
-  actionSlug: z.optional(z.string()),
-});
-
-export function likeCommentRequestToJSON(
-  likeCommentRequest: LikeCommentRequest,
-): string {
-  return JSON.stringify(
-    LikeCommentRequest$outboundSchema.parse(likeCommentRequest),
-  );
-}
-
-/** @internal */
-export const LikeCommentResponse$inboundSchema: z.ZodMiniType<
-  LikeCommentResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  resourceKey: types.optional(types.string()),
-  duplicate: types.optional(types.boolean()),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function likeCommentResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<LikeCommentResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => LikeCommentResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'LikeCommentResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const PublishPostMode$outboundSchema: z.ZodMiniEnum<
-  typeof PublishPostMode
-> = z.enum(PublishPostMode);
-
-/** @internal */
-export const Visibility$outboundSchema: z.ZodMiniEnum<typeof Visibility> = z
-  .enum(Visibility);
-
-/** @internal */
-export type Mention$Outbound = {
-  profileUrn: string;
-  start: number;
-  length: number;
-};
-
-/** @internal */
-export const Mention$outboundSchema: z.ZodMiniType<Mention$Outbound, Mention> =
-  z.object({
-    profileUrn: z.string(),
-    start: z.int(),
-    length: z.int(),
-  });
-
-export function mentionToJSON(mention: Mention): string {
-  return JSON.stringify(Mention$outboundSchema.parse(mention));
-}
-
-/** @internal */
-export type PublishPostRequest$Outbound = {
-  text: string;
-  mode: string;
-  scheduledAt?: number | undefined;
-  companyId?: string | undefined;
-  imageUrl?: string | undefined;
-  imageBase64?: string | undefined;
-  imageFileName?: string | undefined;
-  visibility: string;
-  mentions?: Array<Mention$Outbound> | undefined;
-  campaignSlug?: string | undefined;
-  actionSlug?: string | undefined;
-};
-
-/** @internal */
-export const PublishPostRequest$outboundSchema: z.ZodMiniType<
-  PublishPostRequest$Outbound,
-  PublishPostRequest
-> = z.object({
-  text: z.string(),
-  mode: PublishPostMode$outboundSchema,
-  scheduledAt: z.optional(z.int()),
-  companyId: z.optional(z.string()),
-  imageUrl: z.optional(z.string()),
-  imageBase64: z.optional(z.string()),
-  imageFileName: z.optional(z.string()),
-  visibility: z._default(Visibility$outboundSchema, "ANYONE"),
-  mentions: z.optional(z.array(z.lazy(() => Mention$outboundSchema))),
-  campaignSlug: z.optional(z.string()),
-  actionSlug: z.optional(z.string()),
-});
-
-export function publishPostRequestToJSON(
-  publishPostRequest: PublishPostRequest,
-): string {
-  return JSON.stringify(
-    PublishPostRequest$outboundSchema.parse(publishPostRequest),
-  );
-}
-
-/** @internal */
-export const PublishPostResponse$inboundSchema: z.ZodMiniType<
-  PublishPostResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  shareUrn: types.string(),
-  activityUrn: types.nullable(types.string()),
-  duplicate: types.optional(types.boolean()),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function publishPostResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<PublishPostResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => PublishPostResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PublishPostResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type CreateCommentRequest$Outbound = {
-  postUrl: string;
-  message: string;
-  companyId?: string | undefined;
-  campaignSlug?: string | undefined;
-  actionSlug?: string | undefined;
-};
-
-/** @internal */
-export const CreateCommentRequest$outboundSchema: z.ZodMiniType<
-  CreateCommentRequest$Outbound,
-  CreateCommentRequest
-> = z.object({
-  postUrl: z.string(),
-  message: z.string(),
-  companyId: z.optional(z.string()),
-  campaignSlug: z.optional(z.string()),
-  actionSlug: z.optional(z.string()),
-});
-
-export function createCommentRequestToJSON(
-  createCommentRequest: CreateCommentRequest,
-): string {
-  return JSON.stringify(
-    CreateCommentRequest$outboundSchema.parse(createCommentRequest),
-  );
-}
-
-/** @internal */
-export const CreateCommentResponse$inboundSchema: z.ZodMiniType<
-  CreateCommentResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  commentUrn: types.optional(types.string()),
-  fsdCommentUrn: types.optional(types.string()),
-  duplicate: types.optional(types.boolean()),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function createCommentResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<CreateCommentResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CreateCommentResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreateCommentResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type DeclineInvitationRequest$Outbound = {
-  invitationId: string;
-  sharedSecret: string;
-  senderProfileId?: string | undefined;
-};
-
-/** @internal */
-export const DeclineInvitationRequest$outboundSchema: z.ZodMiniType<
-  DeclineInvitationRequest$Outbound,
-  DeclineInvitationRequest
-> = z.object({
-  invitationId: z.string(),
-  sharedSecret: z.string(),
-  senderProfileId: z.optional(z.string()),
-});
-
-export function declineInvitationRequestToJSON(
-  declineInvitationRequest: DeclineInvitationRequest,
-): string {
-  return JSON.stringify(
-    DeclineInvitationRequest$outboundSchema.parse(declineInvitationRequest),
-  );
-}
-
-/** @internal */
-export const DeclineInvitationResponse$inboundSchema: z.ZodMiniType<
-  DeclineInvitationResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  message: types.string(),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function declineInvitationResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<DeclineInvitationResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeclineInvitationResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeclineInvitationResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type UnfollowProfileRequest$Outbound = {
-  profile: string;
-};
-
-/** @internal */
-export const UnfollowProfileRequest$outboundSchema: z.ZodMiniType<
-  UnfollowProfileRequest$Outbound,
-  UnfollowProfileRequest
-> = z.object({
-  profile: z.string(),
-});
-
-export function unfollowProfileRequestToJSON(
-  unfollowProfileRequest: UnfollowProfileRequest,
-): string {
-  return JSON.stringify(
-    UnfollowProfileRequest$outboundSchema.parse(unfollowProfileRequest),
-  );
-}
-
-/** @internal */
-export const UnfollowProfileResponse$inboundSchema: z.ZodMiniType<
-  UnfollowProfileResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  message: types.string(),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function unfollowProfileResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UnfollowProfileResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UnfollowProfileResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UnfollowProfileResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type SavePostRequest$Outbound = {
-  postUrl: string;
-};
-
-/** @internal */
-export const SavePostRequest$outboundSchema: z.ZodMiniType<
-  SavePostRequest$Outbound,
-  SavePostRequest
-> = z.object({
-  postUrl: z.string(),
-});
-
-export function savePostRequestToJSON(
-  savePostRequest: SavePostRequest,
-): string {
-  return JSON.stringify(SavePostRequest$outboundSchema.parse(savePostRequest));
-}
-
-/** @internal */
-export const SavePostResponse$inboundSchema: z.ZodMiniType<
-  SavePostResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function savePostResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SavePostResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SavePostResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SavePostResponse' from JSON`,
   );
 }
 

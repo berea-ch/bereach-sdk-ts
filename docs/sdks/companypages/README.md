@@ -7,7 +7,7 @@ Endpoints for managing LinkedIn company pages: list, permissions, posts, and act
 ### Available Operations
 
 * [list](#list) - List company pages the user administers
-* [getPosts](#getposts) - Get recent posts from a company page
+* [posts](#posts) - Get recent posts from a company page
 * [getPermissions](#getpermissions) - Get admin permissions for a company page
 * [getAnalytics](#getanalytics) - Get company page overview analytics
 
@@ -90,7 +90,7 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## getPosts
+## posts
 
 Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page. Costs 1 credit.
 
@@ -105,7 +105,7 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.companyPages.getPosts({
+  const result = await bereach.companyPages.posts({
     universalName: "my-company",
   });
 
@@ -121,7 +121,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { companyPagesGetPosts } from "bereach/funcs/company-pages-get-posts.js";
+import { companyPagesPosts } from "bereach/funcs/company-pages-posts.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -130,14 +130,14 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await companyPagesGetPosts(bereach, {
+  const res = await companyPagesPosts(bereach, {
     universalName: "my-company",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("companyPagesGetPosts failed:", res.error);
+    console.log("companyPagesPosts failed:", res.error);
   }
 }
 
