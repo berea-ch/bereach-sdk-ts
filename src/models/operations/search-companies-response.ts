@@ -458,6 +458,10 @@ export type CollectPostsRequest = {
    * Pagination token from a previous response to fetch the next page.
    */
   paginationToken?: string | undefined;
+  /**
+   * Include reposts/reshares in results. Defaults to false (only original posts).
+   */
+  returnReposts?: boolean | undefined;
 };
 
 export const CollectPostsType = {
@@ -513,6 +517,10 @@ export type CollectPostsPost = {
   postUrn: string;
   postId: string;
   type: CollectPostsType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -689,6 +697,10 @@ export type VisitProfileLastPost = {
   postUrn: string;
   postId: string;
   type: VisitProfileLastPostType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -1227,6 +1239,10 @@ export type GetFeedPost = {
   postUrn: string;
   postId: string;
   type: GetFeedType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -2933,6 +2949,7 @@ export type CollectPostsRequest$Outbound = {
   count?: number | undefined;
   start?: number | undefined;
   paginationToken?: string | undefined;
+  returnReposts: boolean;
 };
 
 /** @internal */
@@ -2944,6 +2961,7 @@ export const CollectPostsRequest$outboundSchema: z.ZodMiniType<
   count: z.optional(z.int()),
   start: z.optional(z.int()),
   paginationToken: z.optional(z.string()),
+  returnReposts: z._default(z.boolean(), false),
 });
 
 export function collectPostsRequestToJSON(
@@ -3001,6 +3019,7 @@ export const CollectPostsPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: CollectPostsType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => CollectPostsMedia$inboundSchema)),
 });
 
@@ -3259,6 +3278,7 @@ export const VisitProfileLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: VisitProfileLastPostType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => VisitProfileMedia$inboundSchema)),
 });
 
@@ -3902,6 +3922,7 @@ export const GetFeedPost$inboundSchema: z.ZodMiniType<GetFeedPost, unknown> = z
     postUrn: types.string(),
     postId: types.string(),
     type: GetFeedType$inboundSchema,
+    isRepost: types.optional(types.boolean()),
     media: types.optional(z.lazy(() => GetFeedMedia$inboundSchema)),
   });
 
