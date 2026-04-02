@@ -14,6 +14,8 @@ permissions:
 jobs:
   generate-and-publish-beta:
     runs-on: ubuntu-latest
+    env:
+      SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -26,12 +28,11 @@ jobs:
         run: npm install
 
       - name: Install Speakeasy CLI
-        uses: speakeasy-api/speakeasy-action/setup@v15
-        with:
-          speakeasy-version: latest
-          speakeasy-api-key: ${{ secrets.SPEAKEASY_API_KEY }}
+        run: curl -fsSL https://raw.githubusercontent.com/speakeasy-api/speakeasy/main/install.sh | sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch staging OpenAPI spec
+      - name: Fetch staging OpenAPI specs
         run: curl -sSf https://api-staging.bereach.ai -o .speakeasy/staging-openapi.json
 
       - name: Apply overlay and generate SDK
