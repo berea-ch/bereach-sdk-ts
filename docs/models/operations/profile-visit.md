@@ -8,19 +8,15 @@ Limits for visiting LinkedIn profiles and company pages
 import { ProfileVisit } from "bereach/models/operations";
 
 let value: ProfileVisit = {
-  daily: {
-    current: 41832,
-    limit: 508530,
-    remaining: 293170,
-  },
+  daily: null,
   weekly: {
-    current: 96344,
-    limit: 944086,
-    remaining: 791982,
+    current: 293170,
+    limit: 692882,
+    remaining: 96344,
   },
-  minIntervalSeconds: 483792,
-  nextResetDaily: new Date("2025-03-08T06:07:49.232Z"),
-  nextResetWeekly: null,
+  minIntervalSeconds: 944086,
+  nextResetDaily: new Date("2025-06-14T05:40:33.290Z"),
+  nextResetWeekly: new Date("2024-01-05T09:29:21.354Z"),
 };
 ```
 
@@ -28,8 +24,8 @@ let value: ProfileVisit = {
 
 | Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `daily`                                                                                       | [operations.ProfileVisitDaily](../../models/operations/profile-visit-daily.md)                | :heavy_check_mark:                                                                            | Daily usage counter (resets at midnight UTC)                                                  |
+| `daily`                                                                                       | [operations.ProfileVisitDaily](../../models/operations/profile-visit-daily.md)                | :heavy_check_mark:                                                                            | Daily usage counter (resets at midnight UTC). Null if not configured for this action type.    |
 | `weekly`                                                                                      | [operations.ProfileVisitWeekly](../../models/operations/profile-visit-weekly.md)              | :heavy_check_mark:                                                                            | Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.   |
 | `minIntervalSeconds`                                                                          | *number*                                                                                      | :heavy_check_mark:                                                                            | Minimum delay in seconds required between two consecutive actions of this type                |
-| `nextResetDaily`                                                                              | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | ISO 8601 timestamp of the next daily counter reset                                            |
+| `nextResetDaily`                                                                              | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | ISO 8601 timestamp of the next daily counter reset. Null if not configured.                   |
 | `nextResetWeekly`                                                                             | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_check_mark:                                                                            | ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.                   |

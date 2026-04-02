@@ -30,7 +30,7 @@ import { Result } from "../types/fp.js";
  * Scrape LinkedIn post comments
  *
  * @remarks
- * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
+ * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 100 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
  */
 export function scrapersCollectComments(
   client: BereachCore,

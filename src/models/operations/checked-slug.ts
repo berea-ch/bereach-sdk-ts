@@ -11,6 +11,38 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
+import {
+  UpdateAccountProxyConfigResponse,
+  UpdateAccountProxyConfigResponse$inboundSchema,
+} from "./update-account-proxy-config-response.js";
+
+export type UpdateAccountAccount = {
+  id: string;
+  label: string | null;
+  isDefault: boolean;
+  linkedinProfileId: string | null;
+  linkedinName: string | null;
+  headline: string | null;
+  profilePic: string | null;
+  isValid: boolean;
+  proxyConfig: UpdateAccountProxyConfigResponse | null;
+};
+
+/**
+ * Updated account
+ */
+export type UpdateAccountResponse = {
+  success: true;
+  account: UpdateAccountAccount;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
 
 export type RefreshPositionStartDate = {
   month: number | null;
@@ -26,15 +58,15 @@ export type RefreshPosition = {
   companyName: string | null;
   title: string | null;
   /**
-   * Position description / responsibilities text
+   * Position description / responsibilities text (only populated when includeAbout is true)
    */
-  description: string | null;
+  description?: string | null | undefined;
   companyUrl: string | null;
   companyLogo: string | null;
   /**
-   * Short description of the company (from LinkedIn company page)
+   * Short description of the company (only populated when includeAbout is true)
    */
-  companyDescription: string | null;
+  companyDescription?: string | null | undefined;
   startDate: RefreshPositionStartDate | null;
   endDate: RefreshPositionEndDate | null;
   isCurrent: boolean;
@@ -122,6 +154,10 @@ export type RefreshLastPost = {
   postId: string;
   type: RefreshType;
   /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
+  /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
   media?: RefreshMedia | undefined;
@@ -177,6 +213,10 @@ export type RefreshResponse = {
    */
   connectionsCount: number | null;
   /**
+   * Total number of followers (populated during refresh)
+   */
+  followersCount?: number | null | undefined;
+  /**
    * Profile location
    */
   location: RefreshLocation | null;
@@ -188,6 +228,14 @@ export type RefreshResponse = {
    * Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)
    */
   lastPosts?: Array<RefreshLastPost> | undefined;
+  /**
+   * Last 20 comments by the user (populated after /me/linkedin/activity?tabType=COMMENTS)
+   */
+  lastComments?: Array<any> | undefined;
+  /**
+   * Last reactions by the user (populated after /me/linkedin/activity?tabType=REACTIONS)
+   */
+  lastReactions?: Array<any> | undefined;
   refreshed: true;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
@@ -267,6 +315,10 @@ export type GetMyPostsPost = {
   postUrn: string;
   postId: string;
   type: GetMyPostsType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -349,7 +401,7 @@ export type GetFollowersResponse = {
 };
 
 /**
- * Daily usage counter (resets at midnight UTC)
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
  */
 export type ConnectionRequestDaily = {
   /**
@@ -389,9 +441,9 @@ export type ConnectionRequestWeekly = {
  */
 export type ConnectionRequest = {
   /**
-   * Daily usage counter (resets at midnight UTC)
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
    */
-  daily: ConnectionRequestDaily;
+  daily: ConnectionRequestDaily | null;
   /**
    * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
    */
@@ -401,9 +453,9 @@ export type ConnectionRequest = {
    */
   minIntervalSeconds: number;
   /**
-   * ISO 8601 timestamp of the next daily counter reset
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
    */
-  nextResetDaily: Date;
+  nextResetDaily: Date | null;
   /**
    * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
    */
@@ -411,7 +463,7 @@ export type ConnectionRequest = {
 };
 
 /**
- * Daily usage counter (resets at midnight UTC)
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
  */
 export type MessageDaily = {
   /**
@@ -447,13 +499,13 @@ export type MessageWeekly = {
 };
 
 /**
- * Limits for social engagement actions: sending messages, publishing posts, replying to comments, liking comments
+ * Limits for sending DMs
  */
 export type GetLimitsMessage = {
   /**
-   * Daily usage counter (resets at midnight UTC)
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
    */
-  daily: MessageDaily;
+  daily: MessageDaily | null;
   /**
    * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
    */
@@ -463,9 +515,9 @@ export type GetLimitsMessage = {
    */
   minIntervalSeconds: number;
   /**
-   * ISO 8601 timestamp of the next daily counter reset
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
    */
-  nextResetDaily: Date;
+  nextResetDaily: Date | null;
   /**
    * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
    */
@@ -473,7 +525,7 @@ export type GetLimitsMessage = {
 };
 
 /**
- * Daily usage counter (resets at midnight UTC)
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
  */
 export type ProfileVisitDaily = {
   /**
@@ -513,9 +565,9 @@ export type ProfileVisitWeekly = {
  */
 export type ProfileVisit = {
   /**
-   * Daily usage counter (resets at midnight UTC)
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
    */
-  daily: ProfileVisitDaily;
+  daily: ProfileVisitDaily | null;
   /**
    * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
    */
@@ -525,9 +577,9 @@ export type ProfileVisit = {
    */
   minIntervalSeconds: number;
   /**
-   * ISO 8601 timestamp of the next daily counter reset
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
    */
-  nextResetDaily: Date;
+  nextResetDaily: Date | null;
   /**
    * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
    */
@@ -535,7 +587,7 @@ export type ProfileVisit = {
 };
 
 /**
- * Daily usage counter (resets at midnight UTC)
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
  */
 export type ScrapingDaily = {
   /**
@@ -575,9 +627,9 @@ export type ScrapingWeekly = {
  */
 export type Scraping = {
   /**
-   * Daily usage counter (resets at midnight UTC)
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
    */
-  daily: ScrapingDaily;
+  daily: ScrapingDaily | null;
   /**
    * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
    */
@@ -587,9 +639,319 @@ export type Scraping = {
    */
   minIntervalSeconds: number;
   /**
-   * ISO 8601 timestamp of the next daily counter reset
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
    */
-  nextResetDaily: Date;
+  nextResetDaily: Date | null;
+  /**
+   * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
+   */
+  nextResetWeekly: Date | null;
+};
+
+/**
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+ */
+export type PostDaily = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+ */
+export type PostWeekly = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Limits for publishing LinkedIn posts
+ */
+export type GetLimitsPost = {
+  /**
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+   */
+  daily: PostDaily | null;
+  /**
+   * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+   */
+  weekly: PostWeekly | null;
+  /**
+   * Minimum delay in seconds required between two consecutive actions of this type
+   */
+  minIntervalSeconds: number;
+  /**
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
+   */
+  nextResetDaily: Date | null;
+  /**
+   * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
+   */
+  nextResetWeekly: Date | null;
+};
+
+/**
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+ */
+export type AcceptInvitationDaily2 = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+ */
+export type AcceptInvitationWeekly2 = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Limits for accepting connection invitations
+ */
+export type AcceptInvitation = {
+  /**
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+   */
+  daily: AcceptInvitationDaily2 | null;
+  /**
+   * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+   */
+  weekly: AcceptInvitationWeekly2 | null;
+  /**
+   * Minimum delay in seconds required between two consecutive actions of this type
+   */
+  minIntervalSeconds: number;
+  /**
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
+   */
+  nextResetDaily: Date | null;
+  /**
+   * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
+   */
+  nextResetWeekly: Date | null;
+};
+
+/**
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+ */
+export type CommentPostDaily = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+ */
+export type CommentPostWeekly = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Limits for commenting on posts
+ */
+export type CommentPost = {
+  /**
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+   */
+  daily: CommentPostDaily | null;
+  /**
+   * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+   */
+  weekly: CommentPostWeekly | null;
+  /**
+   * Minimum delay in seconds required between two consecutive actions of this type
+   */
+  minIntervalSeconds: number;
+  /**
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
+   */
+  nextResetDaily: Date | null;
+  /**
+   * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
+   */
+  nextResetWeekly: Date | null;
+};
+
+/**
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+ */
+export type ReplyCommentDaily = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+ */
+export type ReplyCommentWeekly = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Limits for replying to comments
+ */
+export type ReplyComment = {
+  /**
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+   */
+  daily: ReplyCommentDaily | null;
+  /**
+   * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+   */
+  weekly: ReplyCommentWeekly | null;
+  /**
+   * Minimum delay in seconds required between two consecutive actions of this type
+   */
+  minIntervalSeconds: number;
+  /**
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
+   */
+  nextResetDaily: Date | null;
+  /**
+   * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
+   */
+  nextResetWeekly: Date | null;
+};
+
+/**
+ * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+ */
+export type ChatSearchDaily = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+ */
+export type ChatSearchWeekly = {
+  /**
+   * Number of actions used in this window
+   */
+  current: number;
+  /**
+   * Maximum allowed actions in this window (with multiplier applied)
+   */
+  limit: number;
+  /**
+   * Actions remaining before hitting the limit
+   */
+  remaining: number;
+};
+
+/**
+ * Limits for searching chat conversations
+ */
+export type ChatSearch = {
+  /**
+   * Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
+   */
+  daily: ChatSearchDaily | null;
+  /**
+   * Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.
+   */
+  weekly: ChatSearchWeekly | null;
+  /**
+   * Minimum delay in seconds required between two consecutive actions of this type
+   */
+  minIntervalSeconds: number;
+  /**
+   * ISO 8601 timestamp of the next daily counter reset. Null if not configured.
+   */
+  nextResetDaily: Date | null;
   /**
    * ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.
    */
@@ -602,7 +964,7 @@ export type Limits = {
    */
   connectionRequest: ConnectionRequest;
   /**
-   * Limits for social engagement actions: sending messages, publishing posts, replying to comments, liking comments
+   * Limits for sending DMs
    */
   message: GetLimitsMessage;
   /**
@@ -613,6 +975,26 @@ export type Limits = {
    * Limits for data collection: search, collecting posts/likes/comments, fetching followers, listing chats
    */
   scraping: Scraping;
+  /**
+   * Limits for publishing LinkedIn posts
+   */
+  post?: GetLimitsPost | undefined;
+  /**
+   * Limits for accepting connection invitations
+   */
+  acceptInvitation?: AcceptInvitation | undefined;
+  /**
+   * Limits for commenting on posts
+   */
+  commentPost?: CommentPost | undefined;
+  /**
+   * Limits for replying to comments
+   */
+  replyComment?: ReplyComment | undefined;
+  /**
+   * Limits for searching chat conversations
+   */
+  chatSearch?: ChatSearch | undefined;
 };
 
 /**
@@ -716,9 +1098,9 @@ export type Appearances = {
    */
   companies: Array<any>;
   /**
-   * Raw LinkedIn API response
+   * Raw LinkedIn API response (included when available)
    */
-  raw: any;
+  raw?: any | undefined;
 };
 
 /**
@@ -861,20 +1243,25 @@ export type ListConnectionsRequest = {
   keywords?: string | undefined;
 };
 
+/**
+ * Connection date (Unix timestamp ms or ISO string)
+ */
+export type ConnectedAt = number | string;
+
 export type Connection = {
   name: string;
   headline: string | null;
   profileUrl: string | null;
-  imageUrl: string | null;
-  /**
-   * Vanity slug from profile URL (e.g. john-doe) when not URN-based
-   */
+  profileUrn: string | null;
   publicIdentifier: string | null;
   /**
-   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...) when available
+   * Profile picture URL
    */
-  profileUrn: string | null;
-  connectedAt: string | null;
+  profilePicture: string | null;
+  /**
+   * Connection date (Unix timestamp ms or ISO string)
+   */
+  connectedAt: number | string | null;
 };
 
 /**
@@ -887,6 +1274,75 @@ export type ListConnectionsResponse = {
   start: number;
   total: number;
   hasMore: boolean;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+/**
+ * Type of activity to fetch
+ */
+export const QueryParamTabType = {
+  Comments: "COMMENTS",
+  Reactions: "REACTIONS",
+} as const;
+/**
+ * Type of activity to fetch
+ */
+export type QueryParamTabType = ClosedEnum<typeof QueryParamTabType>;
+
+export type GetMyActivityRequest = {
+  /**
+   * Type of activity to fetch
+   */
+  tabType?: QueryParamTabType | undefined;
+  /**
+   * Company page ID to fetch organization activity instead of personal
+   */
+  companyId?: string | undefined;
+  /**
+   * Number of items per page (max 50)
+   */
+  count?: number | undefined;
+  /**
+   * Pagination offset
+   */
+  start?: number | undefined;
+  /**
+   * Pagination token from previous response
+   */
+  paginationToken?: string | undefined;
+};
+
+export const TabTypeResponse = {
+  Comments: "COMMENTS",
+  Reactions: "REACTIONS",
+} as const;
+export type TabTypeResponse = OpenEnum<typeof TabTypeResponse>;
+
+/**
+ * Activity list
+ */
+export type GetMyActivityResponse = {
+  success: true;
+  /**
+   * 'personal' for user activity, 'company:{id}' for org activity
+   */
+  actor: string;
+  tabType: TabTypeResponse;
+  /**
+   * Activity items — comments or reactions depending on tabType
+   */
+  items: Array<any>;
+  count: number;
+  total: number;
+  start: number;
+  paginationToken: string | null;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -1174,6 +1630,10 @@ export type ListInboxRequest = {
    * Pagination cursor from a previous response
    */
   nextCursor?: string | undefined;
+  /**
+   * Number of conversations to return (default 20, max 40)
+   */
+  count?: number | undefined;
 };
 
 export type ListInboxParticipant = {
@@ -1340,6 +1800,10 @@ export type FindConversationMessage = {
   senderProfileUrn: string;
   sender: FindConversationSender;
   attachments: Array<FindConversationAttachment>;
+  /**
+   * True if the authenticated user sent this message.
+   */
+  isOutbound: boolean;
 };
 
 /**
@@ -1353,6 +1817,14 @@ export type FindConversationResponse = {
    */
   conversation: FindConversationConversation | null;
   messages: Array<FindConversationMessage> | null;
+  /**
+   * deliveredAt timestamp (ms) of the oldest message — pass as 'deliveredAt' to load older messages. Only present when includeMessages is true.
+   */
+  prevCursor?: number | null | undefined;
+  /**
+   * The authenticated user's profile URN. Useful for determining message direction.
+   */
+  userProfileUrn?: string | undefined;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -1413,6 +1885,10 @@ export type GetMessagesMessage = {
   senderProfileUrn: string;
   sender: GetMessagesSender;
   attachments: Array<GetMessagesAttachment>;
+  /**
+   * True if the authenticated user sent this message.
+   */
+  isOutbound: boolean;
 };
 
 /**
@@ -1773,6 +2249,86 @@ export type GetUnreadCountResponse = {
   retryAfter: number;
 };
 
+export type GetConversationSummaryRequest = {
+  /**
+   * LinkedIn profile URL or vanity name of the contact
+   */
+  profile: string;
+};
+
+/**
+ * Summary retrieved
+ */
+export type GetConversationSummaryResponse = {
+  success: true;
+  /**
+   * Whether a contact with a saved summary was found
+   */
+  found: boolean;
+  /**
+   * Internal contact ID — present only when found is true
+   */
+  contactId?: string | undefined;
+  /**
+   * The saved conversation summary text, null if none exists
+   */
+  summary: string | null;
+  /**
+   * ISO timestamp of when the summary was last saved — present only when found is true
+   */
+  summarizedAt?: string | null | undefined;
+  /**
+   * Message count at the time of summarization — present only when found is true
+   */
+  messageCount?: number | null | undefined;
+  /**
+   * Timestamp of last conversation data update — present only when found is true
+   */
+  conversationUpdatedAt?: string | null | undefined;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
+export type SaveConversationSummaryRequest = {
+  /**
+   * LinkedIn profile URL or vanity name of the contact
+   */
+  profile: string;
+  /**
+   * Conversation summary text to save
+   */
+  summary: string;
+};
+
+/**
+ * Summary saved
+ */
+export type SaveConversationSummaryResponse = {
+  success: true;
+  /**
+   * Internal contact ID (created if not found)
+   */
+  contactId: string;
+  /**
+   * ISO timestamp of when the summary was saved
+   */
+  summarizedAt: string;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type FilterRequest = {
   /**
    * Unique identifier for the automation campaign (e.g., 'lead-magnet-post-12345', 'outreach-webinar-feb')
@@ -1789,382 +2345,52 @@ export type CheckedSlug = {
   completed: boolean;
 };
 
-/**
- * Filter status with checked slugs
- */
-export type FilterResponse = {
-  /**
-   * True if all actionSlugs have been completed for this campaign, meaning the entire flow can be skipped
-   */
-  filtered: boolean;
-  /**
-   * Status of each action slug — completed means the action was already executed for this campaign
-   */
-  checkedSlugs: Array<CheckedSlug>;
-  /**
-   * Credits consumed by this call (always 0 for campaign queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for campaign queries).
-   */
-  retryAfter: number;
-};
+/** @internal */
+export const UpdateAccountAccount$inboundSchema: z.ZodMiniType<
+  UpdateAccountAccount,
+  unknown
+> = z.object({
+  id: types.string(),
+  label: types.nullable(types.string()),
+  isDefault: types.boolean(),
+  linkedinProfileId: types.nullable(types.string()),
+  linkedinName: types.nullable(types.string()),
+  headline: types.nullable(types.string()),
+  profilePic: types.nullable(types.string()),
+  isValid: types.boolean(),
+  proxyConfig: types.nullable(UpdateAccountProxyConfigResponse$inboundSchema),
+});
 
-export type GetStatusRequestBody = {
-  /**
-   * LinkedIn profile URLs or URNs to check status for within this campaign.
-   */
-  profiles: Array<string>;
-};
+export function updateAccountAccountFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateAccountAccount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateAccountAccount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateAccountAccount' from JSON`,
+  );
+}
 
-export type GetStatusRequest = {
-  /**
-   * Campaign identifier
-   */
-  campaignSlug: string;
-  body: GetStatusRequestBody;
-};
+/** @internal */
+export const UpdateAccountResponse$inboundSchema: z.ZodMiniType<
+  UpdateAccountResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  account: z.lazy(() => UpdateAccountAccount$inboundSchema),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
 
-export type GetStatusProfile = {
-  profile: string;
-  message: boolean;
-  reply: boolean;
-  like: boolean;
-  visit: boolean;
-  connect: boolean;
-};
-
-/**
- * Per-profile action completion status
- */
-export type GetStatusResponse = {
-  success: true;
-  profiles: Array<GetStatusProfile>;
-  /**
-   * Credits consumed by this call (always 0 for campaign queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for campaign queries).
-   */
-  retryAfter: number;
-};
-
-export const SyncAction = {
-  Message: "message",
-  Reply: "reply",
-  Like: "like",
-  Visit: "visit",
-  Connect: "connect",
-} as const;
-export type SyncAction = ClosedEnum<typeof SyncAction>;
-
-export type SyncProfile = {
-  /**
-   * LinkedIn profile URL or URN
-   */
-  profile: string;
-  /**
-   * Action types to mark as completed
-   */
-  actions: Array<SyncAction>;
-};
-
-export type SyncRequestBody = {
-  /**
-   * Profiles and actions to mark as completed without performing them on LinkedIn.
-   */
-  profiles: Array<SyncProfile>;
-};
-
-export type SyncRequest = {
-  /**
-   * Campaign identifier
-   */
-  campaignSlug: string;
-  body: SyncRequestBody;
-};
-
-export type Synced = {
-  profile: string;
-  actions: { [k: string]: boolean };
-};
-
-/**
- * Actions marked as completed
- */
-export type SyncResponse = {
-  success: true;
-  synced: Array<Synced>;
-  /**
-   * Credits consumed by this call (always 0 for campaign queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for campaign queries).
-   */
-  retryAfter: number;
-};
-
-export type GetCampaignStatsRequest = {
-  /**
-   * Campaign identifier
-   */
-  campaignSlug: string;
-};
-
-/**
- * Aggregate campaign statistics
- */
-export type GetCampaignStatsResponse = {
-  success: true;
-  /**
-   * Per-action-type counts (e.g. message: 45, reply: 120)
-   */
-  stats: { [k: string]: number };
-  /**
-   * Unique profiles processed in this campaign
-   */
-  totalProfiles: number;
-  /**
-   * Total credits consumed by this campaign (sum of action counts). Also serves as the per-call creditsUsed (always 0 for this endpoint).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for campaign queries).
-   */
-  retryAfter: number;
-};
-
-/**
- * How this contact was found. Optional for organic creation (defaults to manual_import), required for campaign-based addition. Unknown values default to manual_import.
- */
-export const UpsertSource = {
-  Likes: "likes",
-  Comments: "comments",
-  Reposts: "reposts",
-  Posts: "posts",
-  CompanyFollowers: "company_followers",
-  SearchResults: "search_results",
-  ManualImport: "manual_import",
-  EventAttendees: "event_attendees",
-  GroupMembers: "group_members",
-  EngagementScraping: "engagement_scraping",
-  ContentSearch: "content_search",
-  FollowersMining: "followers_mining",
-  PeopleSearch: "people_search",
-  JobSearch: "job_search",
-  CompanySearch: "company_search",
-  NetworkExpansion: "network_expansion",
-  BulkVisit: "bulk_visit",
-} as const;
-/**
- * How this contact was found. Optional for organic creation (defaults to manual_import), required for campaign-based addition. Unknown values default to manual_import.
- */
-export type UpsertSource = ClosedEnum<typeof UpsertSource>;
-
-/**
- * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
- */
-export const UpsertLifecycleStage = {
-  Contact: "contact",
-  Lead: "lead",
-  Qualified: "qualified",
-  Approved: "approved",
-  Rejected: "rejected",
-} as const;
-/**
- * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
- */
-export type UpsertLifecycleStage = ClosedEnum<typeof UpsertLifecycleStage>;
-
-export type UpsertContactRequest = {
-  /**
-   * LinkedIn profile URL, URN, or bare vanity name
-   */
-  linkedinUrl: string;
-  /**
-   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...). Improves dedup when provided alongside a vanity URL.
-   */
-  profileUrn?: string | null | undefined;
-  /**
-   * LinkedIn vanity slug (e.g. joshuaau). Improves dedup when provided alongside a URN.
-   */
-  publicIdentifier?: string | null | undefined;
-  /**
-   * Profile name
-   */
-  name: string;
-  /**
-   * How this contact was found. Optional for organic creation (defaults to manual_import), required for campaign-based addition. Unknown values default to manual_import.
-   */
-  source?: UpsertSource | undefined;
-  /**
-   * Which lead-gen angle found this (e.g., 'vp-sales-france')
-   */
-  sourceAngle?: string | undefined;
-  /**
-   * Lifecycle stage. Defaults to 'contact' on creation. Omit when adding existing contacts to avoid downgrading their stage.
-   */
-  lifecycleStage?: UpsertLifecycleStage | undefined;
-  /**
-   * Contact quality score (0-100)
-   */
-  hotScore?: number | undefined;
-  /**
-   * Agent reasoning for qualification decision
-   */
-  qualificationNotes?: string | undefined;
-  notes?: string | undefined;
-};
-
-export type UpsertRequest = {
-  /**
-   * Contacts to add (single or bulk)
-   */
-  contacts: Array<UpsertContactRequest>;
-};
-
-export type UpsertResults = {
-  created: number;
-  updated: number;
-  skipped: number;
-  errors: Array<string>;
-};
-
-export type UpsertContactResponse = {
-  id: string;
-  linkedinUrl: string;
-  /**
-   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...)
-   */
-  profileUrn: string | null;
-  /**
-   * LinkedIn vanity slug (e.g. joshuaau)
-   */
-  publicIdentifier: string | null;
-  name: string;
-  lifecycleStage: string;
-  hotScore: number;
-  qualificationNotes: string | null;
-  notes: string | null;
-  stageChangedAt: string | null;
-  profileData: any | null;
-  profileUpdatedAt: string | null;
-  conversationData: any | null;
-  conversationUpdatedAt: string | null;
-  outreachStatus: string;
-  lastContactedAt: string | null;
-  lastRepliedAt: string | null;
-  nextFollowUpAt: string | null;
-  doNotContact: boolean;
-  tags: Array<string>;
-  createdAt: string;
-  updatedAt: string;
-};
-
-/**
- * Contacts created or updated
- */
-export type UpsertResponse = {
-  success: true;
-  results: UpsertResults;
-  /**
-   * Full contact objects with IDs for immediate use
-   */
-  contacts: Array<UpsertContactResponse>;
-  /**
-   * Credits consumed by this call (always 0 for contacts queries).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before next call of the same type (always 0 for contacts queries).
-   */
-  retryAfter: number;
-};
-
-export const SearchContactsLifecycleStage = {
-  Contact: "contact",
-  Lead: "lead",
-  Qualified: "qualified",
-  Approved: "approved",
-  Rejected: "rejected",
-} as const;
-export type SearchContactsLifecycleStage = ClosedEnum<
-  typeof SearchContactsLifecycleStage
->;
-
-export const SearchContactsOutreachStatus = {
-  None: "none",
-  ConnectionSent: "connection_sent",
-  Connected: "connected",
-  DmSent: "dm_sent",
-  FollowedUp: "followed_up",
-  Replied: "replied",
-  InConversation: "in_conversation",
-  MeetingBooked: "meeting_booked",
-  Converted: "converted",
-  NotInterested: "not_interested",
-} as const;
-export type SearchContactsOutreachStatus = ClosedEnum<
-  typeof SearchContactsOutreachStatus
->;
-
-export const DoNotContact = {
-  True: "true",
-  False: "false",
-} as const;
-export type DoNotContact = ClosedEnum<typeof DoNotContact>;
-
-export const HasProfileData = {
-  True: "true",
-  False: "false",
-} as const;
-export type HasProfileData = ClosedEnum<typeof HasProfileData>;
-
-export type SearchContactsRequest = {
-  /**
-   * Filter by LinkedIn URL (exact match)
-   */
-  linkedinUrl?: string | undefined;
-  /**
-   * Filter by name (partial match)
-   */
-  name?: string | undefined;
-  lifecycleStage?: SearchContactsLifecycleStage | undefined;
-  /**
-   * Sort field (e.g. 'hotScore', 'createdAt', 'nextFollowUpAt')
-   */
-  sortBy?: string | undefined;
-  minHotScore?: number | undefined;
-  outreachStatus?: SearchContactsOutreachStatus | undefined;
-  /**
-   * Filter by tag
-   */
-  tag?: string | undefined;
-  /**
-   * ISO date: contacts with nextFollowUpAt before this date
-   */
-  followUpBefore?: string | undefined;
-  doNotContact?: DoNotContact | undefined;
-  hasProfileData?: HasProfileData | undefined;
-  campaignId?: string | undefined;
-  limit?: number | undefined;
-  offset?: number | undefined;
-};
-
-export type SearchContactsCampaign = {
-  campaignId: string;
-  campaignName: string;
-  /**
-   * Campaign status (e.g. 'active', 'paused', 'completed').
-   */
-  campaignStatus: string;
-  source: string;
-  sourceAngle: string | null;
-  addedAt: string;
-};
+export function updateAccountResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<UpdateAccountResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => UpdateAccountResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'UpdateAccountResponse' from JSON`,
+  );
+}
 
 /** @internal */
 export const RefreshPositionStartDate$inboundSchema: z.ZodMiniType<
@@ -2211,10 +2437,10 @@ export const RefreshPosition$inboundSchema: z.ZodMiniType<
 > = z.object({
   companyName: types.nullable(types.string()),
   title: types.nullable(types.string()),
-  description: types.nullable(types.string()),
+  description: z.optional(z.nullable(types.string())),
   companyUrl: types.nullable(types.string()),
   companyLogo: types.nullable(types.string()),
-  companyDescription: types.nullable(types.string()),
+  companyDescription: z.optional(z.nullable(types.string())),
   startDate: types.nullable(
     z.lazy(() => RefreshPositionStartDate$inboundSchema),
   ),
@@ -2358,6 +2584,7 @@ export const RefreshLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: RefreshType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => RefreshMedia$inboundSchema)),
 });
 
@@ -2392,11 +2619,14 @@ export const RefreshResponse$inboundSchema: z.ZodMiniType<
     z.array(z.lazy(() => RefreshEducation$inboundSchema)),
   ),
   connectionsCount: types.nullable(types.number()),
+  followersCount: z.optional(z.nullable(types.number())),
   location: types.nullable(z.lazy(() => RefreshLocation$inboundSchema)),
   isVerified: types.nullable(types.boolean()),
   lastPosts: types.optional(
     z.array(z.lazy(() => RefreshLastPost$inboundSchema)),
   ),
+  lastComments: types.optional(z.array(z.any())),
+  lastReactions: types.optional(z.array(z.any())),
   refreshed: types.literal(true),
   creditsUsed: types.number(),
   retryAfter: types.number(),
@@ -2484,6 +2714,7 @@ export const GetMyPostsPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: GetMyPostsType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => GetMyPostsMedia$inboundSchema)),
 });
 
@@ -2639,10 +2870,10 @@ export const ConnectionRequest$inboundSchema: z.ZodMiniType<
   ConnectionRequest,
   unknown
 > = z.object({
-  daily: z.lazy(() => ConnectionRequestDaily$inboundSchema),
+  daily: types.nullable(z.lazy(() => ConnectionRequestDaily$inboundSchema)),
   weekly: types.nullable(z.lazy(() => ConnectionRequestWeekly$inboundSchema)),
   minIntervalSeconds: types.number(),
-  nextResetDaily: types.date(),
+  nextResetDaily: types.nullable(types.date()),
   nextResetWeekly: types.nullable(types.date()),
 });
 
@@ -2699,10 +2930,10 @@ export const GetLimitsMessage$inboundSchema: z.ZodMiniType<
   GetLimitsMessage,
   unknown
 > = z.object({
-  daily: z.lazy(() => MessageDaily$inboundSchema),
+  daily: types.nullable(z.lazy(() => MessageDaily$inboundSchema)),
   weekly: types.nullable(z.lazy(() => MessageWeekly$inboundSchema)),
   minIntervalSeconds: types.number(),
-  nextResetDaily: types.date(),
+  nextResetDaily: types.nullable(types.date()),
   nextResetWeekly: types.nullable(types.date()),
 });
 
@@ -2759,10 +2990,10 @@ export function profileVisitWeeklyFromJSON(
 /** @internal */
 export const ProfileVisit$inboundSchema: z.ZodMiniType<ProfileVisit, unknown> =
   z.object({
-    daily: z.lazy(() => ProfileVisitDaily$inboundSchema),
+    daily: types.nullable(z.lazy(() => ProfileVisitDaily$inboundSchema)),
     weekly: types.nullable(z.lazy(() => ProfileVisitWeekly$inboundSchema)),
     minIntervalSeconds: types.number(),
-    nextResetDaily: types.date(),
+    nextResetDaily: types.nullable(types.date()),
     nextResetWeekly: types.nullable(types.date()),
   });
 
@@ -2819,10 +3050,10 @@ export function scrapingWeeklyFromJSON(
 /** @internal */
 export const Scraping$inboundSchema: z.ZodMiniType<Scraping, unknown> = z
   .object({
-    daily: z.lazy(() => ScrapingDaily$inboundSchema),
+    daily: types.nullable(z.lazy(() => ScrapingDaily$inboundSchema)),
     weekly: types.nullable(z.lazy(() => ScrapingWeekly$inboundSchema)),
     minIntervalSeconds: types.number(),
-    nextResetDaily: types.date(),
+    nextResetDaily: types.nullable(types.date()),
     nextResetWeekly: types.nullable(types.date()),
   });
 
@@ -2837,17 +3068,328 @@ export function scrapingFromJSON(
 }
 
 /** @internal */
+export const PostDaily$inboundSchema: z.ZodMiniType<PostDaily, unknown> = z
+  .object({
+    current: types.number(),
+    limit: types.number(),
+    remaining: types.number(),
+  });
+
+export function postDailyFromJSON(
+  jsonString: string,
+): SafeParseResult<PostDaily, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PostDaily$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PostDaily' from JSON`,
+  );
+}
+
+/** @internal */
+export const PostWeekly$inboundSchema: z.ZodMiniType<PostWeekly, unknown> = z
+  .object({
+    current: types.number(),
+    limit: types.number(),
+    remaining: types.number(),
+  });
+
+export function postWeeklyFromJSON(
+  jsonString: string,
+): SafeParseResult<PostWeekly, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => PostWeekly$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'PostWeekly' from JSON`,
+  );
+}
+
+/** @internal */
+export const GetLimitsPost$inboundSchema: z.ZodMiniType<
+  GetLimitsPost,
+  unknown
+> = z.object({
+  daily: types.nullable(z.lazy(() => PostDaily$inboundSchema)),
+  weekly: types.nullable(z.lazy(() => PostWeekly$inboundSchema)),
+  minIntervalSeconds: types.number(),
+  nextResetDaily: types.nullable(types.date()),
+  nextResetWeekly: types.nullable(types.date()),
+});
+
+export function getLimitsPostFromJSON(
+  jsonString: string,
+): SafeParseResult<GetLimitsPost, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetLimitsPost$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetLimitsPost' from JSON`,
+  );
+}
+
+/** @internal */
+export const AcceptInvitationDaily2$inboundSchema: z.ZodMiniType<
+  AcceptInvitationDaily2,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function acceptInvitationDaily2FromJSON(
+  jsonString: string,
+): SafeParseResult<AcceptInvitationDaily2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AcceptInvitationDaily2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AcceptInvitationDaily2' from JSON`,
+  );
+}
+
+/** @internal */
+export const AcceptInvitationWeekly2$inboundSchema: z.ZodMiniType<
+  AcceptInvitationWeekly2,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function acceptInvitationWeekly2FromJSON(
+  jsonString: string,
+): SafeParseResult<AcceptInvitationWeekly2, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AcceptInvitationWeekly2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AcceptInvitationWeekly2' from JSON`,
+  );
+}
+
+/** @internal */
+export const AcceptInvitation$inboundSchema: z.ZodMiniType<
+  AcceptInvitation,
+  unknown
+> = z.object({
+  daily: types.nullable(z.lazy(() => AcceptInvitationDaily2$inboundSchema)),
+  weekly: types.nullable(z.lazy(() => AcceptInvitationWeekly2$inboundSchema)),
+  minIntervalSeconds: types.number(),
+  nextResetDaily: types.nullable(types.date()),
+  nextResetWeekly: types.nullable(types.date()),
+});
+
+export function acceptInvitationFromJSON(
+  jsonString: string,
+): SafeParseResult<AcceptInvitation, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => AcceptInvitation$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'AcceptInvitation' from JSON`,
+  );
+}
+
+/** @internal */
+export const CommentPostDaily$inboundSchema: z.ZodMiniType<
+  CommentPostDaily,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function commentPostDailyFromJSON(
+  jsonString: string,
+): SafeParseResult<CommentPostDaily, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CommentPostDaily$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CommentPostDaily' from JSON`,
+  );
+}
+
+/** @internal */
+export const CommentPostWeekly$inboundSchema: z.ZodMiniType<
+  CommentPostWeekly,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function commentPostWeeklyFromJSON(
+  jsonString: string,
+): SafeParseResult<CommentPostWeekly, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CommentPostWeekly$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CommentPostWeekly' from JSON`,
+  );
+}
+
+/** @internal */
+export const CommentPost$inboundSchema: z.ZodMiniType<CommentPost, unknown> = z
+  .object({
+    daily: types.nullable(z.lazy(() => CommentPostDaily$inboundSchema)),
+    weekly: types.nullable(z.lazy(() => CommentPostWeekly$inboundSchema)),
+    minIntervalSeconds: types.number(),
+    nextResetDaily: types.nullable(types.date()),
+    nextResetWeekly: types.nullable(types.date()),
+  });
+
+export function commentPostFromJSON(
+  jsonString: string,
+): SafeParseResult<CommentPost, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CommentPost$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CommentPost' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReplyCommentDaily$inboundSchema: z.ZodMiniType<
+  ReplyCommentDaily,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function replyCommentDailyFromJSON(
+  jsonString: string,
+): SafeParseResult<ReplyCommentDaily, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReplyCommentDaily$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReplyCommentDaily' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReplyCommentWeekly$inboundSchema: z.ZodMiniType<
+  ReplyCommentWeekly,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function replyCommentWeeklyFromJSON(
+  jsonString: string,
+): SafeParseResult<ReplyCommentWeekly, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReplyCommentWeekly$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReplyCommentWeekly' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReplyComment$inboundSchema: z.ZodMiniType<ReplyComment, unknown> =
+  z.object({
+    daily: types.nullable(z.lazy(() => ReplyCommentDaily$inboundSchema)),
+    weekly: types.nullable(z.lazy(() => ReplyCommentWeekly$inboundSchema)),
+    minIntervalSeconds: types.number(),
+    nextResetDaily: types.nullable(types.date()),
+    nextResetWeekly: types.nullable(types.date()),
+  });
+
+export function replyCommentFromJSON(
+  jsonString: string,
+): SafeParseResult<ReplyComment, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReplyComment$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReplyComment' from JSON`,
+  );
+}
+
+/** @internal */
+export const ChatSearchDaily$inboundSchema: z.ZodMiniType<
+  ChatSearchDaily,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function chatSearchDailyFromJSON(
+  jsonString: string,
+): SafeParseResult<ChatSearchDaily, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ChatSearchDaily$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ChatSearchDaily' from JSON`,
+  );
+}
+
+/** @internal */
+export const ChatSearchWeekly$inboundSchema: z.ZodMiniType<
+  ChatSearchWeekly,
+  unknown
+> = z.object({
+  current: types.number(),
+  limit: types.number(),
+  remaining: types.number(),
+});
+
+export function chatSearchWeeklyFromJSON(
+  jsonString: string,
+): SafeParseResult<ChatSearchWeekly, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ChatSearchWeekly$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ChatSearchWeekly' from JSON`,
+  );
+}
+
+/** @internal */
+export const ChatSearch$inboundSchema: z.ZodMiniType<ChatSearch, unknown> = z
+  .object({
+    daily: types.nullable(z.lazy(() => ChatSearchDaily$inboundSchema)),
+    weekly: types.nullable(z.lazy(() => ChatSearchWeekly$inboundSchema)),
+    minIntervalSeconds: types.number(),
+    nextResetDaily: types.nullable(types.date()),
+    nextResetWeekly: types.nullable(types.date()),
+  });
+
+export function chatSearchFromJSON(
+  jsonString: string,
+): SafeParseResult<ChatSearch, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ChatSearch$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ChatSearch' from JSON`,
+  );
+}
+
+/** @internal */
 export const Limits$inboundSchema: z.ZodMiniType<Limits, unknown> = z.pipe(
   z.object({
     connection_request: z.lazy(() => ConnectionRequest$inboundSchema),
     message: z.lazy(() => GetLimitsMessage$inboundSchema),
     profile_visit: z.lazy(() => ProfileVisit$inboundSchema),
     scraping: z.lazy(() => Scraping$inboundSchema),
+    post: types.optional(z.lazy(() => GetLimitsPost$inboundSchema)),
+    accept_invitation: types.optional(z.lazy(() =>
+      AcceptInvitation$inboundSchema
+    )),
+    comment_post: types.optional(z.lazy(() => CommentPost$inboundSchema)),
+    reply_comment: types.optional(z.lazy(() => ReplyComment$inboundSchema)),
+    chat_search: types.optional(z.lazy(() => ChatSearch$inboundSchema)),
   }),
   z.transform((v) => {
     return remap$(v, {
       "connection_request": "connectionRequest",
       "profile_visit": "profileVisit",
+      "accept_invitation": "acceptInvitation",
+      "comment_post": "commentPost",
+      "reply_comment": "replyComment",
+      "chat_search": "chatSearch",
     });
   }),
 );
@@ -3021,7 +3563,7 @@ export const Appearances$inboundSchema: z.ZodMiniType<Appearances, unknown> = z
     count: types.number(),
     keywords: z.array(z.any()),
     companies: z.array(z.any()),
-    raw: z.any(),
+    raw: types.optional(z.any()),
   });
 
 export function appearancesFromJSON(
@@ -3274,15 +3816,29 @@ export function listConnectionsRequestToJSON(
 }
 
 /** @internal */
+export const ConnectedAt$inboundSchema: z.ZodMiniType<ConnectedAt, unknown> =
+  smartUnion([types.number(), types.string()]);
+
+export function connectedAtFromJSON(
+  jsonString: string,
+): SafeParseResult<ConnectedAt, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConnectedAt$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConnectedAt' from JSON`,
+  );
+}
+
+/** @internal */
 export const Connection$inboundSchema: z.ZodMiniType<Connection, unknown> = z
   .object({
     name: types.string(),
     headline: types.nullable(types.string()),
     profileUrl: types.nullable(types.string()),
-    imageUrl: types.nullable(types.string()),
-    publicIdentifier: types.nullable(types.string()),
     profileUrn: types.nullable(types.string()),
-    connectedAt: types.nullable(types.string()),
+    publicIdentifier: types.nullable(types.string()),
+    profilePicture: types.nullable(types.string()),
+    connectedAt: types.nullable(smartUnion([types.number(), types.string()])),
   });
 
 export function connectionFromJSON(
@@ -3317,6 +3873,73 @@ export function listConnectionsResponseFromJSON(
     jsonString,
     (x) => ListConnectionsResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'ListConnectionsResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export const QueryParamTabType$outboundSchema: z.ZodMiniEnum<
+  typeof QueryParamTabType
+> = z.enum(QueryParamTabType);
+
+/** @internal */
+export type GetMyActivityRequest$Outbound = {
+  tabType: string;
+  companyId?: string | undefined;
+  count: number;
+  start: number;
+  paginationToken?: string | undefined;
+};
+
+/** @internal */
+export const GetMyActivityRequest$outboundSchema: z.ZodMiniType<
+  GetMyActivityRequest$Outbound,
+  GetMyActivityRequest
+> = z.object({
+  tabType: z._default(QueryParamTabType$outboundSchema, "COMMENTS"),
+  companyId: z.optional(z.string()),
+  count: z._default(z.int(), 20),
+  start: z._default(z.int(), 0),
+  paginationToken: z.optional(z.string()),
+});
+
+export function getMyActivityRequestToJSON(
+  getMyActivityRequest: GetMyActivityRequest,
+): string {
+  return JSON.stringify(
+    GetMyActivityRequest$outboundSchema.parse(getMyActivityRequest),
+  );
+}
+
+/** @internal */
+export const TabTypeResponse$inboundSchema: z.ZodMiniType<
+  TabTypeResponse,
+  unknown
+> = openEnums.inboundSchema(TabTypeResponse);
+
+/** @internal */
+export const GetMyActivityResponse$inboundSchema: z.ZodMiniType<
+  GetMyActivityResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  actor: types.string(),
+  tabType: TabTypeResponse$inboundSchema,
+  items: z.array(z.any()),
+  count: types.number(),
+  total: types.number(),
+  start: types.number(),
+  paginationToken: types.nullable(types.string()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function getMyActivityResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<GetMyActivityResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetMyActivityResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetMyActivityResponse' from JSON`,
   );
 }
 
@@ -3635,6 +4258,7 @@ export function getAnalyticsResponseFromJSON(
 /** @internal */
 export type ListInboxRequest$Outbound = {
   nextCursor?: string | undefined;
+  count?: number | undefined;
 };
 
 /** @internal */
@@ -3643,6 +4267,7 @@ export const ListInboxRequest$outboundSchema: z.ZodMiniType<
   ListInboxRequest
 > = z.object({
   nextCursor: z.optional(z.string()),
+  count: z.optional(z.int()),
 });
 
 export function listInboxRequestToJSON(
@@ -3974,6 +4599,7 @@ export const FindConversationMessage$inboundSchema: z.ZodMiniType<
   senderProfileUrn: types.string(),
   sender: z.lazy(() => FindConversationSender$inboundSchema),
   attachments: z.array(z.lazy(() => FindConversationAttachment$inboundSchema)),
+  isOutbound: types.boolean(),
 });
 
 export function findConversationMessageFromJSON(
@@ -3999,6 +4625,8 @@ export const FindConversationResponse$inboundSchema: z.ZodMiniType<
   messages: types.nullable(
     z.array(z.lazy(() => FindConversationMessage$inboundSchema)),
   ),
+  prevCursor: z.optional(z.nullable(types.number())),
+  userProfileUrn: types.optional(types.string()),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
@@ -4103,6 +4731,7 @@ export const GetMessagesMessage$inboundSchema: z.ZodMiniType<
   senderProfileUrn: types.string(),
   sender: z.lazy(() => GetMessagesSender$inboundSchema),
   attachments: z.array(z.lazy(() => GetMessagesAttachment$inboundSchema)),
+  isOutbound: types.boolean(),
 });
 
 export function getMessagesMessageFromJSON(
@@ -4738,6 +5367,102 @@ export function getUnreadCountResponseFromJSON(
 }
 
 /** @internal */
+export type GetConversationSummaryRequest$Outbound = {
+  profile: string;
+};
+
+/** @internal */
+export const GetConversationSummaryRequest$outboundSchema: z.ZodMiniType<
+  GetConversationSummaryRequest$Outbound,
+  GetConversationSummaryRequest
+> = z.object({
+  profile: z.string(),
+});
+
+export function getConversationSummaryRequestToJSON(
+  getConversationSummaryRequest: GetConversationSummaryRequest,
+): string {
+  return JSON.stringify(
+    GetConversationSummaryRequest$outboundSchema.parse(
+      getConversationSummaryRequest,
+    ),
+  );
+}
+
+/** @internal */
+export const GetConversationSummaryResponse$inboundSchema: z.ZodMiniType<
+  GetConversationSummaryResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  found: types.boolean(),
+  contactId: types.optional(types.string()),
+  summary: types.nullable(types.string()),
+  summarizedAt: z.optional(z.nullable(types.string())),
+  messageCount: z.optional(z.nullable(types.number())),
+  conversationUpdatedAt: z.optional(z.nullable(types.string())),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function getConversationSummaryResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<GetConversationSummaryResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetConversationSummaryResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetConversationSummaryResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type SaveConversationSummaryRequest$Outbound = {
+  profile: string;
+  summary: string;
+};
+
+/** @internal */
+export const SaveConversationSummaryRequest$outboundSchema: z.ZodMiniType<
+  SaveConversationSummaryRequest$Outbound,
+  SaveConversationSummaryRequest
+> = z.object({
+  profile: z.string(),
+  summary: z.string(),
+});
+
+export function saveConversationSummaryRequestToJSON(
+  saveConversationSummaryRequest: SaveConversationSummaryRequest,
+): string {
+  return JSON.stringify(
+    SaveConversationSummaryRequest$outboundSchema.parse(
+      saveConversationSummaryRequest,
+    ),
+  );
+}
+
+/** @internal */
+export const SaveConversationSummaryResponse$inboundSchema: z.ZodMiniType<
+  SaveConversationSummaryResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  contactId: types.string(),
+  summarizedAt: types.string(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function saveConversationSummaryResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<SaveConversationSummaryResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => SaveConversationSummaryResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'SaveConversationSummaryResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type FilterRequest$Outbound = {
   campaignSlug: string;
   actionSlugs: string;
@@ -4770,487 +5495,5 @@ export function checkedSlugFromJSON(
     jsonString,
     (x) => CheckedSlug$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'CheckedSlug' from JSON`,
-  );
-}
-
-/** @internal */
-export const FilterResponse$inboundSchema: z.ZodMiniType<
-  FilterResponse,
-  unknown
-> = z.object({
-  filtered: types.boolean(),
-  checkedSlugs: z.array(z.lazy(() => CheckedSlug$inboundSchema)),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function filterResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<FilterResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => FilterResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FilterResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type GetStatusRequestBody$Outbound = {
-  profiles: Array<string>;
-};
-
-/** @internal */
-export const GetStatusRequestBody$outboundSchema: z.ZodMiniType<
-  GetStatusRequestBody$Outbound,
-  GetStatusRequestBody
-> = z.object({
-  profiles: z.array(z.string()),
-});
-
-export function getStatusRequestBodyToJSON(
-  getStatusRequestBody: GetStatusRequestBody,
-): string {
-  return JSON.stringify(
-    GetStatusRequestBody$outboundSchema.parse(getStatusRequestBody),
-  );
-}
-
-/** @internal */
-export type GetStatusRequest$Outbound = {
-  campaignSlug: string;
-  body: GetStatusRequestBody$Outbound;
-};
-
-/** @internal */
-export const GetStatusRequest$outboundSchema: z.ZodMiniType<
-  GetStatusRequest$Outbound,
-  GetStatusRequest
-> = z.object({
-  campaignSlug: z.string(),
-  body: z.lazy(() => GetStatusRequestBody$outboundSchema),
-});
-
-export function getStatusRequestToJSON(
-  getStatusRequest: GetStatusRequest,
-): string {
-  return JSON.stringify(
-    GetStatusRequest$outboundSchema.parse(getStatusRequest),
-  );
-}
-
-/** @internal */
-export const GetStatusProfile$inboundSchema: z.ZodMiniType<
-  GetStatusProfile,
-  unknown
-> = z.object({
-  profile: types.string(),
-  message: types.boolean(),
-  reply: types.boolean(),
-  like: types.boolean(),
-  visit: types.boolean(),
-  connect: types.boolean(),
-});
-
-export function getStatusProfileFromJSON(
-  jsonString: string,
-): SafeParseResult<GetStatusProfile, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetStatusProfile$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetStatusProfile' from JSON`,
-  );
-}
-
-/** @internal */
-export const GetStatusResponse$inboundSchema: z.ZodMiniType<
-  GetStatusResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  profiles: z.array(z.lazy(() => GetStatusProfile$inboundSchema)),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function getStatusResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<GetStatusResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetStatusResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetStatusResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const SyncAction$outboundSchema: z.ZodMiniEnum<typeof SyncAction> = z
-  .enum(SyncAction);
-
-/** @internal */
-export type SyncProfile$Outbound = {
-  profile: string;
-  actions: Array<string>;
-};
-
-/** @internal */
-export const SyncProfile$outboundSchema: z.ZodMiniType<
-  SyncProfile$Outbound,
-  SyncProfile
-> = z.object({
-  profile: z.string(),
-  actions: z.array(SyncAction$outboundSchema),
-});
-
-export function syncProfileToJSON(syncProfile: SyncProfile): string {
-  return JSON.stringify(SyncProfile$outboundSchema.parse(syncProfile));
-}
-
-/** @internal */
-export type SyncRequestBody$Outbound = {
-  profiles: Array<SyncProfile$Outbound>;
-};
-
-/** @internal */
-export const SyncRequestBody$outboundSchema: z.ZodMiniType<
-  SyncRequestBody$Outbound,
-  SyncRequestBody
-> = z.object({
-  profiles: z.array(z.lazy(() => SyncProfile$outboundSchema)),
-});
-
-export function syncRequestBodyToJSON(
-  syncRequestBody: SyncRequestBody,
-): string {
-  return JSON.stringify(SyncRequestBody$outboundSchema.parse(syncRequestBody));
-}
-
-/** @internal */
-export type SyncRequest$Outbound = {
-  campaignSlug: string;
-  body: SyncRequestBody$Outbound;
-};
-
-/** @internal */
-export const SyncRequest$outboundSchema: z.ZodMiniType<
-  SyncRequest$Outbound,
-  SyncRequest
-> = z.object({
-  campaignSlug: z.string(),
-  body: z.lazy(() => SyncRequestBody$outboundSchema),
-});
-
-export function syncRequestToJSON(syncRequest: SyncRequest): string {
-  return JSON.stringify(SyncRequest$outboundSchema.parse(syncRequest));
-}
-
-/** @internal */
-export const Synced$inboundSchema: z.ZodMiniType<Synced, unknown> = z.object({
-  profile: types.string(),
-  actions: z.record(z.string(), types.boolean()),
-});
-
-export function syncedFromJSON(
-  jsonString: string,
-): SafeParseResult<Synced, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Synced$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Synced' from JSON`,
-  );
-}
-
-/** @internal */
-export const SyncResponse$inboundSchema: z.ZodMiniType<SyncResponse, unknown> =
-  z.object({
-    success: types.literal(true),
-    synced: z.array(z.lazy(() => Synced$inboundSchema)),
-    creditsUsed: types.number(),
-    retryAfter: types.number(),
-  });
-
-export function syncResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SyncResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SyncResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SyncResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type GetCampaignStatsRequest$Outbound = {
-  campaignSlug: string;
-};
-
-/** @internal */
-export const GetCampaignStatsRequest$outboundSchema: z.ZodMiniType<
-  GetCampaignStatsRequest$Outbound,
-  GetCampaignStatsRequest
-> = z.object({
-  campaignSlug: z.string(),
-});
-
-export function getCampaignStatsRequestToJSON(
-  getCampaignStatsRequest: GetCampaignStatsRequest,
-): string {
-  return JSON.stringify(
-    GetCampaignStatsRequest$outboundSchema.parse(getCampaignStatsRequest),
-  );
-}
-
-/** @internal */
-export const GetCampaignStatsResponse$inboundSchema: z.ZodMiniType<
-  GetCampaignStatsResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  stats: z.record(z.string(), types.number()),
-  totalProfiles: types.number(),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function getCampaignStatsResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<GetCampaignStatsResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetCampaignStatsResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetCampaignStatsResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpsertSource$outboundSchema: z.ZodMiniEnum<typeof UpsertSource> = z
-  .enum(UpsertSource);
-
-/** @internal */
-export const UpsertLifecycleStage$outboundSchema: z.ZodMiniEnum<
-  typeof UpsertLifecycleStage
-> = z.enum(UpsertLifecycleStage);
-
-/** @internal */
-export type UpsertContactRequest$Outbound = {
-  linkedinUrl: string;
-  profileUrn?: string | null | undefined;
-  publicIdentifier?: string | null | undefined;
-  name: string;
-  source: string;
-  sourceAngle?: string | undefined;
-  lifecycleStage?: string | undefined;
-  hotScore?: number | undefined;
-  qualificationNotes?: string | undefined;
-  notes?: string | undefined;
-};
-
-/** @internal */
-export const UpsertContactRequest$outboundSchema: z.ZodMiniType<
-  UpsertContactRequest$Outbound,
-  UpsertContactRequest
-> = z.object({
-  linkedinUrl: z.string(),
-  profileUrn: z.optional(z.nullable(z.string())),
-  publicIdentifier: z.optional(z.nullable(z.string())),
-  name: z.string(),
-  source: z._default(UpsertSource$outboundSchema, "manual_import"),
-  sourceAngle: z.optional(z.string()),
-  lifecycleStage: z.optional(UpsertLifecycleStage$outboundSchema),
-  hotScore: z.optional(z.int()),
-  qualificationNotes: z.optional(z.string()),
-  notes: z.optional(z.string()),
-});
-
-export function upsertContactRequestToJSON(
-  upsertContactRequest: UpsertContactRequest,
-): string {
-  return JSON.stringify(
-    UpsertContactRequest$outboundSchema.parse(upsertContactRequest),
-  );
-}
-
-/** @internal */
-export type UpsertRequest$Outbound = {
-  contacts: Array<UpsertContactRequest$Outbound>;
-};
-
-/** @internal */
-export const UpsertRequest$outboundSchema: z.ZodMiniType<
-  UpsertRequest$Outbound,
-  UpsertRequest
-> = z.object({
-  contacts: z.array(z.lazy(() => UpsertContactRequest$outboundSchema)),
-});
-
-export function upsertRequestToJSON(upsertRequest: UpsertRequest): string {
-  return JSON.stringify(UpsertRequest$outboundSchema.parse(upsertRequest));
-}
-
-/** @internal */
-export const UpsertResults$inboundSchema: z.ZodMiniType<
-  UpsertResults,
-  unknown
-> = z.object({
-  created: types.number(),
-  updated: types.number(),
-  skipped: types.number(),
-  errors: z.array(types.string()),
-});
-
-export function upsertResultsFromJSON(
-  jsonString: string,
-): SafeParseResult<UpsertResults, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpsertResults$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpsertResults' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpsertContactResponse$inboundSchema: z.ZodMiniType<
-  UpsertContactResponse,
-  unknown
-> = z.object({
-  id: types.string(),
-  linkedinUrl: types.string(),
-  profileUrn: types.nullable(types.string()),
-  publicIdentifier: types.nullable(types.string()),
-  name: types.string(),
-  lifecycleStage: types.string(),
-  hotScore: types.number(),
-  qualificationNotes: types.nullable(types.string()),
-  notes: types.nullable(types.string()),
-  stageChangedAt: types.nullable(types.string()),
-  profileData: types.nullable(z.any()),
-  profileUpdatedAt: types.nullable(types.string()),
-  conversationData: types.nullable(z.any()),
-  conversationUpdatedAt: types.nullable(types.string()),
-  outreachStatus: types.string(),
-  lastContactedAt: types.nullable(types.string()),
-  lastRepliedAt: types.nullable(types.string()),
-  nextFollowUpAt: types.nullable(types.string()),
-  doNotContact: types.boolean(),
-  tags: z.array(types.string()),
-  createdAt: types.string(),
-  updatedAt: types.string(),
-});
-
-export function upsertContactResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UpsertContactResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpsertContactResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpsertContactResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpsertResponse$inboundSchema: z.ZodMiniType<
-  UpsertResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  results: z.lazy(() => UpsertResults$inboundSchema),
-  contacts: z.array(z.lazy(() => UpsertContactResponse$inboundSchema)),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function upsertResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UpsertResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpsertResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpsertResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const SearchContactsLifecycleStage$outboundSchema: z.ZodMiniEnum<
-  typeof SearchContactsLifecycleStage
-> = z.enum(SearchContactsLifecycleStage);
-
-/** @internal */
-export const SearchContactsOutreachStatus$outboundSchema: z.ZodMiniEnum<
-  typeof SearchContactsOutreachStatus
-> = z.enum(SearchContactsOutreachStatus);
-
-/** @internal */
-export const DoNotContact$outboundSchema: z.ZodMiniEnum<typeof DoNotContact> = z
-  .enum(DoNotContact);
-
-/** @internal */
-export const HasProfileData$outboundSchema: z.ZodMiniEnum<
-  typeof HasProfileData
-> = z.enum(HasProfileData);
-
-/** @internal */
-export type SearchContactsRequest$Outbound = {
-  linkedinUrl?: string | undefined;
-  name?: string | undefined;
-  lifecycleStage?: string | undefined;
-  sortBy?: string | undefined;
-  minHotScore?: number | undefined;
-  outreachStatus?: string | undefined;
-  tag?: string | undefined;
-  followUpBefore?: string | undefined;
-  doNotContact?: string | undefined;
-  hasProfileData?: string | undefined;
-  campaignId?: string | undefined;
-  limit: number;
-  offset: number;
-};
-
-/** @internal */
-export const SearchContactsRequest$outboundSchema: z.ZodMiniType<
-  SearchContactsRequest$Outbound,
-  SearchContactsRequest
-> = z.object({
-  linkedinUrl: z.optional(z.string()),
-  name: z.optional(z.string()),
-  lifecycleStage: z.optional(SearchContactsLifecycleStage$outboundSchema),
-  sortBy: z.optional(z.string()),
-  minHotScore: z.optional(z.int()),
-  outreachStatus: z.optional(SearchContactsOutreachStatus$outboundSchema),
-  tag: z.optional(z.string()),
-  followUpBefore: z.optional(z.string()),
-  doNotContact: z.optional(DoNotContact$outboundSchema),
-  hasProfileData: z.optional(HasProfileData$outboundSchema),
-  campaignId: z.optional(z.string()),
-  limit: z._default(z.int(), 50),
-  offset: z._default(z.int(), 0),
-});
-
-export function searchContactsRequestToJSON(
-  searchContactsRequest: SearchContactsRequest,
-): string {
-  return JSON.stringify(
-    SearchContactsRequest$outboundSchema.parse(searchContactsRequest),
-  );
-}
-
-/** @internal */
-export const SearchContactsCampaign$inboundSchema: z.ZodMiniType<
-  SearchContactsCampaign,
-  unknown
-> = z.object({
-  campaignId: types.string(),
-  campaignName: types.string(),
-  campaignStatus: types.string(),
-  source: types.string(),
-  sourceAngle: types.nullable(types.string()),
-  addedAt: types.string(),
-});
-
-export function searchContactsCampaignFromJSON(
-  jsonString: string,
-): SafeParseResult<SearchContactsCampaign, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SearchContactsCampaign$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SearchContactsCampaign' from JSON`,
   );
 }

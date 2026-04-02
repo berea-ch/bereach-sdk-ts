@@ -14,15 +14,14 @@ let value: Appearances = {
   companies: [
     "<value 1>",
   ],
-  raw: "<value>",
 };
 ```
 
 ## Fields
 
-| Field                                        | Type                                         | Required                                     | Description                                  |
-| -------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
-| `count`                                      | *number*                                     | :heavy_check_mark:                           | N/A                                          |
-| `keywords`                                   | *any*[]                                      | :heavy_check_mark:                           | Top search keywords that led to your profile |
-| `companies`                                  | *any*[]                                      | :heavy_check_mark:                           | Companies of people who found you            |
-| `raw`                                        | *any*                                        | :heavy_check_mark:                           | Raw LinkedIn API response                    |
+| Field                                               | Type                                                | Required                                            | Description                                         |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| `count`                                             | *number*                                            | :heavy_check_mark:                                  | N/A                                                 |
+| `keywords`                                          | *any*[]                                             | :heavy_check_mark:                                  | Top search keywords that led to your profile        |
+| `companies`                                         | *any*[]                                             | :heavy_check_mark:                                  | Companies of people who found you                   |
+| `raw`                                               | *any*                                               | :heavy_minus_sign:                                  | Raw LinkedIn API response (included when available) |

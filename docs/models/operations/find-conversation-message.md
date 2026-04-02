@@ -24,6 +24,7 @@ let value: FindConversationMessage = {
       type: "image",
     },
   ],
+  isOutbound: true,
 };
 ```
 
@@ -37,3 +38,4 @@ let value: FindConversationMessage = {
 | `senderProfileUrn`                                                                                 | *string*                                                                                           | :heavy_check_mark:                                                                                 | N/A                                                                                                |
 | `sender`                                                                                           | [operations.FindConversationSender](../../models/operations/find-conversation-sender.md)           | :heavy_check_mark:                                                                                 | N/A                                                                                                |
 | `attachments`                                                                                      | [operations.FindConversationAttachment](../../models/operations/find-conversation-attachment.md)[] | :heavy_check_mark:                                                                                 | N/A                                                                                                |
+| `isOutbound`                                                                                       | *boolean*                                                                                          | :heavy_check_mark:                                                                                 | True if the authenticated user sent this message.                                                  |

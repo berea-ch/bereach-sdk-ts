@@ -86,9 +86,9 @@ import { Result } from "../types/fp.js";
  *
  * ## Multi-step workflow with filter ID resolution
  * ```
- * Step 1: POST /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
+ * Step 1: GET /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
  *         → returns [{ id: '102277331', title: 'San Francisco, CA' }]
- * Step 2: POST /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
+ * Step 2: GET /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
  *         → returns [{ id: '1441', title: 'Google' }]
  * Step 3: POST /search/linkedin/people { keywords: 'product manager', location: ['102277331'], currentCompany: ['1441'] }
  *         → returns matching people

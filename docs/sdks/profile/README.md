@@ -20,6 +20,7 @@ Endpoints for the authenticated user's own LinkedIn profile
 * [getFollowerAnalytics](#getfolloweranalytics) - Get follower analytics
 * [switchAccount](#switchaccount) - Switch active LinkedIn account
 * [listConnections](#listconnections) - List LinkedIn connections
+* [getMyActivity](#getmyactivity) - Get recent activity (comments or reactions)
 
 ## get
 
@@ -1191,6 +1192,86 @@ run();
 ### Response
 
 **Promise\<[operations.ListConnectionsResponse](../../models/operations/list-connections-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## getMyActivity
+
+Get recent activity (comments or reactions) by the authenticated user or a company page. Useful for verifying authorship of actions. 0 credits.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getMyActivity" method="get" path="/me/linkedin/activity" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getMyActivity({});
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetMyActivity } from "bereach/funcs/profile-get-my-activity.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetMyActivity(bereach, {});
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetMyActivity failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetMyActivityRequest](../../models/operations/get-my-activity-request.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetMyActivityResponse](../../models/operations/get-my-activity-response.md)\>**
 
 ### Errors
 

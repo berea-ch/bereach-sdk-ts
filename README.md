@@ -162,6 +162,7 @@ run();
 * [unfollowProfile](docs/sdks/actions/README.md#unfollowprofile) - Unfollow a profile
 * [editPost](docs/sdks/actions/README.md#editpost) - Edit a post
 * [editComment](docs/sdks/actions/README.md#editcomment) - Edit a comment
+* [editProfile](docs/sdks/actions/README.md#editprofile) - Edit LinkedIn profile headline/summary
 * [repostPost](docs/sdks/actions/README.md#repostpost) - Repost / share a post
 * [unlikePost](docs/sdks/actions/README.md#unlikepost) - Unlike a post
 * [unlikeComment](docs/sdks/actions/README.md#unlikecomment) - Unlike a comment
@@ -195,6 +196,8 @@ run();
 * [unreact](docs/sdks/chat/README.md#unreact) - Remove emoji reaction from a message
 * [sendTypingIndicator](docs/sdks/chat/README.md#sendtypingindicator) - Send typing indicator
 * [getUnreadCount](docs/sdks/chat/README.md#getunreadcount) - Get unread message count
+* [getConversationSummary](docs/sdks/chat/README.md#getconversationsummary) - Get conversation summary for a contact
+* [saveConversationSummary](docs/sdks/chat/README.md#saveconversationsummary) - Save conversation summary for a contact
 
 ### [CompanyPages](docs/sdks/companypages/README.md)
 
@@ -205,6 +208,7 @@ run();
 
 ### [Contacts](docs/sdks/contacts/README.md)
 
+* [globalActivities](docs/sdks/contacts/README.md#globalactivities) - Global activity log
 * [upsert](docs/sdks/contacts/README.md#upsert) - Create or upsert contacts (no campaign required)
 * [search](docs/sdks/contacts/README.md#search) - Search and filter contacts
 * [get](docs/sdks/contacts/README.md#get) - Get a single contact with activities and campaigns
@@ -255,6 +259,7 @@ run();
 * [getFollowerAnalytics](docs/sdks/profile/README.md#getfolloweranalytics) - Get follower analytics
 * [switchAccount](docs/sdks/profile/README.md#switchaccount) - Switch active LinkedIn account
 * [listConnections](docs/sdks/profile/README.md#listconnections) - List LinkedIn connections
+* [getMyActivity](docs/sdks/profile/README.md#getmyactivity) - Get recent activity (comments or reactions)
 
 ### [SalesNav](docs/sdks/salesnav/README.md)
 
@@ -317,6 +322,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`actionsDeclineInvitation`](docs/sdks/actions/README.md#declineinvitation) - Decline a connection invitation
 - [`actionsEditComment`](docs/sdks/actions/README.md#editcomment) - Edit a comment
 - [`actionsEditPost`](docs/sdks/actions/README.md#editpost) - Edit a post
+- [`actionsEditProfile`](docs/sdks/actions/README.md#editprofile) - Edit LinkedIn profile headline/summary
 - [`actionsFollowCompany`](docs/sdks/actions/README.md#followcompany) - Follow a company
 - [`actionsFollowProfile`](docs/sdks/actions/README.md#followprofile) - Follow a profile
 - [`actionsLikeComment`](docs/sdks/actions/README.md#likecomment) - Like a LinkedIn comment
@@ -339,6 +345,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`campaignsSync`](docs/sdks/campaigns/README.md#sync) - Mark actions as completed without performing them
 - [`chatArchive`](docs/sdks/chat/README.md#archive) - Archive a conversation
 - [`chatFindConversation`](docs/sdks/chat/README.md#findconversation) - Find a conversation with a specific person
+- [`chatGetConversationSummary`](docs/sdks/chat/README.md#getconversationsummary) - Get conversation summary for a contact
 - [`chatGetMessages`](docs/sdks/chat/README.md#getmessages) - Read messages from a conversation
 - [`chatGetUnreadCount`](docs/sdks/chat/README.md#getunreadcount) - Get unread message count
 - [`chatListArchived`](docs/sdks/chat/README.md#listarchived) - List archived conversations
@@ -347,6 +354,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`chatMarkAllRead`](docs/sdks/chat/README.md#markallread) - Mark all conversations as read
 - [`chatMarkSeen`](docs/sdks/chat/README.md#markseen) - Mark a conversation as read
 - [`chatReact`](docs/sdks/chat/README.md#react) - React to a message with emoji
+- [`chatSaveConversationSummary`](docs/sdks/chat/README.md#saveconversationsummary) - Save conversation summary for a contact
 - [`chatSearchConversations`](docs/sdks/chat/README.md#searchconversations) - Search LinkedIn conversations
 - [`chatSendTypingIndicator`](docs/sdks/chat/README.md#sendtypingindicator) - Send typing indicator
 - [`chatStar`](docs/sdks/chat/README.md#star) - Star a conversation
@@ -368,6 +376,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`contactsGetAgentState`](docs/sdks/contacts/README.md#getagentstate) - Get agent state by key
 - [`contactsGetByUrl`](docs/sdks/contacts/README.md#getbyurl) - Look up contact by LinkedIn URL
 - [`contactsGetCampaign`](docs/sdks/contacts/README.md#getcampaign) - Get a single campaign
+- [`contactsGlobalActivities`](docs/sdks/contacts/README.md#globalactivities) - Global activity log
 - [`contactsListActivities`](docs/sdks/contacts/README.md#listactivities) - List activities for a contact
 - [`contactsListAgentStates`](docs/sdks/contacts/README.md#listagentstates) - List all agent state entries
 - [`contactsListByCampaign`](docs/sdks/contacts/README.md#listbycampaign) - List contacts in a campaign
@@ -389,6 +398,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`profileGetFollowerAnalytics`](docs/sdks/profile/README.md#getfolloweranalytics) - Get follower analytics
 - [`profileGetFollowers`](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
 - [`profileGetLimits`](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+- [`profileGetMyActivity`](docs/sdks/profile/README.md#getmyactivity) - Get recent activity (comments or reactions)
 - [`profileGetPostAnalytics`](docs/sdks/profile/README.md#getpostanalytics) - Get post analytics
 - [`profileGetSearchAppearances`](docs/sdks/profile/README.md#getsearchappearances) - Get search appearances
 - [`profileListAccounts`](docs/sdks/profile/README.md#listaccounts) - List all LinkedIn accounts for the authenticated user
@@ -592,10 +602,10 @@ run();
 
 You can override the default server globally by passing a server index to the `serverIdx: number` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
 
-| #   | Server                         | Description    |
-| --- | ------------------------------ | -------------- |
-| 0   | `https://api.berea.ch`         | Production API |
-| 1   | `https://api-staging.berea.ch` | Staging API    |
+| #   | Server                           | Description    |
+| --- | -------------------------------- | -------------- |
+| 0   | `https://api.bereach.ai`         | Production API |
+| 1   | `https://api-staging.bereach.ai` | Staging API    |
 
 #### Example
 
@@ -628,7 +638,7 @@ The default server can also be overridden globally by passing a URL to the `serv
 import { Bereach } from "bereach";
 
 const bereach = new Bereach({
-  serverURL: "https://api-staging.berea.ch",
+  serverURL: "https://api-staging.bereach.ai",
   token: "BEREACH_API_KEY",
 });
 

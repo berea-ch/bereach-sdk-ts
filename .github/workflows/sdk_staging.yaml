@@ -32,15 +32,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch staging OpenAPI specs
+      - name: Fetch staging OpenAPI spec
         run: curl -sSf https://api-staging.bereach.ai -o .speakeasy/staging-openapi.json
 
       - name: Apply overlay and generate SDK
         run: |
-          speakeasy overlay apply \
-            -s .speakeasy/staging-openapi.json \
-            -o .speakeasy/speakeasy-modifications-overlay.yaml \
-            > .speakeasy/staging-openapi-final.json
+          OVERLAY=".speakeasy/speakeasy-modifications-overlay.yaml"
+          if [ -f "$OVERLAY" ]; then
+            echo "Applying overlay: $OVERLAY"
+            speakeasy overlay apply \
+              -s .speakeasy/staging-openapi.json \
+              -o "$OVERLAY" \
+              > .speakeasy/staging-openapi-final.json
+          else
+            echo "No overlay at $OVERLAY — using staging spec as-is"
+            cp .speakeasy/staging-openapi.json .speakeasy/staging-openapi-final.json
+          fi
           speakeasy generate sdk \
             -s .speakeasy/staging-openapi-final.json \
             -l typescript \

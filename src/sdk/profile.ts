@@ -6,6 +6,7 @@ import { profileGetCredits } from "../funcs/profile-get-credits.js";
 import { profileGetFollowerAnalytics } from "../funcs/profile-get-follower-analytics.js";
 import { profileGetFollowers } from "../funcs/profile-get-followers.js";
 import { profileGetLimits } from "../funcs/profile-get-limits.js";
+import { profileGetMyActivity } from "../funcs/profile-get-my-activity.js";
 import { profileGetPostAnalytics } from "../funcs/profile-get-post-analytics.js";
 import { profileGetSearchAppearances } from "../funcs/profile-get-search-appearances.js";
 import { profileGet } from "../funcs/profile-get.js";
@@ -243,6 +244,23 @@ export class Profile extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.ListConnectionsResponse> {
     return unwrapAsync(profileListConnections(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get recent activity (comments or reactions)
+   *
+   * @remarks
+   * Get recent activity (comments or reactions) by the authenticated user or a company page. Useful for verifying authorship of actions. 0 credits.
+   */
+  async getMyActivity(
+    request?: operations.GetMyActivityRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetMyActivityResponse> {
+    return unwrapAsync(profileGetMyActivity(
       this,
       request,
       options,
