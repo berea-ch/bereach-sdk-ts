@@ -30,7 +30,7 @@ import { Result } from "../types/fp.js";
  * Send LinkedIn connection request
  *
  * @remarks
- * Send a connection request to the specified LinkedIn profile. Rate limited to 80 requests per day per user. 1 credit.
+ * Send a connection request to the specified LinkedIn profile. Optionally include a personalized message (max 300 chars). Rate limited to 80 requests per day per user. 1 credit.
  */
 export function actionsConnectProfile(
   client: BereachCore,

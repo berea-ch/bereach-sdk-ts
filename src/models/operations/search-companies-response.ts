@@ -803,6 +803,10 @@ export type VisitProfileResponse = {
    */
   connectionsCount: number | null;
   /**
+   * Total number of followers. Null for restricted profiles or when unavailable.
+   */
+  followersCount: number | null;
+  /**
    * Whether the profile has a LinkedIn verification badge.
    */
   isVerified: boolean;
@@ -1803,11 +1807,11 @@ export type SearchPostsRequest = {
    */
   contentType?: SearchPostsContentType | undefined;
   /**
-   * Filter by the post author's industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'. Example: resolve 'Technology' to get industry IDs.
+   * Filter by the post author's industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'. Example: resolve 'Technology' to get industry IDs.
    */
   authorIndustry?: Array<string> | undefined;
   /**
-   * Filter by the post author's company. Array of LinkedIn company IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' to get company ID '1441'.
+   * Filter by the post author's company. Array of LinkedIn company IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' to get company ID '1441'.
    */
   authorCompany?: Array<string> | undefined;
   /**
@@ -1968,19 +1972,19 @@ export type SearchPeopleRequest = {
    */
   profileLanguage?: Array<string> | undefined;
   /**
-   * Filter by school/university. Array of LinkedIn school IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='SCHOOL'. Example: resolve 'Harvard' to get school IDs.
+   * Filter by school/university. Array of LinkedIn school IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='SCHOOL'. Example: resolve 'Harvard' to get school IDs.
    */
   school?: Array<string> | undefined;
   /**
-   * Filter by geographic location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'. Example: resolve 'San Francisco' → '102277331'.
+   * Filter by geographic location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'. Example: resolve 'San Francisco' → '102277331'.
    */
   location?: Array<string> | undefined;
   /**
-   * Filter by industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'.
+   * Filter by industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'.
    */
   industry?: Array<string> | undefined;
   /**
-   * Filter by current employer. Array of LinkedIn company IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' → '1441'.
+   * Filter by current employer. Array of LinkedIn company IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' → '1441'.
    */
   currentCompany?: Array<string> | undefined;
   /**
@@ -2091,11 +2095,11 @@ export type SearchCompaniesRequest = {
    */
   url?: string | undefined;
   /**
-   * Filter by company HQ location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'.
+   * Filter by company HQ location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'.
    */
   location?: Array<string> | undefined;
   /**
-   * Filter by company industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'.
+   * Filter by company industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'.
    */
   industry?: Array<string> | undefined;
   /**
@@ -3343,6 +3347,7 @@ export const VisitProfileResponse$inboundSchema: z.ZodMiniType<
   position: types.nullable(types.string()),
   memberDistance: types.nullable(types.number()),
   connectionsCount: types.nullable(types.number()),
+  followersCount: types.nullable(types.number()),
   isVerified: types.boolean(),
   pendingConnection: PendingConnection$inboundSchema,
   positions: types.optional(

@@ -1182,6 +1182,10 @@ export type ListInboxRequest = {
    * Pagination cursor from a previous response
    */
   nextCursor?: string | undefined;
+  /**
+   * Number of conversations to return (default 20, max 40)
+   */
+  count?: number | undefined;
 };
 
 export type ListInboxParticipant = {
@@ -3645,6 +3649,7 @@ export function getAnalyticsResponseFromJSON(
 /** @internal */
 export type ListInboxRequest$Outbound = {
   nextCursor?: string | undefined;
+  count?: number | undefined;
 };
 
 /** @internal */
@@ -3653,6 +3658,7 @@ export const ListInboxRequest$outboundSchema: z.ZodMiniType<
   ListInboxRequest
 > = z.object({
   nextCursor: z.optional(z.string()),
+  count: z.optional(z.int()),
 });
 
 export function listInboxRequestToJSON(

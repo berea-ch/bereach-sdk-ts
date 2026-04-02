@@ -20,8 +20,8 @@ generation:
     sharedNestedComponentsJan2026: true
     nameOverrideFeb2026: true
   auth:
-    oAuth2ClientCredentialsEnabled: true
-    oAuth2PasswordEnabled: true
+    oAuth2ClientCredentialsEnabled: false
+    oAuth2PasswordEnabled: false
     hoistGlobalSecurity: true
   inferSSEOverload: true
   sdkHooksConfigAccess: true
@@ -35,7 +35,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 1.4.3
+  version: 1.4.4
   acceptHeaderEnum: false
   additionalDependencies:
     dependencies: {}
@@ -55,6 +55,7 @@ typescript:
   enumFormat: union
   envVarPrefix: BEREACH
   exportZodModelNamespace: false
+  fixEnumNameSanitization: false
   flatAdditionalProperties: true
   flattenGlobalSecurity: true
   flatteningOrder: parameters-first

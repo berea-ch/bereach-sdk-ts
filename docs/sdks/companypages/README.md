@@ -260,7 +260,7 @@ run();
 
 ## getAnalytics
 
-Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Costs 1 credit.
+Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Requires `companyId` (numeric string, e.g. "111652438") in the request body. Costs 1 credit.
 
 ### Example Usage
 

@@ -45,7 +45,7 @@ import { Result } from "../types/fp.js";
  * - More advanced filters: seniority, function, tenure, include/exclude for company & industry
  *
  * ## Resolving filter IDs
- * Filters like location, industry, company, and school require LinkedIn numeric IDs. Use `POST /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs.
+ * Filters like location, industry, company, and school require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs.
  *
  * ## Pagination
  * Default page size: 25, max: 25. Use `start` (offset) and `count` to paginate. Check `hasMore` and `paging.total` in the response.

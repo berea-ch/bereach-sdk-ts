@@ -30,7 +30,7 @@ import { Result } from "../types/fp.js";
  * Scrape replies to a LinkedIn comment
  *
  * @remarks
- * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty).
+ * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 100 items returned (minimum 1 if any results, 0 if empty).
  */
 export function scrapersCollectCommentReplies(
   client: BereachCore,

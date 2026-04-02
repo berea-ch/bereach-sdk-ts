@@ -80,7 +80,7 @@ export type SearchJobsRequest = {
    */
   url?: string | undefined;
   /**
-   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'.
+   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'.
    */
   location?: Array<string> | undefined;
   /**
@@ -1062,6 +1062,10 @@ export type ConnectProfileRequest = {
    * LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...).
    */
   profile: string;
+  /**
+   * Optional personalized message to include with the connection request. Maximum 300 characters (LinkedIn limit).
+   */
+  message?: string | undefined;
   /**
    * Campaign identifier for deduplication. Dedup by profile automatically.
    */
@@ -3672,6 +3676,7 @@ export function searchSalesNavCompaniesResponseFromJSON(
 /** @internal */
 export type ConnectProfileRequest$Outbound = {
   profile: string;
+  message?: string | undefined;
   campaignSlug?: string | undefined;
   actionSlug?: string | undefined;
 };
@@ -3682,6 +3687,7 @@ export const ConnectProfileRequest$outboundSchema: z.ZodMiniType<
   ConnectProfileRequest
 > = z.object({
   profile: z.string(),
+  message: z.optional(z.string()),
   campaignSlug: z.optional(z.string()),
   actionSlug: z.optional(z.string()),
 });

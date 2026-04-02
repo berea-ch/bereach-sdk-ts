@@ -25,7 +25,7 @@ Endpoints for LinkedIn inbox: list conversations, search, read messages
 
 ## listInbox
 
-List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Paginate via nextCursor. 0 credits.
+List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Use `count` to control the number of conversations returned (1-40, default 20). Paginate via nextCursor. 0 credits.
 
 ### Example Usage
 
@@ -38,7 +38,9 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.chat.listInbox({});
+  const result = await bereach.chat.listInbox({
+    count: 10,
+  });
 
   console.log(result);
 }
@@ -61,7 +63,9 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await chatListInbox(bereach, {});
+  const res = await chatListInbox(bereach, {
+    count: 10,
+  });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
