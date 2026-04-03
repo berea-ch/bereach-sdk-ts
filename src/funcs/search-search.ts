@@ -61,7 +61,7 @@ import { Result } from "../types/fp.js";
  * Without quotes, a multi-word query like `outreach automation` is treated as `outreach AND automation`, which may return broad results. Use `"outreach automation"` for exact matching.
  *
  * ## Resolving filter IDs
- * Many filters (location, industry, company, school) require LinkedIn numeric IDs. Use `POST /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs (e.g. "103644278").
+ * Many filters (location, industry, company, school) require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs (e.g. "103644278").
  *
  * ## Pagination
  * Use `start` (offset, default 0) and `count` (page size, default 10, max 50). The response includes `paging.total` and `hasMore` to control iteration.

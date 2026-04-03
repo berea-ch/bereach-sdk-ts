@@ -592,10 +592,10 @@ run();
 
 You can override the default server globally by passing a server index to the `serverIdx: number` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
 
-| #   | Server                         | Description    |
-| --- | ------------------------------ | -------------- |
-| 0   | `https://api.berea.ch`         | Production API |
-| 1   | `https://api-staging.berea.ch` | Staging API    |
+| #   | Server                           | Description    |
+| --- | -------------------------------- | -------------- |
+| 0   | `https://api.bereach.ai`         | Production API |
+| 1   | `https://api-staging.bereach.ai` | Staging API    |
 
 #### Example
 
@@ -628,7 +628,7 @@ The default server can also be overridden globally by passing a URL to the `serv
 import { Bereach } from "bereach";
 
 const bereach = new Bereach({
-  serverURL: "https://api-staging.berea.ch",
+  serverURL: "https://api-staging.bereach.ai",
   token: "BEREACH_API_KEY",
 });
 

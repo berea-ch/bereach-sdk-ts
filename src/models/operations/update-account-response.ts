@@ -80,7 +80,7 @@ export type SearchJobsRequest = {
    */
   url?: string | undefined;
   /**
-   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'.
+   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'.
    */
   location?: Array<string> | undefined;
   /**
@@ -1062,6 +1062,10 @@ export type ConnectProfileRequest = {
    * LinkedIn profile identifier. Accepts full URLs (e.g. https://www.linkedin.com/in/username), vanity names (e.g. john-doe), or profile URNs (e.g. urn:li:fsd_profile:ACoAAA...).
    */
   profile: string;
+  /**
+   * Optional personalized message to include with the connection request. Maximum 300 characters (LinkedIn limit).
+   */
+  message?: string | undefined;
   /**
    * Campaign identifier for deduplication. Dedup by profile automatically.
    */
@@ -2074,6 +2078,10 @@ export type GetProfileLastPost = {
   postUrn: string;
   postId: string;
   type: GetProfileType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -3668,6 +3676,7 @@ export function searchSalesNavCompaniesResponseFromJSON(
 /** @internal */
 export type ConnectProfileRequest$Outbound = {
   profile: string;
+  message?: string | undefined;
   campaignSlug?: string | undefined;
   actionSlug?: string | undefined;
 };
@@ -3678,6 +3687,7 @@ export const ConnectProfileRequest$outboundSchema: z.ZodMiniType<
   ConnectProfileRequest
 > = z.object({
   profile: z.string(),
+  message: z.optional(z.string()),
   campaignSlug: z.optional(z.string()),
   actionSlug: z.optional(z.string()),
 });
@@ -5050,6 +5060,7 @@ export const GetProfileLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: GetProfileType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => GetProfileMedia$inboundSchema)),
 });
 

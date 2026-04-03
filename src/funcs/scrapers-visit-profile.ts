@@ -33,6 +33,8 @@ import { Result } from "../types/fp.js";
  * Visit a LinkedIn profile and return contact data. Distance-1 profiles cached 24h (0 credits when cached). No dedup — always executes. campaignSlug is for tracking only. 1 credit (0 when cached).
  *
  * Optional enrichment flags (`includePosts`, `includeComments`, `includeAbout`) fetch additional data in parallel with minimal latency overhead. `includeAbout` fetches the About section and detailed position descriptions. `includeComments` returns posts the profile recently engaged with (topic + author), useful for personalization — note that the actual comment text is not available from this API.
+ *
+ * `followersCount` and `connectionsCount` are always included in the response at no extra cost.
  */
 export function scrapersVisitProfile(
   client: BereachCore,

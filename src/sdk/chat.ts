@@ -27,7 +27,7 @@ export class Chat extends ClientSDK {
    * List LinkedIn inbox conversations
    *
    * @remarks
-   * List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Paginate via nextCursor. 0 credits.
+   * List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Use `count` to control the number of conversations returned (1-40, default 20). Paginate via nextCursor. 0 credits.
    */
   async listInbox(
     request?: operations.ListInboxRequest | undefined,

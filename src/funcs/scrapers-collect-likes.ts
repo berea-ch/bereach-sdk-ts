@@ -30,7 +30,7 @@ import { Result } from "../types/fp.js";
  * Scrape LinkedIn post likes
  *
  * @remarks
- * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
+ * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 100 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
  */
 export function scrapersCollectLikes(
   client: BereachCore,

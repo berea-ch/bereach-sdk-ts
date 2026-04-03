@@ -458,6 +458,10 @@ export type CollectPostsRequest = {
    * Pagination token from a previous response to fetch the next page.
    */
   paginationToken?: string | undefined;
+  /**
+   * Include reposts/reshares in results. Defaults to false (only original posts).
+   */
+  returnReposts?: boolean | undefined;
 };
 
 export const CollectPostsType = {
@@ -513,6 +517,10 @@ export type CollectPostsPost = {
   postUrn: string;
   postId: string;
   type: CollectPostsType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -690,6 +698,10 @@ export type VisitProfileLastPost = {
   postId: string;
   type: VisitProfileLastPostType;
   /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
+  /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
   media?: VisitProfileMedia | undefined;
@@ -790,6 +802,10 @@ export type VisitProfileResponse = {
    * Total number of connections. May be null for non-connected profiles or restricted visibility.
    */
   connectionsCount: number | null;
+  /**
+   * Total number of followers. Null for restricted profiles or when unavailable.
+   */
+  followersCount: number | null;
   /**
    * Whether the profile has a LinkedIn verification badge.
    */
@@ -1227,6 +1243,10 @@ export type GetFeedPost = {
   postUrn: string;
   postId: string;
   type: GetFeedType;
+  /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
   /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
@@ -1787,11 +1807,11 @@ export type SearchPostsRequest = {
    */
   contentType?: SearchPostsContentType | undefined;
   /**
-   * Filter by the post author's industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'. Example: resolve 'Technology' to get industry IDs.
+   * Filter by the post author's industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'. Example: resolve 'Technology' to get industry IDs.
    */
   authorIndustry?: Array<string> | undefined;
   /**
-   * Filter by the post author's company. Array of LinkedIn company IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' to get company ID '1441'.
+   * Filter by the post author's company. Array of LinkedIn company IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' to get company ID '1441'.
    */
   authorCompany?: Array<string> | undefined;
   /**
@@ -1952,19 +1972,19 @@ export type SearchPeopleRequest = {
    */
   profileLanguage?: Array<string> | undefined;
   /**
-   * Filter by school/university. Array of LinkedIn school IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='SCHOOL'. Example: resolve 'Harvard' to get school IDs.
+   * Filter by school/university. Array of LinkedIn school IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='SCHOOL'. Example: resolve 'Harvard' to get school IDs.
    */
   school?: Array<string> | undefined;
   /**
-   * Filter by geographic location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'. Example: resolve 'San Francisco' → '102277331'.
+   * Filter by geographic location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'. Example: resolve 'San Francisco' → '102277331'.
    */
   location?: Array<string> | undefined;
   /**
-   * Filter by industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'.
+   * Filter by industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'.
    */
   industry?: Array<string> | undefined;
   /**
-   * Filter by current employer. Array of LinkedIn company IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' → '1441'.
+   * Filter by current employer. Array of LinkedIn company IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='COMPANY'. Example: resolve 'Google' → '1441'.
    */
   currentCompany?: Array<string> | undefined;
   /**
@@ -2075,11 +2095,11 @@ export type SearchCompaniesRequest = {
    */
   url?: string | undefined;
   /**
-   * Filter by company HQ location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'.
+   * Filter by company HQ location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'.
    */
   location?: Array<string> | undefined;
   /**
-   * Filter by company industry. Array of LinkedIn industry IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='INDUSTRY'.
+   * Filter by company industry. Array of LinkedIn industry IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='INDUSTRY'.
    */
   industry?: Array<string> | undefined;
   /**
@@ -2933,6 +2953,7 @@ export type CollectPostsRequest$Outbound = {
   count?: number | undefined;
   start?: number | undefined;
   paginationToken?: string | undefined;
+  returnReposts: boolean;
 };
 
 /** @internal */
@@ -2944,6 +2965,7 @@ export const CollectPostsRequest$outboundSchema: z.ZodMiniType<
   count: z.optional(z.int()),
   start: z.optional(z.int()),
   paginationToken: z.optional(z.string()),
+  returnReposts: z._default(z.boolean(), false),
 });
 
 export function collectPostsRequestToJSON(
@@ -3001,6 +3023,7 @@ export const CollectPostsPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: CollectPostsType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => CollectPostsMedia$inboundSchema)),
 });
 
@@ -3259,6 +3282,7 @@ export const VisitProfileLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: VisitProfileLastPostType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => VisitProfileMedia$inboundSchema)),
 });
 
@@ -3323,6 +3347,7 @@ export const VisitProfileResponse$inboundSchema: z.ZodMiniType<
   position: types.nullable(types.string()),
   memberDistance: types.nullable(types.number()),
   connectionsCount: types.nullable(types.number()),
+  followersCount: types.nullable(types.number()),
   isVerified: types.boolean(),
   pendingConnection: PendingConnection$inboundSchema,
   positions: types.optional(
@@ -3902,6 +3927,7 @@ export const GetFeedPost$inboundSchema: z.ZodMiniType<GetFeedPost, unknown> = z
     postUrn: types.string(),
     postId: types.string(),
     type: GetFeedType$inboundSchema,
+    isRepost: types.optional(types.boolean()),
     media: types.optional(z.lazy(() => GetFeedMedia$inboundSchema)),
   });
 
