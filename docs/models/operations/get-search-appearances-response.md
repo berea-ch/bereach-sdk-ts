@@ -18,7 +18,6 @@ let value: GetSearchAppearancesResponse = {
       "<value 1>",
       "<value 2>",
     ],
-    raw: "<value>",
   },
   creditsUsed: 620670,
   retryAfter: 51609,

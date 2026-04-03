@@ -22,7 +22,7 @@ export class Scrapers extends ClientSDK {
    * Scrape LinkedIn post likes
    *
    * @remarks
-   * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
+   * Returns up to 100 profiles per page that reacted to the specified post (LinkedIn API limit). Supports pagination. 1 credit per 100 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check.
    */
   async collectLikes(
     request: operations.CollectLikesRequest,
@@ -39,7 +39,7 @@ export class Scrapers extends ClientSDK {
    * Scrape LinkedIn post comments
    *
    * @remarks
-   * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 20 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
+   * Returns paginated top-level comments for a LinkedIn post (newest first). 1 credit per 100 items returned (minimum 1 if any results, 0 if empty). Use count=0 for a free total-only check (0 credits, no rate-limit slot consumed). Response includes previousTotal (server-cached) to detect new comments without client tracking.
    */
   async collectComments(
     request: operations.CollectCommentsRequest,
@@ -56,7 +56,7 @@ export class Scrapers extends ClientSDK {
    * Scrape replies to a LinkedIn comment
    *
    * @remarks
-   * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 20 items returned (minimum 1 if any results, 0 if empty).
+   * Returns paginated replies for a specific LinkedIn comment. Use the commentUrn from the comments endpoint response. 1 credit per 100 items returned (minimum 1 if any results, 0 if empty).
    */
   async collectCommentReplies(
     request: operations.CollectCommentRepliesRequest,
@@ -93,6 +93,8 @@ export class Scrapers extends ClientSDK {
    * Visit a LinkedIn profile and return contact data. Distance-1 profiles cached 24h (0 credits when cached). No dedup — always executes. campaignSlug is for tracking only. 1 credit (0 when cached).
    *
    * Optional enrichment flags (`includePosts`, `includeComments`, `includeAbout`) fetch additional data in parallel with minimal latency overhead. `includeAbout` fetches the About section and detailed position descriptions. `includeComments` returns posts the profile recently engaged with (topic + author), useful for personalization — note that the actual comment text is not available from this API.
+   *
+   * `followersCount` and `connectionsCount` are always included in the response at no extra cost.
    */
   async visitProfile(
     request: operations.VisitProfileRequest,

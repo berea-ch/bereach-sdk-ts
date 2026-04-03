@@ -1,6 +1,6 @@
 # ProfileVisitDaily
 
-Daily usage counter (resets at midnight UTC)
+Daily usage counter (resets at midnight UTC). Null if not configured for this action type.
 
 ## Example Usage
 

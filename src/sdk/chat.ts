@@ -4,6 +4,7 @@
 
 import { chatArchive } from "../funcs/chat-archive.js";
 import { chatFindConversation } from "../funcs/chat-find-conversation.js";
+import { chatGetConversationSummary } from "../funcs/chat-get-conversation-summary.js";
 import { chatGetMessages } from "../funcs/chat-get-messages.js";
 import { chatGetUnreadCount } from "../funcs/chat-get-unread-count.js";
 import { chatListArchived } from "../funcs/chat-list-archived.js";
@@ -12,6 +13,7 @@ import { chatListStarred } from "../funcs/chat-list-starred.js";
 import { chatMarkAllRead } from "../funcs/chat-mark-all-read.js";
 import { chatMarkSeen } from "../funcs/chat-mark-seen.js";
 import { chatReact } from "../funcs/chat-react.js";
+import { chatSaveConversationSummary } from "../funcs/chat-save-conversation-summary.js";
 import { chatSearchConversations } from "../funcs/chat-search-conversations.js";
 import { chatSendTypingIndicator } from "../funcs/chat-send-typing-indicator.js";
 import { chatStar } from "../funcs/chat-star.js";
@@ -27,7 +29,7 @@ export class Chat extends ClientSDK {
    * List LinkedIn inbox conversations
    *
    * @remarks
-   * List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Paginate via nextCursor. 0 credits.
+   * List inbox conversations for the authenticated user. Returns conversations with participants, last message, and read status. Use `count` to control the number of conversations returned (1-40, default 20). Paginate via nextCursor. 0 credits.
    */
   async listInbox(
     request?: operations.ListInboxRequest | undefined,
@@ -293,6 +295,40 @@ export class Chat extends ClientSDK {
   ): Promise<operations.GetUnreadCountResponse> {
     return unwrapAsync(chatGetUnreadCount(
       this,
+      options,
+    ));
+  }
+
+  /**
+   * Get conversation summary for a contact
+   *
+   * @remarks
+   * Retrieve the saved conversation summary for a contact. Returns null if no summary exists or contact not found. 0 credits.
+   */
+  async getConversationSummary(
+    request: operations.GetConversationSummaryRequest,
+    options?: RequestOptions,
+  ): Promise<operations.GetConversationSummaryResponse> {
+    return unwrapAsync(chatGetConversationSummary(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Save conversation summary for a contact
+   *
+   * @remarks
+   * Save a conversation summary for a contact. Creates the contact if it doesn't exist (auto-upsert by profile URL). 0 credits.
+   */
+  async saveConversationSummary(
+    request: operations.SaveConversationSummaryRequest,
+    options?: RequestOptions,
+  ): Promise<operations.SaveConversationSummaryResponse> {
+    return unwrapAsync(chatSaveConversationSummary(
+      this,
+      request,
       options,
     ));
   }

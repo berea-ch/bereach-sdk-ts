@@ -1,16 +1,16 @@
-# Credits
+# GetCreditsCredits
 
 ## Example Usage
 
 ```typescript
-import { Credits } from "bereach/models/operations";
+import { GetCreditsCredits } from "bereach/models/operations";
 
-let value: Credits = {
-  current: 683894,
-  limit: 290864,
-  remaining: 686327,
-  percentage: 9072.83,
-  isUnlimited: false,
+let value: GetCreditsCredits = {
+  current: 318947,
+  limit: 71114,
+  remaining: null,
+  percentage: 3198.98,
+  isUnlimited: true,
 };
 ```
 

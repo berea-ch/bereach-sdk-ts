@@ -24,6 +24,7 @@ let value: GetMessagesMessage = {
       type: "file",
     },
   ],
+  isOutbound: true,
 };
 ```
 
@@ -37,3 +38,4 @@ let value: GetMessagesMessage = {
 | `senderProfileUrn`                                                                       | *string*                                                                                 | :heavy_check_mark:                                                                       | N/A                                                                                      |
 | `sender`                                                                                 | [operations.GetMessagesSender](../../models/operations/get-messages-sender.md)           | :heavy_check_mark:                                                                       | N/A                                                                                      |
 | `attachments`                                                                            | [operations.GetMessagesAttachment](../../models/operations/get-messages-attachment.md)[] | :heavy_check_mark:                                                                       | N/A                                                                                      |
+| `isOutbound`                                                                             | *boolean*                                                                                | :heavy_check_mark:                                                                       | True if the authenticated user sent this message.                                        |

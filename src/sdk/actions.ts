@@ -8,6 +8,7 @@ import { actionsCreateComment } from "../funcs/actions-create-comment.js";
 import { actionsDeclineInvitation } from "../funcs/actions-decline-invitation.js";
 import { actionsEditComment } from "../funcs/actions-edit-comment.js";
 import { actionsEditPost } from "../funcs/actions-edit-post.js";
+import { actionsEditProfile } from "../funcs/actions-edit-profile.js";
 import { actionsFollowCompany } from "../funcs/actions-follow-company.js";
 import { actionsFollowProfile } from "../funcs/actions-follow-profile.js";
 import { actionsLikeComment } from "../funcs/actions-like-comment.js";
@@ -34,7 +35,7 @@ export class Actions extends ClientSDK {
    * Send LinkedIn connection request
    *
    * @remarks
-   * Send a connection request to the specified LinkedIn profile. Rate limited to 80 requests per day per user. 1 credit.
+   * Send a connection request to the specified LinkedIn profile. Optionally include a personalized message (max 300 chars). Rate limited to 80 requests per day per user. 1 credit.
    */
   async connectProfile(
     request: operations.ConnectProfileRequest,
@@ -296,6 +297,23 @@ export class Actions extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.EditCommentResponse> {
     return unwrapAsync(actionsEditComment(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Edit LinkedIn profile headline/summary
+   *
+   * @remarks
+   * Edit the authenticated user's LinkedIn headline and/or about summary. At least one field is required. 1 credit.
+   */
+  async editProfile(
+    request: operations.EditProfileRequest,
+    options?: RequestOptions,
+  ): Promise<operations.EditProfileResponse> {
+    return unwrapAsync(actionsEditProfile(
       this,
       request,
       options,

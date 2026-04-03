@@ -6,6 +6,7 @@ import { scheduledMessagesBatchSchedule } from "../funcs/scheduled-messages-batc
 import { scheduledMessagesCancel } from "../funcs/scheduled-messages-cancel.js";
 import { scheduledMessagesCreate } from "../funcs/scheduled-messages-create.js";
 import { scheduledMessagesList } from "../funcs/scheduled-messages-list.js";
+import { scheduledMessagesReviewDrafts } from "../funcs/scheduled-messages-review-drafts.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -73,6 +74,23 @@ export class ScheduledMessages extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.CancelResponse> {
     return unwrapAsync(scheduledMessagesCancel(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Batch approve/reject draft DMs
+   *
+   * @remarks
+   * Approve or reject draft messages for a campaign. Approved drafts are scheduled for immediate send. Optionally edit message text before approval. 0 credits.
+   */
+  async reviewDrafts(
+    request: operations.ReviewDraftsRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ReviewDraftsResponse> {
+    return unwrapAsync(scheduledMessagesReviewDrafts(
       this,
       request,
       options,

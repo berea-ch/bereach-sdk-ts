@@ -29,11 +29,12 @@ let value: GetMessagesResponse = {
           type: "file",
         },
       ],
+      isOutbound: false,
     },
   ],
-  prevCursor: 705334,
-  creditsUsed: 656607,
-  retryAfter: 791278,
+  prevCursor: 656607,
+  creditsUsed: 791278,
+  retryAfter: 471305,
 };
 ```
 

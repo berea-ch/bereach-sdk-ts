@@ -162,6 +162,7 @@ run();
 * [unfollowProfile](docs/sdks/actions/README.md#unfollowprofile) - Unfollow a profile
 * [editPost](docs/sdks/actions/README.md#editpost) - Edit a post
 * [editComment](docs/sdks/actions/README.md#editcomment) - Edit a comment
+* [editProfile](docs/sdks/actions/README.md#editprofile) - Edit LinkedIn profile headline/summary
 * [repostPost](docs/sdks/actions/README.md#repostpost) - Repost / share a post
 * [unlikePost](docs/sdks/actions/README.md#unlikepost) - Unlike a post
 * [unlikeComment](docs/sdks/actions/README.md#unlikecomment) - Unlike a comment
@@ -195,6 +196,8 @@ run();
 * [unreact](docs/sdks/chat/README.md#unreact) - Remove emoji reaction from a message
 * [sendTypingIndicator](docs/sdks/chat/README.md#sendtypingindicator) - Send typing indicator
 * [getUnreadCount](docs/sdks/chat/README.md#getunreadcount) - Get unread message count
+* [getConversationSummary](docs/sdks/chat/README.md#getconversationsummary) - Get conversation summary for a contact
+* [saveConversationSummary](docs/sdks/chat/README.md#saveconversationsummary) - Save conversation summary for a contact
 
 ### [CompanyPages](docs/sdks/companypages/README.md)
 
@@ -203,8 +206,17 @@ run();
 * [getPermissions](docs/sdks/companypages/README.md#getpermissions) - Get admin permissions for a company page
 * [getAnalytics](docs/sdks/companypages/README.md#getanalytics) - Get company page overview analytics
 
+### [Connectors](docs/sdks/connectors/README.md)
+
+* [pullTask](docs/sdks/connectors/README.md#pulltask) - Pull next task (connector)
+* [submitTaskResult](docs/sdks/connectors/README.md#submittaskresult) - Submit task result (connector)
+* [listConnectors](docs/sdks/connectors/README.md#listconnectors) - List connectors
+* [connectorHeartbeat](docs/sdks/connectors/README.md#connectorheartbeat) - Connector heartbeat
+* [agentSnapshot](docs/sdks/connectors/README.md#agentsnapshot) - Agent session snapshot
+
 ### [Contacts](docs/sdks/contacts/README.md)
 
+* [globalActivities](docs/sdks/contacts/README.md#globalactivities) - Global activity log
 * [upsert](docs/sdks/contacts/README.md#upsert) - Create or upsert contacts (no campaign required)
 * [search](docs/sdks/contacts/README.md#search) - Search and filter contacts
 * [get](docs/sdks/contacts/README.md#get) - Get a single contact with activities and campaigns
@@ -255,6 +267,13 @@ run();
 * [getFollowerAnalytics](docs/sdks/profile/README.md#getfolloweranalytics) - Get follower analytics
 * [switchAccount](docs/sdks/profile/README.md#switchaccount) - Switch active LinkedIn account
 * [listConnections](docs/sdks/profile/README.md#listconnections) - List LinkedIn connections
+* [getMyActivity](docs/sdks/profile/README.md#getmyactivity) - Get recent activity (comments or reactions)
+* [getSettings](docs/sdks/profile/README.md#getsettings) - Get account settings
+* [patchSettings](docs/sdks/profile/README.md#patchsettings) - Update account settings
+* [revalidateLinkedin](docs/sdks/profile/README.md#revalidatelinkedin) - Re-validate LinkedIn session
+* [getApiToken](docs/sdks/profile/README.md#getapitoken) - Get API token
+* [createApiToken](docs/sdks/profile/README.md#createapitoken) - Create API token
+* [deleteApiToken](docs/sdks/profile/README.md#deleteapitoken) - Delete API token
 
 ### [SalesNav](docs/sdks/salesnav/README.md)
 
@@ -268,6 +287,7 @@ run();
 * [create](docs/sdks/scheduledmessages/README.md#create) - Create a draft DM
 * [batchSchedule](docs/sdks/scheduledmessages/README.md#batchschedule) - Batch-schedule drafts for auto-send
 * [cancel](docs/sdks/scheduledmessages/README.md#cancel) - Cancel scheduled or draft messages
+* [reviewDrafts](docs/sdks/scheduledmessages/README.md#reviewdrafts) - Batch approve/reject draft DMs
 
 ### [Scrapers](docs/sdks/scrapers/README.md)
 
@@ -293,6 +313,25 @@ run();
 * [byUrl](docs/sdks/search/README.md#byurl) - Search LinkedIn by URL
 * [resolveParameters](docs/sdks/search/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
 
+### [Settings](docs/sdks/settings/README.md)
+
+* [getDmPollingSettings](docs/sdks/settings/README.md#getdmpollingsettings) - Get DM polling settings
+* [patchDmPollingSettings](docs/sdks/settings/README.md#patchdmpollingsettings) - Update DM polling settings
+
+### [Tasks](docs/sdks/tasks/README.md)
+
+* [listTasks](docs/sdks/tasks/README.md#listtasks) - List tasks
+* [cancelTask](docs/sdks/tasks/README.md#canceltask) - Cancel a task
+* [eventsFeed](docs/sdks/tasks/README.md#eventsfeed) - Poll for events
+* [cancelChain](docs/sdks/tasks/README.md#cancelchain) - Cancel a workflow chain
+
+### [Workspace](docs/sdks/workspace/README.md)
+
+* [deleteWorkspaceAccount](docs/sdks/workspace/README.md#deleteworkspaceaccount) - Remove a LinkedIn account
+* [upgradeWorkspaceAccount](docs/sdks/workspace/README.md#upgradeworkspaceaccount) - Upgrade or downgrade account plan
+* [createWorkspaceInvite](docs/sdks/workspace/README.md#createworkspaceinvite) - Create or list workspace invites
+* [deleteWorkspaceInvite](docs/sdks/workspace/README.md#deleteworkspaceinvite) - Delete a workspace invite
+
 </details>
 <!-- End Available Resources and Operations [operations] -->
 
@@ -317,6 +356,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`actionsDeclineInvitation`](docs/sdks/actions/README.md#declineinvitation) - Decline a connection invitation
 - [`actionsEditComment`](docs/sdks/actions/README.md#editcomment) - Edit a comment
 - [`actionsEditPost`](docs/sdks/actions/README.md#editpost) - Edit a post
+- [`actionsEditProfile`](docs/sdks/actions/README.md#editprofile) - Edit LinkedIn profile headline/summary
 - [`actionsFollowCompany`](docs/sdks/actions/README.md#followcompany) - Follow a company
 - [`actionsFollowProfile`](docs/sdks/actions/README.md#followprofile) - Follow a profile
 - [`actionsLikeComment`](docs/sdks/actions/README.md#likecomment) - Like a LinkedIn comment
@@ -339,6 +379,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`campaignsSync`](docs/sdks/campaigns/README.md#sync) - Mark actions as completed without performing them
 - [`chatArchive`](docs/sdks/chat/README.md#archive) - Archive a conversation
 - [`chatFindConversation`](docs/sdks/chat/README.md#findconversation) - Find a conversation with a specific person
+- [`chatGetConversationSummary`](docs/sdks/chat/README.md#getconversationsummary) - Get conversation summary for a contact
 - [`chatGetMessages`](docs/sdks/chat/README.md#getmessages) - Read messages from a conversation
 - [`chatGetUnreadCount`](docs/sdks/chat/README.md#getunreadcount) - Get unread message count
 - [`chatListArchived`](docs/sdks/chat/README.md#listarchived) - List archived conversations
@@ -347,6 +388,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`chatMarkAllRead`](docs/sdks/chat/README.md#markallread) - Mark all conversations as read
 - [`chatMarkSeen`](docs/sdks/chat/README.md#markseen) - Mark a conversation as read
 - [`chatReact`](docs/sdks/chat/README.md#react) - React to a message with emoji
+- [`chatSaveConversationSummary`](docs/sdks/chat/README.md#saveconversationsummary) - Save conversation summary for a contact
 - [`chatSearchConversations`](docs/sdks/chat/README.md#searchconversations) - Search LinkedIn conversations
 - [`chatSendTypingIndicator`](docs/sdks/chat/README.md#sendtypingindicator) - Send typing indicator
 - [`chatStar`](docs/sdks/chat/README.md#star) - Star a conversation
@@ -357,6 +399,11 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`companyPagesGetPermissions`](docs/sdks/companypages/README.md#getpermissions) - Get admin permissions for a company page
 - [`companyPagesList`](docs/sdks/companypages/README.md#list) - List company pages the user administers
 - [`companyPagesPosts`](docs/sdks/companypages/README.md#posts) - Get recent posts from a company page
+- [`connectorsAgentSnapshot`](docs/sdks/connectors/README.md#agentsnapshot) - Agent session snapshot
+- [`connectorsConnectorHeartbeat`](docs/sdks/connectors/README.md#connectorheartbeat) - Connector heartbeat
+- [`connectorsListConnectors`](docs/sdks/connectors/README.md#listconnectors) - List connectors
+- [`connectorsPullTask`](docs/sdks/connectors/README.md#pulltask) - Pull next task (connector)
+- [`connectorsSubmitTaskResult`](docs/sdks/connectors/README.md#submittaskresult) - Submit task result (connector)
 - [`contactsAddActivities`](docs/sdks/contacts/README.md#addactivities) - Log activities for a contact
 - [`contactsAddToCampaign`](docs/sdks/contacts/README.md#addtocampaign) - Add contacts to a campaign
 - [`contactsBulkUpdate`](docs/sdks/contacts/README.md#bulkupdate) - Bulk update contacts
@@ -368,6 +415,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`contactsGetAgentState`](docs/sdks/contacts/README.md#getagentstate) - Get agent state by key
 - [`contactsGetByUrl`](docs/sdks/contacts/README.md#getbyurl) - Look up contact by LinkedIn URL
 - [`contactsGetCampaign`](docs/sdks/contacts/README.md#getcampaign) - Get a single campaign
+- [`contactsGlobalActivities`](docs/sdks/contacts/README.md#globalactivities) - Global activity log
 - [`contactsListActivities`](docs/sdks/contacts/README.md#listactivities) - List activities for a contact
 - [`contactsListAgentStates`](docs/sdks/contacts/README.md#listagentstates) - List all agent state entries
 - [`contactsListByCampaign`](docs/sdks/contacts/README.md#listbycampaign) - List contacts in a campaign
@@ -384,17 +432,24 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`contextSet`](docs/sdks/context/README.md#set) - Create or update a context entry
 - [`cronListSchedules`](docs/sdks/cron/README.md#listschedules) - List active cron schedules
 - [`cronUpdateSchedule`](docs/sdks/cron/README.md#updateschedule) - Pause, resume, or delete a cron schedule
+- [`profileCreateApiToken`](docs/sdks/profile/README.md#createapitoken) - Create API token
+- [`profileDeleteApiToken`](docs/sdks/profile/README.md#deleteapitoken) - Delete API token
 - [`profileGet`](docs/sdks/profile/README.md#get) - Get authenticated user's LinkedIn profile
+- [`profileGetApiToken`](docs/sdks/profile/README.md#getapitoken) - Get API token
 - [`profileGetCredits`](docs/sdks/profile/README.md#getcredits) - Get current BeReach credit balance
 - [`profileGetFollowerAnalytics`](docs/sdks/profile/README.md#getfolloweranalytics) - Get follower analytics
 - [`profileGetFollowers`](docs/sdks/profile/README.md#getfollowers) - Get authenticated user's LinkedIn followers
 - [`profileGetLimits`](docs/sdks/profile/README.md#getlimits) - Get current LinkedIn rate limit status
+- [`profileGetMyActivity`](docs/sdks/profile/README.md#getmyactivity) - Get recent activity (comments or reactions)
 - [`profileGetPostAnalytics`](docs/sdks/profile/README.md#getpostanalytics) - Get post analytics
 - [`profileGetSearchAppearances`](docs/sdks/profile/README.md#getsearchappearances) - Get search appearances
+- [`profileGetSettings`](docs/sdks/profile/README.md#getsettings) - Get account settings
 - [`profileListAccounts`](docs/sdks/profile/README.md#listaccounts) - List all LinkedIn accounts for the authenticated user
 - [`profileListConnections`](docs/sdks/profile/README.md#listconnections) - List LinkedIn connections
+- [`profilePatchSettings`](docs/sdks/profile/README.md#patchsettings) - Update account settings
 - [`profilePosts`](docs/sdks/profile/README.md#posts) - Get authenticated user's LinkedIn posts
 - [`profileRefresh`](docs/sdks/profile/README.md#refresh) - Refresh authenticated user's LinkedIn profile
+- [`profileRevalidateLinkedin`](docs/sdks/profile/README.md#revalidatelinkedin) - Re-validate LinkedIn session
 - [`profileSwitchAccount`](docs/sdks/profile/README.md#switchaccount) - Switch active LinkedIn account
 - [`profileUpdateAccount`](docs/sdks/profile/README.md#updateaccount) - Update a LinkedIn account (label, default)
 - [`profileViews`](docs/sdks/profile/README.md#views) - Get profile views
@@ -405,6 +460,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`scheduledMessagesCancel`](docs/sdks/scheduledmessages/README.md#cancel) - Cancel scheduled or draft messages
 - [`scheduledMessagesCreate`](docs/sdks/scheduledmessages/README.md#create) - Create a draft DM
 - [`scheduledMessagesList`](docs/sdks/scheduledmessages/README.md#list) - List scheduled messages
+- [`scheduledMessagesReviewDrafts`](docs/sdks/scheduledmessages/README.md#reviewdrafts) - Batch approve/reject draft DMs
 - [`scrapersBulkVisitBatchStatus`](docs/sdks/scrapers/README.md#bulkvisitbatchstatus) - Get bulk visit batch status
 - [`scrapersBulkVisitProfile`](docs/sdks/scrapers/README.md#bulkvisitprofile) - Queue bulk LinkedIn profile visits (fire-and-forget)
 - [`scrapersCollectCommentReplies`](docs/sdks/scrapers/README.md#collectcommentreplies) - Scrape replies to a LinkedIn comment
@@ -423,6 +479,16 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`searchPosts`](docs/sdks/search/README.md#posts) - Search LinkedIn Posts
 - [`searchResolveParameters`](docs/sdks/search/README.md#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
 - [`searchSearch`](docs/sdks/search/README.md#search) - Unified LinkedIn Search — posts, people, companies, jobs
+- [`settingsGetDmPollingSettings`](docs/sdks/settings/README.md#getdmpollingsettings) - Get DM polling settings
+- [`settingsPatchDmPollingSettings`](docs/sdks/settings/README.md#patchdmpollingsettings) - Update DM polling settings
+- [`tasksCancelChain`](docs/sdks/tasks/README.md#cancelchain) - Cancel a workflow chain
+- [`tasksCancelTask`](docs/sdks/tasks/README.md#canceltask) - Cancel a task
+- [`tasksEventsFeed`](docs/sdks/tasks/README.md#eventsfeed) - Poll for events
+- [`tasksListTasks`](docs/sdks/tasks/README.md#listtasks) - List tasks
+- [`workspaceCreateWorkspaceInvite`](docs/sdks/workspace/README.md#createworkspaceinvite) - Create or list workspace invites
+- [`workspaceDeleteWorkspaceAccount`](docs/sdks/workspace/README.md#deleteworkspaceaccount) - Remove a LinkedIn account
+- [`workspaceDeleteWorkspaceInvite`](docs/sdks/workspace/README.md#deleteworkspaceinvite) - Delete a workspace invite
+- [`workspaceUpgradeWorkspaceAccount`](docs/sdks/workspace/README.md#upgradeworkspaceaccount) - Upgrade or downgrade account plan
 - ~~[`campaignsFilter`](docs/sdks/campaigns/README.md#filter)~~ - Check if campaign actions are completed :warning: **Deprecated**
 
 </details>
@@ -592,10 +658,10 @@ run();
 
 You can override the default server globally by passing a server index to the `serverIdx: number` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
 
-| #   | Server                         | Description    |
-| --- | ------------------------------ | -------------- |
-| 0   | `https://api.berea.ch`         | Production API |
-| 1   | `https://api-staging.berea.ch` | Staging API    |
+| #   | Server                           | Description    |
+| --- | -------------------------------- | -------------- |
+| 0   | `https://api.bereach.ai`         | Production API |
+| 1   | `https://api-staging.bereach.ai` | Staging API    |
 
 #### Example
 
@@ -628,7 +694,7 @@ The default server can also be overridden globally by passing a URL to the `serv
 import { Bereach } from "bereach";
 
 const bereach = new Bereach({
-  serverURL: "https://api-staging.berea.ch",
+  serverURL: "https://api-staging.bereach.ai",
   token: "BEREACH_API_KEY",
 });
 
