@@ -8,17 +8,15 @@ import { RefreshPosition } from "bereach/models/operations";
 let value: RefreshPosition = {
   companyName: "Hayes, Fritsch and Auer",
   title: "<value>",
-  description: "joyously before bid",
-  companyUrl: "https://sturdy-fireplace.name/",
+  companyUrl: "https://great-wear.org/",
   companyLogo: "<value>",
-  companyDescription: "<value>",
   startDate: {
-    month: 811924,
-    year: 660821,
+    month: 387995,
+    year: 279712,
   },
   endDate: {
-    month: 660549,
-    year: 488511,
+    month: 352134,
+    year: 175919,
   },
   isCurrent: false,
 };
@@ -30,10 +28,10 @@ let value: RefreshPosition = {
 | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | `companyName`                                                                                 | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `title`                                                                                       | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `description`                                                                                 | *string*                                                                                      | :heavy_check_mark:                                                                            | Position description / responsibilities text                                                  |
+| `description`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | Position description / responsibilities text (only populated when includeAbout is true)       |
 | `companyUrl`                                                                                  | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `companyLogo`                                                                                 | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
-| `companyDescription`                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | Short description of the company (from LinkedIn company page)                                 |
+| `companyDescription`                                                                          | *string*                                                                                      | :heavy_minus_sign:                                                                            | Short description of the company (only populated when includeAbout is true)                   |
 | `startDate`                                                                                   | [operations.RefreshPositionStartDate](../../models/operations/refresh-position-start-date.md) | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `endDate`                                                                                     | [operations.RefreshPositionEndDate](../../models/operations/refresh-position-end-date.md)     | :heavy_check_mark:                                                                            | N/A                                                                                           |
 | `isCurrent`                                                                                   | *boolean*                                                                                     | :heavy_check_mark:                                                                            | N/A                                                                                           |

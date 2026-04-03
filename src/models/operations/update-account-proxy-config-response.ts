@@ -80,7 +80,7 @@ export type SearchJobsRequest = {
    */
   url?: string | undefined;
   /**
-   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via POST /search/linkedin/parameters with type='GEO'.
+   * Filter by job location. Array of LinkedIn geo IDs. Resolve text to IDs via GET /search/linkedin/parameters with type='GEO'.
    */
   location?: Array<string> | undefined;
   /**
@@ -1063,6 +1063,10 @@ export type ConnectProfileRequest = {
    */
   profile: string;
   /**
+   * Optional personalized message to include with the connection request. Maximum 300 characters (LinkedIn limit).
+   */
+  message?: string | undefined;
+  /**
    * Campaign identifier for deduplication. Dedup by profile automatically.
    */
   campaignSlug?: string | undefined;
@@ -1806,6 +1810,40 @@ export type EditCommentResponse = {
   retryAfter: number;
 };
 
+export type EditProfileRequest = {
+  /**
+   * New LinkedIn headline (max 220 chars)
+   */
+  headline?: string | undefined;
+  /**
+   * New LinkedIn about/summary section (max 2600 chars)
+   */
+  summary?: string | undefined;
+};
+
+/**
+ * Profile updated
+ */
+export type EditProfileResponse = {
+  success: true;
+  /**
+   * Fields that were updated on LinkedIn
+   */
+  updated: Array<string>;
+  /**
+   * Fields that were synced back to the local database
+   */
+  synced: Array<string>;
+  /**
+   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before making another call of the same type. 0 means no wait needed.
+   */
+  retryAfter: number;
+};
+
 export type RepostPostRequest = {
   /**
    * LinkedIn post URL to repost
@@ -1979,15 +2017,15 @@ export type GetProfilePosition = {
   companyName: string | null;
   title: string | null;
   /**
-   * Position description / responsibilities text
+   * Position description / responsibilities text (only populated when includeAbout is true)
    */
-  description: string | null;
+  description?: string | null | undefined;
   companyUrl: string | null;
   companyLogo: string | null;
   /**
-   * Short description of the company (from LinkedIn company page)
+   * Short description of the company (only populated when includeAbout is true)
    */
-  companyDescription: string | null;
+  companyDescription?: string | null | undefined;
   startDate: GetProfilePositionStartDate | null;
   endDate: GetProfilePositionEndDate | null;
   isCurrent: boolean;
@@ -2075,6 +2113,10 @@ export type GetProfileLastPost = {
   postId: string;
   type: GetProfileType;
   /**
+   * True when the post is a repost/reshare of another post. Absent for original posts.
+   */
+  isRepost?: boolean | undefined;
+  /**
    * Media attached to the post (image, video, document, or article). Absent when the post is text-only.
    */
   media?: GetProfileMedia | undefined;
@@ -2130,6 +2172,10 @@ export type GetProfileResponse = {
    */
   connectionsCount: number | null;
   /**
+   * Total number of followers
+   */
+  followersCount?: number | null | undefined;
+  /**
    * Profile location
    */
   location: GetProfileLocation | null;
@@ -2141,6 +2187,14 @@ export type GetProfileResponse = {
    * Last 5 posts (populated when posts have been fetched via /me/linkedin/posts)
    */
   lastPosts?: Array<GetProfileLastPost> | undefined;
+  /**
+   * Last 20 comments by the user (populated after /me/linkedin/activity?tabType=COMMENTS)
+   */
+  lastComments?: Array<any> | undefined;
+  /**
+   * Last reactions by the user (populated after /me/linkedin/activity?tabType=REACTIONS)
+   */
+  lastReactions?: Array<any> | undefined;
   /**
    * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
    */
@@ -2277,34 +2331,6 @@ export type UpdateAccountProxyConfigResponse = {
   mode: string | null;
   country: string | null;
   rotationHours: number | null;
-};
-
-export type UpdateAccountAccount = {
-  id: string;
-  label: string | null;
-  isDefault: boolean;
-  linkedinProfileId: string | null;
-  linkedinName: string | null;
-  headline: string | null;
-  profilePic: string | null;
-  isValid: boolean;
-  proxyConfig: UpdateAccountProxyConfigResponse | null;
-};
-
-/**
- * Updated account
- */
-export type UpdateAccountResponse = {
-  success: true;
-  account: UpdateAccountAccount;
-  /**
-   * Credits consumed by this call (0 for free endpoints, cached results, or duplicates).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait before making another call of the same type. 0 means no wait needed.
-   */
-  retryAfter: number;
 };
 
 /** @internal */
@@ -3668,6 +3694,7 @@ export function searchSalesNavCompaniesResponseFromJSON(
 /** @internal */
 export type ConnectProfileRequest$Outbound = {
   profile: string;
+  message?: string | undefined;
   campaignSlug?: string | undefined;
   actionSlug?: string | undefined;
 };
@@ -3678,6 +3705,7 @@ export const ConnectProfileRequest$outboundSchema: z.ZodMiniType<
   ConnectProfileRequest
 > = z.object({
   profile: z.string(),
+  message: z.optional(z.string()),
   campaignSlug: z.optional(z.string()),
   actionSlug: z.optional(z.string()),
 });
@@ -4563,6 +4591,51 @@ export function editCommentResponseFromJSON(
 }
 
 /** @internal */
+export type EditProfileRequest$Outbound = {
+  headline?: string | undefined;
+  summary?: string | undefined;
+};
+
+/** @internal */
+export const EditProfileRequest$outboundSchema: z.ZodMiniType<
+  EditProfileRequest$Outbound,
+  EditProfileRequest
+> = z.object({
+  headline: z.optional(z.string()),
+  summary: z.optional(z.string()),
+});
+
+export function editProfileRequestToJSON(
+  editProfileRequest: EditProfileRequest,
+): string {
+  return JSON.stringify(
+    EditProfileRequest$outboundSchema.parse(editProfileRequest),
+  );
+}
+
+/** @internal */
+export const EditProfileResponse$inboundSchema: z.ZodMiniType<
+  EditProfileResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  updated: z.array(types.string()),
+  synced: z.array(types.string()),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function editProfileResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<EditProfileResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => EditProfileResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EditProfileResponse' from JSON`,
+  );
+}
+
+/** @internal */
 export type RepostPostRequest$Outbound = {
   postUrl: string;
   text: string;
@@ -4895,10 +4968,10 @@ export const GetProfilePosition$inboundSchema: z.ZodMiniType<
 > = z.object({
   companyName: types.nullable(types.string()),
   title: types.nullable(types.string()),
-  description: types.nullable(types.string()),
+  description: z.optional(z.nullable(types.string())),
   companyUrl: types.nullable(types.string()),
   companyLogo: types.nullable(types.string()),
-  companyDescription: types.nullable(types.string()),
+  companyDescription: z.optional(z.nullable(types.string())),
   startDate: types.nullable(
     z.lazy(() => GetProfilePositionStartDate$inboundSchema),
   ),
@@ -5050,6 +5123,7 @@ export const GetProfileLastPost$inboundSchema: z.ZodMiniType<
   postUrn: types.string(),
   postId: types.string(),
   type: GetProfileType$inboundSchema,
+  isRepost: types.optional(types.boolean()),
   media: types.optional(z.lazy(() => GetProfileMedia$inboundSchema)),
 });
 
@@ -5084,11 +5158,14 @@ export const GetProfileResponse$inboundSchema: z.ZodMiniType<
     z.array(z.lazy(() => GetProfileEducation$inboundSchema)),
   ),
   connectionsCount: types.nullable(types.number()),
+  followersCount: z.optional(z.nullable(types.number())),
   location: types.nullable(z.lazy(() => GetProfileLocation$inboundSchema)),
   isVerified: types.nullable(types.boolean()),
   lastPosts: types.optional(
     z.array(z.lazy(() => GetProfileLastPost$inboundSchema)),
   ),
+  lastComments: types.optional(z.array(z.any())),
+  lastReactions: types.optional(z.array(z.any())),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
@@ -5306,54 +5383,5 @@ export function updateAccountProxyConfigResponseFromJSON(
     jsonString,
     (x) => UpdateAccountProxyConfigResponse$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'UpdateAccountProxyConfigResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpdateAccountAccount$inboundSchema: z.ZodMiniType<
-  UpdateAccountAccount,
-  unknown
-> = z.object({
-  id: types.string(),
-  label: types.nullable(types.string()),
-  isDefault: types.boolean(),
-  linkedinProfileId: types.nullable(types.string()),
-  linkedinName: types.nullable(types.string()),
-  headline: types.nullable(types.string()),
-  profilePic: types.nullable(types.string()),
-  isValid: types.boolean(),
-  proxyConfig: types.nullable(
-    z.lazy(() => UpdateAccountProxyConfigResponse$inboundSchema),
-  ),
-});
-
-export function updateAccountAccountFromJSON(
-  jsonString: string,
-): SafeParseResult<UpdateAccountAccount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpdateAccountAccount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpdateAccountAccount' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpdateAccountResponse$inboundSchema: z.ZodMiniType<
-  UpdateAccountResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  account: z.lazy(() => UpdateAccountAccount$inboundSchema),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function updateAccountResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UpdateAccountResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpdateAccountResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpdateAccountResponse' from JSON`,
   );
 }

@@ -49,7 +49,7 @@ export class Search extends ClientSDK {
    * Without quotes, a multi-word query like `outreach automation` is treated as `outreach AND automation`, which may return broad results. Use `"outreach automation"` for exact matching.
    *
    * ## Resolving filter IDs
-   * Many filters (location, industry, company, school) require LinkedIn numeric IDs. Use `POST /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs (e.g. "103644278").
+   * Many filters (location, industry, company, school) require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs (e.g. "103644278").
    *
    * ## Pagination
    * Use `start` (offset, default 0) and `count` (page size, default 10, max 50). The response includes `paging.total` and `hasMore` to control iteration.
@@ -198,9 +198,9 @@ export class Search extends ClientSDK {
    *
    * ## Multi-step workflow with filter ID resolution
    * ```
-   * Step 1: POST /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
+   * Step 1: GET /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
    *         → returns [{ id: '102277331', title: 'San Francisco, CA' }]
-   * Step 2: POST /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
+   * Step 2: GET /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
    *         → returns [{ id: '1441', title: 'Google' }]
    * Step 3: POST /search/linkedin/people { keywords: 'product manager', location: ['102277331'], currentCompany: ['1441'] }
    *         → returns matching people

@@ -7,6 +7,7 @@ import { Actions } from "./actions.js";
 import { Campaigns } from "./campaigns.js";
 import { Chat } from "./chat.js";
 import { CompanyPages } from "./company-pages.js";
+import { Connectors } from "./connectors.js";
 import { Contacts } from "./contacts.js";
 import { Context } from "./context.js";
 import { Cron } from "./cron.js";
@@ -15,6 +16,9 @@ import { SalesNav } from "./sales-nav.js";
 import { ScheduledMessages } from "./scheduled-messages.js";
 import { Scrapers } from "./scrapers.js";
 import { Search } from "./search.js";
+import { Settings } from "./settings.js";
+import { Tasks } from "./tasks.js";
+import { Workspace } from "./workspace.js";
 
 export class Bereach extends ClientSDK {
   private _scrapers?: Scrapers;
@@ -75,5 +79,25 @@ export class Bereach extends ClientSDK {
   private _cron?: Cron;
   get cron(): Cron {
     return (this._cron ??= new Cron(this._options));
+  }
+
+  private _tasks?: Tasks;
+  get tasks(): Tasks {
+    return (this._tasks ??= new Tasks(this._options));
+  }
+
+  private _connectors?: Connectors;
+  get connectors(): Connectors {
+    return (this._connectors ??= new Connectors(this._options));
+  }
+
+  private _settings?: Settings;
+  get settings(): Settings {
+    return (this._settings ??= new Settings(this._options));
+  }
+
+  private _workspace?: Workspace;
+  get workspace(): Workspace {
+    return (this._workspace ??= new Workspace(this._options));
   }
 }

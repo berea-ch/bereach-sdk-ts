@@ -8,17 +8,15 @@ import { VisitProfilePosition } from "bereach/models/operations";
 let value: VisitProfilePosition = {
   companyName: "Upton Group",
   title: "<value>",
-  description: "hubris sleepily scarily swing pfft up around tiny",
-  companyUrl: "https://juvenile-ferret.name/",
+  companyUrl: "https://indelible-summer.info",
   companyLogo: "<value>",
-  companyDescription: "<value>",
   startDate: {
-    month: 349967,
-    year: 495764,
+    month: 435097,
+    year: 83382,
   },
   endDate: {
-    month: 683967,
-    year: 129783,
+    month: 842462,
+    year: 44039,
   },
   isCurrent: true,
 };
@@ -30,10 +28,10 @@ let value: VisitProfilePosition = {
 | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `companyName`                                                                                            | *string*                                                                                                 | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
 | `title`                                                                                                  | *string*                                                                                                 | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
-| `description`                                                                                            | *string*                                                                                                 | :heavy_check_mark:                                                                                       | Position description / responsibilities text                                                             |
+| `description`                                                                                            | *string*                                                                                                 | :heavy_minus_sign:                                                                                       | Position description / responsibilities text (only populated when includeAbout is true)                  |
 | `companyUrl`                                                                                             | *string*                                                                                                 | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
 | `companyLogo`                                                                                            | *string*                                                                                                 | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
-| `companyDescription`                                                                                     | *string*                                                                                                 | :heavy_check_mark:                                                                                       | Short description of the company (from LinkedIn company page)                                            |
+| `companyDescription`                                                                                     | *string*                                                                                                 | :heavy_minus_sign:                                                                                       | Short description of the company (only populated when includeAbout is true)                              |
 | `startDate`                                                                                              | [operations.VisitProfilePositionStartDate](../../models/operations/visit-profile-position-start-date.md) | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
 | `endDate`                                                                                                | [operations.VisitProfilePositionEndDate](../../models/operations/visit-profile-position-end-date.md)     | :heavy_check_mark:                                                                                       | N/A                                                                                                      |
 | `isCurrent`                                                                                              | *boolean*                                                                                                | :heavy_check_mark:                                                                                       | N/A                                                                                                      |

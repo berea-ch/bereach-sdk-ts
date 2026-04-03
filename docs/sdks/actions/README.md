@@ -22,6 +22,7 @@ Endpoints for performing LinkedIn actions (visit, connect, message, like, reply,
 * [unfollowProfile](#unfollowprofile) - Unfollow a profile
 * [editPost](#editpost) - Edit a post
 * [editComment](#editcomment) - Edit a comment
+* [editProfile](#editprofile) - Edit LinkedIn profile headline/summary
 * [repostPost](#repostpost) - Repost / share a post
 * [unlikePost](#unlikepost) - Unlike a post
 * [unlikeComment](#unlikecomment) - Unlike a comment
@@ -32,7 +33,7 @@ Endpoints for performing LinkedIn actions (visit, connect, message, like, reply,
 
 ## connectProfile
 
-Send a connection request to the specified LinkedIn profile. Rate limited to 80 requests per day per user. 1 credit.
+Send a connection request to the specified LinkedIn profile. Optionally include a personalized message (max 300 chars). Rate limited to 80 requests per day per user. 1 credit.
 
 ### Example Usage
 
@@ -47,6 +48,7 @@ const bereach = new Bereach({
 async function run() {
   const result = await bereach.actions.connectProfile({
     profile: "https://www.linkedin.com/in/username",
+    message: "Hi, I'd love to connect with you!",
   });
 
   console.log(result);
@@ -72,6 +74,7 @@ const bereach = new BereachCore({
 async function run() {
   const res = await actionsConnectProfile(bereach, {
     profile: "https://www.linkedin.com/in/username",
+    message: "Hi, I'd love to connect with you!",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1433,6 +1436,90 @@ run();
 ### Response
 
 **Promise\<[operations.EditCommentResponse](../../models/operations/edit-comment-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## editProfile
+
+Edit the authenticated user's LinkedIn headline and/or about summary. At least one field is required. 1 credit.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="editProfile" method="patch" path="/edit/linkedin/profile" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.actions.editProfile({
+    headline: "Senior Software Engineer | AI Enthusiast",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { actionsEditProfile } from "bereach/funcs/actions-edit-profile.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await actionsEditProfile(bereach, {
+    headline: "Senior Software Engineer | AI Enthusiast",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("actionsEditProfile failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.EditProfileRequest](../../models/operations/edit-profile-request.md)                                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.EditProfileResponse](../../models/operations/edit-profile-response.md)\>**
 
 ### Errors
 

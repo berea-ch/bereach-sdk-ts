@@ -13,6 +13,7 @@ import { contactsGetAgentState } from "../funcs/contacts-get-agent-state.js";
 import { contactsGetByUrl } from "../funcs/contacts-get-by-url.js";
 import { contactsGetCampaign } from "../funcs/contacts-get-campaign.js";
 import { contactsGet } from "../funcs/contacts-get.js";
+import { contactsGlobalActivities } from "../funcs/contacts-global-activities.js";
 import { contactsListActivities } from "../funcs/contacts-list-activities.js";
 import { contactsListAgentStates } from "../funcs/contacts-list-agent-states.js";
 import { contactsListByCampaign } from "../funcs/contacts-list-by-campaign.js";
@@ -29,6 +30,23 @@ import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Contacts extends ClientSDK {
+  /**
+   * Global activity log
+   *
+   * @remarks
+   * Returns activities across all contacts for the authenticated user, most recent first. Supports filtering by type, campaign, and date range. 0 credits.
+   */
+  async globalActivities(
+    request?: operations.GlobalActivitiesRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GlobalActivitiesResponse> {
+    return unwrapAsync(contactsGlobalActivities(
+      this,
+      request,
+      options,
+    ));
+  }
+
   /**
    * Create or upsert contacts (no campaign required)
    *
