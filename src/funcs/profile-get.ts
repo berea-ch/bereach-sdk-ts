@@ -3,6 +3,7 @@
  */
 
 import { BereachCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -27,7 +28,7 @@ import { Result } from "../types/fp.js";
  * Get authenticated user's LinkedIn profile
  *
  * @remarks
- * Returns the authenticated user's stored LinkedIn profile data from the database. No LinkedIn API call, no credits consumed. Call /me/linkedin/refresh first to populate enriched data (positions, education, etc.).
+ * Returns the authenticated user's LinkedIn profile as it is currently stored: identity, headline, profile URL, connection count, location, and verification status. Reads storage only, so it makes no LinkedIn API call and consumes no credits. Enriched fields (about text, positions, education, recent posts, recent comments and reactions) appear only when an earlier call has already written them, so treat every one of them as optional and never assume the record is complete.
  */
 export function profileGet(
   client: BereachCore,
@@ -133,21 +134,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

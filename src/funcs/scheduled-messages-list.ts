@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeFormQuery } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * List scheduled messages
  *
  * @remarks
- * List messages with optional filters by status, contact, or campaign. 0 credits.
+ * List messages with optional filters by status, contact, or campaign. Valid status values: draft | scheduled | sending | sent | failed | cancelled. Do NOT pass outreachStatus values (like 'replied') here — to find contacts who replied to a DM, use contacts_search(outreachStatus:'replied') or inbox_list.
  */
 export function scheduledMessagesList(
   client: BereachCore,
-  request?: operations.ListMessagesRequest | undefined,
+  request?: operations.ScheduledMessageListRequest | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.ListMessagesResponse,
+    operations.ScheduledMessageListResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function scheduledMessagesList(
 
 async function $do(
   client: BereachCore,
-  request?: operations.ListMessagesRequest | undefined,
+  request?: operations.ScheduledMessageListRequest | undefined,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.ListMessagesResponse,
+      operations.ScheduledMessageListResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -101,7 +102,10 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      z.parse(z.optional(operations.ListMessagesRequest$outboundSchema), value),
+      z.parse(
+        z.optional(operations.ScheduledMessageListRequest$outboundSchema),
+        value,
+      ),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -131,7 +135,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "listMessages",
+    operationID: "scheduledMessageList",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -161,21 +165,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -189,7 +180,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.ListMessagesResponse,
+    operations.ScheduledMessageListResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -210,7 +201,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.ListMessagesResponse$inboundSchema),
+    M.json(200, operations.ScheduledMessageListResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),

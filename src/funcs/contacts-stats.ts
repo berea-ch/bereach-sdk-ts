@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeFormQuery } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * Get contact funnel statistics
  *
  * @remarks
- * Get aggregated contact statistics: funnel breakdown by lifecycle stage, source, source angle, campaign, and daily trends. 0 credits.
+ * Counts for the list: Fit, not a fit, source, and daily trends.
  */
 export function contactsStats(
   client: BereachCore,
-  request?: operations.GetContactStatsRequest | undefined,
+  request?: operations.ContactsStatsRequest | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.GetContactStatsResponse,
+    operations.ContactsStatsResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function contactsStats(
 
 async function $do(
   client: BereachCore,
-  request?: operations.GetContactStatsRequest | undefined,
+  request?: operations.ContactsStatsRequest | undefined,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.GetContactStatsResponse,
+      operations.ContactsStatsResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -102,7 +103,7 @@ async function $do(
     request,
     (value) =>
       z.parse(
-        z.optional(operations.GetContactStatsRequest$outboundSchema),
+        z.optional(operations.ContactsStatsRequest$outboundSchema),
         value,
       ),
     "Input validation failed",
@@ -130,7 +131,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "getContactStats",
+    operationID: "contactsStats",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -160,21 +161,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -188,7 +176,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.GetContactStatsResponse,
+    operations.ContactsStatsResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -209,7 +197,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.GetContactStatsResponse$inboundSchema),
+    M.json(200, operations.ContactsStatsResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),

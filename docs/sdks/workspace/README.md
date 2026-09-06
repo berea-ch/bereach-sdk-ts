@@ -183,7 +183,7 @@ run();
 
 ## createWorkspaceInvite
 
-Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days. 0 credits.
+Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days..
 
 ### Example Usage
 
@@ -267,7 +267,7 @@ run();
 
 ## deleteWorkspaceInvite
 
-Delete an invitation by ID. 0 credits.
+Delete an invitation by ID..
 
 ### Example Usage
 

@@ -4,25 +4,15 @@
 
 import { contactsAddActivities } from "../funcs/contacts-add-activities.js";
 import { contactsAddToCampaign } from "../funcs/contacts-add-to-campaign.js";
-import { contactsBulkUpdate } from "../funcs/contacts-bulk-update.js";
-import { contactsCampaignStatusTransition } from "../funcs/contacts-campaign-status-transition.js";
 import { contactsCreateCampaign } from "../funcs/contacts-create-campaign.js";
-import { contactsDeleteAgentState } from "../funcs/contacts-delete-agent-state.js";
-import { contactsDeleteCampaign } from "../funcs/contacts-delete-campaign.js";
-import { contactsGetAgentState } from "../funcs/contacts-get-agent-state.js";
+import { contactsDiscard } from "../funcs/contacts-discard.js";
 import { contactsGetByUrl } from "../funcs/contacts-get-by-url.js";
-import { contactsGetCampaign } from "../funcs/contacts-get-campaign.js";
 import { contactsGet } from "../funcs/contacts-get.js";
-import { contactsGlobalActivities } from "../funcs/contacts-global-activities.js";
 import { contactsListActivities } from "../funcs/contacts-list-activities.js";
-import { contactsListAgentStates } from "../funcs/contacts-list-agent-states.js";
 import { contactsListByCampaign } from "../funcs/contacts-list-by-campaign.js";
 import { contactsListCampaigns } from "../funcs/contacts-list-campaigns.js";
-import { contactsPatchAgentState } from "../funcs/contacts-patch-agent-state.js";
 import { contactsSearch } from "../funcs/contacts-search.js";
-import { contactsSetAgentState } from "../funcs/contacts-set-agent-state.js";
 import { contactsStats } from "../funcs/contacts-stats.js";
-import { contactsUpdateCampaign } from "../funcs/contacts-update-campaign.js";
 import { contactsUpdate } from "../funcs/contacts-update.js";
 import { contactsUpsert } from "../funcs/contacts-upsert.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
@@ -31,32 +21,15 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Contacts extends ClientSDK {
   /**
-   * Global activity log
-   *
-   * @remarks
-   * Returns activities across all contacts for the authenticated user, most recent first. Supports filtering by type, campaign, and date range. 0 credits.
-   */
-  async globalActivities(
-    request?: operations.GlobalActivitiesRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GlobalActivitiesResponse> {
-    return unwrapAsync(contactsGlobalActivities(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Create or upsert contacts (no campaign required)
    *
    * @remarks
-   * Save contacts organically without creating a campaign first. Upserts by LinkedIn URL — if the contact already exists for this user, it updates the name and optional fields. Returns full contact objects with IDs so the AI agent can immediately log activities and update lifecycle stages. 0 credits.
+   * Save people without creating a campaign first. Upserts by profile URL. Returns the saved rows.
    */
   async upsert(
-    request: operations.UpsertRequest,
+    request: operations.ContactsUpsertRequest,
     options?: RequestOptions,
-  ): Promise<operations.UpsertResponse> {
+  ): Promise<operations.ContactsUpsertResponse> {
     return unwrapAsync(contactsUpsert(
       this,
       request,
@@ -68,12 +41,12 @@ export class Contacts extends ClientSDK {
    * Search and filter contacts
    *
    * @remarks
-   * Search contacts with flexible filters: name, LinkedIn URL, lifecycle stage, outreach status, tags, hot score, follow-up date, campaign membership, and more. Supports pagination and sorting. 0 credits.
+   * Search saved people: name, profile URL, optional Fit / not-a-fit, outreach status, tags, score, and list membership. Supports pagination and sorting.
    */
   async search(
-    request?: operations.SearchContactsRequest | undefined,
+    request?: operations.ContactsSearchRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.SearchContactsResponse> {
+  ): Promise<operations.ContactsSearchResponse> {
     return unwrapAsync(contactsSearch(
       this,
       request,
@@ -85,12 +58,12 @@ export class Contacts extends ClientSDK {
    * Get a single contact with activities and campaigns
    *
    * @remarks
-   * Get full contact details including activities and campaign memberships. 0 credits.
+   * Get full contact details including activities and campaign memberships..
    */
   async get(
-    request: operations.GetContactRequest,
+    request: operations.ContactsGetFullRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetContactResponse> {
+  ): Promise<operations.ContactsGetFullResponse> {
     return unwrapAsync(contactsGet(
       this,
       request,
@@ -102,12 +75,12 @@ export class Contacts extends ClientSDK {
    * Update a contact
    *
    * @remarks
-   * Update lifecycle stage, hot score, notes, outreach status, follow-up date, tags, or profile data for a contact. 0 credits.
+   * Update optional Fit / not-a-fit, notes, outreach status, tags, or profile data for a person in the list. lifecycleStage, hotScore, qualificationNotes, and leadBrief are per-campaign fields: pass campaignId to scope the write to one campaign, or the request is rejected.
    */
   async update(
-    request: operations.UpdateRequest,
+    request: operations.ContactsUpdateRequest,
     options?: RequestOptions,
-  ): Promise<operations.UpdateResponse> {
+  ): Promise<operations.ContactsUpdateResponse> {
     return unwrapAsync(contactsUpdate(
       this,
       request,
@@ -119,12 +92,12 @@ export class Contacts extends ClientSDK {
    * List activities for a contact
    *
    * @remarks
-   * Get paginated activity log for a contact. 0 credits.
+   * Get paginated activity log for a SPECIFIC contact. Requires contact id (path param) — cannot list activities for all contacts. Call contacts_search first to get the contact id, then call this with that id.
    */
   async listActivities(
-    request: operations.ListActivitiesRequest,
+    request: operations.ContactsGetActivitiesRequest,
     options?: RequestOptions,
-  ): Promise<operations.ListActivitiesResponse> {
+  ): Promise<operations.ContactsGetActivitiesResponse> {
     return unwrapAsync(contactsListActivities(
       this,
       request,
@@ -136,12 +109,12 @@ export class Contacts extends ClientSDK {
    * Log activities for a contact
    *
    * @remarks
-   * Log one or more activities (e.g. message_sent, profile_visited, post_liked) for a contact. Max 100 per request. 0 credits.
+   * Log one or more activities (e.g. message_sent, profile_visited, post_liked) for a contact. Max 100 per request..
    */
   async addActivities(
-    request: operations.AddActivitiesRequest,
+    request: operations.ContactsLogActivityRequest,
     options?: RequestOptions,
-  ): Promise<operations.AddActivitiesResponse> {
+  ): Promise<operations.ContactsLogActivityResponse> {
     return unwrapAsync(contactsAddActivities(
       this,
       request,
@@ -150,16 +123,16 @@ export class Contacts extends ClientSDK {
   }
 
   /**
-   * Bulk update contacts
+   * Discard or restore people, in bulk
    *
    * @remarks
-   * Update multiple contacts at once. Same fields as single update. Max 500 contacts per request. 0 credits.
+   * Mark named or picked people not a fit in one call with update.lifecycleStage "rejected", or bring them back with "contact"; the write lands on this conversation's own list, so never name one. A described rule is not a write: peek and propose with filter_contacts intent:"discard" or exceptContactIds.
    */
-  async bulkUpdate(
-    request: operations.BulkUpdateRequest,
+  async discard(
+    request: operations.DiscardContactsRequest,
     options?: RequestOptions,
-  ): Promise<operations.BulkUpdateResponse> {
-    return unwrapAsync(contactsBulkUpdate(
+  ): Promise<operations.DiscardContactsResponse> {
+    return unwrapAsync(contactsDiscard(
       this,
       request,
       options,
@@ -170,98 +143,13 @@ export class Contacts extends ClientSDK {
    * Get contact funnel statistics
    *
    * @remarks
-   * Get aggregated contact statistics: funnel breakdown by lifecycle stage, source, source angle, campaign, and daily trends. 0 credits.
+   * Counts for the list: Fit, not a fit, source, and daily trends.
    */
   async stats(
-    request?: operations.GetContactStatsRequest | undefined,
+    request?: operations.ContactsStatsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetContactStatsResponse> {
+  ): Promise<operations.ContactsStatsResponse> {
     return unwrapAsync(contactsStats(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * List all agent state entries
-   *
-   * @remarks
-   * List all key-value state entries for the current workspace. Pass keysOnly=true to return only keys and timestamps without the data payload. 0 credits.
-   */
-  async listAgentStates(
-    request?: operations.ListAgentStatesRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.ListAgentStatesResponse> {
-    return unwrapAsync(contactsListAgentStates(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get agent state by key
-   *
-   * @remarks
-   * Read a key-value state entry for the current agent/workspace. 0 credits.
-   */
-  async getAgentState(
-    request: operations.GetAgentStateRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetAgentStateResponse> {
-    return unwrapAsync(contactsGetAgentState(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Set agent state by key
-   *
-   * @remarks
-   * Create or overwrite a key-value state entry. 0 credits.
-   */
-  async setAgentState(
-    request: operations.SetAgentStateRequest,
-    options?: RequestOptions,
-  ): Promise<operations.SetAgentStateResponse> {
-    return unwrapAsync(contactsSetAgentState(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Delete agent state by key
-   *
-   * @remarks
-   * Delete a key-value state entry. 0 credits.
-   */
-  async deleteAgentState(
-    request: operations.DeleteAgentStateRequest,
-    options?: RequestOptions,
-  ): Promise<operations.DeleteAgentStateResponse> {
-    return unwrapAsync(contactsDeleteAgentState(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Merge-update agent state by key
-   *
-   * @remarks
-   * Merge partial fields into an existing state entry. 0 credits.
-   */
-  async patchAgentState(
-    request: operations.PatchAgentStateRequest,
-    options?: RequestOptions,
-  ): Promise<operations.PatchAgentStateResponse> {
-    return unwrapAsync(contactsPatchAgentState(
       this,
       request,
       options,
@@ -272,12 +160,12 @@ export class Contacts extends ClientSDK {
    * List campaigns
    *
    * @remarks
-   * List campaigns with optional filters and stage counts. 0 credits.
+   * List campaigns with optional filters and stage counts..
    */
   async listCampaigns(
-    request?: operations.ListCampaignsRequest | undefined,
+    request?: operations.ContactsListCampaignsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.ListCampaignsResponse> {
+  ): Promise<operations.ContactsListCampaignsResponse> {
     return unwrapAsync(contactsListCampaigns(
       this,
       request,
@@ -289,81 +177,13 @@ export class Contacts extends ClientSDK {
    * Create a lead-gen campaign
    *
    * @remarks
-   * Create a campaign with optional agent context (markdown brief). 0 credits.
+   * Create a campaign with optional agent context (markdown brief)..
    */
   async createCampaign(
-    request: operations.CreateCampaignRequest,
+    request: operations.ContactsCreateCampaignRequest,
     options?: RequestOptions,
-  ): Promise<operations.CreateCampaignResponse> {
+  ): Promise<operations.ContactsCreateCampaignResponse> {
     return unwrapAsync(contactsCreateCampaign(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get a single campaign
-   *
-   * @remarks
-   * Get a campaign by ID with full details. 0 credits.
-   */
-  async getCampaign(
-    request: operations.GetCampaignRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetCampaignResponse> {
-    return unwrapAsync(contactsGetCampaign(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Delete a campaign
-   *
-   * @remarks
-   * Delete a campaign. Campaign contacts are cascade-deleted but contacts themselves survive. 0 credits.
-   */
-  async deleteCampaign(
-    request: operations.DeleteCampaignRequest,
-    options?: RequestOptions,
-  ): Promise<operations.DeleteCampaignResponse> {
-    return unwrapAsync(contactsDeleteCampaign(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Update campaign settings
-   *
-   * @remarks
-   * Update campaign name, description, context, or schedule settings. 0 credits.
-   */
-  async updateCampaign(
-    request: operations.UpdateCampaignRequest,
-    options?: RequestOptions,
-  ): Promise<operations.UpdateCampaignResponse> {
-    return unwrapAsync(contactsUpdateCampaign(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Campaign state transition
-   *
-   * @remarks
-   * Transition a campaign between states: activate, start, pause, resume, complete, reset. 0 credits.
-   */
-  async campaignStatusTransition(
-    request: operations.CampaignStatusTransitionRequest,
-    options?: RequestOptions,
-  ): Promise<operations.CampaignStatusTransitionResponse> {
-    return unwrapAsync(contactsCampaignStatusTransition(
       this,
       request,
       options,
@@ -374,12 +194,12 @@ export class Contacts extends ClientSDK {
    * List contacts in a campaign
    *
    * @remarks
-   * List contacts in a campaign with optional filters. 0 credits.
+   * List contacts in a campaign with optional filters..
    */
   async listByCampaign(
-    request: operations.ListCampaignContactsRequest,
+    request: operations.ContactsListRequest,
     options?: RequestOptions,
-  ): Promise<operations.ListCampaignContactsResponse> {
+  ): Promise<operations.ContactsListResponse> {
     return unwrapAsync(contactsListByCampaign(
       this,
       request,
@@ -391,12 +211,12 @@ export class Contacts extends ClientSDK {
    * Add contacts to a campaign
    *
    * @remarks
-   * Add contacts to a campaign (up to 500). Deduplicates by LinkedIn URL. 0 credits.
+   * Add contacts to a campaign (up to 500). Deduplicates by LinkedIn URL..
    */
   async addToCampaign(
-    request: operations.AddCampaignContactsRequest,
+    request: operations.ContactsAddRequest,
     options?: RequestOptions,
-  ): Promise<operations.AddCampaignContactsResponse> {
+  ): Promise<operations.ContactsAddResponse> {
     return unwrapAsync(contactsAddToCampaign(
       this,
       request,
@@ -408,12 +228,12 @@ export class Contacts extends ClientSDK {
    * Look up contact by LinkedIn URL
    *
    * @remarks
-   * Find a contact by LinkedIn URL. Returns full contact with activities and campaign memberships. 0 credits.
+   * Find a contact by LinkedIn URL. Returns full contact with activities and campaign memberships..
    */
   async getByUrl(
-    request: operations.GetByUrlRequest,
+    request: operations.ContactsGetByUrlRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetByUrlResponse> {
+  ): Promise<operations.ContactsGetByUrlResponse> {
     return unwrapAsync(contactsGetByUrl(
       this,
       request,

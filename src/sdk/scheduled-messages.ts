@@ -7,6 +7,7 @@ import { scheduledMessagesCancel } from "../funcs/scheduled-messages-cancel.js";
 import { scheduledMessagesCreate } from "../funcs/scheduled-messages-create.js";
 import { scheduledMessagesList } from "../funcs/scheduled-messages-list.js";
 import { scheduledMessagesReviewDrafts } from "../funcs/scheduled-messages-review-drafts.js";
+import { scheduledMessagesUpdate } from "../funcs/scheduled-messages-update.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -16,12 +17,12 @@ export class ScheduledMessages extends ClientSDK {
    * List scheduled messages
    *
    * @remarks
-   * List messages with optional filters by status, contact, or campaign. 0 credits.
+   * List messages with optional filters by status, contact, or campaign. Valid status values: draft | scheduled | sending | sent | failed | cancelled. Do NOT pass outreachStatus values (like 'replied') here — to find contacts who replied to a DM, use contacts_search(outreachStatus:'replied') or inbox_list.
    */
   async list(
-    request?: operations.ListMessagesRequest | undefined,
+    request?: operations.ScheduledMessageListRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.ListMessagesResponse> {
+  ): Promise<operations.ScheduledMessageListResponse> {
     return unwrapAsync(scheduledMessagesList(
       this,
       request,
@@ -33,12 +34,12 @@ export class ScheduledMessages extends ClientSDK {
    * Create a draft DM
    *
    * @remarks
-   * Create a draft message for a contact. Set status to 'scheduled' with scheduledSendAt to queue for auto-send. 0 credits.
+   * Create a draft message for a contact. Set status to 'scheduled' with scheduledSendAt to queue for auto-send..
    */
   async create(
-    request: operations.CreateRequest,
+    request: operations.ScheduledMessageCreateRequest,
     options?: RequestOptions,
-  ): Promise<operations.CreateResponse> {
+  ): Promise<operations.ScheduledMessageCreateResponse> {
     return unwrapAsync(scheduledMessagesCreate(
       this,
       request,
@@ -50,13 +51,30 @@ export class ScheduledMessages extends ClientSDK {
    * Batch-schedule drafts for auto-send
    *
    * @remarks
-   * Schedule existing draft messages for auto-send at a specific time. 0 credits.
+   * Schedule existing draft messages for auto-send at a specific time..
    */
   async batchSchedule(
-    request: operations.BatchScheduleRequest,
+    request: operations.DraftScheduleRequest,
     options?: RequestOptions,
-  ): Promise<operations.BatchScheduleResponse> {
+  ): Promise<operations.DraftScheduleResponse> {
     return unwrapAsync(scheduledMessagesBatchSchedule(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Edit a draft DM
+   *
+   * @remarks
+   * Edit the text or scheduled-send time of a draft DM. Only rows in `draft` status are editable — scheduled/sending/sent/failed/cancelled are terminal for text edits. Returns `{updated, ineligible}` so the caller can distinguish missing ids from already-approved rows.
+   */
+  async update(
+    request: operations.ScheduledMessageUpdateRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ScheduledMessageUpdateResponse> {
+    return unwrapAsync(scheduledMessagesUpdate(
       this,
       request,
       options,
@@ -67,12 +85,12 @@ export class ScheduledMessages extends ClientSDK {
    * Cancel scheduled or draft messages
    *
    * @remarks
-   * Cancel messages by ID or by contact. 0 credits.
+   * Cancel messages by ID or by contact..
    */
   async cancel(
-    request: operations.CancelRequest,
+    request: operations.ScheduledMessageCancelRequest,
     options?: RequestOptions,
-  ): Promise<operations.CancelResponse> {
+  ): Promise<operations.ScheduledMessageCancelResponse> {
     return unwrapAsync(scheduledMessagesCancel(
       this,
       request,
@@ -84,7 +102,7 @@ export class ScheduledMessages extends ClientSDK {
    * Batch approve/reject draft DMs
    *
    * @remarks
-   * Approve or reject draft messages for a campaign. Approved drafts are scheduled for immediate send. Optionally edit message text before approval. 0 credits.
+   * Approve or reject draft messages. Approved drafts are scheduled for immediate send. Optionally edit message text before approval.
    */
   async reviewDrafts(
     request: operations.ReviewDraftsRequest,

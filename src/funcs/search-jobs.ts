@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,7 +33,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * # Search LinkedIn Jobs
  *
- * Find job listings on LinkedIn by keywords, location, job type, experience level, and workplace type.
+ * Find job listings on LinkedIn by keywords, location, job type, experience level, and workplace type. Returns lightweight job rows (title, company, companyUrl, companyLogo, location, workplaceType, postedAt, jobUrl, listingId). For RICH job-detail (applicant count, full description, employment status, listed/expire timestamps, inferred benefits, formattedJobFunctions, formattedIndustries, applyMethod, companyDescription), pass the result's `listingId` to `visitJob` (or POST `/api/visit/linkedin/job`).
  *
  * ## Parameters
  * - **keywords** (optional): Search terms matched against job title, company name, and description
@@ -48,14 +49,26 @@ import { Result } from "../types/fp.js";
  * Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
  *
  * ## Available filters
- * | Filter | Type | Description | Resolve IDs via |
- * |--------|------|-------------|------------------|
- * | `location` | string[] | Geo IDs | `/search/linkedin/parameters` type=`GEO` |
- * | `datePosted` | string | `"past-24h"` \| `"past-week"` \| `"past-month"` | — |
- * | `sortBy` | string | `"relevance"` \| `"date"` | — |
- * | `jobType` | string[] | Employment type codes (see below) | — |
- * | `experienceLevel` | string[] | Seniority codes (see below) | — |
- * | `workplaceType` | string[] | Work location codes (see below) | — |
+ * Pass human-readable names for `location`, `company`, `industry`, `jobFunction`, `benefits`, `commitments` — they are resolved to LinkedIn IDs server-side. Do not hand-resolve.
+ *
+ * | Filter | Type | Description |
+ * |--------|------|-------------|
+ * | `location` | string[] | City/region/country names |
+ * | `company` | string[] | Hiring company names |
+ * | `industry` | string[] | Company industry names |
+ * | `jobFunction` | string[] | Job function names (Engineering, Sales, …) |
+ * | `datePosted` | string | `"past-24h"` \| `"past-week"` \| `"past-month"` |
+ * | `sortBy` | string | `"relevance"` \| `"date"` |
+ * | `jobType` | string[] | Employment type codes (see below) |
+ * | `experienceLevel` | string[] | Seniority codes (see below) |
+ * | `workplaceType` | string[] | Work location codes (see below) |
+ * | `benefits` | string[] | Advertised benefit names |
+ * | `commitments` | string[] | Employer commitment names |
+ * | `easyApply` | boolean | Only Easy Apply jobs |
+ * | `under10Applicants` | boolean | Only jobs with <10 applicants |
+ * | `inYourNetwork` | boolean | Only jobs where you have a connection |
+ * | `hasVerifications` | boolean | Only verified job posters |
+ * | `fairChanceEmployer` | boolean | Only Fair Chance employers |
  *
  * ### Job type codes
  * | Code | Type |
@@ -108,7 +121,6 @@ import { Result } from "../types/fp.js";
  * 3. **Market demand research**: Search by skills → gauge demand for specific expertise
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
  */
 export function searchJobs(
   client: BereachCore,
@@ -230,21 +242,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

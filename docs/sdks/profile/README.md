@@ -9,28 +9,23 @@ Endpoints for the authenticated user's own LinkedIn profile
 * [get](#get) - Get authenticated user's LinkedIn profile
 * [listAccounts](#listaccounts) - List all LinkedIn accounts for the authenticated user
 * [updateAccount](#updateaccount) - Update a LinkedIn account (label, default)
-* [refresh](#refresh) - Refresh authenticated user's LinkedIn profile
-* [posts](#posts) - Get authenticated user's LinkedIn posts
 * [getFollowers](#getfollowers) - Get authenticated user's LinkedIn followers
-* [getLimits](#getlimits) - Get current LinkedIn rate limit status
+* [getLimits](#getlimits) - Get current LinkedIn quota status
+* [getConnectionStatus](#getconnectionstatus) - Get the state of outgoing connection requests
 * [getCredits](#getcredits) - Get current BeReach credit balance
-* [views](#views) - Get profile views
-* [getSearchAppearances](#getsearchappearances) - Get search appearances
-* [getPostAnalytics](#getpostanalytics) - Get post analytics
-* [getFollowerAnalytics](#getfolloweranalytics) - Get follower analytics
 * [switchAccount](#switchaccount) - Switch active LinkedIn account
 * [listConnections](#listconnections) - List LinkedIn connections
 * [getMyActivity](#getmyactivity) - Get recent activity (comments or reactions)
+* [getMyPosts](#getmyposts) - Get the authenticated user's own posts
 * [getSettings](#getsettings) - Get account settings
 * [patchSettings](#patchsettings) - Update account settings
-* [revalidateLinkedin](#revalidatelinkedin) - Re-validate LinkedIn session
 * [getApiToken](#getapitoken) - Get API token
 * [createApiToken](#createapitoken) - Create API token
 * [deleteApiToken](#deleteapitoken) - Delete API token
 
 ## get
 
-Returns the authenticated user's stored LinkedIn profile data from the database. No LinkedIn API call, no credits consumed. Call /me/linkedin/refresh first to populate enriched data (positions, education, etc.).
+Returns the authenticated user's LinkedIn profile as it is currently stored: identity, headline, profile URL, connection count, location, and verification status. Reads storage only, so it makes no LinkedIn API call and consumes no credits. Enriched fields (about text, positions, education, recent posts, recent comments and reactions) appear only when an earlier call has already written them, so treat every one of them as optional and never assume the record is complete.
 
 ### Example Usage
 
@@ -109,7 +104,7 @@ run();
 
 ## listAccounts
 
-Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to. DB-only endpoint — 0 credits.
+Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to.
 
 ### Example Usage
 
@@ -188,7 +183,7 @@ run();
 
 ## updateAccount
 
-Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts. DB-only — 0 credits.
+Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts.
 
 ### Example Usage
 
@@ -274,174 +269,9 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## refresh
-
-Re-fetches the authenticated user's LinkedIn profile from the Voyager API and updates stored data (positions, education, location, connections count, verification status). No credits consumed.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="refresh" method="post" path="/me/linkedin/refresh" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.refresh();
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileRefresh } from "bereach/funcs/profile-refresh.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileRefresh(bereach);
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileRefresh failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.RefreshResponse](../../models/operations/refresh-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
-## posts
-
-Returns paginated posts from the authenticated user's own LinkedIn profile. No credits consumed. Requires valid LinkedIn credentials and a stored profileUrn (call /me/linkedin/refresh first if needed).
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getMyPosts" method="post" path="/me/linkedin/posts" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.posts({
-    count: 20,
-    start: 0,
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profilePosts } from "bereach/funcs/profile-posts.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profilePosts(bereach, {
-    count: 20,
-    start: 0,
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profilePosts failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetMyPostsRequest](../../models/operations/get-my-posts-request.md)                                                                                                | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetMyPostsResponse](../../models/operations/get-my-posts-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
 ## getFollowers
 
-Returns a paginated list of the authenticated user's LinkedIn followers. LinkedIn caps visible results at ~1 000. No credits consumed. Requires valid LinkedIn credentials.
+Returns a paginated list of the authenticated user's LinkedIn followers. Supports pagination. Requires valid LinkedIn credentials.
 
 ### Example Usage
 
@@ -527,7 +357,7 @@ run();
 
 ## getLimits
 
-Returns the current rate limit status for all LinkedIn action types. Includes current usage, effective limits (with workspace multiplier applied), remaining quotas, minimum delay between actions in seconds, and next reset times. No credits consumed.
+Returns the current quota status for all LinkedIn action types. Includes current usage, effective quotas (with workspace multiplier applied), remaining capacity, minimum delay between actions in seconds, and next reset times.
 
 ### Example Usage
 
@@ -604,9 +434,88 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
+## getConnectionStatus
+
+Read-only, per connected account: whether invitations are going out, who is next, how many are waiting, and when nothing is going out, what is stopping it.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getConnectionStatus" method="get" path="/me/connection-status" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getConnectionStatus();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetConnectionStatus } from "bereach/funcs/profile-get-connection-status.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetConnectionStatus(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetConnectionStatus failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetConnectionStatusResponse](../../models/operations/get-connection-status-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
 ## getCredits
 
-Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting. No credits consumed.
+Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting.
 
 ### Example Usage: free
 
@@ -728,333 +637,9 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## views
-
-Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getProfileViews" method="post" path="/analytics/linkedin/profile-views" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.views({});
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileViews } from "bereach/funcs/profile-views.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileViews(bereach, {});
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileViews failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetProfileViewsRequest](../../models/operations/get-profile-views-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetProfileViewsResponse](../../models/operations/get-profile-views-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
-## getSearchAppearances
-
-Get how many times you appeared in LinkedIn search results and the top keywords that led to your profile. Returns search count, top keywords, and searcher demographics. 1 credit.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getSearchAppearances" method="post" path="/analytics/linkedin/search-appearances" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.getSearchAppearances({});
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileGetSearchAppearances } from "bereach/funcs/profile-get-search-appearances.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileGetSearchAppearances(bereach, {});
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileGetSearchAppearances failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetSearchAppearancesRequest](../../models/operations/get-search-appearances-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetSearchAppearancesResponse](../../models/operations/get-search-appearances-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
-## getPostAnalytics
-
-Get reactions and comments data for a LinkedIn post. Returns reaction counts, comment count, and post URN. Returns bad_request for invalid post URL. 1 credit.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getPostAnalytics" method="post" path="/analytics/linkedin/post" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.getPostAnalytics({
-    postUrl: "https://www.linkedin.com/feed/update/urn:li:activity:123",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileGetPostAnalytics } from "bereach/funcs/profile-get-post-analytics.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileGetPostAnalytics(bereach, {
-    postUrl: "https://www.linkedin.com/feed/update/urn:li:activity:123",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileGetPostAnalytics failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetPostAnalyticsRequest](../../models/operations/get-post-analytics-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetPostAnalyticsResponse](../../models/operations/get-post-analytics-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
-## getFollowerAnalytics
-
-Get follower demographics and growth data for your LinkedIn profile. Returns follower count, growth trends, and demographic breakdowns. 1 credit.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="getFollowerAnalytics" method="post" path="/analytics/linkedin/followers" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.getFollowerAnalytics({});
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileGetFollowerAnalytics } from "bereach/funcs/profile-get-follower-analytics.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileGetFollowerAnalytics(bereach, {});
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileGetFollowerAnalytics failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetFollowerAnalyticsRequest](../../models/operations/get-follower-analytics-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.GetFollowerAnalyticsResponse](../../models/operations/get-follower-analytics-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
 ## switchAccount
 
-Switch the active LinkedIn account. All subsequent API calls will use the selected account's credentials. 0 credits.
+Switch the active LinkedIn account. All subsequent API calls will use the selected account's credentials.
 
 ### Example Usage
 
@@ -1138,11 +723,11 @@ run();
 
 ## listConnections
 
-List your LinkedIn connections (1st degree) with name, headline, profile URL, and connection date. 1 credit per page.
+List your LinkedIn connections (1st degree) with name, headline, profile URL, and connection date.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="listConnections" method="get" path="/me/linkedin/connections" -->
+<!-- UsageSnippet language="typescript" operationID="getConnections" method="get" path="/me/linkedin/connections" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -1190,14 +775,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ListConnectionsRequest](../../models/operations/list-connections-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.GetConnectionsRequest](../../models/operations/get-connections-request.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.ListConnectionsResponse](../../models/operations/list-connections-response.md)\>**
+**Promise\<[operations.GetConnectionsResponse](../../models/operations/get-connections-response.md)\>**
 
 ### Errors
 
@@ -1218,11 +803,11 @@ run();
 
 ## getMyActivity
 
-Get recent activity (comments or reactions) by the authenticated user or a company page. Useful for verifying authorship of actions. 0 credits.
+Get recent activity (comments or reactions) by the authenticated user. Useful for verifying authorship of actions.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getMyActivity" method="get" path="/me/linkedin/activity" -->
+<!-- UsageSnippet language="typescript" operationID="getOwnActivity" method="get" path="/me/linkedin/activity" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -1270,14 +855,94 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetMyActivityRequest](../../models/operations/get-my-activity-request.md)                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.GetOwnActivityRequest](../../models/operations/get-own-activity-request.md)                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetMyActivityResponse](../../models/operations/get-my-activity-response.md)\>**
+**Promise\<[operations.GetOwnActivityResponse](../../models/operations/get-own-activity-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## getMyPosts
+
+List posts authored by the authenticated user, newest first, with pagination. Reads the user's own profile, so it costs no credits.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="getOwnPosts" method="post" path="/me/linkedin/posts" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.profile.getMyPosts();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { profileGetMyPosts } from "bereach/funcs/profile-get-my-posts.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await profileGetMyPosts(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("profileGetMyPosts failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetOwnPostsRequest](../../models/operations/get-own-posts-request.md)                                                                                              | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.GetOwnPostsResponse](../../models/operations/get-own-posts-response.md)\>**
 
 ### Errors
 
@@ -1298,7 +963,7 @@ run();
 
 ## getSettings
 
-Returns user profile, location, proxy, Anthropic key status, subscription, LinkedIn accounts, and pending invites. 0 credits.
+Returns user profile, location, proxy, subscription, LinkedIn accounts, and pending invites..
 
 ### Example Usage
 
@@ -1377,7 +1042,7 @@ run();
 
 ## patchSettings
 
-Update user country, city, phone, or Anthropic API key. Location changes propagate to proxy config. Anthropic key is validated before saving. 0 credits.
+Update user country, city, or phone. Location changes propagate to proxy config..
 
 ### Example Usage
 
@@ -1437,85 +1102,6 @@ run();
 ### Response
 
 **Promise\<[operations.PatchSettingsResponse](../../models/operations/patch-settings-response.md)\>**
-
-### Errors
-
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
-
-## revalidateLinkedin
-
-Makes a lightweight LinkedIn /me call to verify credentials are still valid. Fixes false-invalid states. 1 credit.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="revalidateLinkedin" method="post" path="/me/linkedin/revalidate" -->
-```typescript
-import { Bereach } from "bereach";
-
-const bereach = new Bereach({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const result = await bereach.profile.revalidateLinkedin();
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { BereachCore } from "bereach/core.js";
-import { profileRevalidateLinkedin } from "bereach/funcs/profile-revalidate-linkedin.js";
-
-// Use `BereachCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const bereach = new BereachCore({
-  token: "BEREACH_API_KEY",
-});
-
-async function run() {
-  const res = await profileRevalidateLinkedin(bereach);
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("profileRevalidateLinkedin failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[operations.RevalidateLinkedinResponse](../../models/operations/revalidate-linkedin-response.md)\>**
 
 ### Errors
 

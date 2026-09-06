@@ -1,5 +1,7 @@
 # SearchByUrlNetworkDistance
 
+LinkedIn network distance: DISTANCE_1=connected, DISTANCE_2=2nd degree, DISTANCE_3=3rd degree, OUT_OF_NETWORK=not connected.
+
 ## Example Usage
 
 ```typescript

@@ -1,21 +1,19 @@
 # State
 
+What the account is doing: nothing_queued means nobody is waiting, sending means invitations are going out, spacing means it is between two invitations, blocked means nothing is going out.
+
 ## Example Usage
 
 ```typescript
 import { State } from "bereach/models/operations";
 
-let value: State = {
-  key: "<key>",
-  data: "<value>",
-  updatedAt: "1735608012572",
-};
+let value: State = "nothing_queued";
+
+// Open enum: unrecognized values are captured as Unrecognized<string>
 ```
 
-## Fields
+## Values
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `key`              | *string*           | :heavy_check_mark: | N/A                |
-| `data`             | *any*              | :heavy_check_mark: | Full state object  |
-| `updatedAt`        | *string*           | :heavy_check_mark: | N/A                |
+```typescript
+"nothing_queued" | "sending" | "spacing" | "blocked" | Unrecognized<string>
+```

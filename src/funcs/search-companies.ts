@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,7 +33,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * # Search LinkedIn Companies
  *
- * Find companies on LinkedIn by name, industry, location, and employee count. Returns structured company data including name, industry, location, and follower count.
+ * Find companies on LinkedIn by name, industry, location, and employee count. Returns structured company data: name, profileUrl, summary, industry, location, followersCount, logoUrl. To read a single result in more depth, pass its profileUrl to **publicCompany**, which adds the full description, follower and employee counts, the website, and recent posts. Detailed firmographics (headquarter address, founding year, specialities, verification status, call to action) are not available from either surface, so do not promise them.
  *
  * ## Parameters
  * - **keywords** (optional): Search terms matched against company name, description, and specialties
@@ -48,24 +49,26 @@ import { Result } from "../types/fp.js";
  * Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
  *
  * ## Available filters
- * | Filter | Type | Description | Resolve IDs via |
- * |--------|------|-------------|------------------|
- * | `location` | string[] | HQ geo IDs | `/search/linkedin/parameters` type=`GEO` |
- * | `industry` | string[] | Industry IDs | `/search/linkedin/parameters` type=`INDUSTRY` |
- * | `companySize` | string[] | Employee count codes (see below) | — |
+ * Pass HUMAN LABELS for location / industry — the server resolves them to LinkedIn IDs via typeahead. Numeric IDs pass through unchanged if you already have them.
+ *
+ * | Filter | Type | Description |
+ * |--------|------|-------------|
+ * | `location` | string[] | HQ geo labels (e.g. `["Paris","France"]`) — resolved server-side |
+ * | `industry` | string[] | Industry labels (e.g. `["Software Development"]`) — resolved server-side |
+ * | `companySize` | string[] | Employee count codes (see below) |
  *
  * ### Company size codes
  * | Code | Employees |
  * |------|-----------|
- * | `A` | 1–10 |
- * | `B` | 11–50 |
- * | `C` | 51–200 |
- * | `D` | 201–500 |
- * | `E` | 501–1,000 |
- * | `F` | 1,001–5,000 |
- * | `G` | 5,001–10,000 |
- * | `H` | 10,001+ |
- * | `I` | Self-employed |
+ * | `A` | 1 |
+ * | `B` | 2-10 |
+ * | `C` | 11-50 |
+ * | `D` | 51-200 |
+ * | `E` | 201-500 |
+ * | `F` | 501-1,000 |
+ * | `G` | 1,001-5,000 |
+ * | `H` | 5,001-10,000 |
+ * | `I` | 10,001+ |
  *
  * ## Response fields (per item)
  * | Field | Type | Description |
@@ -76,6 +79,7 @@ import { Result } from "../types/fp.js";
  * | `industry` | string\|null | Primary industry |
  * | `location` | string\|null | HQ location |
  * | `followersCount` | number\|null | Number of LinkedIn followers |
+ * | `logoUrl` | string\|null | Company logo, present only when the result entity carries one |
  *
  * ## Pagination
  * - Default page size: 10, max: 50
@@ -87,7 +91,6 @@ import { Result } from "../types/fp.js";
  * 3. **Partnership discovery**: Search by keywords + location → find potential partners
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
  */
 export function searchCompanies(
   client: BereachCore,
@@ -209,21 +212,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

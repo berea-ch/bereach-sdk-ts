@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * Create or update a context entry
  *
  * @remarks
- * Save context (ICP, tone, playbook, user profile, etc.). 0 credits.
+ * Save context (ICP, Messaging Playbook, user profile) the moment the user says save or remember, identity facts as type "user-profile". A playbook write AMENDS the saved document: send the fields that change, a field left out is kept, a field sent as null is removed. Every other type replaces the whole entry, so merge the new information into what is already saved. Renaming is not a rewrite: send the type and the saved scope with the new label and no content.
  */
 export function contextSet(
   client: BereachCore,
-  request: operations.SetRequest,
+  request: operations.ContextSetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.SetResponse,
+    operations.ContextSetResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function contextSet(
 
 async function $do(
   client: BereachCore,
-  request: operations.SetRequest,
+  request: operations.ContextSetRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.SetResponse,
+      operations.ContextSetResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -100,7 +101,7 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => z.parse(operations.SetRequest$outboundSchema, value),
+    (value) => z.parse(operations.ContextSetRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -123,7 +124,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "set",
+    operationID: "contextSet",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -152,21 +153,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -180,7 +168,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.SetResponse,
+    operations.ContextSetResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -201,7 +189,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.SetResponse$inboundSchema),
+    M.json(200, operations.ContextSetResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),

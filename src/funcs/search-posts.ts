@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -51,10 +52,12 @@ import { Result } from "../types/fp.js";
  * | Filter | Type | Description |
  * |--------|------|-------------|
  * | `sortBy` | `"relevance"` \| `"date"` | Sort by relevance (default) or most recent first |
- * | `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by publication recency |
+ * | `authorJobTitle` | string[] | The author's job title, free text. The strongest filter here: two different titles return sets of authors that do not overlap, so asking twice reaches twice as many people |
+ * | `postedBy` | string[] | Restrict to your own network: `first` or `following`. Far fewer results by nature |
  * | `contentType` | `"images"` \| `"videos"` \| `"documents"` | Filter by media type |
  * | `authorIndustry` | string[] | Author's industry IDs (resolve via `/search/linkedin/parameters` with type=`INDUSTRY`) |
  * | `authorCompany` | string[] | Author's company IDs (resolve via `/search/linkedin/parameters` with type=`COMPANY`) |
+ * | `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by recency window. On a high-volume query the newest posts are shared across windows, so the first page can look unchanged while the narrower window holds fewer results |
  *
  * ## Response fields (per item)
  * | Field | Type | Description |
@@ -83,7 +86,6 @@ import { Result } from "../types/fp.js";
  * 3. **Competitive intelligence**: Search for competitor mentions → track sentiment and engagement
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
  */
 export function searchPosts(
   client: BereachCore,
@@ -205,21 +207,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

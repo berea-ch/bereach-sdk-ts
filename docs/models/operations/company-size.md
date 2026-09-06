@@ -1,15 +1,22 @@
 # CompanySize
 
-## Example Usage
+Company-headcount constraint. Not searchable here: echoed under notSearched, results run wider.
+
+
+## Supported Types
+
+### `string`
 
 ```typescript
-import { CompanySize } from "bereach/models/operations";
-
-let value: CompanySize = "D";
+const value: string = "<value>";
 ```
 
-## Values
+### `string[]`
 
 ```typescript
-"A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I"
+const value: string[] = [
+  "<value 1>",
+  "<value 2>",
+];
 ```
+

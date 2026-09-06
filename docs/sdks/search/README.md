@@ -6,58 +6,25 @@ Search LinkedIn for posts, people, companies, and jobs. Includes parameter resol
 
 ### Available Operations
 
-* [search](#search) - Unified LinkedIn Search — posts, people, companies, jobs
+* [employees](#employees) - Search people at a company
 * [posts](#posts) - Search LinkedIn Posts
 * [people](#people) - Search LinkedIn People
 * [companies](#companies) - Search LinkedIn Companies
 * [jobs](#jobs) - Search LinkedIn Jobs
 * [byUrl](#byurl) - Search LinkedIn by URL
-* [resolveParameters](#resolveparameters) - Resolve text to LinkedIn search parameter IDs (typeahead)
+* [listSalesNavFilters](#listsalesnavfilters) - List the Sales Navigator filters available for this seat
+* [listSalesNavPersonas](#listsalesnavpersonas) - List the user's saved Sales Navigator personas
+* [listSalesNavSavedSearches](#listsalesnavsavedsearches) - List the user's saved Sales Navigator searches
+* [searchParameters](#searchparameters) - Turn text into the ids LinkedIn filters take
+* [resolveProfiles](#resolveprofiles) - Upgrade encrypted or Sales Navigator profile links to canonical ones
 
-## search
+## employees
 
-# Unified LinkedIn Search
-
-This is the **all-in-one** search endpoint. It accepts any of the 4 categories (posts, people, companies, jobs) and returns structured results.
-
-## When to use this endpoint
-Use this endpoint when you need to search across categories dynamically (e.g. the user chooses the category at runtime). For a simpler interface with category-specific documentation, use the dedicated endpoints:
-- `POST /search/linkedin/posts` — search posts
-- `POST /search/linkedin/people` — search people
-- `POST /search/linkedin/companies` — search companies
-- `POST /search/linkedin/jobs` — search jobs
-- `POST /search/linkedin/url` — search by pasting a LinkedIn search URL
-
-## Two ways to search
-1. **Structured**: pass `category` + `keywords` + optional filters
-2. **URL-based**: pass a LinkedIn search `url` — the endpoint parses it automatically
-
-Explicit parameters always override URL-derived values.
-
-## Keyword syntax (Boolean operators)
-Keywords support LinkedIn Boolean search syntax for precise matching:
-- **Exact phrase**: wrap in double quotes — `"outreach automation"` matches only that exact phrase
-- **AND**: both terms required — `outreach AND linkedin` (default when terms are space-separated)
-- **OR**: either term — `CEO OR founder OR owner`
-- **NOT**: exclude — `manager NOT assistant`
-- **Parentheses**: group — `(CEO OR CTO) AND SaaS`
-
-Operators must be **UPPERCASE** (`AND`, `OR`, `NOT`). Lowercase is treated as plain text. Wildcards (`*`) and `+`/`-` are not supported. Precedence: Quotes → Parentheses → NOT → AND → OR.
-
-Without quotes, a multi-word query like `outreach automation` is treated as `outreach AND automation`, which may return broad results. Use `"outreach automation"` for exact matching.
-
-## Resolving filter IDs
-Many filters (location, industry, company, school) require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs (e.g. "103644278").
-
-## Pagination
-Use `start` (offset, default 0) and `count` (page size, default 10, max 50). The response includes `paging.total` and `hasMore` to control iteration.
-
-## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+People currently associated with a company on LinkedIn. Pass a company URL, vanity slug, or name. Implemented via the cookie people-search path with `currentCompany` (HTML pages of ~10, accumulated to `count`). Optional `keywords` narrows within that company. Same result shape as search people.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="search" method="post" path="/search/linkedin" -->
+<!-- UsageSnippet language="typescript" operationID="searchEmployees" method="post" path="/search/linkedin/employees" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -66,21 +33,8 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.search.search({
-    category: "people",
-    keywords: "software engineer",
-    connectionDegree: [
-      "F",
-      "S",
-    ],
-    location: [
-      "103644278",
-    ],
-    industry: [
-      "4",
-      "6",
-    ],
-    start: 0,
+  const result = await bereach.search.employees({
+    company: "https://www.linkedin.com/company/stripe/",
     count: 10,
   });
 
@@ -96,7 +50,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { searchSearch } from "bereach/funcs/search-search.js";
+import { searchEmployees } from "bereach/funcs/search-employees.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -105,28 +59,15 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await searchSearch(bereach, {
-    category: "people",
-    keywords: "software engineer",
-    connectionDegree: [
-      "F",
-      "S",
-    ],
-    location: [
-      "103644278",
-    ],
-    industry: [
-      "4",
-      "6",
-    ],
-    start: 0,
+  const res = await searchEmployees(bereach, {
+    company: "https://www.linkedin.com/company/stripe/",
     count: 10,
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("searchSearch failed:", res.error);
+    console.log("searchEmployees failed:", res.error);
   }
 }
 
@@ -137,14 +78,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SearchRequest](../../models/operations/search-request.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchEmployeesRequest](../../models/operations/search-employees-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.SearchResponse](../../models/operations/search-response.md)\>**
+**Promise\<[operations.SearchEmployeesResponse](../../models/operations/search-employees-response.md)\>**
 
 ### Errors
 
@@ -186,10 +127,12 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 | Filter | Type | Description |
 |--------|------|-------------|
 | `sortBy` | `"relevance"` \| `"date"` | Sort by relevance (default) or most recent first |
-| `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by publication recency |
+| `authorJobTitle` | string[] | The author's job title, free text. The strongest filter here: two different titles return sets of authors that do not overlap, so asking twice reaches twice as many people |
+| `postedBy` | string[] | Restrict to your own network: `first` or `following`. Far fewer results by nature |
 | `contentType` | `"images"` \| `"videos"` \| `"documents"` | Filter by media type |
 | `authorIndustry` | string[] | Author's industry IDs (resolve via `/search/linkedin/parameters` with type=`INDUSTRY`) |
 | `authorCompany` | string[] | Author's company IDs (resolve via `/search/linkedin/parameters` with type=`COMPANY`) |
+| `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by recency window. On a high-volume query the newest posts are shared across windows, so the first page can look unchanged while the narrower window holds fewer results |
 
 ## Response fields (per item)
 | Field | Type | Description |
@@ -218,7 +161,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 3. **Competitive intelligence**: Search for competitor mentions → track sentiment and engagement
 
 ## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+
 
 ### Example Usage
 
@@ -234,7 +177,9 @@ async function run() {
   const result = await bereach.search.posts({
     keywords: "AI automation",
     sortBy: "date",
-    datePosted: "past-week",
+    authorJobTitle: [
+      "head of engineering",
+    ],
     start: 0,
     count: 10,
   });
@@ -263,7 +208,9 @@ async function run() {
   const res = await searchPosts(bereach, {
     keywords: "AI automation",
     sortBy: "date",
-    datePosted: "past-week",
+    authorJobTitle: [
+      "head of engineering",
+    ],
     start: 0,
     count: 10,
   });
@@ -312,7 +259,7 @@ run();
 
 # Search LinkedIn People
 
-Find professionals on LinkedIn by name, title, company, location, industry, and more. Returns structured profile data including name, headline, current positions, and connection degree.
+Find professionals on LinkedIn by name, title, company, location, industry, and more. Returns structured profile data including name, headline, current positions, connection degree, profile picture, **plus 2026-06-03 enrichments**: `nameMatch` (true when the result matched on literal name — strong personhood signal), `badgeText` (Top Voice / Premium / Verified / Influencer — qualifier weight), `ringStatus` (OPEN_TO_WORK / HIRING — open intent signals you can directly target), `summary` (additional snippet beyond headline), `actorInsights` (LinkedIn-curated context like 'X mutual connections', 'Follows {company}' — use directly in personalised outreach openers).
 
 ## Parameters
 - **keywords** (optional): Search terms matched against name, headline, company, skills, and bio
@@ -329,19 +276,24 @@ Keywords support LinkedIn Boolean search syntax:
 Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
 
 ## Available filters
-| Filter | Type | Description | Resolve IDs via |
-|--------|------|-------------|------------------|
-| `connectionDegree` | `["F"\|"S"\|"O"]` | Connection level: F=1st, S=2nd, O=3rd+ | — |
-| `firstName` | string | Exact first name match | — |
-| `lastName` | string | Exact last name match | — |
-| `title` | string | Current job title (supports `\|` OR syntax: `"CEO\|CTO"`) | — |
-| `connectionOf` | string | Profile URN — find their connections | — |
-| `profileLanguage` | string[] | ISO 639-1 codes: `["en","fr"]` | — |
-| `location` | string[] | Geo IDs | `/search/linkedin/parameters` type=`GEO` |
-| `industry` | string[] | Industry IDs | `/search/linkedin/parameters` type=`INDUSTRY` |
-| `currentCompany` | string[] | Company IDs (current employer) | `/search/linkedin/parameters` type=`COMPANY` |
-| `pastCompany` | string[] | Company IDs (past employer) | `/search/linkedin/parameters` type=`COMPANY` |
-| `school` | string[] | School/university IDs | `/search/linkedin/parameters` type=`SCHOOL` |
+Pass HUMAN LABELS for location / industry / currentCompany / pastCompany / school — the server resolves them to LinkedIn IDs via typeahead. Numeric IDs pass through unchanged if you already have them.
+
+| Filter | Type | Description |
+|--------|------|-------------|
+| `connectionDegree` | `["F"\|"S"\|"O"]` | Connection level: F=1st, S=2nd, O=3rd+ |
+| `firstName` | string | Exact first name match |
+| `lastName` | string | Exact last name match |
+| `title` | string | Current job title (supports `\|` OR syntax: `"CEO\|CTO"`) |
+| `connectionOf` | string | Profile URN — find their connections |
+| `followersOf` | string[] | Profile URNs — find a creator's followers |
+| `openToVolunteering` | boolean | Only people open to volunteering |
+| `serviceCategories` | string[] | Service-Marketplace category names |
+| `profileLanguage` | string[] | ISO 639-1 codes: `["en","fr"]` |
+| `location` | string[] | Geo labels (e.g. `["Paris","France"]`) — resolved server-side |
+| `industry` | string[] | Industry labels (e.g. `["Software Development"]`) — resolved server-side |
+| `currentCompany` | string[] | Company labels (e.g. `["Stripe","Datadog"]`) — resolved server-side |
+| `pastCompany` | string[] | Company labels — resolved server-side |
+| `school` | string[] | School/university labels — resolved server-side |
 
 ## Response fields (per item)
 | Field | Type | Description |
@@ -357,25 +309,26 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 ## Pagination
 - Default page size: 10, max: 50
 - Use `start` + `count` to paginate. Check `hasMore` for more pages.
-- LinkedIn caps total visible results at ~1,000 for most searches.
+- Paginate via `start` + `count`; check `hasMore` for more pages.
 
 ## Example workflows
 1. **Prospect list building**: Search by title + location + industry → build a targeted outreach list
-2. **Recruiting**: Search by title + company + school → find qualified candidates
+2. **Recruiting**: Search by title + company + school → find people who match
 3. **Network mapping**: Search `connectionOf` + filters → explore someone's network
 
-## Multi-step workflow with filter ID resolution
+## Workflow — pass labels directly
 ```
-Step 1: GET /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
-        → returns [{ id: '102277331', title: 'San Francisco, CA' }]
-Step 2: GET /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
-        → returns [{ id: '1441', title: 'Google' }]
-Step 3: POST /search/linkedin/people { keywords: 'product manager', location: ['102277331'], currentCompany: ['1441'] }
-        → returns matching people
+POST /search/linkedin/people {
+  keywords: 'product manager',
+  location: ['San Francisco'],
+  currentCompany: ['Google']
+}
+→ server resolves labels → matching people
 ```
+Only call `/search/linkedin/parameters` when you need to EXPLORE available values ("what are the canonical industry buckets?"), never as a prerequisite to a search.
 
 ## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+
 
 ### Example Usage
 
@@ -483,7 +436,7 @@ run();
 
 # Search LinkedIn Companies
 
-Find companies on LinkedIn by name, industry, location, and employee count. Returns structured company data including name, industry, location, and follower count.
+Find companies on LinkedIn by name, industry, location, and employee count. Returns structured company data: name, profileUrl, summary, industry, location, followersCount, logoUrl. To read a single result in more depth, pass its profileUrl to **publicCompany**, which adds the full description, follower and employee counts, the website, and recent posts. Detailed firmographics (headquarter address, founding year, specialities, verification status, call to action) are not available from either surface, so do not promise them.
 
 ## Parameters
 - **keywords** (optional): Search terms matched against company name, description, and specialties
@@ -499,24 +452,26 @@ Keywords support LinkedIn Boolean search syntax:
 Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
 
 ## Available filters
-| Filter | Type | Description | Resolve IDs via |
-|--------|------|-------------|------------------|
-| `location` | string[] | HQ geo IDs | `/search/linkedin/parameters` type=`GEO` |
-| `industry` | string[] | Industry IDs | `/search/linkedin/parameters` type=`INDUSTRY` |
-| `companySize` | string[] | Employee count codes (see below) | — |
+Pass HUMAN LABELS for location / industry — the server resolves them to LinkedIn IDs via typeahead. Numeric IDs pass through unchanged if you already have them.
+
+| Filter | Type | Description |
+|--------|------|-------------|
+| `location` | string[] | HQ geo labels (e.g. `["Paris","France"]`) — resolved server-side |
+| `industry` | string[] | Industry labels (e.g. `["Software Development"]`) — resolved server-side |
+| `companySize` | string[] | Employee count codes (see below) |
 
 ### Company size codes
 | Code | Employees |
 |------|-----------|
-| `A` | 1–10 |
-| `B` | 11–50 |
-| `C` | 51–200 |
-| `D` | 201–500 |
-| `E` | 501–1,000 |
-| `F` | 1,001–5,000 |
-| `G` | 5,001–10,000 |
-| `H` | 10,001+ |
-| `I` | Self-employed |
+| `A` | 1 |
+| `B` | 2-10 |
+| `C` | 11-50 |
+| `D` | 51-200 |
+| `E` | 201-500 |
+| `F` | 501-1,000 |
+| `G` | 1,001-5,000 |
+| `H` | 5,001-10,000 |
+| `I` | 10,001+ |
 
 ## Response fields (per item)
 | Field | Type | Description |
@@ -527,6 +482,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 | `industry` | string\|null | Primary industry |
 | `location` | string\|null | HQ location |
 | `followersCount` | number\|null | Number of LinkedIn followers |
+| `logoUrl` | string\|null | Company logo, present only when the result entity carries one |
 
 ## Pagination
 - Default page size: 10, max: 50
@@ -538,7 +494,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 3. **Partnership discovery**: Search by keywords + location → find potential partners
 
 ## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+
 
 ### Example Usage
 
@@ -642,7 +598,7 @@ run();
 
 # Search LinkedIn Jobs
 
-Find job listings on LinkedIn by keywords, location, job type, experience level, and workplace type.
+Find job listings on LinkedIn by keywords, location, job type, experience level, and workplace type. Returns lightweight job rows (title, company, companyUrl, companyLogo, location, workplaceType, postedAt, jobUrl, listingId). For RICH job-detail (applicant count, full description, employment status, listed/expire timestamps, inferred benefits, formattedJobFunctions, formattedIndustries, applyMethod, companyDescription), pass the result's `listingId` to `visitJob` (or POST `/api/visit/linkedin/job`).
 
 ## Parameters
 - **keywords** (optional): Search terms matched against job title, company name, and description
@@ -658,14 +614,26 @@ Keywords support LinkedIn Boolean search syntax:
 Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
 
 ## Available filters
-| Filter | Type | Description | Resolve IDs via |
-|--------|------|-------------|------------------|
-| `location` | string[] | Geo IDs | `/search/linkedin/parameters` type=`GEO` |
-| `datePosted` | string | `"past-24h"` \| `"past-week"` \| `"past-month"` | — |
-| `sortBy` | string | `"relevance"` \| `"date"` | — |
-| `jobType` | string[] | Employment type codes (see below) | — |
-| `experienceLevel` | string[] | Seniority codes (see below) | — |
-| `workplaceType` | string[] | Work location codes (see below) | — |
+Pass human-readable names for `location`, `company`, `industry`, `jobFunction`, `benefits`, `commitments` — they are resolved to LinkedIn IDs server-side. Do not hand-resolve.
+
+| Filter | Type | Description |
+|--------|------|-------------|
+| `location` | string[] | City/region/country names |
+| `company` | string[] | Hiring company names |
+| `industry` | string[] | Company industry names |
+| `jobFunction` | string[] | Job function names (Engineering, Sales, …) |
+| `datePosted` | string | `"past-24h"` \| `"past-week"` \| `"past-month"` |
+| `sortBy` | string | `"relevance"` \| `"date"` |
+| `jobType` | string[] | Employment type codes (see below) |
+| `experienceLevel` | string[] | Seniority codes (see below) |
+| `workplaceType` | string[] | Work location codes (see below) |
+| `benefits` | string[] | Advertised benefit names |
+| `commitments` | string[] | Employer commitment names |
+| `easyApply` | boolean | Only Easy Apply jobs |
+| `under10Applicants` | boolean | Only jobs with <10 applicants |
+| `inYourNetwork` | boolean | Only jobs where you have a connection |
+| `hasVerifications` | boolean | Only verified job posters |
+| `fairChanceEmployer` | boolean | Only Fair Chance employers |
 
 ### Job type codes
 | Code | Type |
@@ -718,7 +686,7 @@ Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > 
 3. **Market demand research**: Search by skills → gauge demand for specific expertise
 
 ## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+
 
 ### Example Usage
 
@@ -858,32 +826,16 @@ The endpoint supports all standard LinkedIn search URLs:
 | `/results/all/` | people |
 | `/jobs/search/` | jobs |
 
-## Extracted parameters
-The following URL query parameters are parsed and mapped to search filters:
-- `keywords` → keywords
-- `network` → connectionDegree (people)
-- `geoUrn` / `companyHqGeo` → location
-- `industry` → industry
-- `company` / `currentCompany` → currentCompany
-- `pastCompany` → pastCompany
-- `school` → school
-- `profileLanguage` → profileLanguage
-- `connectionOf` → connectionOf
-- `firstName` / `lastName` → firstName / lastName
-- `title` → title
-- `companySize` → companySize (companies)
-- `sortBy` → sortBy
-- `datePosted` → datePosted
-- `f_TPR` → datePosted (jobs)
-- `f_JT` → jobType (jobs)
-- `f_E` → experienceLevel (jobs)
-- `f_WT` → workplaceType (jobs)
+## What is read from the URL
+Keywords and every filter the vertical can actually apply, under LinkedIn's own spellings as its filter bar writes them (`titleFreeText`, `schoolFilter`, `companySizeV2`, `companyHQBingGeo`, `industryCompanyVertical`) with the bare names accepted as a fallback for a hand-written URL. A company's HEADQUARTERS is kept as its own filter and never folded into the person's location: they are different questions and return different people. Jobs facets are comma-separated in LinkedIn's URLs and each value is read on its own.
+
+A facet the URL carries that this search cannot apply comes back as a `URL_FACET` entry in `warnings`, naming the facet. That matters because a dropped filter means the search ran WIDER than the one on the person's screen, so a result set with URL_FACET warnings is a bigger cohort than they asked for and should be described that way.
 
 ## Pagination override
 You can optionally pass `start` and `count` to override the pagination embedded in the URL.
 
 ## Credits
-1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+
 
 ### Example Usage
 
@@ -967,45 +919,21 @@ run();
 | errors.ServiceUnavailableError  | 503                             | application/json                |
 | errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
 
-## resolveParameters
+## listSalesNavFilters
 
-# Resolve Search Parameters
+Returns the Sales Navigator filter panel — every filter you can use, grouped, with how to supply each value.
 
-Converts human-readable text into LinkedIn numeric IDs required by search filters. This is a **prerequisite step** before using location, industry, company, or school filters in any search endpoint.
+Call this ONCE at the start of a Sales Nav search task — like a human opening the filter panel. It tells you:
+- which filters exist (seat tiers differ — Core / Advanced / Advanced Plus expose different filters);
+- the BeReach `field` name to set on the search for each;
+- the `valueKind` (enum / entity / toggle / range / text) so you know how to supply the value;
+- `supportsExclude` and `available` (false = the seat tier does not have this filter — don't promise it to the user).
 
-## Supported types
-| Type | Description | Use with filter |
-|------|-------------|------------------|
-| `GEO` | Geographic locations (cities, regions, countries) | `location` filter in people, companies, jobs |
-| `COMPANY` | Companies and organizations | `currentCompany`, `pastCompany`, `authorCompany` |
-| `INDUSTRY` | Industries and sectors | `industry`, `authorIndustry` |
-| `SCHOOL` | Schools and universities | `school` filter in people search |
-| `CONNECTIONS` | Your LinkedIn connections by name | Identify connection URNs |
-| `PEOPLE` | Any LinkedIn user by name | Identify profile URNs for `connectionOf` |
-
-## How to use
-```
-Step 1: GET /search/linkedin/parameters?type=GEO&keywords=Paris
-        → [{ id: '105015875', title: 'Paris, Île-de-France, France', type: 'GEO' }]
-Step 2: POST /search/linkedin/people { location: ['105015875'], keywords: 'engineer' }
-        → returns engineers in Paris
-```
-
-## Response format
-Each item contains `id` (the LinkedIn numeric ID to use in filters), `title` (human-readable label), and `type` (the parameter type).
-
-## Tips
-- Use short, specific keywords for best results (e.g. `"Paris"` not `"Paris, France"`)
-- The API returns up to `limit` results (default 10, max 50)
-- Results are ranked by relevance
-- IDs are stable — you can cache them for repeated searches
-
-**Note**: This is a GET endpoint. Pass `type`, `keywords`, and `limit` as query parameters.
-Example: `GET /search/linkedin/parameters?type=GEO&keywords=Paris&limit=5`
+Requires an active Sales Nav seat.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="resolveParameters" method="get" path="/search/linkedin/parameters" -->
+<!-- UsageSnippet language="typescript" operationID="listSalesNavFilters" method="get" path="/search/linkedin/sales-nav/filters" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -1014,9 +942,253 @@ const bereach = new Bereach({
 });
 
 async function run() {
-  const result = await bereach.search.resolveParameters({
-    type: "PEOPLE",
-    keywords: "<value>",
+  const result = await bereach.search.listSalesNavFilters();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { searchListSalesNavFilters } from "bereach/funcs/search-list-sales-nav-filters.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await searchListSalesNavFilters(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("searchListSalesNavFilters failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListSalesNavFiltersResponse](../../models/operations/list-sales-nav-filters-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## listSalesNavPersonas
+
+Returns the user's custom buyer-persona library from Sales Navigator home (`sales.linkedin.com/home`).
+
+Call this BEFORE setting the `persona` filter on a Sales Nav search. The agent has no way to guess persona ids — they are user-defined. Match the user's intent against the returned `name` + `criteriaSummary`.
+
+Requires an active Sales Nav seat (403 otherwise — same gate as the search tools).
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listSalesNavPersonas" method="get" path="/search/linkedin/sales-nav/personas" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.search.listSalesNavPersonas();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { searchListSalesNavPersonas } from "bereach/funcs/search-list-sales-nav-personas.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await searchListSalesNavPersonas(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("searchListSalesNavPersonas failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListSalesNavPersonasResponse](../../models/operations/list-sales-nav-personas-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## listSalesNavSavedSearches
+
+Returns the user's saved Sales Navigator searches.
+
+Call this at the start of a search task when the user references prior work ("run my fintech search", "the usual list"). Match the user's intent against the returned `name`, then pass the matching `savedSearchUrl` straight into `search_sales_nav_people` / `search_sales_nav_companies` via the `url` field — no filter assembly needed.
+
+Requires an active Sales Nav seat.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="listSalesNavSavedSearches" method="get" path="/search/linkedin/sales-nav/saved-searches" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.search.listSalesNavSavedSearches();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { searchListSalesNavSavedSearches } from "bereach/funcs/search-list-sales-nav-saved-searches.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await searchListSalesNavSavedSearches(bereach);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("searchListSalesNavSavedSearches failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ListSalesNavSavedSearchesResponse](../../models/operations/list-sales-nav-saved-searches-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## searchParameters
+
+Resolve a written label (an industry, a company, a place, a school) into the identifier a search filter needs. Worth knowing why this exists: a filter given an id it does not recognise is accepted and ignored, so a search built on a guessed id quietly returns the unfiltered set and reads as a market with nobody in it. Leaving the keywords empty on a closed-value type lists every option, which is the way to answer what the available buckets are.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="searchParameters" method="get" path="/search/linkedin/parameters" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.search.searchParameters({
+    type: "<value>",
   });
 
   console.log(result);
@@ -1031,7 +1203,7 @@ The standalone function version of this method:
 
 ```typescript
 import { BereachCore } from "bereach/core.js";
-import { searchResolveParameters } from "bereach/funcs/search-resolve-parameters.js";
+import { searchSearchParameters } from "bereach/funcs/search-search-parameters.js";
 
 // Use `BereachCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -1040,15 +1212,14 @@ const bereach = new BereachCore({
 });
 
 async function run() {
-  const res = await searchResolveParameters(bereach, {
-    type: "PEOPLE",
-    keywords: "<value>",
+  const res = await searchSearchParameters(bereach, {
+    type: "<value>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("searchResolveParameters failed:", res.error);
+    console.log("searchSearchParameters failed:", res.error);
   }
 }
 
@@ -1059,14 +1230,104 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.ResolveParametersRequest](../../models/operations/resolve-parameters-request.md)                                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.SearchParametersRequest](../../models/operations/search-parameters-request.md)                                                                                     | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.ResolveParametersResponse](../../models/operations/resolve-parameters-response.md)\>**
+**Promise\<[operations.SearchParametersResponse](../../models/operations/search-parameters-response.md)\>**
+
+### Errors
+
+| Error Type                      | Status Code                     | Content Type                    |
+| ------------------------------- | ------------------------------- | ------------------------------- |
+| errors.BadRequestError          | 400                             | application/json                |
+| errors.UnauthorizedError        | 401                             | application/json                |
+| errors.ForbiddenError           | 403                             | application/json                |
+| errors.NotFoundError            | 404                             | application/json                |
+| errors.ConflictError            | 409                             | application/json                |
+| errors.GoneError                | 410                             | application/json                |
+| errors.UnprocessableEntityError | 422                             | application/json                |
+| errors.TooManyRequestsError     | 429                             | application/json                |
+| errors.InternalServerError      | 500                             | application/json                |
+| errors.BadGatewayError          | 502                             | application/json                |
+| errors.ServiceUnavailableError  | 503                             | application/json                |
+| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+
+## resolveProfiles
+
+Turn a mixed batch of LinkedIn identifiers into canonical profile URLs. Sales Navigator links and encrypted-id links cannot be stored or reliably matched against a contact; this is what upgrades them. Cached results cost nothing, and duplicates are removed before anything is spent.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="resolveProfiles" method="post" path="/resolve/linkedin/profiles" -->
+```typescript
+import { Bereach } from "bereach";
+
+const bereach = new Bereach({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const result = await bereach.search.resolveProfiles({
+    inputs: [
+      "<value 1>",
+      "<value 2>",
+    ],
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { BereachCore } from "bereach/core.js";
+import { searchResolveProfiles } from "bereach/funcs/search-resolve-profiles.js";
+
+// Use `BereachCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const bereach = new BereachCore({
+  token: "BEREACH_API_KEY",
+});
+
+async function run() {
+  const res = await searchResolveProfiles(bereach, {
+    inputs: [
+      "<value 1>",
+      "<value 2>",
+    ],
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("searchResolveProfiles failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ResolveProfilesRequest](../../models/operations/resolve-profiles-request.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[operations.ResolveProfilesResponse](../../models/operations/resolve-profiles-response.md)\>**
 
 ### Errors
 
