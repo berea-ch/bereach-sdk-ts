@@ -1,6 +1,6 @@
 # SearchSalesNavIndustry
 
-Industry filter with include/exclude. Use LinkedIn industry IDs. Resolve via /search/linkedin/parameters with type='INDUSTRY'.
+Industry filter. Accepts industry names ('Software Development', 'Hospitals and Health Care') OR LinkedIn numeric ids. Server resolves.
 
 ## Example Usage
 
@@ -12,7 +12,7 @@ let value: SearchSalesNavIndustry = {};
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `include`          | *string*[]         | :heavy_minus_sign: | IDs to include     |
-| `exclude`          | *string*[]         | :heavy_minus_sign: | IDs to exclude     |
+| Field                                                                                                  | Type                                                                                                   | Required                                                                                               | Description                                                                                            |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `include`                                                                                              | *string*[]                                                                                             | :heavy_minus_sign:                                                                                     | Labels OR numeric IDs to include. Labels are resolved server-side (no need to call /parameters first). |
+| `exclude`                                                                                              | *string*[]                                                                                             | :heavy_minus_sign:                                                                                     | Labels OR numeric IDs to exclude. Labels are resolved server-side (no need to call /parameters first). |

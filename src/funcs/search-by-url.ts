@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -56,32 +57,15 @@ import { Result } from "../types/fp.js";
  * | `/results/all/` | people |
  * | `/jobs/search/` | jobs |
  *
- * ## Extracted parameters
- * The following URL query parameters are parsed and mapped to search filters:
- * - `keywords` → keywords
- * - `network` → connectionDegree (people)
- * - `geoUrn` / `companyHqGeo` → location
- * - `industry` → industry
- * - `company` / `currentCompany` → currentCompany
- * - `pastCompany` → pastCompany
- * - `school` → school
- * - `profileLanguage` → profileLanguage
- * - `connectionOf` → connectionOf
- * - `firstName` / `lastName` → firstName / lastName
- * - `title` → title
- * - `companySize` → companySize (companies)
- * - `sortBy` → sortBy
- * - `datePosted` → datePosted
- * - `f_TPR` → datePosted (jobs)
- * - `f_JT` → jobType (jobs)
- * - `f_E` → experienceLevel (jobs)
- * - `f_WT` → workplaceType (jobs)
+ * ## What is read from the URL
+ * Keywords and every filter the vertical can actually apply, under LinkedIn's own spellings as its filter bar writes them (`titleFreeText`, `schoolFilter`, `companySizeV2`, `companyHQBingGeo`, `industryCompanyVertical`) with the bare names accepted as a fallback for a hand-written URL. A company's HEADQUARTERS is kept as its own filter and never folded into the person's location: they are different questions and return different people. Jobs facets are comma-separated in LinkedIn's URLs and each value is read on its own.
+ *
+ * A facet the URL carries that this search cannot apply comes back as a `URL_FACET` entry in `warnings`, naming the facet. That matters because a dropped filter means the search ran WIDER than the one on the person's screen, so a result set with URL_FACET warnings is a bigger cohort than they asked for and should be described that way.
  *
  * ## Pagination override
  * You can optionally pass `start` and `count` to override the pagination embedded in the URL.
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
  */
 export function searchByUrl(
   client: BereachCore,
@@ -203,21 +187,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

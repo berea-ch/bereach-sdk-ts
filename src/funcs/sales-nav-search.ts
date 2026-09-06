@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -38,6 +39,19 @@ import { Result } from "../types/fp.js";
  * 1. **Structured**: pass `category` + optional `keywords` + filters
  * 2. **URL-based**: pass a Sales Navigator search `url` from your browser — filters are extracted automatically
  *
+ * ### Accepted `url` shapes
+ * Sales Navigator is a SPA and writes its filter state into the **hash fragment** (`#query=...`), not the search string. The parser accepts both, plus several common paste artefacts:
+ * - `https://www.linkedin.com/sales/search/people#query=(...)&sessionId=...` — what the browser address bar shows (most common)
+ * - `https://www.linkedin.com/sales/search/people?query=(...)` — older / shared-link form
+ * - `/sales/search/lead` and `/sales/search/account` path aliases (LinkedIn uses both)
+ * - Protocol-less paste (`www.linkedin.com/sales/search/people#query=...`)
+ * - Surrounding whitespace, quotes/backticks, `&amp;` from rich-text paste
+ *
+ * **Rejected with a clear 400** so you don't get unfiltered results:
+ * - Saved-list URLs (`/sales/lists/people/...`) — these aren't searches; open the list and click "Search" to get a `/sales/search/...` URL
+ * - URLs with no query (`?sessionId=...` only) — copy the URL again **after** filters finish loading
+ * - URLs whose query has no keywords and no filters (`#query=(spellCorrectionEnabled:true)`) — same fix
+ *
  * ## Sales Navigator vs Classic search
  * Sales Navigator returns richer data than classic LinkedIn search:
  * - **People**: tenure at company/role, premium status, open profile flag, pending invitation status, detailed positions
@@ -48,10 +62,26 @@ import { Result } from "../types/fp.js";
  * Filters like location, industry, company, and school require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs.
  *
  * ## Pagination
- * Default page size: 25, max: 25. Use `start` (offset) and `count` to paginate. Check `hasMore` and `paging.total` in the response.
+ * Default page size: 25, max: 25. Use `start` (offset) and `count` to paginate. Check `hasMore` and `paging.total` in the response. When passing `url`, a `?page=N` (or `#…&page=N`) in the URL is honored — explicit `start` still wins if both are provided.
  *
  * ## Credits
- * 1 credit per 10 items returned (minimum 1 if any results, 0 if empty).
+ *
+ * ## Profile URLs returned
+ * Each item carries `profileUrl` (public `/in/...`) and `salesNavUrl` (`/sales/...`).
+ * Sales Navigator does not return canonical vanity slugs (e.g. `/in/john-doe`) — it returns LinkedIn's encrypted profile id, so `profileUrl` is `https://www.linkedin.com/in/<encrypted-id>` (e.g. `/in/ACwAAA0-26UB...`). These URLs are clickable and redirect to the canonical vanity URL when opened in a browser, and they are accepted anywhere our API takes a profile URL (visit, connect, message, etc.).
+ *
+ * ### Upgrading to canonical vanity URLs (optional)
+ * To resolve `/in/<encrypted-id>` → `/in/<vanity-slug>` (e.g. `/in/john-doe`), call `POST /resolve/linkedin/profiles` with the URLs, URNs, or raw encrypted ids. The endpoint returns `publicIdentifier` + a canonical `profileUrl`, and returns `publicIdentifier` + a canonical `profileUrl`.
+ *
+ * ```json
+ * POST /resolve/linkedin/profiles
+ * {
+ *   "inputs": [
+ *     "https://www.linkedin.com/in/ACwAAA0-26UBSvneYv1dZ1sfAT_NZHjmOb5qk2s",
+ *     "urn:li:fsd_profile:ACwAAAaK0QIBxcI7cceYW8eas-3uVGwgOTW8s_k"
+ *   ]
+ * }
+ * ```
  */
 export function salesNavSearch(
   client: BereachCore,
@@ -173,21 +203,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

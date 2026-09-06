@@ -1,0 +1,81 @@
+# ContactsGetFullContact
+
+## Example Usage
+
+```typescript
+import { ContactsGetFullContact } from "bereach/models/operations";
+
+let value: ContactsGetFullContact = {
+  id: "<id>",
+  linkedinUrl: "https://overcooked-creator.name/",
+  profileUrn: "<value>",
+  publicIdentifier: "<value>",
+  name: "<value>",
+  lifecycleStage: "<value>",
+  hotScore: 233612,
+  qualificationNotes: "<value>",
+  leadBrief: null,
+  notes: "<value>",
+  stageChangedAt: "<value>",
+  profileUpdatedAt: "<value>",
+  conversationUpdatedAt: "<value>",
+  campaigns: [
+    {
+      campaignId: "<id>",
+      campaignName: "<value>",
+      source: "<value>",
+      sourceAngle: "<value>",
+      addedAt: "<value>",
+    },
+  ],
+  tags: [
+    "<value 1>",
+    "<value 2>",
+  ],
+  createdAt: "1731867364966",
+  updatedAt: "1735657984867",
+};
+```
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `linkedinUrl`                                                                                 | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `profileUrn`                                                                                  | *string*                                                                                      | :heavy_check_mark:                                                                            | LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...)                                      |
+| `publicIdentifier`                                                                            | *string*                                                                                      | :heavy_check_mark:                                                                            | LinkedIn vanity slug (e.g. joshuaau)                                                          |
+| `name`                                                                                        | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `lifecycleStage`                                                                              | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `hotScore`                                                                                    | *number*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `qualificationNotes`                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `leadBrief`                                                                                   | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `notes`                                                                                       | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `stageChangedAt`                                                                              | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `profileData`                                                                                 | *any*                                                                                         | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `profileUpdatedAt`                                                                            | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `conversationData`                                                                            | *any*                                                                                         | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `conversationUpdatedAt`                                                                       | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `outreachStatus`                                                                              | *string*                                                                                      | :heavy_minus_sign:                                                                            | Absent when the contact has no outreach status, which is the common case.                     |
+| `lastContactedAt`                                                                             | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `lastRepliedAt`                                                                               | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `doNotContact`                                                                                | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | Present only when true.                                                                       |
+| `lastActivityAt`                                                                              | *string*                                                                                      | :heavy_minus_sign:                                                                            | Most recent of replied, contacted, created, or a stage change.                                |
+| `avatarUrl`                                                                                   | *string*                                                                                      | :heavy_minus_sign:                                                                            | Durable avatar URL, R2-backed where available.                                                |
+| `humanStatus`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | One sentence describing where this contact stands, for a human or a model to read.            |
+| `campaigns`                                                                                   | [operations.ContactsGetFullCampaign](../../models/operations/contacts-get-full-campaign.md)[] | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `tags`                                                                                        | *string*[]                                                                                    | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `createdAt`                                                                                   | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `updatedAt`                                                                                   | *string*                                                                                      | :heavy_check_mark:                                                                            | N/A                                                                                           |
+| `headline`                                                                                    | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `currentRole`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `company`                                                                                     | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `location`                                                                                    | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `connectionDegree`                                                                            | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `hasRecentPosts`                                                                              | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `hasRecentComments`                                                                           | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `hasRecentReactions`                                                                          | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `hasAbout`                                                                                    | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `educationsCount`                                                                             | *number*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `visitFresh`                                                                                  | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | Whether the profile snapshot is inside the freshness window.                                  |
+| `visitPending`                                                                                | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | Whether a visit is already in flight, so a caller does not queue a second.                    |

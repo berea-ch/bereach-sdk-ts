@@ -22,6 +22,19 @@ export class SalesNav extends ClientSDK {
    * 1. **Structured**: pass `category` + optional `keywords` + filters
    * 2. **URL-based**: pass a Sales Navigator search `url` from your browser — filters are extracted automatically
    *
+   * ### Accepted `url` shapes
+   * Sales Navigator is a SPA and writes its filter state into the **hash fragment** (`#query=...`), not the search string. The parser accepts both, plus several common paste artefacts:
+   * - `https://www.linkedin.com/sales/search/people#query=(...)&sessionId=...` — what the browser address bar shows (most common)
+   * - `https://www.linkedin.com/sales/search/people?query=(...)` — older / shared-link form
+   * - `/sales/search/lead` and `/sales/search/account` path aliases (LinkedIn uses both)
+   * - Protocol-less paste (`www.linkedin.com/sales/search/people#query=...`)
+   * - Surrounding whitespace, quotes/backticks, `&amp;` from rich-text paste
+   *
+   * **Rejected with a clear 400** so you don't get unfiltered results:
+   * - Saved-list URLs (`/sales/lists/people/...`) — these aren't searches; open the list and click "Search" to get a `/sales/search/...` URL
+   * - URLs with no query (`?sessionId=...` only) — copy the URL again **after** filters finish loading
+   * - URLs whose query has no keywords and no filters (`#query=(spellCorrectionEnabled:true)`) — same fix
+   *
    * ## Sales Navigator vs Classic search
    * Sales Navigator returns richer data than classic LinkedIn search:
    * - **People**: tenure at company/role, premium status, open profile flag, pending invitation status, detailed positions
@@ -32,10 +45,26 @@ export class SalesNav extends ClientSDK {
    * Filters like location, industry, company, and school require LinkedIn numeric IDs. Use `GET /search/linkedin/parameters` to convert text (e.g. "San Francisco") into IDs.
    *
    * ## Pagination
-   * Default page size: 25, max: 25. Use `start` (offset) and `count` to paginate. Check `hasMore` and `paging.total` in the response.
+   * Default page size: 25, max: 25. Use `start` (offset) and `count` to paginate. Check `hasMore` and `paging.total` in the response. When passing `url`, a `?page=N` (or `#…&page=N`) in the URL is honored — explicit `start` still wins if both are provided.
    *
    * ## Credits
-   * 1 credit per 10 items returned (minimum 1 if any results, 0 if empty).
+   *
+   * ## Profile URLs returned
+   * Each item carries `profileUrl` (public `/in/...`) and `salesNavUrl` (`/sales/...`).
+   * Sales Navigator does not return canonical vanity slugs (e.g. `/in/john-doe`) — it returns LinkedIn's encrypted profile id, so `profileUrl` is `https://www.linkedin.com/in/<encrypted-id>` (e.g. `/in/ACwAAA0-26UB...`). These URLs are clickable and redirect to the canonical vanity URL when opened in a browser, and they are accepted anywhere our API takes a profile URL (visit, connect, message, etc.).
+   *
+   * ### Upgrading to canonical vanity URLs (optional)
+   * To resolve `/in/<encrypted-id>` → `/in/<vanity-slug>` (e.g. `/in/john-doe`), call `POST /resolve/linkedin/profiles` with the URLs, URNs, or raw encrypted ids. The endpoint returns `publicIdentifier` + a canonical `profileUrl`, and returns `publicIdentifier` + a canonical `profileUrl`.
+   *
+   * ```json
+   * POST /resolve/linkedin/profiles
+   * {
+   *   "inputs": [
+   *     "https://www.linkedin.com/in/ACwAAA0-26UBSvneYv1dZ1sfAT_NZHjmOb5qk2s",
+   *     "urn:li:fsd_profile:ACwAAAaK0QIBxcI7cceYW8eas-3uVGwgOTW8s_k"
+   *   ]
+   * }
+   * ```
    */
   async search(
     request: operations.SearchSalesNavRequest,
@@ -78,7 +107,8 @@ export class SalesNav extends ClientSDK {
    * | `id` | string | Sales Navigator lead ID |
    * | `name`, `firstName`, `lastName` | string | Name |
    * | `memberUrn` | string | LinkedIn member URN |
-   * | `profileUrl` | string | Public LinkedIn profile URL |
+   * | `profileUrn` | string | Canonical profile URN (`urn:li:fsd_profile:ACoA...` or `urn:li:fsd_profile:ACwA...`) — use directly with visit/connect/message endpoints |
+   * | `profileUrl` | string | Public LinkedIn profile URL `https://www.linkedin.com/in/<encrypted-id>`. Sales Nav does not expose canonical vanity slugs — open in a browser and LinkedIn redirects to `/in/<vanity-name>`. To resolve programmatically, call `POST /resolve/linkedin/profiles`. |
    * | `salesNavUrl` | string | Sales Navigator lead URL |
    * | `networkDistance` | string | Connection degree |
    * | `premium` | boolean | LinkedIn Premium subscriber |
@@ -87,7 +117,9 @@ export class SalesNav extends ClientSDK {
    * | `currentPositions` | array | With company, role, tenure details |
    *
    * ## Credits
-   * 1 credit per 10 items returned.
+   *
+   * ## JSON validity (critical)
+   * Every array field (seniority, function, location, companyHeadcount, companyType, connectionDegree, yearsOfExperience, profileLanguage, school) MUST be a valid JSON array of double-quoted strings, e.g. `["Director","Vice President"]`. Never pipe-separated prose (`Director | Vice President`), never unquoted values (`United States`), never merge multiple options into one element. Malformed JSON means the filter is dropped and the search runs unfiltered.
    */
   async people(
     request: operations.SearchSalesNavPeopleRequest,
@@ -116,10 +148,8 @@ export class SalesNav extends ClientSDK {
    * | `location` | string[] | Geography IDs |
    * | `companyHeadcount` | string[] | Employee count ranges |
    * | `companyType` | string[] | Company types |
-   * | `annualRevenue` | string[] | Revenue ranges |
    *
    * ## Credits
-   * 1 credit per 10 items returned.
    */
   async companies(
     request: operations.SearchSalesNavCompaniesRequest,

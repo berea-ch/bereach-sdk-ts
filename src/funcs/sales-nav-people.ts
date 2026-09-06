@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -56,7 +57,8 @@ import { Result } from "../types/fp.js";
  * | `id` | string | Sales Navigator lead ID |
  * | `name`, `firstName`, `lastName` | string | Name |
  * | `memberUrn` | string | LinkedIn member URN |
- * | `profileUrl` | string | Public LinkedIn profile URL |
+ * | `profileUrn` | string | Canonical profile URN (`urn:li:fsd_profile:ACoA...` or `urn:li:fsd_profile:ACwA...`) — use directly with visit/connect/message endpoints |
+ * | `profileUrl` | string | Public LinkedIn profile URL `https://www.linkedin.com/in/<encrypted-id>`. Sales Nav does not expose canonical vanity slugs — open in a browser and LinkedIn redirects to `/in/<vanity-name>`. To resolve programmatically, call `POST /resolve/linkedin/profiles`. |
  * | `salesNavUrl` | string | Sales Navigator lead URL |
  * | `networkDistance` | string | Connection degree |
  * | `premium` | boolean | LinkedIn Premium subscriber |
@@ -65,7 +67,9 @@ import { Result } from "../types/fp.js";
  * | `currentPositions` | array | With company, role, tenure details |
  *
  * ## Credits
- * 1 credit per 10 items returned.
+ *
+ * ## JSON validity (critical)
+ * Every array field (seniority, function, location, companyHeadcount, companyType, connectionDegree, yearsOfExperience, profileLanguage, school) MUST be a valid JSON array of double-quoted strings, e.g. `["Director","Vice President"]`. Never pipe-separated prose (`Director | Vice President`), never unquoted values (`United States`), never merge multiple options into one element. Malformed JSON means the filter is dropped and the search runs unfiltered.
  */
 export function salesNavPeople(
   client: BereachCore,
@@ -188,21 +192,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

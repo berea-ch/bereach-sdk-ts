@@ -5,7 +5,7 @@
 import { actionsAcceptInvitation } from "../funcs/actions-accept-invitation.js";
 import { actionsConnectProfile } from "../funcs/actions-connect-profile.js";
 import { actionsCreateComment } from "../funcs/actions-create-comment.js";
-import { actionsDeclineInvitation } from "../funcs/actions-decline-invitation.js";
+import { actionsDeleteComment } from "../funcs/actions-delete-comment.js";
 import { actionsEditComment } from "../funcs/actions-edit-comment.js";
 import { actionsEditPost } from "../funcs/actions-edit-post.js";
 import { actionsEditProfile } from "../funcs/actions-edit-profile.js";
@@ -15,27 +15,22 @@ import { actionsLikeComment } from "../funcs/actions-like-comment.js";
 import { actionsLikePost } from "../funcs/actions-like-post.js";
 import { actionsListInvitations } from "../funcs/actions-list-invitations.js";
 import { actionsListSentInvitations } from "../funcs/actions-list-sent-invitations.js";
-import { actionsPublishPost } from "../funcs/actions-publish-post.js";
 import { actionsReplyToComment } from "../funcs/actions-reply-to-comment.js";
-import { actionsRepostPost } from "../funcs/actions-repost-post.js";
-import { actionsSavePost } from "../funcs/actions-save-post.js";
 import { actionsSendMessage } from "../funcs/actions-send-message.js";
 import { actionsUnfollowCompany } from "../funcs/actions-unfollow-company.js";
 import { actionsUnfollowProfile } from "../funcs/actions-unfollow-profile.js";
 import { actionsUnlikeComment } from "../funcs/actions-unlike-comment.js";
 import { actionsUnlikePost } from "../funcs/actions-unlike-post.js";
-import { actionsUnsavePost } from "../funcs/actions-unsave-post.js";
-import { actionsWithdrawInvitation } from "../funcs/actions-withdraw-invitation.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
 
 export class Actions extends ClientSDK {
   /**
-   * Send LinkedIn connection request
+   * Send LinkedIn connection requests
    *
    * @remarks
-   * Send a connection request to the specified LinkedIn profile. Optionally include a personalized message (max 300 chars). Rate limited to 80 requests per day per user. 1 credit.
+   * Invite named people from the connected account: the exact profile URL goes in profile, a dictated note in message, one call for one person and one call with the array for several. Say queued, never drafted or waiting for approval, and never sent until the result shows it left; report position and never turn it into a time; when blocked is set, say so before anything else.
    */
   async connectProfile(
     request: operations.ConnectProfileRequest,
@@ -52,7 +47,7 @@ export class Actions extends ClientSDK {
    * List received LinkedIn connection invitations
    *
    * @remarks
-   * Returns pending connection invitations received by the authenticated LinkedIn account. Each invitation includes the invitationId and sharedSecret needed to accept it via the accept endpoint. Costs 1 credit per request.
+   * Returns pending connection invitations received by the authenticated LinkedIn account. Each invitation includes the invitationId and sharedSecret needed to accept it via the accept endpoint.
    */
   async listInvitations(
     request?: operations.ListInvitationsRequest | undefined,
@@ -69,7 +64,7 @@ export class Actions extends ClientSDK {
    * Accept a LinkedIn connection invitation
    *
    * @remarks
-   * Accepts a pending connection invitation. Requires the invitationId and sharedSecret obtained from the list invitations endpoint. No daily/weekly cap — only a 5-second minimum interval between calls. Costs 1 credit per request.
+   * Accepts a pending connection invitation. Requires the invitationId and sharedSecret obtained from the list invitations endpoint. No daily/weekly cap — only a 5-second minimum interval between calls.
    */
   async acceptInvitation(
     request: operations.AcceptInvitationRequest,
@@ -86,7 +81,7 @@ export class Actions extends ClientSDK {
    * Send LinkedIn message
    *
    * @remarks
-   * Send a message to the specified LinkedIn recipient. Rate limited to 150 messages per day per user. 1 credit.
+   * Send a message to the specified LinkedIn recipient.
    */
   async sendMessage(
     request: operations.SendMessageRequest,
@@ -103,7 +98,7 @@ export class Actions extends ClientSDK {
    * Reply to a LinkedIn comment
    *
    * @remarks
-   * Sends a reply to a LinkedIn comment. Use the commentUrn returned by /collect/linkedin/comments directly — do NOT reconstruct it from hash fields.
+   * Sends a reply to a LinkedIn comment. Use the comment URN from the comment object directly — do NOT reconstruct it from hash fields.
    */
   async replyToComment(
     request: operations.ReplyToCommentRequest,
@@ -120,7 +115,7 @@ export class Actions extends ClientSDK {
    * Like a LinkedIn comment
    *
    * @remarks
-   * Reacts to a LinkedIn comment. Use the commentUrn returned by /collect/linkedin/comments directly — do NOT reconstruct it from hash fields.
+   * Reacts to a LinkedIn comment. Use the comment URN from the comment object directly — do NOT reconstruct it from hash fields.
    */
   async likeComment(
     request: operations.LikeCommentRequest,
@@ -134,32 +129,15 @@ export class Actions extends ClientSDK {
   }
 
   /**
-   * Publish or schedule a LinkedIn post
-   *
-   * @remarks
-   * Creates a new LinkedIn post. Supports instant publishing and scheduled posting. Optionally attach an image by providing its URL (imageUrl) or base64-encoded data (imageBase64). Rate limited to 80 actions per day per user. Consumes 1 credit per post.
-   */
-  async publishPost(
-    request: operations.PublishPostRequest,
-    options?: RequestOptions,
-  ): Promise<operations.PublishPostResponse> {
-    return unwrapAsync(actionsPublishPost(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Comment on a LinkedIn post
    *
    * @remarks
-   * Adds a top-level comment on a LinkedIn post. Consumes 1 credit per comment. Supports deduplication via campaignSlug.
+   * Adds a top-level comment on a LinkedIn post. Supports deduplication via campaignSlug.
    */
   async createComment(
-    request: operations.CreateCommentRequest,
+    request: operations.CommentOnPostRequest,
     options?: RequestOptions,
-  ): Promise<operations.CreateCommentResponse> {
+  ): Promise<operations.CommentOnPostResponse> {
     return unwrapAsync(actionsCreateComment(
       this,
       request,
@@ -171,7 +149,7 @@ export class Actions extends ClientSDK {
    * Like a LinkedIn post
    *
    * @remarks
-   * Reacts to a LinkedIn post. Accepts a post URL and an optional reaction type. Consumes 1 credit per reaction. Supports deduplication via campaignSlug.
+   * Reacts to a LinkedIn post. Accepts a post URL and an optional reaction type. Supports deduplication via campaignSlug.
    */
   async likePost(
     request: operations.LikePostRequest,
@@ -185,27 +163,10 @@ export class Actions extends ClientSDK {
   }
 
   /**
-   * Decline a connection invitation
-   *
-   * @remarks
-   * Decline a pending LinkedIn connection invitation. Uses the SDUI endpoint. Both invitationId and sharedSecret are required (obtained from the list invitations endpoint). 1 credit.
-   */
-  async declineInvitation(
-    request: operations.DeclineInvitationRequest,
-    options?: RequestOptions,
-  ): Promise<operations.DeclineInvitationResponse> {
-    return unwrapAsync(actionsDeclineInvitation(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * List sent connection invitations
    *
    * @remarks
-   * List sent (pending) LinkedIn connection invitations. 1 credit.
+   * List sent (pending) LinkedIn connection invitations.
    */
   async listSentInvitations(
     request: operations.ListSentInvitationsRequest,
@@ -219,27 +180,10 @@ export class Actions extends ClientSDK {
   }
 
   /**
-   * Withdraw a sent connection invitation
-   *
-   * @remarks
-   * Withdraw a pending sent connection invitation. Pre-fetches invitee details from last 500 sent invitations, then uses SDUI endpoint to withdraw. Only works for CONNECTION type invitations. Returns bad_request if invitation not found, already withdrawn, or accepted. Returns bad_request with message if invitation expired (410). 1 credit.
-   */
-  async withdrawInvitation(
-    request: operations.WithdrawInvitationRequest,
-    options?: RequestOptions,
-  ): Promise<operations.WithdrawInvitationResponse> {
-    return unwrapAsync(actionsWithdrawInvitation(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Follow a profile
    *
    * @remarks
-   * Follow a LinkedIn profile without connecting. Uses SDUI endpoint. Accepts profile URL (linkedin.com/in/username), full URN, or vanity name. Requires extracting memberId from fsd_profile URN (base64url decode). 1 credit.
+   * Follow a LinkedIn profile without connecting. Accepts profile URL (linkedin.com/in/username), full URN, or vanity name.
    */
   async followProfile(
     request: operations.FollowProfileRequest,
@@ -256,7 +200,7 @@ export class Actions extends ClientSDK {
    * Unfollow a profile
    *
    * @remarks
-   * Unfollow a LinkedIn profile. Uses SDUI endpoint. Same input formats as follow. 1 credit.
+   * Unfollow a LinkedIn profile. Same input formats as follow.
    */
   async unfollowProfile(
     request: operations.UnfollowProfileRequest,
@@ -273,7 +217,7 @@ export class Actions extends ClientSDK {
    * Edit a post
    *
    * @remarks
-   * Edit the text content of an existing LinkedIn post. Only text can be changed; media, visibility, and other properties are preserved. Requires resolving the shareUrn from the activityUrn (done internally via up to 5 fallback strategies). Only works for posts in the user's recent feed. Returns bad_request if shareUrn cannot be resolved. 1 credit.
+   * Edit the text content of an existing LinkedIn post. Only text can be changed; media, visibility, and other properties are preserved. Requires resolving the shareUrn from the activityUrn. Only works for posts in the user's recent feed. Returns bad_request if shareUrn cannot be resolved.
    */
   async editPost(
     request: operations.EditPostRequest,
@@ -290,7 +234,7 @@ export class Actions extends ClientSDK {
    * Edit a comment
    *
    * @remarks
-   * Edit the text of an existing LinkedIn comment. Provide either fsdCommentUrn (preferred, from comment API response) or the legacy commentUrn format. Uses REST PARTIAL_UPDATE. Returns not_found if the comment does not exist or URN is malformed, forbidden if it's not your comment. 1 credit.
+   * Edit the text of an existing LinkedIn comment. Provide either fsdCommentUrn (preferred, from comment API response) or the legacy commentUrn format. Returns not_found if the comment does not exist or URN is malformed, forbidden if it's not your comment.
    */
   async editComment(
     request: operations.EditCommentRequest,
@@ -307,7 +251,7 @@ export class Actions extends ClientSDK {
    * Edit LinkedIn profile headline/summary
    *
    * @remarks
-   * Edit the authenticated user's LinkedIn headline and/or about summary. At least one field is required. 1 credit.
+   * Edit the authenticated user's LinkedIn headline and/or about summary. At least one field is required.
    */
   async editProfile(
     request: operations.EditProfileRequest,
@@ -321,27 +265,10 @@ export class Actions extends ClientSDK {
   }
 
   /**
-   * Repost / share a post
-   *
-   * @remarks
-   * Repost/share a LinkedIn post with quote text. Text is required by LinkedIn. Returns shareUrn on success. Returns bad_request if post URL is invalid. 1 credit.
-   */
-  async repostPost(
-    request: operations.RepostPostRequest,
-    options?: RequestOptions,
-  ): Promise<operations.RepostPostResponse> {
-    return unwrapAsync(actionsRepostPost(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Unlike a post
    *
    * @remarks
-   * Remove your reaction from a LinkedIn post using GraphQL mutation. Idempotent if post is not liked. Returns bad_request if post URL is invalid. 0 credits.
+   * Remove your reaction from a LinkedIn post using GraphQL mutation. Idempotent if post is not liked. Returns bad_request if post URL is invalid.
    */
   async unlikePost(
     request: operations.UnlikePostRequest,
@@ -358,7 +285,7 @@ export class Actions extends ClientSDK {
    * Unlike a comment
    *
    * @remarks
-   * Remove your reaction from a LinkedIn comment using GraphQL mutation. Accepts both 'urn:li:comment:(urn:li:activity:X,Y)' and 'urn:li:comment:(activity:X,Y)' formats. Also supports ugcPost and share types. 0 credits.
+   * Remove your reaction from a LinkedIn comment using GraphQL mutation. Accepts both 'urn:li:comment:(urn:li:activity:X,Y)' and 'urn:li:comment:(activity:X,Y)' formats. Also supports ugcPost and share types.
    */
   async unlikeComment(
     request: operations.UnlikeCommentRequest,
@@ -372,33 +299,16 @@ export class Actions extends ClientSDK {
   }
 
   /**
-   * Save a post
+   * Delete one of your LinkedIn comments
    *
    * @remarks
-   * Save a LinkedIn post to bookmarks using REST PARTIAL_UPDATE. Idempotent — saving an already-saved post succeeds silently. Uses the post type (activity/ugcPost/share) for correct URN construction. 0 credits.
+   * Permanently delete a comment you posted (or one on your own post). LinkedIn checks ownership server-side and returns 403 otherwise. Idempotent — already-deleted comments return success with alreadyGone=true. Pass the full comment URN in 'urn:li:comment:(activity:POST_ID,COMMENT_ID)' shape (ugcPost / share also accepted).
    */
-  async savePost(
-    request: operations.SavePostRequest,
+  async deleteComment(
+    request: operations.DeleteCommentRequest,
     options?: RequestOptions,
-  ): Promise<operations.SavePostResponse> {
-    return unwrapAsync(actionsSavePost(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Unsave a post
-   *
-   * @remarks
-   * Remove a LinkedIn post from bookmarks. Idempotent — unsaving a non-saved post succeeds silently. 0 credits.
-   */
-  async unsavePost(
-    request: operations.UnsavePostRequest,
-    options?: RequestOptions,
-  ): Promise<operations.UnsavePostResponse> {
-    return unwrapAsync(actionsUnsavePost(
+  ): Promise<operations.DeleteCommentResponse> {
+    return unwrapAsync(actionsDeleteComment(
       this,
       request,
       options,
@@ -409,7 +319,7 @@ export class Actions extends ClientSDK {
    * Follow a company
    *
    * @remarks
-   * Follow a LinkedIn company page. 0 credits.
+   * Follow a LinkedIn company page.
    */
   async followCompany(
     request: operations.FollowCompanyRequest,
@@ -426,7 +336,7 @@ export class Actions extends ClientSDK {
    * Unfollow a company
    *
    * @remarks
-   * Unfollow a LinkedIn company page. 0 credits.
+   * Unfollow a LinkedIn company page.
    */
   async unfollowCompany(
     request: operations.UnfollowCompanyRequest,

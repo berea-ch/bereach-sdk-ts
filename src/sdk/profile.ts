@@ -5,24 +5,19 @@
 import { profileCreateApiToken } from "../funcs/profile-create-api-token.js";
 import { profileDeleteApiToken } from "../funcs/profile-delete-api-token.js";
 import { profileGetApiToken } from "../funcs/profile-get-api-token.js";
+import { profileGetConnectionStatus } from "../funcs/profile-get-connection-status.js";
 import { profileGetCredits } from "../funcs/profile-get-credits.js";
-import { profileGetFollowerAnalytics } from "../funcs/profile-get-follower-analytics.js";
 import { profileGetFollowers } from "../funcs/profile-get-followers.js";
 import { profileGetLimits } from "../funcs/profile-get-limits.js";
 import { profileGetMyActivity } from "../funcs/profile-get-my-activity.js";
-import { profileGetPostAnalytics } from "../funcs/profile-get-post-analytics.js";
-import { profileGetSearchAppearances } from "../funcs/profile-get-search-appearances.js";
+import { profileGetMyPosts } from "../funcs/profile-get-my-posts.js";
 import { profileGetSettings } from "../funcs/profile-get-settings.js";
 import { profileGet } from "../funcs/profile-get.js";
 import { profileListAccounts } from "../funcs/profile-list-accounts.js";
 import { profileListConnections } from "../funcs/profile-list-connections.js";
 import { profilePatchSettings } from "../funcs/profile-patch-settings.js";
-import { profilePosts } from "../funcs/profile-posts.js";
-import { profileRefresh } from "../funcs/profile-refresh.js";
-import { profileRevalidateLinkedin } from "../funcs/profile-revalidate-linkedin.js";
 import { profileSwitchAccount } from "../funcs/profile-switch-account.js";
 import { profileUpdateAccount } from "../funcs/profile-update-account.js";
-import { profileViews } from "../funcs/profile-views.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as operations from "../models/operations/index.js";
 import { unwrapAsync } from "../types/fp.js";
@@ -32,7 +27,7 @@ export class Profile extends ClientSDK {
    * Get authenticated user's LinkedIn profile
    *
    * @remarks
-   * Returns the authenticated user's stored LinkedIn profile data from the database. No LinkedIn API call, no credits consumed. Call /me/linkedin/refresh first to populate enriched data (positions, education, etc.).
+   * Returns the authenticated user's LinkedIn profile as it is currently stored: identity, headline, profile URL, connection count, location, and verification status. Reads storage only, so it makes no LinkedIn API call and consumes no credits. Enriched fields (about text, positions, education, recent posts, recent comments and reactions) appear only when an earlier call has already written them, so treat every one of them as optional and never assume the record is complete.
    */
   async get(
     options?: RequestOptions,
@@ -47,7 +42,7 @@ export class Profile extends ClientSDK {
    * List all LinkedIn accounts for the authenticated user
    *
    * @remarks
-   * Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to. DB-only endpoint — 0 credits.
+   * Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to.
    */
   async listAccounts(
     options?: RequestOptions,
@@ -62,7 +57,7 @@ export class Profile extends ClientSDK {
    * Update a LinkedIn account (label, default)
    *
    * @remarks
-   * Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts. DB-only — 0 credits.
+   * Update account metadata. Setting `isDefault: true` clears the default flag from all other accounts.
    */
   async updateAccount(
     request: operations.UpdateAccountRequest,
@@ -76,42 +71,10 @@ export class Profile extends ClientSDK {
   }
 
   /**
-   * Refresh authenticated user's LinkedIn profile
-   *
-   * @remarks
-   * Re-fetches the authenticated user's LinkedIn profile from the Voyager API and updates stored data (positions, education, location, connections count, verification status). No credits consumed.
-   */
-  async refresh(
-    options?: RequestOptions,
-  ): Promise<operations.RefreshResponse> {
-    return unwrapAsync(profileRefresh(
-      this,
-      options,
-    ));
-  }
-
-  /**
-   * Get authenticated user's LinkedIn posts
-   *
-   * @remarks
-   * Returns paginated posts from the authenticated user's own LinkedIn profile. No credits consumed. Requires valid LinkedIn credentials and a stored profileUrn (call /me/linkedin/refresh first if needed).
-   */
-  async posts(
-    request?: operations.GetMyPostsRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GetMyPostsResponse> {
-    return unwrapAsync(profilePosts(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Get authenticated user's LinkedIn followers
    *
    * @remarks
-   * Returns a paginated list of the authenticated user's LinkedIn followers. LinkedIn caps visible results at ~1 000. No credits consumed. Requires valid LinkedIn credentials.
+   * Returns a paginated list of the authenticated user's LinkedIn followers. Supports pagination. Requires valid LinkedIn credentials.
    */
   async getFollowers(
     request?: operations.GetFollowersRequest | undefined,
@@ -125,10 +88,10 @@ export class Profile extends ClientSDK {
   }
 
   /**
-   * Get current LinkedIn rate limit status
+   * Get current LinkedIn quota status
    *
    * @remarks
-   * Returns the current rate limit status for all LinkedIn action types. Includes current usage, effective limits (with workspace multiplier applied), remaining quotas, minimum delay between actions in seconds, and next reset times. No credits consumed.
+   * Returns the current quota status for all LinkedIn action types. Includes current usage, effective quotas (with workspace multiplier applied), remaining capacity, minimum delay between actions in seconds, and next reset times.
    */
   async getLimits(
     options?: RequestOptions,
@@ -140,10 +103,25 @@ export class Profile extends ClientSDK {
   }
 
   /**
+   * Get the state of outgoing connection requests
+   *
+   * @remarks
+   * Read-only, per connected account: whether invitations are going out, who is next, how many are waiting, and when nothing is going out, what is stopping it.
+   */
+  async getConnectionStatus(
+    options?: RequestOptions,
+  ): Promise<operations.GetConnectionStatusResponse> {
+    return unwrapAsync(profileGetConnectionStatus(
+      this,
+      options,
+    ));
+  }
+
+  /**
    * Get current BeReach credit balance
    *
    * @remarks
-   * Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting. No credits consumed.
+   * Returns the current credit balance for the workspace. Includes credits used, total limit, remaining credits, usage percentage, and whether credits are unlimited. When isUnlimited is true, limit and remaining are null — skip credit budgeting.
    */
   async getCredits(
     options?: RequestOptions,
@@ -155,78 +133,10 @@ export class Profile extends ClientSDK {
   }
 
   /**
-   * Get profile views
-   *
-   * @remarks
-   * Get who viewed your LinkedIn profile with viewer details (name, headline, company, profileUrl). Returns views array and total count. Requires Premium for full viewer details. 1 credit.
-   */
-  async views(
-    request?: operations.GetProfileViewsRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GetProfileViewsResponse> {
-    return unwrapAsync(profileViews(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get search appearances
-   *
-   * @remarks
-   * Get how many times you appeared in LinkedIn search results and the top keywords that led to your profile. Returns search count, top keywords, and searcher demographics. 1 credit.
-   */
-  async getSearchAppearances(
-    request?: operations.GetSearchAppearancesRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GetSearchAppearancesResponse> {
-    return unwrapAsync(profileGetSearchAppearances(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get post analytics
-   *
-   * @remarks
-   * Get reactions and comments data for a LinkedIn post. Returns reaction counts, comment count, and post URN. Returns bad_request for invalid post URL. 1 credit.
-   */
-  async getPostAnalytics(
-    request: operations.GetPostAnalyticsRequest,
-    options?: RequestOptions,
-  ): Promise<operations.GetPostAnalyticsResponse> {
-    return unwrapAsync(profileGetPostAnalytics(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get follower analytics
-   *
-   * @remarks
-   * Get follower demographics and growth data for your LinkedIn profile. Returns follower count, growth trends, and demographic breakdowns. 1 credit.
-   */
-  async getFollowerAnalytics(
-    request?: operations.GetFollowerAnalyticsRequest | undefined,
-    options?: RequestOptions,
-  ): Promise<operations.GetFollowerAnalyticsResponse> {
-    return unwrapAsync(profileGetFollowerAnalytics(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
    * Switch active LinkedIn account
    *
    * @remarks
-   * Switch the active LinkedIn account. All subsequent API calls will use the selected account's credentials. 0 credits.
+   * Switch the active LinkedIn account. All subsequent API calls will use the selected account's credentials.
    */
   async switchAccount(
     request: operations.SwitchAccountRequest,
@@ -243,12 +153,12 @@ export class Profile extends ClientSDK {
    * List LinkedIn connections
    *
    * @remarks
-   * List your LinkedIn connections (1st degree) with name, headline, profile URL, and connection date. 1 credit per page.
+   * List your LinkedIn connections (1st degree) with name, headline, profile URL, and connection date.
    */
   async listConnections(
-    request?: operations.ListConnectionsRequest | undefined,
+    request?: operations.GetConnectionsRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.ListConnectionsResponse> {
+  ): Promise<operations.GetConnectionsResponse> {
     return unwrapAsync(profileListConnections(
       this,
       request,
@@ -260,13 +170,30 @@ export class Profile extends ClientSDK {
    * Get recent activity (comments or reactions)
    *
    * @remarks
-   * Get recent activity (comments or reactions) by the authenticated user or a company page. Useful for verifying authorship of actions. 0 credits.
+   * Get recent activity (comments or reactions) by the authenticated user. Useful for verifying authorship of actions.
    */
   async getMyActivity(
-    request?: operations.GetMyActivityRequest | undefined,
+    request?: operations.GetOwnActivityRequest | undefined,
     options?: RequestOptions,
-  ): Promise<operations.GetMyActivityResponse> {
+  ): Promise<operations.GetOwnActivityResponse> {
     return unwrapAsync(profileGetMyActivity(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get the authenticated user's own posts
+   *
+   * @remarks
+   * List posts authored by the authenticated user, newest first, with pagination. Reads the user's own profile, so it costs no credits.
+   */
+  async getMyPosts(
+    request?: operations.GetOwnPostsRequest | undefined,
+    options?: RequestOptions,
+  ): Promise<operations.GetOwnPostsResponse> {
+    return unwrapAsync(profileGetMyPosts(
       this,
       request,
       options,
@@ -277,7 +204,7 @@ export class Profile extends ClientSDK {
    * Get account settings
    *
    * @remarks
-   * Returns user profile, location, proxy, Anthropic key status, subscription, LinkedIn accounts, and pending invites. 0 credits.
+   * Returns user profile, location, proxy, subscription, LinkedIn accounts, and pending invites..
    */
   async getSettings(
     options?: RequestOptions,
@@ -292,7 +219,7 @@ export class Profile extends ClientSDK {
    * Update account settings
    *
    * @remarks
-   * Update user country, city, phone, or Anthropic API key. Location changes propagate to proxy config. Anthropic key is validated before saving. 0 credits.
+   * Update user country, city, or phone. Location changes propagate to proxy config..
    */
   async patchSettings(
     request: operations.PatchSettingsRequest,
@@ -301,21 +228,6 @@ export class Profile extends ClientSDK {
     return unwrapAsync(profilePatchSettings(
       this,
       request,
-      options,
-    ));
-  }
-
-  /**
-   * Re-validate LinkedIn session
-   *
-   * @remarks
-   * Makes a lightweight LinkedIn /me call to verify credentials are still valid. Fixes false-invalid states. 1 credit.
-   */
-  async revalidateLinkedin(
-    options?: RequestOptions,
-  ): Promise<operations.RevalidateLinkedinResponse> {
-    return unwrapAsync(profileRevalidateLinkedin(
-      this,
       options,
     ));
   }

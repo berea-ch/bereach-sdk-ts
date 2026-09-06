@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,7 +33,7 @@ import { Result } from "../types/fp.js";
  * @remarks
  * # Search LinkedIn People
  *
- * Find professionals on LinkedIn by name, title, company, location, industry, and more. Returns structured profile data including name, headline, current positions, and connection degree.
+ * Find professionals on LinkedIn by name, title, company, location, industry, and more. Returns structured profile data including name, headline, current positions, connection degree, profile picture, **plus 2026-06-03 enrichments**: `nameMatch` (true when the result matched on literal name — strong personhood signal), `badgeText` (Top Voice / Premium / Verified / Influencer — qualifier weight), `ringStatus` (OPEN_TO_WORK / HIRING — open intent signals you can directly target), `summary` (additional snippet beyond headline), `actorInsights` (LinkedIn-curated context like 'X mutual connections', 'Follows {company}' — use directly in personalised outreach openers).
  *
  * ## Parameters
  * - **keywords** (optional): Search terms matched against name, headline, company, skills, and bio
@@ -49,19 +50,24 @@ import { Result } from "../types/fp.js";
  * Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
  *
  * ## Available filters
- * | Filter | Type | Description | Resolve IDs via |
- * |--------|------|-------------|------------------|
- * | `connectionDegree` | `["F"\|"S"\|"O"]` | Connection level: F=1st, S=2nd, O=3rd+ | — |
- * | `firstName` | string | Exact first name match | — |
- * | `lastName` | string | Exact last name match | — |
- * | `title` | string | Current job title (supports `\|` OR syntax: `"CEO\|CTO"`) | — |
- * | `connectionOf` | string | Profile URN — find their connections | — |
- * | `profileLanguage` | string[] | ISO 639-1 codes: `["en","fr"]` | — |
- * | `location` | string[] | Geo IDs | `/search/linkedin/parameters` type=`GEO` |
- * | `industry` | string[] | Industry IDs | `/search/linkedin/parameters` type=`INDUSTRY` |
- * | `currentCompany` | string[] | Company IDs (current employer) | `/search/linkedin/parameters` type=`COMPANY` |
- * | `pastCompany` | string[] | Company IDs (past employer) | `/search/linkedin/parameters` type=`COMPANY` |
- * | `school` | string[] | School/university IDs | `/search/linkedin/parameters` type=`SCHOOL` |
+ * Pass HUMAN LABELS for location / industry / currentCompany / pastCompany / school — the server resolves them to LinkedIn IDs via typeahead. Numeric IDs pass through unchanged if you already have them.
+ *
+ * | Filter | Type | Description |
+ * |--------|------|-------------|
+ * | `connectionDegree` | `["F"\|"S"\|"O"]` | Connection level: F=1st, S=2nd, O=3rd+ |
+ * | `firstName` | string | Exact first name match |
+ * | `lastName` | string | Exact last name match |
+ * | `title` | string | Current job title (supports `\|` OR syntax: `"CEO\|CTO"`) |
+ * | `connectionOf` | string | Profile URN — find their connections |
+ * | `followersOf` | string[] | Profile URNs — find a creator's followers |
+ * | `openToVolunteering` | boolean | Only people open to volunteering |
+ * | `serviceCategories` | string[] | Service-Marketplace category names |
+ * | `profileLanguage` | string[] | ISO 639-1 codes: `["en","fr"]` |
+ * | `location` | string[] | Geo labels (e.g. `["Paris","France"]`) — resolved server-side |
+ * | `industry` | string[] | Industry labels (e.g. `["Software Development"]`) — resolved server-side |
+ * | `currentCompany` | string[] | Company labels (e.g. `["Stripe","Datadog"]`) — resolved server-side |
+ * | `pastCompany` | string[] | Company labels — resolved server-side |
+ * | `school` | string[] | School/university labels — resolved server-side |
  *
  * ## Response fields (per item)
  * | Field | Type | Description |
@@ -77,25 +83,25 @@ import { Result } from "../types/fp.js";
  * ## Pagination
  * - Default page size: 10, max: 50
  * - Use `start` + `count` to paginate. Check `hasMore` for more pages.
- * - LinkedIn caps total visible results at ~1,000 for most searches.
+ * - Paginate via `start` + `count`; check `hasMore` for more pages.
  *
  * ## Example workflows
  * 1. **Prospect list building**: Search by title + location + industry → build a targeted outreach list
- * 2. **Recruiting**: Search by title + company + school → find qualified candidates
+ * 2. **Recruiting**: Search by title + company + school → find people who match
  * 3. **Network mapping**: Search `connectionOf` + filters → explore someone's network
  *
- * ## Multi-step workflow with filter ID resolution
+ * ## Workflow — pass labels directly
  * ```
- * Step 1: GET /search/linkedin/parameters { type: 'GEO', keywords: 'San Francisco' }
- *         → returns [{ id: '102277331', title: 'San Francisco, CA' }]
- * Step 2: GET /search/linkedin/parameters { type: 'COMPANY', keywords: 'Google' }
- *         → returns [{ id: '1441', title: 'Google' }]
- * Step 3: POST /search/linkedin/people { keywords: 'product manager', location: ['102277331'], currentCompany: ['1441'] }
- *         → returns matching people
+ * POST /search/linkedin/people {
+ *   keywords: 'product manager',
+ *   location: ['San Francisco'],
+ *   currentCompany: ['Google']
+ * }
+ * → server resolves labels → matching people
  * ```
+ * Only call `/search/linkedin/parameters` when you need to EXPLORE available values ("what are the canonical industry buckets?"), never as a prerequisite to a search.
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
  */
 export function searchPeople(
   client: BereachCore,
@@ -217,21 +223,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
