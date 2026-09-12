@@ -20,6 +20,8 @@ const value: operations.ResponseBody1 = {
     expiresAt: "1745675942128",
     createdAt: "1732496019313",
   },
+  creditsUsed: 53216,
+  retryAfter: 310061,
 };
 ```
 
@@ -34,6 +36,8 @@ const value: operations.ResponseBody2 = {
     proSeatsIncluded: 669472,
     proSeatsUsed: 313584,
   },
+  creditsUsed: 512221,
+  retryAfter: 494422,
 };
 ```
 

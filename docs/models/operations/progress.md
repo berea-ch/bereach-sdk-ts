@@ -1,27 +1,19 @@
 # Progress
 
+How far the running search has gotten, alongside stillRunning or partial.
+
 ## Example Usage
 
 ```typescript
 import { Progress } from "bereach/models/operations";
 
-let value: Progress = {
-  total: 641278,
-  visited: 340252,
-  cached: 238665,
-  failed: 685450,
-  skipped: 740187,
-  pending: 186527,
-};
+let value: Progress = {};
 ```
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `total`            | *number*           | :heavy_check_mark: | N/A                |
-| `visited`          | *number*           | :heavy_check_mark: | N/A                |
-| `cached`           | *number*           | :heavy_check_mark: | N/A                |
-| `failed`           | *number*           | :heavy_check_mark: | N/A                |
-| `skipped`          | *number*           | :heavy_check_mark: | N/A                |
-| `pending`          | *number*           | :heavy_check_mark: | N/A                |
+| Field                  | Type                   | Required               | Description            |
+| ---------------------- | ---------------------- | ---------------------- | ---------------------- |
+| `peopleFound`          | *number*               | :heavy_minus_sign:     | N/A                    |
+| `queriesRun`           | *number*               | :heavy_minus_sign:     | N/A                    |
+| `additionalProperties` | Record<string, *any*>  | :heavy_minus_sign:     | N/A                    |

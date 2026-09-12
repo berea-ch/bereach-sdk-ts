@@ -3,6 +3,7 @@
  */
 
 import { BereachCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -24,10 +25,10 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get current LinkedIn rate limit status
+ * Get current LinkedIn quota status
  *
  * @remarks
- * Returns the current rate limit status for all LinkedIn action types. Includes current usage, effective limits (with workspace multiplier applied), remaining quotas, minimum delay between actions in seconds, and next reset times. No credits consumed.
+ * Returns the current quota status for all LinkedIn action types. Includes current usage, effective quotas (with workspace multiplier applied), remaining capacity, minimum delay between actions in seconds, and next reset times.
  */
 export function profileGetLimits(
   client: BereachCore,
@@ -133,21 +134,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * Log activities for a contact
  *
  * @remarks
- * Log one or more activities (e.g. message_sent, profile_visited, post_liked) for a contact. Max 100 per request. 0 credits.
+ * Log one or more activities (e.g. message_sent, profile_visited, post_liked) for a contact. Max 100 per request..
  */
 export function contactsAddActivities(
   client: BereachCore,
-  request: operations.AddActivitiesRequest,
+  request: operations.ContactsLogActivityRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.AddActivitiesResponse,
+    operations.ContactsLogActivityResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function contactsAddActivities(
 
 async function $do(
   client: BereachCore,
-  request: operations.AddActivitiesRequest,
+  request: operations.ContactsLogActivityRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.AddActivitiesResponse,
+      operations.ContactsLogActivityResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -100,7 +101,8 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => z.parse(operations.AddActivitiesRequest$outboundSchema, value),
+    (value) =>
+      z.parse(operations.ContactsLogActivityRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -129,7 +131,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "addActivities",
+    operationID: "contactsLogActivity",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -158,21 +160,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -186,7 +175,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.AddActivitiesResponse,
+    operations.ContactsLogActivityResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -207,7 +196,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.AddActivitiesResponse$inboundSchema),
+    M.json(200, operations.ContactsLogActivityResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
