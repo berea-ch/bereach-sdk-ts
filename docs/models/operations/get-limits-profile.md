@@ -1,0 +1,37 @@
+# GetLimitsProfile
+
+Limits for structured profile reads.
+
+## Example Usage
+
+```typescript
+import { GetLimitsProfile } from "bereach/models/operations";
+
+let value: GetLimitsProfile = {
+  uncapped: true,
+  daily: {
+    current: 835964,
+    limit: 138264,
+    remaining: 212163,
+  },
+  weekly: {
+    current: 65430,
+    limit: 254341,
+    remaining: 786497,
+  },
+  minIntervalSeconds: 335141,
+  nextResetDaily: "<value>",
+  nextResetWeekly: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                                                                               | Type                                                                                                                                                                                                                | Required                                                                                                                                                                                                            | Description                                                                                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `uncapped`                                                                                                                                                                                                          | *boolean*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                  | True when this action has no daily and no weekly ceiling at all, so nothing limits the volume beyond minIntervalSeconds. Connection requests are uncapped: never state or imply a daily or weekly maximum for them. |
+| `daily`                                                                                                                                                                                                             | [operations.LimitsDaily](../../models/operations/limits-daily.md)                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                                                  | Daily usage counter (resets at midnight UTC). Null if not configured for this action type.                                                                                                                          |
+| `weekly`                                                                                                                                                                                                            | [operations.LimitsWeekly](../../models/operations/limits-weekly.md)                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                  | Weekly usage counter (resets Monday 00:00 UTC). Null if no weekly cap for this action type.                                                                                                                         |
+| `minIntervalSeconds`                                                                                                                                                                                                | *number*                                                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                                                  | Minimum delay in seconds required between two consecutive actions of this type                                                                                                                                      |
+| `nextResetDaily`                                                                                                                                                                                                    | *string*                                                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                                                  | ISO 8601 timestamp of the next daily counter reset. Null if not configured.                                                                                                                                         |
+| `nextResetWeekly`                                                                                                                                                                                                   | *string*                                                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                                                  | ISO 8601 timestamp of the next weekly counter reset. Null if no weekly cap.                                                                                                                                         |
