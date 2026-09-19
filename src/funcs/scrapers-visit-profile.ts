@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,11 +31,7 @@ import { Result } from "../types/fp.js";
  * Visit LinkedIn profile and extract contact data
  *
  * @remarks
- * Visit a LinkedIn profile and return contact data. Distance-1 profiles cached 24h (0 credits when cached). No dedup — always executes. campaignSlug is for tracking only. 1 credit (0 when cached).
- *
- * Optional enrichment flags (`includePosts`, `includeComments`, `includeAbout`) fetch additional data in parallel with minimal latency overhead. `includeAbout` fetches the About section and detailed position descriptions. `includeComments` returns posts the profile recently engaged with (topic + author), useful for personalization — note that the actual comment text is not available from this API.
- *
- * `followersCount` and `connectionsCount` are always included in the response at no extra cost.
+ * Read ONE named person, addressed by profile URL, vanity slug, or URN from a list row and never by display name: it returns the richest single-profile snapshot there is, covering about, location, work history, education, connection degree and pending invitation, and the recent posts, comments and reactions that say whether the person is still active. For two or more people use public_enrich, never call it for email or phone, and do not re-read a profile visited recently.
  */
 export function scrapersVisitProfile(
   client: BereachCore,
@@ -156,21 +153,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

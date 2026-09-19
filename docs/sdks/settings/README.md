@@ -11,7 +11,7 @@ Endpoints for DM polling and connection polling configuration
 
 ## getDmPollingSettings
 
-Get DM and connection polling settings for the active LinkedIn account. 0 credits.
+Get DM and connection polling settings for the active LinkedIn account..
 
 ### Example Usage
 
@@ -90,7 +90,7 @@ run();
 
 ## patchDmPollingSettings
 
-Enable/disable DM or connection polling and set webhook URL. 0 credits.
+Set the webhook URL that receives connection + DM events..
 
 ### Example Usage
 
