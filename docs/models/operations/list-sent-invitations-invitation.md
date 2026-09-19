@@ -10,18 +10,25 @@ let value: ListSentInvitationsInvitation = {
   invitationUrn: "<value>",
   entityUrn: "<value>",
   sentAt: "<value>",
+  sentTime: 526910,
   message: "<value>",
   targetProfileId: "<id>",
   targetFirstName: "<value>",
-  targetLastName: "<value>",
+  targetLastName: null,
   toMember: {
     name: "<value>",
-    headline: null,
-    profileUrl: "https://impassioned-dwell.name",
+    headline: "<value>",
+    profileUrl: "https://kaleidoscopic-deck.net",
     profilePicture: "<value>",
     publicIdentifier: "<value>",
     profileUrn: "<value>",
+    memberId: "<id>",
   },
+  invitationType: "<value>",
+  mailboxItemId: "<id>",
+  customMessage: true,
+  unseen: false,
+  inviterFollowingInvitee: false,
 };
 ```
 
@@ -33,8 +40,16 @@ let value: ListSentInvitationsInvitation = {
 | `invitationUrn`                                             | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `entityUrn`                                                 | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `sentAt`                                                    | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
+| `sentTime`                                                  | *number*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `message`                                                   | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `targetProfileId`                                           | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `targetFirstName`                                           | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `targetLastName`                                            | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
 | `toMember`                                                  | [operations.ToMember](../../models/operations/to-member.md) | :heavy_check_mark:                                          | N/A                                                         |
+| `invitationType`                                            | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
+| `mailboxItemId`                                             | *string*                                                    | :heavy_check_mark:                                          | N/A                                                         |
+| `customMessage`                                             | *boolean*                                                   | :heavy_check_mark:                                          | N/A                                                         |
+| `unseen`                                                    | *boolean*                                                   | :heavy_check_mark:                                          | N/A                                                         |
+| `mutualCurrentCompany`                                      | *any*                                                       | :heavy_minus_sign:                                          | N/A                                                         |
+| `connectionDistance`                                        | *any*                                                       | :heavy_minus_sign:                                          | N/A                                                         |
+| `inviterFollowingInvitee`                                   | *boolean*                                                   | :heavy_check_mark:                                          | N/A                                                         |
