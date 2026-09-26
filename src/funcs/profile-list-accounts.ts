@@ -3,6 +3,7 @@
  */
 
 import { BereachCore } from "../core.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { RequestOptions } from "../lib/sdks.js";
@@ -27,7 +28,7 @@ import { Result } from "../types/fp.js";
  * List all LinkedIn accounts for the authenticated user
  *
  * @remarks
- * Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to. DB-only endpoint — 0 credits.
+ * Returns all LinkedIn accounts connected by the user. Each account has credentials and profile info. The `isCurrent` flag indicates which account the current API token is bound to.
  */
 export function profileListAccounts(
   client: BereachCore,
@@ -133,21 +134,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
