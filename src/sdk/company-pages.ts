@@ -15,11 +15,11 @@ export class CompanyPages extends ClientSDK {
    * List company pages the user administers
    *
    * @remarks
-   * Returns LinkedIn company pages where the authenticated user has admin access. Uses the Voyager organization admin API. Costs 1 credit.
+   * Returns LinkedIn company pages where the authenticated user has admin access. Uses the Voyager organization admin API.
    */
   async list(
     options?: RequestOptions,
-  ): Promise<operations.ListPagesResponse> {
+  ): Promise<operations.ListCompanyPagesResponse> {
     return unwrapAsync(companyPagesList(
       this,
       options,
@@ -30,12 +30,12 @@ export class CompanyPages extends ClientSDK {
    * Get recent posts from a company page
    *
    * @remarks
-   * Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page. Costs 1 credit.
+   * Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page.
    */
   async posts(
-    request: operations.GetCompanyPostsRequest,
+    request: operations.CompanyPagePostsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetCompanyPostsResponse> {
+  ): Promise<operations.CompanyPagePostsResponse> {
     return unwrapAsync(companyPagesPosts(
       this,
       request,
@@ -47,12 +47,12 @@ export class CompanyPages extends ClientSDK {
    * Get admin permissions for a company page
    *
    * @remarks
-   * Returns the authenticated user's admin permissions on a given LinkedIn company page. Use this to check what actions (post, comment, like, message, analytics) are available before calling write endpoints. Costs 1 credit.
+   * Returns the authenticated user's admin permissions on a given LinkedIn company page. Use this to check what actions (post, comment, like, message, analytics) are available before calling write endpoints.
    */
   async getPermissions(
-    request: operations.GetPermissionsRequest,
+    request: operations.CompanyPagePermissionsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetPermissionsResponse> {
+  ): Promise<operations.CompanyPagePermissionsResponse> {
     return unwrapAsync(companyPagesGetPermissions(
       this,
       request,
@@ -64,12 +64,12 @@ export class CompanyPages extends ClientSDK {
    * Get company page overview analytics
    *
    * @remarks
-   * Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Requires `companyId` (numeric string, e.g. "111652438") in the request body. Costs 1 credit.
+   * Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Requires `companyId` (numeric string, e.g. "111652438") in the request body.
    */
   async getAnalytics(
-    request: operations.GetAnalyticsRequest,
+    request: operations.CompanyPageAnalyticsRequest,
     options?: RequestOptions,
-  ): Promise<operations.GetAnalyticsResponse> {
+  ): Promise<operations.CompanyPageAnalyticsResponse> {
     return unwrapAsync(companyPagesGetAnalytics(
       this,
       request,

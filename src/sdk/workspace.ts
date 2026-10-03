@@ -32,7 +32,7 @@ export class Workspace extends ClientSDK {
    * Upgrade or downgrade account plan
    *
    * @remarks
-   * Upgrade a LinkedIn account from Free to Pro (assigns proxy, unlimited credits) or downgrade from Pro to Free. Requires available Pro seats.
+   * Upgrade a LinkedIn account from Free to Pro (assigns a residential proxy) or downgrade from Pro to Free. Requires available Pro seats.
    */
   async upgradeWorkspaceAccount(
     request: operations.UpgradeWorkspaceAccountRequest,
@@ -49,7 +49,7 @@ export class Workspace extends ClientSDK {
    * Create or list workspace invites
    *
    * @remarks
-   * Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days. 0 credits.
+   * Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days..
    */
   async createWorkspaceInvite(
     request: operations.CreateWorkspaceInviteRequest,
@@ -66,7 +66,7 @@ export class Workspace extends ClientSDK {
    * Delete a workspace invite
    *
    * @remarks
-   * Delete an invitation by ID. 0 credits.
+   * Delete an invitation by ID..
    */
   async deleteWorkspaceInvite(
     request: operations.DeleteWorkspaceInviteRequest,
