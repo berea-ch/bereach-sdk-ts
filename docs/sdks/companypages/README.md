@@ -13,11 +13,11 @@ Endpoints for managing LinkedIn company pages: list, permissions, posts, and act
 
 ## list
 
-Returns LinkedIn company pages where the authenticated user has admin access. Uses the Voyager organization admin API. Costs 1 credit.
+Returns LinkedIn company pages where the authenticated user has admin access. Uses the Voyager organization admin API.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="listPages" method="post" path="/me/linkedin/company-pages" -->
+<!-- UsageSnippet language="typescript" operationID="listCompanyPages" method="post" path="/me/linkedin/company-pages" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -71,7 +71,7 @@ run();
 
 ### Response
 
-**Promise\<[operations.ListPagesResponse](../../models/operations/list-pages-response.md)\>**
+**Promise\<[operations.ListCompanyPagesResponse](../../models/operations/list-company-pages-response.md)\>**
 
 ### Errors
 
@@ -92,11 +92,11 @@ run();
 
 ## posts
 
-Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page. Costs 1 credit.
+Fetch the most recent posts from a LinkedIn company page feed. Requires admin access to the company page.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getCompanyPosts" method="post" path="/me/linkedin/company-pages/posts" -->
+<!-- UsageSnippet language="typescript" operationID="companyPagePosts" method="post" path="/me/linkedin/company-pages/posts" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -148,14 +148,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetCompanyPostsRequest](../../models/operations/get-company-posts-request.md)                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CompanyPagePostsRequest](../../models/operations/company-page-posts-request.md)                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetCompanyPostsResponse](../../models/operations/get-company-posts-response.md)\>**
+**Promise\<[operations.CompanyPagePostsResponse](../../models/operations/company-page-posts-response.md)\>**
 
 ### Errors
 
@@ -176,11 +176,11 @@ run();
 
 ## getPermissions
 
-Returns the authenticated user's admin permissions on a given LinkedIn company page. Use this to check what actions (post, comment, like, message, analytics) are available before calling write endpoints. Costs 1 credit.
+Returns the authenticated user's admin permissions on a given LinkedIn company page. Use this to check what actions (post, comment, like, message, analytics) are available before calling write endpoints.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getPermissions" method="post" path="/me/linkedin/company-pages/permissions" -->
+<!-- UsageSnippet language="typescript" operationID="companyPagePermissions" method="post" path="/me/linkedin/company-pages/permissions" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -232,14 +232,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetPermissionsRequest](../../models/operations/get-permissions-request.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CompanyPagePermissionsRequest](../../models/operations/company-page-permissions-request.md)                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetPermissionsResponse](../../models/operations/get-permissions-response.md)\>**
+**Promise\<[operations.CompanyPagePermissionsResponse](../../models/operations/company-page-permissions-response.md)\>**
 
 ### Errors
 
@@ -260,11 +260,11 @@ run();
 
 ## getAnalytics
 
-Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Requires `companyId` (numeric string, e.g. "111652438") in the request body. Costs 1 credit.
+Returns overview analytics for a company page including visitor count, employee count, founding date, headquarters, description, and more. Requires `companyId` (numeric string, e.g. "111652438") in the request body.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="getAnalytics" method="post" path="/me/linkedin/company-pages/analytics" -->
+<!-- UsageSnippet language="typescript" operationID="companyPageAnalytics" method="post" path="/me/linkedin/company-pages/analytics" -->
 ```typescript
 import { Bereach } from "bereach";
 
@@ -316,14 +316,14 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetAnalyticsRequest](../../models/operations/get-analytics-request.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CompanyPageAnalyticsRequest](../../models/operations/company-page-analytics-request.md)                                                                            | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
-**Promise\<[operations.GetAnalyticsResponse](../../models/operations/get-analytics-response.md)\>**
+**Promise\<[operations.CompanyPageAnalyticsResponse](../../models/operations/company-page-analytics-response.md)\>**
 
 ### Errors
 
