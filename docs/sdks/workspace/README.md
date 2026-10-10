@@ -13,7 +13,7 @@ Endpoints for managing workspace accounts, invitations, and plan upgrades
 
 ## deleteWorkspaceAccount
 
-Remove a LinkedIn account from the workspace. Cannot remove the default account. Cancels in-flight tasks, releases proxy IPs, and decrements Pro seats if applicable.
+Remove a LinkedIn account from the workspace. Cannot remove the default account. Cancels in-flight tasks and frees the Pro seat if the account held one.
 
 ### Example Usage
 
@@ -97,7 +97,7 @@ run();
 
 ## upgradeWorkspaceAccount
 
-Upgrade a LinkedIn account from Free to Pro (assigns proxy, unlimited credits) or downgrade from Pro to Free. Requires available Pro seats.
+Upgrade a LinkedIn account from Free to Pro or downgrade from Pro to Free. Requires available Pro seats.
 
 ### Example Usage
 
@@ -183,7 +183,7 @@ run();
 
 ## createWorkspaceInvite
 
-Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days. 0 credits.
+Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days.
 
 ### Example Usage
 
@@ -267,7 +267,7 @@ run();
 
 ## deleteWorkspaceInvite
 
-Delete an invitation by ID. 0 credits.
+Delete an invitation by ID.
 
 ### Example Usage
 
