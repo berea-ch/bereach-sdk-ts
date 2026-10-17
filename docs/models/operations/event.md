@@ -7,7 +7,7 @@ import { Event } from "bereach/models/operations";
 
 let value: Event = {
   id: "<id>",
-  type: "task:completed",
+  type: "reply:received",
   summary: "<value>",
   metadata: {
     "key": "<value>",

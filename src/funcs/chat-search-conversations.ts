@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeFormQuery } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * Search LinkedIn conversations
  *
  * @remarks
- * Search inbox conversations by keyword via query parameters. Returns matching conversations with participants and last message. 0 credits. Example: GET /chats/linkedin/search?keywords=project
+ * Search inbox conversations by keyword via query parameters. Returns matching conversations with participants and last message. Example: GET /chats/linkedin/search?keywords=project
  */
 export function chatSearchConversations(
   client: BereachCore,
-  request: operations.SearchConversationsRequest,
+  request: operations.InboxSearchRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.SearchConversationsResponse,
+    operations.InboxSearchResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function chatSearchConversations(
 
 async function $do(
   client: BereachCore,
-  request: operations.SearchConversationsRequest,
+  request: operations.InboxSearchRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.SearchConversationsResponse,
+      operations.InboxSearchResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -100,8 +101,7 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) =>
-      z.parse(operations.SearchConversationsRequest$outboundSchema, value),
+    (value) => z.parse(operations.InboxSearchRequest$outboundSchema, value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -128,7 +128,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "searchConversations",
+    operationID: "inboxSearch",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -158,21 +158,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -186,7 +173,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.SearchConversationsResponse,
+    operations.InboxSearchResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -207,7 +194,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.SearchConversationsResponse$inboundSchema),
+    M.json(200, operations.InboxSearchResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),
