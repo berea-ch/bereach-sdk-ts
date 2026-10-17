@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeFormQuery } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -30,15 +31,15 @@ import { Result } from "../types/fp.js";
  * Get recent activity (comments or reactions)
  *
  * @remarks
- * Get recent activity (comments or reactions) by the authenticated user or a company page. Useful for verifying authorship of actions. 0 credits.
+ * Get recent activity (comments or reactions) by the authenticated user. Useful for verifying authorship of actions.
  */
 export function profileGetMyActivity(
   client: BereachCore,
-  request?: operations.GetMyActivityRequest | undefined,
+  request?: operations.GetOwnActivityRequest | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    operations.GetMyActivityResponse,
+    operations.GetOwnActivityResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -69,12 +70,12 @@ export function profileGetMyActivity(
 
 async function $do(
   client: BereachCore,
-  request?: operations.GetMyActivityRequest | undefined,
+  request?: operations.GetOwnActivityRequest | undefined,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      operations.GetMyActivityResponse,
+      operations.GetOwnActivityResponse,
       | errors.BadRequestError
       | errors.UnauthorizedError
       | errors.ForbiddenError
@@ -102,7 +103,7 @@ async function $do(
     request,
     (value) =>
       z.parse(
-        z.optional(operations.GetMyActivityRequest$outboundSchema),
+        z.optional(operations.GetOwnActivityRequest$outboundSchema),
         value,
       ),
     "Input validation failed",
@@ -116,7 +117,6 @@ async function $do(
   const path = pathToFunc("/me/linkedin/activity")();
 
   const query = encodeFormQuery({
-    "companyId": payload?.companyId,
     "count": payload?.count,
     "paginationToken": payload?.paginationToken,
     "start": payload?.start,
@@ -134,7 +134,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "getMyActivity",
+    operationID: "getOwnActivity",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
@@ -164,21 +164,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -192,7 +179,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    operations.GetMyActivityResponse,
+    operations.GetOwnActivityResponse,
     | errors.BadRequestError
     | errors.UnauthorizedError
     | errors.ForbiddenError
@@ -213,7 +200,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, operations.GetMyActivityResponse$inboundSchema),
+    M.json(200, operations.GetOwnActivityResponse$inboundSchema),
     M.jsonErr(400, errors.BadRequestError$inboundSchema),
     M.jsonErr(401, errors.UnauthorizedError$inboundSchema),
     M.jsonErr(403, errors.ForbiddenError$inboundSchema),

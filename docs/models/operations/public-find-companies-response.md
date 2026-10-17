@@ -1,0 +1,46 @@
+# PublicFindCompaniesResponse
+
+Matched companies
+
+## Example Usage
+
+```typescript
+import { PublicFindCompaniesResponse } from "bereach/models/operations";
+
+let value: PublicFindCompaniesResponse = {
+  source: "public",
+  provider: "<value>",
+  query: "<value>",
+  companies: [
+    {
+      name: "<value>",
+      website: "<value>",
+      imageUrl: "https://plump-daddy.com/",
+      description: "that including roger celsius readily mundane",
+      employees: 988651,
+      city: "South Andreaneworth",
+      country: "United Arab Emirates",
+      foundedYear: 17244,
+    },
+  ],
+  moreAvailable: false,
+};
+```
+
+## Fields
+
+| Field                                                                                                                                         | Type                                                                                                                                          | Required                                                                                                                                      | Description                                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`                                                                                                                                      | [operations.PublicFindCompaniesSource](../../models/operations/public-find-companies-source.md)                                               | :heavy_check_mark:                                                                                                                            | N/A                                                                                                                                           |
+| `provider`                                                                                                                                    | *string*                                                                                                                                      | :heavy_check_mark:                                                                                                                            | The search provider that answered.                                                                                                            |
+| `query`                                                                                                                                       | *string*                                                                                                                                      | :heavy_check_mark:                                                                                                                            | The exact query sent, so a thin result set can be read rather than guessed at.                                                                |
+| `companies`                                                                                                                                   | [operations.CompanyResponse](../../models/operations/company-response.md)[]                                                                   | :heavy_check_mark:                                                                                                                            | N/A                                                                                                                                           |
+| `moreAvailable`                                                                                                                               | *boolean*                                                                                                                                     | :heavy_check_mark:                                                                                                                            | Whether asking again with more can still reach rows you have not seen. False means this ask is walked out; say so and do not call more again. |
+| `duplicates`                                                                                                                                  | *number*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | Rows a continuation re-reached and dropped as already delivered. Normal bookkeeping, never a failure.                                         |
+| `namedNote`                                                                                                                                   | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | Says the first row is the company named in the ask itself.                                                                                    |
+| `sizeFilter`                                                                                                                                  | [operations.PublicFindCompaniesSizeFilter](../../models/operations/public-find-companies-size-filter.md)                                      | :heavy_minus_sign:                                                                                                                            | What the company-size band did, present whenever the ask carried one.                                                                         |
+| `sizeNote`                                                                                                                                    | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | The size filter's counts in one sentence, to relay as written.                                                                                |
+| `fundingFilter`                                                                                                                               | [operations.FundingFilter](../../models/operations/funding-filter.md)                                                                         | :heavy_minus_sign:                                                                                                                            | What the funding window did, present whenever the ask carried one.                                                                            |
+| `fundingNote`                                                                                                                                 | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | The funding window's counts in one sentence, to relay as written.                                                                             |
+| `exclusionFilter`                                                                                                                             | [operations.PublicFindCompaniesExclusionFilter](../../models/operations/public-find-companies-exclusion-filter.md)                            | :heavy_minus_sign:                                                                                                                            | What the person's exclusions did, present whenever the ask carried any.                                                                       |
+| `exclusionNote`                                                                                                                               | *string*                                                                                                                                      | :heavy_minus_sign:                                                                                                                            | The exclusions' counts in one sentence, to relay as written.                                                                                  |

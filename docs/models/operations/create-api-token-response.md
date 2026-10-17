@@ -17,9 +17,9 @@ let value: CreateApiTokenResponse = {
 
 ## Fields
 
-| Field                                      | Type                                       | Required                                   | Description                                |
-| ------------------------------------------ | ------------------------------------------ | ------------------------------------------ | ------------------------------------------ |
-| `success`                                  | *true*                                     | :heavy_check_mark:                         | N/A                                        |
-| `token`                                    | *string*                                   | :heavy_check_mark:                         | Full API token (brc_...) - only shown once |
-| `partialKey`                               | *string*                                   | :heavy_check_mark:                         | N/A                                        |
-| `accountId`                                | *string*                                   | :heavy_check_mark:                         | N/A                                        |
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `success`                                                                        | *true*                                                                           | :heavy_check_mark:                                                               | N/A                                                                              |
+| `token`                                                                          | *string*                                                                         | :heavy_check_mark:                                                               | Full API token (brc_...). It can be read again with the get API token operation. |
+| `partialKey`                                                                     | *string*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |
+| `accountId`                                                                      | *string*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |

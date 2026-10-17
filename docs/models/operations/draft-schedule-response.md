@@ -1,0 +1,48 @@
+# DraftScheduleResponse
+
+Messages put in line
+
+## Example Usage
+
+```typescript
+import { DraftScheduleResponse } from "bereach/models/operations";
+
+let value: DraftScheduleResponse = {
+  success: true,
+  scheduled: 850026,
+  queued: 710988,
+  requeued: 835698,
+  alreadyQueued: 250951,
+  held: 92397,
+  skipped: [
+    {
+      contactId: "<id>",
+      scheduledMessageId: "<id>",
+      reason: "<value>",
+    },
+  ],
+  invitesQueued: 407491,
+  accounts: [],
+  creditsUsed: 117317,
+  retryAfter: 92245,
+};
+```
+
+## Fields
+
+| Field                                                                                                                                        | Type                                                                                                                                         | Required                                                                                                                                     | Description                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `success`                                                                                                                                    | *true*                                                                                                                                       | :heavy_check_mark:                                                                                                                           | N/A                                                                                                                                          |
+| `scheduled`                                                                                                                                  | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Total now in line: messages (queued, put back, or already there) plus connection requests among them, counted in invitationsScheduled below. |
+| `invitationsScheduled`                                                                                                                       | *number*                                                                                                                                     | :heavy_minus_sign:                                                                                                                           | Connection requests among the ids, handed to the invitation line.                                                                            |
+| `queued`                                                                                                                                     | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Messages that entered the line.                                                                                                              |
+| `requeued`                                                                                                                                   | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Messages that could not be sent before and are back in line.                                                                                 |
+| `alreadyQueued`                                                                                                                              | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Messages that were already in line.                                                                                                          |
+| `held`                                                                                                                                       | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Messages held for a read; release the hold first.                                                                                            |
+| `skipped`                                                                                                                                    | [operations.DraftScheduleSkipped](../../models/operations/draft-schedule-skipped.md)[]                                                       | :heavy_check_mark:                                                                                                                           | Rows the line would not take, each with the reason.                                                                                          |
+| `invitesQueued`                                                                                                                              | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Invitations put in line for people not connected yet.                                                                                        |
+| `accounts`                                                                                                                                   | *string*[]                                                                                                                                   | :heavy_check_mark:                                                                                                                           | The connected accounts whose lines gained a message.                                                                                         |
+| `note`                                                                                                                                       | *string*                                                                                                                                     | :heavy_minus_sign:                                                                                                                           | Present when a send time was passed: it was ignored, and this says why.                                                                      |
+| `creditsUsed`                                                                                                                                | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Credits consumed by this call. 0 for free endpoints, cached results, duplicates, and for every query that does not touch LinkedIn.           |
+| `retryAfter`                                                                                                                                 | *number*                                                                                                                                     | :heavy_check_mark:                                                                                                                           | Seconds to wait before another call of the same type. 0 means no wait is needed.                                                             |
+| `meta`                                                                                                                                       | [operations.DraftScheduleMeta](../../models/operations/draft-schedule-meta.md)                                                               | :heavy_minus_sign:                                                                                                                           | Credit balance carried on every response so a caller never has to ask for it separately. Absent when the caller has no connected account.    |
