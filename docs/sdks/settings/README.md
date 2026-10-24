@@ -11,7 +11,7 @@ Endpoints for DM polling and connection polling configuration
 
 ## getDmPollingSettings
 
-Get DM and connection polling settings for the active LinkedIn account. 0 credits.
+Get DM and connection polling settings for the active LinkedIn account.
 
 ### Example Usage
 
@@ -73,24 +73,24 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## patchDmPollingSettings
 
-Enable/disable DM or connection polling and set webhook URL. 0 credits.
+Set the webhook URL that receives connection + DM events.
 
 ### Example Usage
 
@@ -153,17 +153,17 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |

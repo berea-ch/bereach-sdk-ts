@@ -1,0 +1,29 @@
+# Public1
+
+## Example Usage
+
+```typescript
+import { Public1 } from "bereach/models/operations";
+
+let value: Public1 = {
+  source: "public",
+  creditsUsed: 726644,
+  completeness: "<value>",
+  saved: false,
+  profile: {
+    "key": "<value>",
+  },
+};
+```
+
+## Fields
+
+| Field                                                                                                                                              | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`                                                                                                                                           | [operations.PublicProfileSource1](../../models/operations/public-profile-source1.md)                                                               | :heavy_check_mark:                                                                                                                                 | N/A                                                                                                                                                |
+| `creditsUsed`                                                                                                                                      | *number*                                                                                                                                           | :heavy_check_mark:                                                                                                                                 | Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.                  |
+| `readFrom`                                                                                                                                         | [operations.PublicProfileReadFrom](../../models/operations/public-profile-read-from.md)                                                            | :heavy_minus_sign:                                                                                                                                 | Where a profile read in full was read: the record a search of yours already saved, a public record read today, our index, or the live public page. |
+| `readAt`                                                                                                                                           | *string*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                 | For a profile read from our index or a saved search record: when it was read, so how old the profile is.                                           |
+| `completeness`                                                                                                                                     | *string*                                                                                                                                           | :heavy_check_mark:                                                                                                                                 | How complete the fetched public profile is.                                                                                                        |
+| `saved`                                                                                                                                            | *boolean*                                                                                                                                          | :heavy_check_mark:                                                                                                                                 | Whether the profile was saved to your contacts.                                                                                                    |
+| `profile`                                                                                                                                          | Record<string, *any*>                                                                                                                              | :heavy_check_mark:                                                                                                                                 | The profile data.                                                                                                                                  |
