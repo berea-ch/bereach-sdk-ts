@@ -4,6 +4,8 @@
 
 import * as z from "zod/v4-mini";
 import { safeParse } from "../../lib/schemas.js";
+import * as discriminatedUnionTypes from "../../types/discriminated-union.js";
+import { discriminatedUnion } from "../../types/discriminated-union.js";
 import * as openEnums from "../../types/enums.js";
 import { ClosedEnum, OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
@@ -11,62 +13,128 @@ import * as types from "../../types/primitives.js";
 import { smartUnion } from "../../types/smart-union.js";
 import { SDKValidationError } from "../errors/sdk-validation-error.js";
 import {
-  GetByUrlActivity,
-  GetByUrlActivity$inboundSchema,
-  GetByUrlCampaign,
-  GetByUrlCampaign$inboundSchema,
-} from "./get-by-url-campaign.js";
+  ContactsBriefActivity,
+  ContactsBriefActivity$inboundSchema,
+  ContactsBriefCompany,
+  ContactsBriefCompany$inboundSchema,
+  ContactsBriefPerson,
+  ContactsBriefPerson$inboundSchema,
+  HistoryReadFrom,
+  HistoryReadFrom$inboundSchema,
+  HistoryReason,
+  HistoryReason$inboundSchema,
+  Posts,
+  Posts$inboundSchema,
+  Signal,
+  Signal$inboundSchema,
+  SignalsReason,
+  SignalsReason$inboundSchema,
+} from "./history-read-from.js";
 
-export type GetByUrlContact = {
-  id: string;
-  linkedinUrl: string;
+export const Direction = {
+  Sent: "sent",
+  Received: "received",
+} as const;
+export type Direction = OpenEnum<typeof Direction>;
+
+export type Verbatim = {
+  id?: string | undefined;
+  direction: Direction;
+  at: string;
+  text: string;
+  senderName: string;
+};
+
+export type ContactsBriefDay = {
+  start: string;
+  end: string;
+  messages: number;
   /**
-   * LinkedIn profile URN (e.g. urn:li:fsd_profile:ACoAAA...)
+   * Null when this period's summary waits for a later brief.
    */
-  profileUrn: string | null;
+  summary: string | null;
+};
+
+export type ContactsBriefWeek = {
+  start: string;
+  end: string;
+  messages: number;
   /**
-   * LinkedIn vanity slug (e.g. joshuaau)
+   * Null when this period's summary waits for a later brief.
    */
-  publicIdentifier: string | null;
-  name: string;
-  lifecycleStage: string;
-  hotScore: number;
-  qualificationNotes: string | null;
-  notes: string | null;
-  stageChangedAt: string | null;
-  profileData: any | null;
-  profileUpdatedAt: string | null;
-  conversationData: any | null;
-  conversationUpdatedAt: string | null;
-  outreachStatus: string;
-  lastContactedAt: string | null;
-  lastRepliedAt: string | null;
-  nextFollowUpAt: string | null;
-  doNotContact: boolean;
-  tags: Array<string>;
-  createdAt: string;
-  updatedAt: string;
-  activities: Array<GetByUrlActivity>;
-  campaigns: Array<GetByUrlCampaign>;
+  summary: string | null;
+};
+
+export type Month = {
+  start: string;
+  end: string;
+  messages: number;
+  /**
+   * Null when this period's summary waits for a later brief.
+   */
+  summary: string | null;
+};
+
+export type Summary = {
+  days: Array<ContactsBriefDay>;
+  weeks: Array<ContactsBriefWeek>;
+  months: Array<Month>;
+  /**
+   * Periods whose summary waits for a later brief.
+   */
+  waiting: number;
+};
+
+export type History = {
+  found: boolean;
+  /**
+   * Why this part is empty or older than asked.
+   */
+  reason?: HistoryReason | undefined;
+  readFrom: HistoryReadFrom;
+  /**
+   * The latest messages, oldest first, whole.
+   */
+  verbatim: Array<Verbatim>;
+  summary: Summary;
+  totalMessages: number;
+  oldestAt: string | null;
+  /**
+   * The whole conversation, back to its first message, is held.
+   */
+  complete: boolean;
 };
 
 /**
- * Contact found
+ * The brief
  */
-export type GetByUrlResponse = {
+export type ContactsBriefResponse = {
   success: true;
-  contact: GetByUrlContact;
+  person: ContactsBriefPerson;
+  posts: Posts;
+  activity: ContactsBriefActivity;
+  company: ContactsBriefCompany;
   /**
-   * Credits consumed by this call (always 0 for contacts queries).
+   * Dated reasons to write now, newest first, each with a link to check it.
+   */
+  signals: Array<Signal>;
+  /**
+   * Why this part is empty or older than asked.
+   */
+  signalsReason?: SignalsReason | undefined;
+  history: History;
+  readAt: string;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait before next call of the same type (always 0 for contacts queries).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
-export const ListMessagesQueryParamStatus = {
+export const QueryParamStatus = {
   Draft: "draft",
   Scheduled: "scheduled",
   Sending: "sending",
@@ -74,18 +142,19 @@ export const ListMessagesQueryParamStatus = {
   Failed: "failed",
   Cancelled: "cancelled",
 } as const;
-export type ListMessagesQueryParamStatus = ClosedEnum<
-  typeof ListMessagesQueryParamStatus
->;
+export type QueryParamStatus = ClosedEnum<typeof QueryParamStatus>;
 
-export type ListMessagesRequest = {
-  status?: ListMessagesQueryParamStatus | undefined;
+export type ScheduledMessageListRequest = {
+  status?: QueryParamStatus | undefined;
   contactId?: string | undefined;
   campaignSlug?: string | undefined;
   limit?: number | undefined;
   offset?: number | undefined;
 };
 
+/**
+ * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+ */
 export const MessageStatus = {
   Draft: "draft",
   Scheduled: "scheduled",
@@ -94,9 +163,145 @@ export const MessageStatus = {
   Failed: "failed",
   Cancelled: "cancelled",
 } as const;
+/**
+ * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+ */
 export type MessageStatus = OpenEnum<typeof MessageStatus>;
 
-export type ListMessagesMessage = {
+export type ScheduledMessageListFirstDmCancelled = {
+  kind: "cancelled";
+  scheduledMessageId: string;
+  reason: string | null;
+};
+
+export type ScheduledMessageListFirstDmFailed = {
+  kind: "failed";
+  scheduledMessageId: string;
+  reason: string | null;
+  canRequeue: true;
+};
+
+export type ScheduledMessageListFirstDmSent = {
+  kind: "sent";
+  scheduledMessageId: string;
+  sentAt: string | null;
+};
+
+export type ScheduledMessageListFirstDmSending = {
+  kind: "sending";
+  scheduledMessageId: string;
+};
+
+export const FirstDmMessageStatus = {
+  Next: "next",
+  Waiting: "waiting",
+  WaitingAccept: "waiting_accept",
+  Accepted: "accepted",
+  Window: "window",
+  Blocked: "blocked",
+  NotOnList: "not-on-list",
+} as const;
+export type FirstDmMessageStatus = OpenEnum<typeof FirstDmMessageStatus>;
+
+export type ScheduledMessageListWhy = {
+  status: FirstDmMessageStatus;
+  /**
+   * Why it has not gone yet, in plain words.
+   */
+  detail: string;
+  /**
+   * 1-based place in line when ready; null while set aside.
+   */
+  position: number | null;
+  /**
+   * For `window`, when sending hours reopen; for `accepted`, when the pause before the first message lifts.
+   */
+  opensAt: string | null;
+  clearsItself: boolean | null;
+  fixUrl: string | null;
+  kind: string | null;
+};
+
+export type ScheduledMessageListFirstDmQueued = {
+  kind: "queued";
+  scheduledMessageId: string;
+  why: ScheduledMessageListWhy;
+};
+
+export type ScheduledMessageListFirstDmHeld = {
+  kind: "held";
+  scheduledMessageId: string;
+  reason: string;
+};
+
+export type ScheduledMessageListFirstDmWritten = {
+  kind: "written";
+  scheduledMessageId: string;
+};
+
+export type ScheduledMessageListFirstDmNone = {
+  kind: "none";
+};
+
+/**
+ * Where this person's first message stands, from the one projection every surface reads. Present on list rows.
+ */
+export type ScheduledMessageListFirstDmUnion =
+  | ScheduledMessageListFirstDmNone
+  | ScheduledMessageListFirstDmWritten
+  | ScheduledMessageListFirstDmHeld
+  | ScheduledMessageListFirstDmQueued
+  | ScheduledMessageListFirstDmSending
+  | ScheduledMessageListFirstDmSent
+  | ScheduledMessageListFirstDmFailed
+  | ScheduledMessageListFirstDmCancelled
+  | discriminatedUnionTypes.Unknown<"kind">;
+
+export const MessageInviteStatus = {
+  Next: "next",
+  Waiting: "waiting",
+  Window: "window",
+  Blocked: "blocked",
+  NotOnList: "not-on-list",
+} as const;
+export type MessageInviteStatus = OpenEnum<typeof MessageInviteStatus>;
+
+/**
+ * Where this person's connection request stands, from the invitation lane's own projection. Present on connection_request rows.
+ */
+export type ScheduledMessageListInvite = {
+  status: MessageInviteStatus;
+  detail: string;
+  clearsItself: boolean | null;
+  fixUrl: string | null;
+  kind: string | null;
+  opensAt: string | null;
+};
+
+/**
+ * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+ */
+export const ScheduledMessageListConnection = {
+  Connected: "connected",
+  Invited: "invited",
+  NotConnected: "not_connected",
+} as const;
+/**
+ * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+ */
+export type ScheduledMessageListConnection = OpenEnum<
+  typeof ScheduledMessageListConnection
+>;
+
+/**
+ * Why the run held this message out of the send, and the line it objected to. Present while it is held.
+ */
+export type ScheduledMessageListHold = {
+  reason: string;
+  quote?: string | null | undefined;
+};
+
+export type ScheduledMessageListMessage = {
   id: string;
   contactId: string;
   /**
@@ -108,8 +313,14 @@ export type ListMessagesMessage = {
    */
   contactLinkedinUrl?: string | null | undefined;
   message: string;
+  /**
+   * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+   */
   status: MessageStatus;
-  scheduledSendAt: string | null;
+  /**
+   * Legacy. A first message has no send time: the line decides when it goes out. Absent on new rows.
+   */
+  scheduledSendAt?: string | null | undefined;
   sentAt: string | null;
   campaignSlug: string | null;
   /**
@@ -117,42 +328,95 @@ export type ListMessagesMessage = {
    */
   errorMessage?: string | null | undefined;
   createdAt: string;
+  contactHeadline?: string | null | undefined;
+  contactCompany?: string | null | undefined;
+  contactLocation?: string | null | undefined;
+  /**
+   * Network distance to this contact.
+   */
+  contactDegree?: string | null | undefined;
+  contactProfilePicture?: string | null | undefined;
+  /**
+   * How many messages and invitations this contact has been sent, across every account you hold, the number that decides whether another is appropriate.
+   */
+  contactSentDmCount?: number | null | undefined;
+  /**
+   * Where this person stands: in the list (contact or lead), or rejected, meaning removed.
+   */
+  contactLifecycleStage?: string | null | undefined;
+  /**
+   * What this row will send. A connection request carries no body, which is why a queue of them is not a queue of drafts.
+   */
+  messageType?: string | null | undefined;
+  campaignId?: string | null | undefined;
+  campaignName?: string | null | undefined;
+  updatedAt?: string | null | undefined;
+  /**
+   * Which connected account will send it.
+   */
+  linkedinCredentialsId?: string | null | undefined;
+  /**
+   * Where this person's first message stands, from the one projection every surface reads. Present on list rows.
+   */
+  firstDm?:
+    | ScheduledMessageListFirstDmNone
+    | ScheduledMessageListFirstDmWritten
+    | ScheduledMessageListFirstDmHeld
+    | ScheduledMessageListFirstDmQueued
+    | ScheduledMessageListFirstDmSending
+    | ScheduledMessageListFirstDmSent
+    | ScheduledMessageListFirstDmFailed
+    | ScheduledMessageListFirstDmCancelled
+    | discriminatedUnionTypes.Unknown<"kind">
+    | undefined;
+  /**
+   * Where this person's connection request stands, from the invitation lane's own projection. Present on connection_request rows.
+   */
+  invite?: ScheduledMessageListInvite | null | undefined;
+  /**
+   * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+   */
+  connection?: ScheduledMessageListConnection | null | undefined;
+  /**
+   * Why the run held this message out of the send, and the line it objected to. Present while it is held.
+   */
+  hold?: ScheduledMessageListHold | null | undefined;
 };
 
 /**
  * Messages list
  */
-export type ListMessagesResponse = {
+export type ScheduledMessageListResponse = {
   success: true;
-  messages: Array<ListMessagesMessage>;
+  messages: Array<ScheduledMessageListMessage>;
   total: number;
   limit: number;
   offset: number;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
 /**
- * Default 'draft'
+ * Default 'draft'. 'scheduled' means approve at once: the message is put in line and goes out once the person is connected, at the account's pace.
  */
-export const CreateStatusRequest = {
+export const StatusRequest = {
   Draft: "draft",
   Scheduled: "scheduled",
 } as const;
 /**
- * Default 'draft'
+ * Default 'draft'. 'scheduled' means approve at once: the message is put in line and goes out once the person is connected, at the account's pace.
  */
-export type CreateStatusRequest = ClosedEnum<typeof CreateStatusRequest>;
+export type StatusRequest = ClosedEnum<typeof StatusRequest>;
 
-export type CreateRequest = {
+export type ScheduledMessageCreateRequest = {
   /**
-   * Internal contact ID
+   * The person's contact id, from a brief, a search or a contacts result.
    */
   contactId: string;
   /**
@@ -160,16 +424,22 @@ export type CreateRequest = {
    */
   message: string;
   /**
-   * Default 'draft'
+   * Default 'draft'. 'scheduled' means approve at once: the message is put in line and goes out once the person is connected, at the account's pace.
    */
-  status?: CreateStatusRequest | undefined;
+  status?: StatusRequest | undefined;
   /**
-   * ISO datetime for auto-send
+   * A first message has no stored send time: the line decides when it goes out. A time within 10 minutes of now is read as an ask to approve and send at once, like status 'scheduled'; anything further out is ignored.
    */
   scheduledSendAt?: string | undefined;
+  /**
+   * Which list to file the draft under. Omit it: the draft is filed with the person it is for, which is what a chat turn wants.
+   */
   campaignSlug?: string | undefined;
 };
 
+/**
+ * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+ */
 export const ScheduledMessageStatus = {
   Draft: "draft",
   Scheduled: "scheduled",
@@ -178,7 +448,147 @@ export const ScheduledMessageStatus = {
   Failed: "failed",
   Cancelled: "cancelled",
 } as const;
+/**
+ * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+ */
 export type ScheduledMessageStatus = OpenEnum<typeof ScheduledMessageStatus>;
+
+export type FirstDmScheduledMessageCancelled = {
+  kind: "cancelled";
+  scheduledMessageId: string;
+  reason: string | null;
+};
+
+export type FirstDmScheduledMessageFailed = {
+  kind: "failed";
+  scheduledMessageId: string;
+  reason: string | null;
+  canRequeue: true;
+};
+
+export type FirstDmScheduledMessageSent = {
+  kind: "sent";
+  scheduledMessageId: string;
+  sentAt: string | null;
+};
+
+export type FirstDmScheduledMessageSending = {
+  kind: "sending";
+  scheduledMessageId: string;
+};
+
+export const FirstDmScheduledMessageStatus = {
+  Next: "next",
+  Waiting: "waiting",
+  WaitingAccept: "waiting_accept",
+  Accepted: "accepted",
+  Window: "window",
+  Blocked: "blocked",
+  NotOnList: "not-on-list",
+} as const;
+export type FirstDmScheduledMessageStatus = OpenEnum<
+  typeof FirstDmScheduledMessageStatus
+>;
+
+export type ScheduledMessageCreateWhy = {
+  status: FirstDmScheduledMessageStatus;
+  /**
+   * Why it has not gone yet, in plain words.
+   */
+  detail: string;
+  /**
+   * 1-based place in line when ready; null while set aside.
+   */
+  position: number | null;
+  /**
+   * For `window`, when sending hours reopen; for `accepted`, when the pause before the first message lifts.
+   */
+  opensAt: string | null;
+  clearsItself: boolean | null;
+  fixUrl: string | null;
+  kind: string | null;
+};
+
+export type FirstDmScheduledMessageQueued = {
+  kind: "queued";
+  scheduledMessageId: string;
+  why: ScheduledMessageCreateWhy;
+};
+
+export type FirstDmScheduledMessageHeld = {
+  kind: "held";
+  scheduledMessageId: string;
+  reason: string;
+};
+
+export type FirstDmScheduledMessageWritten = {
+  kind: "written";
+  scheduledMessageId: string;
+};
+
+export type FirstDmScheduledMessageNone = {
+  kind: "none";
+};
+
+/**
+ * Where this person's first message stands, from the one projection every surface reads. Present on list rows.
+ */
+export type ScheduledMessageFirstDmUnion =
+  | FirstDmScheduledMessageNone
+  | FirstDmScheduledMessageWritten
+  | FirstDmScheduledMessageHeld
+  | FirstDmScheduledMessageQueued
+  | FirstDmScheduledMessageSending
+  | FirstDmScheduledMessageSent
+  | FirstDmScheduledMessageFailed
+  | FirstDmScheduledMessageCancelled
+  | discriminatedUnionTypes.Unknown<"kind">;
+
+export const ScheduledMessageInviteStatus = {
+  Next: "next",
+  Waiting: "waiting",
+  Window: "window",
+  Blocked: "blocked",
+  NotOnList: "not-on-list",
+} as const;
+export type ScheduledMessageInviteStatus = OpenEnum<
+  typeof ScheduledMessageInviteStatus
+>;
+
+/**
+ * Where this person's connection request stands, from the invitation lane's own projection. Present on connection_request rows.
+ */
+export type ScheduledMessageCreateInvite = {
+  status: ScheduledMessageInviteStatus;
+  detail: string;
+  clearsItself: boolean | null;
+  fixUrl: string | null;
+  kind: string | null;
+  opensAt: string | null;
+};
+
+/**
+ * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+ */
+export const ScheduledMessageCreateConnection = {
+  Connected: "connected",
+  Invited: "invited",
+  NotConnected: "not_connected",
+} as const;
+/**
+ * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+ */
+export type ScheduledMessageCreateConnection = OpenEnum<
+  typeof ScheduledMessageCreateConnection
+>;
+
+/**
+ * Why the run held this message out of the send, and the line it objected to. Present while it is held.
+ */
+export type ScheduledMessageCreateHold = {
+  reason: string;
+  quote?: string | null | undefined;
+};
 
 export type ScheduledMessage = {
   id: string;
@@ -192,8 +602,14 @@ export type ScheduledMessage = {
    */
   contactLinkedinUrl?: string | null | undefined;
   message: string;
+  /**
+   * The row's own status. For a first message, `scheduled` is legacy, read as `draft` (see `firstDm`); for a connection request, `scheduled` means approved and in the invitation queue.
+   */
   status: ScheduledMessageStatus;
-  scheduledSendAt: string | null;
+  /**
+   * Legacy. A first message has no send time: the line decides when it goes out. Absent on new rows.
+   */
+  scheduledSendAt?: string | null | undefined;
   sentAt: string | null;
   campaignSlug: string | null;
   /**
@@ -201,116 +617,323 @@ export type ScheduledMessage = {
    */
   errorMessage?: string | null | undefined;
   createdAt: string;
+  contactHeadline?: string | null | undefined;
+  contactCompany?: string | null | undefined;
+  contactLocation?: string | null | undefined;
+  /**
+   * Network distance to this contact.
+   */
+  contactDegree?: string | null | undefined;
+  contactProfilePicture?: string | null | undefined;
+  /**
+   * How many messages and invitations this contact has been sent, across every account you hold, the number that decides whether another is appropriate.
+   */
+  contactSentDmCount?: number | null | undefined;
+  /**
+   * Where this person stands: in the list (contact or lead), or rejected, meaning removed.
+   */
+  contactLifecycleStage?: string | null | undefined;
+  /**
+   * What this row will send. A connection request carries no body, which is why a queue of them is not a queue of drafts.
+   */
+  messageType?: string | null | undefined;
+  campaignId?: string | null | undefined;
+  campaignName?: string | null | undefined;
+  updatedAt?: string | null | undefined;
+  /**
+   * Which connected account will send it.
+   */
+  linkedinCredentialsId?: string | null | undefined;
+  /**
+   * Where this person's first message stands, from the one projection every surface reads. Present on list rows.
+   */
+  firstDm?:
+    | FirstDmScheduledMessageNone
+    | FirstDmScheduledMessageWritten
+    | FirstDmScheduledMessageHeld
+    | FirstDmScheduledMessageQueued
+    | FirstDmScheduledMessageSending
+    | FirstDmScheduledMessageSent
+    | FirstDmScheduledMessageFailed
+    | FirstDmScheduledMessageCancelled
+    | discriminatedUnionTypes.Unknown<"kind">
+    | undefined;
+  /**
+   * Where this person's connection request stands, from the invitation lane's own projection. Present on connection_request rows.
+   */
+  invite?: ScheduledMessageCreateInvite | null | undefined;
+  /**
+   * Where this account stands with them, which decides what approving does: connected means the message goes in line, invited means it waits for an acceptance, not_connected means a connection request goes out first. Null on a connection request row.
+   */
+  connection?: ScheduledMessageCreateConnection | null | undefined;
+  /**
+   * Why the run held this message out of the send, and the line it objected to. Present while it is held.
+   */
+  hold?: ScheduledMessageCreateHold | null | undefined;
+};
+
+export type ScheduledMessageCreateLineSkipped = {
+  contactId: string;
+  scheduledMessageId: string;
+  reason: string;
 };
 
 /**
- * Message created
+ * What approving did, present when the request asked for approval: messages that entered the line, were put back, were already there or were held, and the rows the line would not take.
  */
-export type CreateResponse = {
+export type ScheduledMessageCreateLine = {
+  queued: number;
+  requeued: number;
+  alreadyQueued: number;
+  held: number;
+  skipped: Array<ScheduledMessageCreateLineSkipped>;
+  invitesQueued: number;
+  accounts: Array<string>;
+};
+
+export type FirstDmSkipped = {
+  contactId: string;
+  scheduledMessageId: string;
+  reason: string;
+};
+
+/**
+ * On a duplicate that was approved, the same report as `line`.
+ */
+export type ScheduledMessageCreateFirstDm = {
+  queued: number;
+  requeued: number;
+  alreadyQueued: number;
+  held: number;
+  skipped: Array<FirstDmSkipped>;
+  invitesQueued: number;
+  accounts: Array<string>;
+};
+
+/**
+ * Message created, or an existing one returned instead
+ */
+export type ScheduledMessageCreateResponse = {
   success: true;
   scheduledMessage: ScheduledMessage;
+  contactName?: string | null | undefined;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * True when an existing message was returned rather than a new one created.
+   */
+  duplicate?: boolean | undefined;
+  /**
+   * True when a recent message to this contact is holding a new one back.
+   */
+  cooldown?: boolean | undefined;
+  /**
+   * Why the cooldown applies.
+   */
+  cooldownReason?: string | undefined;
+  /**
+   * Present when the requested list matched nothing and the draft was filed with the person instead; names where it landed.
+   */
+  campaignNote?: string | undefined;
+  /**
+   * What approving did, present when the request asked for approval: messages that entered the line, were put back, were already there or were held, and the rows the line would not take.
+   */
+  line?: ScheduledMessageCreateLine | undefined;
+  /**
+   * On a duplicate that was approved, the same report as `line`.
+   */
+  firstDm?: ScheduledMessageCreateFirstDm | undefined;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
-export type BatchScheduleRequest = {
+export type DraftScheduleRequest = {
   /**
-   * Schedule all drafts for these contacts
+   * Put every draft of these contacts in line, within ONE list: campaignId or campaignSlug is required with this, or the call is refused. Prefer messageIds, read from the outbox
    */
   contactIds?: Array<string> | undefined;
   /**
-   * Schedule specific messages
+   * The drafts to put in line, by the message ids a draft or the outbox returned.
    */
   messageIds?: Array<string> | undefined;
   /**
-   * ISO datetime for sending
+   * Move these to the front of the line. They still wait for the person to be connected.
    */
-  scheduledSendAt: string;
+  sendNow?: boolean | undefined;
   /**
-   * Map of messageId → new content for last-minute edits before scheduling
+   * A time within 10 minutes of now is read the same as sendNow; anything later is ignored.
+   */
+  scheduledSendAt?: string | undefined;
+  /**
+   * Map of messageId to new content for last-minute edits before approving
    */
   editedMessages?: { [k: string]: string } | undefined;
 };
 
+export type DraftScheduleSkipped = {
+  contactId: string;
+  scheduledMessageId: string;
+  reason: string;
+};
+
 /**
- * Messages scheduled
+ * Messages put in line
  */
-export type BatchScheduleResponse = {
+export type DraftScheduleResponse = {
   success: true;
   /**
-   * Number of messages scheduled
+   * Total now in line: messages (queued, put back, or already there) plus connection requests among them, counted in invitationsScheduled below.
    */
   scheduled: number;
   /**
-   * Number of cron trigger failures (messages reverted to draft)
+   * Connection requests among the ids, handed to the invitation line.
    */
-  triggerFailures: number;
+  invitationsScheduled?: number | undefined;
   /**
-   * ISO datetime for first send
+   * Messages that entered the line.
    */
-  scheduledSendAt: string;
+  queued: number;
   /**
-   * Minutes between staggered sends (0 if single message)
+   * Messages that could not be sent before and are back in line.
    */
-  staggerMinutes: number;
+  requeued: number;
   /**
-   * ISO datetime when last staggered message will be sent
+   * Messages that were already in line.
    */
-  lastSendAt: string;
+  alreadyQueued: number;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Among alreadyQueued, messages moved to the front.
+   */
+  bumped?: number | undefined;
+  /**
+   * Messages held for a read; release the hold first.
+   */
+  held: number;
+  /**
+   * Rows the line would not take, each with the reason.
+   */
+  skipped: Array<DraftScheduleSkipped>;
+  /**
+   * Invitations put in line for people not connected yet.
+   */
+  invitesQueued: number;
+  /**
+   * The connected accounts whose lines gained a message.
+   */
+  accounts: Array<string>;
+  /**
+   * Present when a send time was passed: it was ignored, and this says why.
+   */
+  note?: string | undefined;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
-export type CancelRequest = {
+export type ScheduledMessageUpdateRequest = {
   /**
-   * Cancel specific messages
+   * Scheduled message id to edit
+   */
+  messageId: string;
+  /**
+   * New DM text
+   */
+  message?: string | undefined;
+  /**
+   * Accepted and ignored: a first message has no send time.
+   */
+  scheduledSendAt?: string | null | undefined;
+};
+
+export type ScheduledMessageUpdateIneligible = {
+  id: string;
+  currentStatus: string;
+};
+
+/**
+ * Message updated
+ */
+export type ScheduledMessageUpdateResponse = {
+  success: true;
+  /**
+   * How many rows were edited.
+   */
+  updated: number;
+  ineligible: Array<ScheduledMessageUpdateIneligible>;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
+};
+
+export type ScheduledMessageCancelRequest = {
+  /**
+   * The messages to take out of line, by the message ids a draft or the outbox returned.
    */
   messageIds?: Array<string> | undefined;
   /**
-   * Cancel all pending for these contacts
+   * Cancel everything still waiting for these contacts, within the list named by campaignId, which contactIds needs. Prefer messageIds, read from the outbox
    */
   contactIds?: Array<string> | undefined;
+  /**
+   * The list to cancel within
+   */
+  campaignId?: string | undefined;
+};
+
+export type ScheduledMessageCancelIneligible = {
+  id: string;
+  currentStatus: string;
 };
 
 /**
  * Messages cancelled
  */
-export type CancelResponse = {
+export type ScheduledMessageCancelResponse = {
   success: true;
   cancelled: number;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Named messages that could not be cancelled, with the status they were in.
+   */
+  ineligible?: Array<ScheduledMessageCancelIneligible> | undefined;
+  /**
+   * Named message ids that match nothing.
+   */
+  notFound?: Array<string> | undefined;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
 export type ReviewDraftsRequest = {
   /**
-   * Campaign ID
+   * The list the drafts belong to. Optional: when omitted it is read from the message ids, which must all belong to one list.
    */
-  campaignId: string;
+  campaignId?: string | undefined;
   /**
-   * Message IDs to approve and send
+   * Message ids to approve and put in line, as a draft or the outbox returned them.
    */
   approved?: Array<string> | undefined;
   /**
-   * Message IDs to reject/cancel
+   * Message ids to reject, which takes them out of line.
    */
   rejected?: Array<string> | undefined;
   /**
@@ -319,34 +942,126 @@ export type ReviewDraftsRequest = {
   editedMessages?: { [k: string]: string } | undefined;
 };
 
+export type Approved = {
+  id: string;
+  currentStatus: string | null;
+};
+
+export type Rejected = {
+  id: string;
+  currentStatus: string | null;
+};
+
+/**
+ * Ids that were not in draft, with the status they were in.
+ */
+export type ReviewDraftsIneligible = {
+  approved: Array<Approved>;
+  rejected: Array<Rejected>;
+};
+
+export type ReviewDraftsSkipped = {
+  contactId: string;
+  scheduledMessageId: string;
+  reason: string;
+};
+
+/**
+ * What the line did with the approved first messages. Null when nothing was approved.
+ */
+export type ReviewDraftsLine = {
+  queued: number;
+  requeued: number;
+  alreadyQueued: number;
+  held: number;
+  skipped: Array<ReviewDraftsSkipped>;
+  /**
+   * Invitations put in line so these messages can follow; not in invitationsApproved.
+   */
+  invitesQueued: number;
+  accounts: Array<string>;
+};
+
+export type LaneBlocked = {
+  id: string;
+  messageType: string;
+  task: string;
+};
+
 /**
  * Review applied
  */
 export type ReviewDraftsResponse = {
   success: true;
+  /**
+   * Rows now in line: first messages queued, put back or already there, plus connection requests approved.
+   */
   approved: number;
   rejected: number;
+  /**
+   * Ids that were not in draft, with the status they were in.
+   */
+  ineligible: ReviewDraftsIneligible;
+  /**
+   * Connection requests among the approved ids, handed to the invitation line.
+   */
+  invitationsApproved: number;
+  /**
+   * What the line did with the approved first messages. Null when nothing was approved.
+   */
+  line: ReviewDraftsLine | null;
+  /**
+   * Rows not approved because their lane is switched off for the list.
+   */
+  laneBlocked: Array<LaneBlocked>;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
-export type ListEntriesRequest = {
+export type ContextListRequest = {
   /**
-   * Filter by scope (e.g. "campaign:abc", "user")
+   * Filter by scope, prefix-matched: "user" matches owner context and every saved playbook, "user:playbook:" every saved playbook.
    */
   scope?: string | undefined;
   /**
-   * Filter by type (e.g. "icp", "tone-voice")
+   * Filter by type (e.g. "playbook")
    */
   type?: string | undefined;
+  /**
+   * Entries per page (default 20); continue with offset.
+   */
+  limit?: number | undefined;
+  /**
+   * Pagination offset
+   */
+  offset?: number | undefined;
+  /**
+   * Return full content instead of 200-char preview. Use only when retrieving a specific entry (combine with type+scope filters).
+   */
+  fullContent?: boolean | undefined;
 };
 
-export type ListEntriesEntry = {
+export type ContextListEntry = {
   /**
    * Unique entry ID
    */
   id: string;
   type: string;
   label: string | null;
+  /**
+   * Full content (present when fullContent=true) or a 200-char preview
+   */
   content: string;
+  /**
+   * First 200 chars of content: present when fullContent is not requested
+   */
+  contentPreview?: string | undefined;
   scope: string;
   updatedAt: string;
 };
@@ -354,67 +1069,120 @@ export type ListEntriesEntry = {
 /**
  * Context entries
  */
-export type ListEntriesResponse = {
+export type ContextListResponse = {
   success: true;
-  entries: Array<ListEntriesEntry>;
+  entries: Array<ContextListEntry>;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Total matching entries
+   */
+  total: number;
+  hasMore: boolean;
+  /**
+   * Where this page started. Add the row count to it for the next page.
+   */
+  offset: number;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
-export type SetRequest = {
+export type ContextSetRequest = {
   /**
-   * Context type: "user-profile", "product-pitch", "icp", "tone-voice", "playbook", or "custom:{slug}"
+   * One of three closed slots, user-profile, offering or playbook, chosen by what the content means for outreach (global identity or offering, or a named first-DM voice), never a free-form custom:* slug. A remove also takes icp, to delete an old saved ICP.
    */
   type: string;
   /**
-   * Markdown content
+   * Markdown content, or the document itself when it is structured.
    */
-  content: string;
+  content?: string | undefined;
   /**
-   * Defaults to "user"
+   * Omit scope and pass label so the server derives and attaches "user:playbook:<slug>" (identity/offering fields keep plain "user", rejected for playbook); to reuse a voice already saved instead of rewriting it, send its existing scope alone with no content.
    */
   scope?: string | undefined;
   /**
-   * Display label
+   * A short name for the entry, at most 80 characters.
    */
   label?: string | undefined;
+  /**
+   * True deletes the saved memory of this type (icp included) at this scope, or with this label, instead of saving, and unbinds it from every list that used it. Send no content.
+   */
+  remove?: boolean | undefined;
 };
 
-export type SetEntry = {
+/**
+ * The memory that was deleted.
+ */
+export type Removed = {
+  type: string;
+  label: string | null;
+  scope: string;
+};
+
+export type ContextSetResponseBody2 = {
+  success: true;
+  /**
+   * The memory that was deleted.
+   */
+  removed: Removed;
+  /**
+   * Names of the lists that used it and no longer do.
+   */
+  unboundFrom: Array<string>;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
+};
+
+export type ContextSetEntry = {
   /**
    * Unique entry ID
    */
   id: string;
   type: string;
   label: string | null;
+  /**
+   * Full content (present when fullContent=true) or a 200-char preview
+   */
   content: string;
+  /**
+   * First 200 chars of content: present when fullContent is not requested
+   */
+  contentPreview?: string | undefined;
   scope: string;
   updatedAt: string;
 };
 
-/**
- * Context saved
- */
-export type SetResponse = {
+export type ContextSetResponseBody1 = {
   success: true;
-  entry: SetEntry;
+  entry: ContextSetEntry;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
-export type DeleteRequest = {
+/**
+ * Context saved, or removed
+ */
+export type ContextSetResponse =
+  | ContextSetResponseBody2
+  | ContextSetResponseBody1;
+
+export type ContextDeleteRequest = {
   /**
    * Context type to delete
    */
@@ -428,196 +1196,16 @@ export type DeleteRequest = {
 /**
  * Context deleted
  */
-export type DeleteResponse = {
+export type ContextDeleteResponse = {
   success: true;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
-};
-
-export type Schedule = {
-  scheduleId: string;
-  /**
-   * Human-readable schedule name (e.g. 'DM Polling', 'Draft Send')
-   */
-  name: string;
-  cron: string | null;
-  isPaused: boolean;
-  /**
-   * ISO 8601 timestamp of last execution
-   */
-  lastRun: string | null;
-  /**
-   * ISO 8601 timestamp of next scheduled execution
-   */
-  nextRun: string | null;
-  /**
-   * Status of the last execution
-   */
-  lastStatus: any | null;
-  /**
-   * The endpoint URL this schedule invokes
-   */
-  destination: string;
-};
-
-/**
- * Cron schedules
- */
-export type ListSchedulesResponse = {
-  success: true;
-  schedules: Array<Schedule>;
-  /**
-   * Credits consumed (always 0 for workspace operations).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait (always 0 for workspace operations).
-   */
-  retryAfter: number;
-};
-
-/**
- * Action to perform
- */
-export const UpdateScheduleAction = {
-  Pause: "pause",
-  Resume: "resume",
-  Delete: "delete",
-} as const;
-/**
- * Action to perform
- */
-export type UpdateScheduleAction = ClosedEnum<typeof UpdateScheduleAction>;
-
-export type UpdateScheduleRequestBody = {
-  /**
-   * Action to perform
-   */
-  action: UpdateScheduleAction;
-};
-
-export type UpdateScheduleRequest = {
-  /**
-   * Schedule ID
-   */
-  scheduleId: string;
-  body: UpdateScheduleRequestBody;
-};
-
-/**
- * Schedule updated
- */
-export type UpdateScheduleResponse = {
-  success: true;
-  /**
-   * Credits consumed (always 0 for workspace operations).
-   */
-  creditsUsed: number;
-  /**
-   * Seconds to wait (always 0 for workspace operations).
-   */
-  retryAfter: number;
-};
-
-/**
- * Filter by task status
- */
-export const ListTasksQueryParamStatus = {
-  Queued: "queued",
-  Dispatched: "dispatched",
-  Accepted: "accepted",
-  Running: "running",
-  Succeeded: "succeeded",
-  Failed: "failed",
-  Cancelled: "cancelled",
-} as const;
-/**
- * Filter by task status
- */
-export type ListTasksQueryParamStatus = ClosedEnum<
-  typeof ListTasksQueryParamStatus
->;
-
-export type ListTasksRequest = {
-  /**
-   * Filter by task status
-   */
-  status?: ListTasksQueryParamStatus | undefined;
-  /**
-   * Filter by task type (e.g. outreach-batch)
-   */
-  type?: string | undefined;
-  /**
-   * Filter by campaign ID
-   */
-  campaignId?: string | undefined;
-  limit?: number | undefined;
-  offset?: number | undefined;
-};
-
-export const TaskStatus = {
-  Queued: "queued",
-  Dispatched: "dispatched",
-  Accepted: "accepted",
-  Running: "running",
-  Succeeded: "succeeded",
-  Failed: "failed",
-  Cancelled: "cancelled",
-} as const;
-export type TaskStatus = OpenEnum<typeof TaskStatus>;
-
-export type ListTasksTask = {
-  id: string;
-  /**
-   * Task type (e.g. lead-gen-qualify, outreach-batch, lm-comments)
-   */
-  type: string;
-  campaignId: string | null;
-  status: TaskStatus;
-  priority: number;
-  model: string | null;
-  /**
-   * Structured task result (after completion)
-   */
-  result: any | null;
-  error: string | null;
-  connectorId: string | null;
-  workflowRunId: string | null;
-  createdAt: string;
-  dispatchedAt: string | null;
-  completedAt: string | null;
-};
-
-/**
- * Task list
- */
-export type ListTasksResponse = {
-  tasks: Array<ListTasksTask>;
-  total: number;
-  limit: number;
-  offset: number;
-};
-
-export type CancelTaskRequest = {
-  /**
-   * Task ID
-   */
-  id: string;
-};
-
-/**
- * Task cancelled or already terminal
- */
-export type CancelTaskResponse = {
-  success: true;
-  status: string;
-  message?: string | undefined;
 };
 
 export type EventsFeedRequest = {
@@ -629,17 +1217,16 @@ export type EventsFeedRequest = {
 };
 
 export const EventsFeedType = {
-  TaskCompleted: "task:completed",
-  TaskFailed: "task:failed",
   ReplyReceived: "reply:received",
   ConnectionAccepted: "connection:accepted",
-  CampaignTargetReached: "campaign:target_reached",
-  CampaignCompleted: "campaign:completed",
-  CampaignPaused: "campaign:paused",
+  CampaignRateLimited: "campaign:rate_limited",
+  CampaignLinkedinExpired: "campaign:linkedin_expired",
+  CredentialLlmError: "credential:llm_error",
+  CredentialLinkedinLongBroken: "credential:linkedin_long_broken",
 } as const;
 export type EventsFeedType = OpenEnum<typeof EventsFeedType>;
 
-export type Event = {
+export type EventsFeedEvent = {
   id: string;
   type: EventsFeedType;
   campaignId?: string | undefined;
@@ -659,260 +1246,15 @@ export type Event = {
  * Events
  */
 export type EventsFeedResponse = {
-  events: Array<Event>;
+  events: Array<EventsFeedEvent>;
   /**
    * Timestamp of most recent event (pass as 'since' for next poll)
    */
   cursor?: number | undefined;
 };
 
-export type CancelChainRequest = {
-  /**
-   * Workflow run ID
-   */
-  workflowRunId: string;
-};
-
-/**
- * Chain cancelled
- */
-export type CancelChainResponse = {
-  success: true;
-  /**
-   * Number of in-flight tasks cancelled
-   */
-  tasksCancelled: number;
-};
-
-export type PullTaskTask = {
-  id: string;
-  type: string;
-  campaignId: string | null;
-  /**
-   * Task prompt for the agent
-   */
-  message: string;
-  model: string | null;
-  thinking: string | null;
-  timeoutSeconds: number | null;
-  sessionKey: string | null;
-  payload: any | null;
-};
-
-/**
- * Task pulled (or null)
- */
-export type PullTaskResponse = {
-  task: PullTaskTask | null;
-  /**
-   * ID of a recently cancelled task the connector should abort
-   */
-  cancelTaskId: string | null;
-  /**
-   * Suggested poll interval in ms (5000 when busy, 30000 when idle)
-   */
-  pollIntervalMs: number;
-};
-
-/**
- * Intermediate status update (no result yet)
- */
-export const SubmitTaskResultStatus = {
-  Accepted: "accepted",
-  Running: "running",
-} as const;
-/**
- * Intermediate status update (no result yet)
- */
-export type SubmitTaskResultStatus = ClosedEnum<typeof SubmitTaskResultStatus>;
-
-export type SubmitTaskResultRequestBody = {
-  /**
-   * Intermediate status update (no result yet)
-   */
-  status?: SubmitTaskResultStatus | undefined;
-  /**
-   * Structured TaskResult on completion
-   */
-  result?: any | undefined;
-  /**
-   * Error message on failure
-   */
-  error?: string | undefined;
-};
-
-export type SubmitTaskResultRequest = {
-  /**
-   * Task ID
-   */
-  id: string;
-  body: SubmitTaskResultRequestBody;
-};
-
-/**
- * Result accepted
- */
-export type SubmitTaskResultResponse = {
-  success: true;
-  status: string;
-  message?: string | undefined;
-};
-
-export type Connector = {
-  id: string;
-  name: string;
-  /**
-   * online, idle, busy, or offline
-   */
-  status: string;
-  credentialsId: string;
-  lastSeenAt: string | null;
-  lastTaskAt: string | null;
-  createdAt: string;
-  /**
-   * True if lastSeenAt < 5 minutes ago
-   */
-  isOnline: boolean;
-};
-
-/**
- * Connector list
- */
-export type ListConnectorsResponse = {
-  connectors: Array<Connector>;
-};
-
-export type ConnectorHeartbeatRequest = {
-  /**
-   * ID of currently executing task (sets status to 'busy')
-   */
-  currentTaskId?: string | undefined;
-};
-
-/**
- * Heartbeat acknowledged
- */
-export type ConnectorHeartbeatResponse = {
-  success: true;
-  /**
-   * Number of queued tasks for this credential
-   */
-  pendingCount: number;
-  /**
-   * Suggested poll interval (5000 when tasks pending, 30000 when idle)
-   */
-  pollIntervalMs: number;
-};
-
-export type Context = {
-  type: string;
-  label: string | null;
-  content: string;
-  scope: string;
-};
-
-export type ActiveAccount = {
-  id: string;
-  name: string | null;
-  plan: string;
-  headline: string | null;
-  isUnlimited: boolean;
-  creditsLimit: number;
-  creditsCount: number;
-  simulateWrites: boolean;
-  isCurrent: boolean;
-};
-
-export type AgentSnapshotAccount = {
-  id: string;
-  name: string | null;
-  plan: string;
-  headline: string | null;
-  isUnlimited: boolean;
-  creditsLimit: number;
-  creditsCount: number;
-  simulateWrites: boolean;
-  isCurrent: boolean;
-};
-
-export type AgentSnapshotStageCounts = {
-  contact: number;
-  lead: number;
-  qualified: number;
-  approved: number;
-  rejected: number;
-  total: number;
-};
-
-export type ActiveCampaign = {
-  id: string;
-  name: string;
-  type: string;
-  status: string;
-  context: any | null;
-  stageCounts: AgentSnapshotStageCounts;
-};
-
-export const AgentSnapshotType = {
-  TaskCompleted: "task:completed",
-  TaskFailed: "task:failed",
-  ReplyReceived: "reply:received",
-  ConnectionAccepted: "connection:accepted",
-  CampaignTargetReached: "campaign:target_reached",
-  CampaignCompleted: "campaign:completed",
-  CampaignPaused: "campaign:paused",
-} as const;
-export type AgentSnapshotType = OpenEnum<typeof AgentSnapshotType>;
-
-export type RecentEvent = {
-  id: string;
-  type: AgentSnapshotType;
-  campaignId?: string | undefined;
-  campaignName?: string | undefined;
-  /**
-   * Human-readable one-line summary
-   */
-  summary: string;
-  metadata: { [k: string]: any };
-  /**
-   * Unix epoch ms
-   */
-  timestamp: number;
-};
-
-/**
- * Session snapshot
- */
-export type AgentSnapshotResponse = {
-  /**
-   * Credit balance and usage
-   */
-  credits: any | null;
-  /**
-   * Contact counts by lifecycle stage
-   */
-  pipeline: { [k: string]: number };
-  contexts: Array<Context>;
-  pendingDrafts: number;
-  failedDrafts: number;
-  unreadDMs: number;
-  pendingSentInvitations: number;
-  activeAccount: ActiveAccount | null;
-  accounts: Array<AgentSnapshotAccount>;
-  leadGenState: any | null;
-  outreachState: any | null;
-  activeCampaigns: Array<ActiveCampaign>;
-  campaignChecks: any;
-  sessionMeta: any | null;
-  onboardingState: any | null;
-  recentEvents: Array<RecentEvent>;
-};
-
 export type GetDmPollingSettingsSettings = {
-  dmPollingEnabled: boolean;
   dmWebhookUrl: string | null;
-  dmLastPolledAt: string | null;
-  connectionPollingEnabled: boolean;
   connectionLastPolledAt: string | null;
 };
 
@@ -923,32 +1265,24 @@ export type GetDmPollingSettingsResponse = {
   success: true;
   settings: GetDmPollingSettingsSettings;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
 
 export type PatchDmPollingSettingsRequest = {
-  dmPollingEnabled?: boolean | undefined;
   /**
-   * Webhook URL for DM events
+   * Webhook URL for connection_accepted + conversation_updated events
    */
   dmWebhookUrl?: string | null | undefined;
-  /**
-   * Enable polling to detect accepted connections
-   */
-  connectionPollingEnabled?: boolean | undefined;
 };
 
 export type PatchDmPollingSettingsSettings = {
-  dmPollingEnabled: boolean;
   dmWebhookUrl: string | null;
-  dmLastPolledAt: string | null;
-  connectionPollingEnabled: boolean;
   connectionLastPolledAt: string | null;
 };
 
@@ -959,11 +1293,11 @@ export type PatchDmPollingSettingsResponse = {
   success: true;
   settings: PatchDmPollingSettingsSettings;
   /**
-   * Credits consumed (always 0 for workspace operations).
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
    */
   creditsUsed: number;
   /**
-   * Seconds to wait (always 0 for workspace operations).
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
    */
   retryAfter: number;
 };
@@ -981,6 +1315,14 @@ export type DeleteWorkspaceAccountRequest = {
 export type DeleteWorkspaceAccountResponse = {
   success: true;
   message: string;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
 export const UpgradeWorkspaceAccountAction = {
@@ -1007,6 +1349,14 @@ export type UpgradeWorkspaceAccountResponse = {
   message: string;
   seatsUsed: number;
   seatsIncluded: number;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
 /**
@@ -1042,7 +1392,7 @@ export type CreateWorkspaceInviteRequest = {
   maxUses?: number | undefined;
 };
 
-export type Invite2 = {
+export type CreateWorkspaceInviteInvite2 = {
   id: string;
   email: string | null;
   name: string | null;
@@ -1060,13 +1410,21 @@ export type Workspace = {
   proSeatsUsed: number;
 };
 
-export type ResponseBody2 = {
+export type CreateWorkspaceInviteResponseBody2 = {
   success: true;
-  invites: Array<Invite2>;
+  invites: Array<CreateWorkspaceInviteInvite2>;
   workspace: Workspace;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
-export type Invite1 = {
+export type CreateWorkspaceInviteInvite1 = {
   id: string;
   email: string | null;
   name: string | null;
@@ -1078,15 +1436,25 @@ export type Invite1 = {
   createdAt: string;
 };
 
-export type ResponseBody1 = {
+export type CreateWorkspaceInviteResponseBody1 = {
   success: true;
-  invite: Invite1;
+  invite: CreateWorkspaceInviteInvite1;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
 /**
  * Invite created or listed
  */
-export type CreateWorkspaceInviteResponse = ResponseBody2 | ResponseBody1;
+export type CreateWorkspaceInviteResponse =
+  | CreateWorkspaceInviteResponseBody2
+  | CreateWorkspaceInviteResponseBody1;
 
 export type DeleteWorkspaceInviteRequest = {
   /**
@@ -1100,77 +1468,175 @@ export type DeleteWorkspaceInviteRequest = {
  */
 export type DeleteWorkspaceInviteResponse = {
   success: true;
+  /**
+   * Credits this call spent, net of anything given back. 0 when nothing was charged: a free read, a cached answer, nothing delivered.
+   */
+  creditsUsed: number;
+  /**
+   * Seconds to wait before another call of the same type. 0 means no wait is needed.
+   */
+  retryAfter: number;
 };
 
 /** @internal */
-export const GetByUrlContact$inboundSchema: z.ZodMiniType<
-  GetByUrlContact,
-  unknown
-> = z.object({
-  id: types.string(),
-  linkedinUrl: types.string(),
-  profileUrn: types.nullable(types.string()),
-  publicIdentifier: types.nullable(types.string()),
-  name: types.string(),
-  lifecycleStage: types.string(),
-  hotScore: types.number(),
-  qualificationNotes: types.nullable(types.string()),
-  notes: types.nullable(types.string()),
-  stageChangedAt: types.nullable(types.string()),
-  profileData: types.nullable(z.any()),
-  profileUpdatedAt: types.nullable(types.string()),
-  conversationData: types.nullable(z.any()),
-  conversationUpdatedAt: types.nullable(types.string()),
-  outreachStatus: types.string(),
-  lastContactedAt: types.nullable(types.string()),
-  lastRepliedAt: types.nullable(types.string()),
-  nextFollowUpAt: types.nullable(types.string()),
-  doNotContact: types.boolean(),
-  tags: z.array(types.string()),
-  createdAt: types.string(),
-  updatedAt: types.string(),
-  activities: z.array(GetByUrlActivity$inboundSchema),
-  campaigns: z.array(GetByUrlCampaign$inboundSchema),
-});
+export const Direction$inboundSchema: z.ZodMiniType<Direction, unknown> =
+  openEnums.inboundSchema(Direction);
 
-export function getByUrlContactFromJSON(
+/** @internal */
+export const Verbatim$inboundSchema: z.ZodMiniType<Verbatim, unknown> = z
+  .object({
+    id: types.optional(types.string()),
+    direction: Direction$inboundSchema,
+    at: types.string(),
+    text: types.string(),
+    senderName: types.string(),
+  });
+
+export function verbatimFromJSON(
   jsonString: string,
-): SafeParseResult<GetByUrlContact, SDKValidationError> {
+): SafeParseResult<Verbatim, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetByUrlContact$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetByUrlContact' from JSON`,
+    (x) => Verbatim$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Verbatim' from JSON`,
   );
 }
 
 /** @internal */
-export const GetByUrlResponse$inboundSchema: z.ZodMiniType<
-  GetByUrlResponse,
+export const ContactsBriefDay$inboundSchema: z.ZodMiniType<
+  ContactsBriefDay,
+  unknown
+> = z.object({
+  start: types.string(),
+  end: types.string(),
+  messages: types.number(),
+  summary: types.nullable(types.string()),
+});
+
+export function contactsBriefDayFromJSON(
+  jsonString: string,
+): SafeParseResult<ContactsBriefDay, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ContactsBriefDay$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContactsBriefDay' from JSON`,
+  );
+}
+
+/** @internal */
+export const ContactsBriefWeek$inboundSchema: z.ZodMiniType<
+  ContactsBriefWeek,
+  unknown
+> = z.object({
+  start: types.string(),
+  end: types.string(),
+  messages: types.number(),
+  summary: types.nullable(types.string()),
+});
+
+export function contactsBriefWeekFromJSON(
+  jsonString: string,
+): SafeParseResult<ContactsBriefWeek, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ContactsBriefWeek$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContactsBriefWeek' from JSON`,
+  );
+}
+
+/** @internal */
+export const Month$inboundSchema: z.ZodMiniType<Month, unknown> = z.object({
+  start: types.string(),
+  end: types.string(),
+  messages: types.number(),
+  summary: types.nullable(types.string()),
+});
+
+export function monthFromJSON(
+  jsonString: string,
+): SafeParseResult<Month, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Month$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Month' from JSON`,
+  );
+}
+
+/** @internal */
+export const Summary$inboundSchema: z.ZodMiniType<Summary, unknown> = z.object({
+  days: z.array(z.lazy(() => ContactsBriefDay$inboundSchema)),
+  weeks: z.array(z.lazy(() => ContactsBriefWeek$inboundSchema)),
+  months: z.array(z.lazy(() => Month$inboundSchema)),
+  waiting: types.number(),
+});
+
+export function summaryFromJSON(
+  jsonString: string,
+): SafeParseResult<Summary, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Summary$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Summary' from JSON`,
+  );
+}
+
+/** @internal */
+export const History$inboundSchema: z.ZodMiniType<History, unknown> = z.object({
+  found: types.boolean(),
+  reason: types.optional(HistoryReason$inboundSchema),
+  readFrom: HistoryReadFrom$inboundSchema,
+  verbatim: z.array(z.lazy(() => Verbatim$inboundSchema)),
+  summary: z.lazy(() => Summary$inboundSchema),
+  totalMessages: types.number(),
+  oldestAt: types.nullable(types.string()),
+  complete: types.boolean(),
+});
+
+export function historyFromJSON(
+  jsonString: string,
+): SafeParseResult<History, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => History$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'History' from JSON`,
+  );
+}
+
+/** @internal */
+export const ContactsBriefResponse$inboundSchema: z.ZodMiniType<
+  ContactsBriefResponse,
   unknown
 > = z.object({
   success: types.literal(true),
-  contact: z.lazy(() => GetByUrlContact$inboundSchema),
+  person: ContactsBriefPerson$inboundSchema,
+  posts: Posts$inboundSchema,
+  activity: ContactsBriefActivity$inboundSchema,
+  company: ContactsBriefCompany$inboundSchema,
+  signals: z.array(Signal$inboundSchema),
+  signalsReason: types.optional(SignalsReason$inboundSchema),
+  history: z.lazy(() => History$inboundSchema),
+  readAt: types.string(),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function getByUrlResponseFromJSON(
+export function contactsBriefResponseFromJSON(
   jsonString: string,
-): SafeParseResult<GetByUrlResponse, SDKValidationError> {
+): SafeParseResult<ContactsBriefResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => GetByUrlResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetByUrlResponse' from JSON`,
+    (x) => ContactsBriefResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContactsBriefResponse' from JSON`,
   );
 }
 
 /** @internal */
-export const ListMessagesQueryParamStatus$outboundSchema: z.ZodMiniEnum<
-  typeof ListMessagesQueryParamStatus
-> = z.enum(ListMessagesQueryParamStatus);
+export const QueryParamStatus$outboundSchema: z.ZodMiniEnum<
+  typeof QueryParamStatus
+> = z.enum(QueryParamStatus);
 
 /** @internal */
-export type ListMessagesRequest$Outbound = {
+export type ScheduledMessageListRequest$Outbound = {
   status?: string | undefined;
   contactId?: string | undefined;
   campaignSlug?: string | undefined;
@@ -1179,22 +1645,24 @@ export type ListMessagesRequest$Outbound = {
 };
 
 /** @internal */
-export const ListMessagesRequest$outboundSchema: z.ZodMiniType<
-  ListMessagesRequest$Outbound,
-  ListMessagesRequest
+export const ScheduledMessageListRequest$outboundSchema: z.ZodMiniType<
+  ScheduledMessageListRequest$Outbound,
+  ScheduledMessageListRequest
 > = z.object({
-  status: z.optional(ListMessagesQueryParamStatus$outboundSchema),
+  status: z.optional(QueryParamStatus$outboundSchema),
   contactId: z.optional(z.string()),
   campaignSlug: z.optional(z.string()),
   limit: z._default(z.int(), 50),
   offset: z._default(z.int(), 0),
 });
 
-export function listMessagesRequestToJSON(
-  listMessagesRequest: ListMessagesRequest,
+export function scheduledMessageListRequestToJSON(
+  scheduledMessageListRequest: ScheduledMessageListRequest,
 ): string {
   return JSON.stringify(
-    ListMessagesRequest$outboundSchema.parse(listMessagesRequest),
+    ScheduledMessageListRequest$outboundSchema.parse(
+      scheduledMessageListRequest,
+    ),
   );
 }
 
@@ -1205,8 +1673,277 @@ export const MessageStatus$inboundSchema: z.ZodMiniType<
 > = openEnums.inboundSchema(MessageStatus);
 
 /** @internal */
-export const ListMessagesMessage$inboundSchema: z.ZodMiniType<
-  ListMessagesMessage,
+export const ScheduledMessageListFirstDmCancelled$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmCancelled,
+  unknown
+> = z.object({
+  kind: types.literal("cancelled"),
+  scheduledMessageId: types.string(),
+  reason: types.nullable(types.string()),
+});
+
+export function scheduledMessageListFirstDmCancelledFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmCancelled, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ScheduledMessageListFirstDmCancelled$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmCancelled' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmFailed$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmFailed,
+  unknown
+> = z.object({
+  kind: types.literal("failed"),
+  scheduledMessageId: types.string(),
+  reason: types.nullable(types.string()),
+  canRequeue: types.literal(true),
+});
+
+export function scheduledMessageListFirstDmFailedFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmFailed, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmFailed$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmFailed' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmSent$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmSent,
+  unknown
+> = z.object({
+  kind: types.literal("sent"),
+  scheduledMessageId: types.string(),
+  sentAt: types.nullable(types.string()),
+});
+
+export function scheduledMessageListFirstDmSentFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmSent, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmSent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmSent' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmSending$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmSending,
+  unknown
+> = z.object({
+  kind: types.literal("sending"),
+  scheduledMessageId: types.string(),
+});
+
+export function scheduledMessageListFirstDmSendingFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmSending, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ScheduledMessageListFirstDmSending$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmSending' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmMessageStatus$inboundSchema: z.ZodMiniType<
+  FirstDmMessageStatus,
+  unknown
+> = openEnums.inboundSchema(FirstDmMessageStatus);
+
+/** @internal */
+export const ScheduledMessageListWhy$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListWhy,
+  unknown
+> = z.object({
+  status: FirstDmMessageStatus$inboundSchema,
+  detail: types.string(),
+  position: types.nullable(types.number()),
+  opensAt: types.nullable(types.string()),
+  clearsItself: types.nullable(types.boolean()),
+  fixUrl: types.nullable(types.string()),
+  kind: types.nullable(types.string()),
+});
+
+export function scheduledMessageListWhyFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListWhy, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListWhy$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListWhy' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmQueued$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmQueued,
+  unknown
+> = z.object({
+  kind: types.literal("queued"),
+  scheduledMessageId: types.string(),
+  why: z.lazy(() => ScheduledMessageListWhy$inboundSchema),
+});
+
+export function scheduledMessageListFirstDmQueuedFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmQueued, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmQueued$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmQueued' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmHeld$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmHeld,
+  unknown
+> = z.object({
+  kind: types.literal("held"),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function scheduledMessageListFirstDmHeldFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmHeld, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmHeld$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmHeld' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmWritten$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmWritten,
+  unknown
+> = z.object({
+  kind: types.literal("written"),
+  scheduledMessageId: types.string(),
+});
+
+export function scheduledMessageListFirstDmWrittenFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmWritten, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ScheduledMessageListFirstDmWritten$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmWritten' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmNone$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmNone,
+  unknown
+> = z.object({
+  kind: types.literal("none"),
+});
+
+export function scheduledMessageListFirstDmNoneFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmNone, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmNone$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmNone' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListFirstDmUnion$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListFirstDmUnion,
+  unknown
+> = discriminatedUnion("kind", {
+  none: z.lazy(() => ScheduledMessageListFirstDmNone$inboundSchema),
+  written: z.lazy(() => ScheduledMessageListFirstDmWritten$inboundSchema),
+  held: z.lazy(() => ScheduledMessageListFirstDmHeld$inboundSchema),
+  queued: z.lazy(() => ScheduledMessageListFirstDmQueued$inboundSchema),
+  sending: z.lazy(() => ScheduledMessageListFirstDmSending$inboundSchema),
+  sent: z.lazy(() => ScheduledMessageListFirstDmSent$inboundSchema),
+  failed: z.lazy(() => ScheduledMessageListFirstDmFailed$inboundSchema),
+  cancelled: z.lazy(() => ScheduledMessageListFirstDmCancelled$inboundSchema),
+});
+
+export function scheduledMessageListFirstDmUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListFirstDmUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListFirstDmUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListFirstDmUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const MessageInviteStatus$inboundSchema: z.ZodMiniType<
+  MessageInviteStatus,
+  unknown
+> = openEnums.inboundSchema(MessageInviteStatus);
+
+/** @internal */
+export const ScheduledMessageListInvite$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListInvite,
+  unknown
+> = z.object({
+  status: MessageInviteStatus$inboundSchema,
+  detail: types.string(),
+  clearsItself: types.nullable(types.boolean()),
+  fixUrl: types.nullable(types.string()),
+  kind: types.nullable(types.string()),
+  opensAt: types.nullable(types.string()),
+});
+
+export function scheduledMessageListInviteFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListInvite, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListInvite$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListInvite' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListConnection$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListConnection,
+  unknown
+> = openEnums.inboundSchema(ScheduledMessageListConnection);
+
+/** @internal */
+export const ScheduledMessageListHold$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListHold,
+  unknown
+> = z.object({
+  reason: types.string(),
+  quote: z.optional(z.nullable(types.string())),
+});
+
+export function scheduledMessageListHoldFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageListHold, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageListHold$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListHold' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageListMessage$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListMessage,
   unknown
 > = z.object({
   id: types.string(),
@@ -1215,30 +1952,61 @@ export const ListMessagesMessage$inboundSchema: z.ZodMiniType<
   contactLinkedinUrl: z.optional(z.nullable(types.string())),
   message: types.string(),
   status: MessageStatus$inboundSchema,
-  scheduledSendAt: types.nullable(types.string()),
+  scheduledSendAt: z.optional(z.nullable(types.string())),
   sentAt: types.nullable(types.string()),
   campaignSlug: types.nullable(types.string()),
   errorMessage: z.optional(z.nullable(types.string())),
   createdAt: types.string(),
+  contactHeadline: z.optional(z.nullable(types.string())),
+  contactCompany: z.optional(z.nullable(types.string())),
+  contactLocation: z.optional(z.nullable(types.string())),
+  contactDegree: z.optional(z.nullable(types.string())),
+  contactProfilePicture: z.optional(z.nullable(types.string())),
+  contactSentDmCount: z.optional(z.nullable(types.number())),
+  contactLifecycleStage: z.optional(z.nullable(types.string())),
+  messageType: z.optional(z.nullable(types.string())),
+  campaignId: z.optional(z.nullable(types.string())),
+  campaignName: z.optional(z.nullable(types.string())),
+  updatedAt: z.optional(z.nullable(types.string())),
+  linkedinCredentialsId: z.optional(z.nullable(types.string())),
+  firstDm: types.optional(discriminatedUnion("kind", {
+    none: z.lazy(() => ScheduledMessageListFirstDmNone$inboundSchema),
+    written: z.lazy(() => ScheduledMessageListFirstDmWritten$inboundSchema),
+    held: z.lazy(() => ScheduledMessageListFirstDmHeld$inboundSchema),
+    queued: z.lazy(() => ScheduledMessageListFirstDmQueued$inboundSchema),
+    sending: z.lazy(() => ScheduledMessageListFirstDmSending$inboundSchema),
+    sent: z.lazy(() => ScheduledMessageListFirstDmSent$inboundSchema),
+    failed: z.lazy(() => ScheduledMessageListFirstDmFailed$inboundSchema),
+    cancelled: z.lazy(() => ScheduledMessageListFirstDmCancelled$inboundSchema),
+  })),
+  invite: z.optional(
+    z.nullable(z.lazy(() => ScheduledMessageListInvite$inboundSchema)),
+  ),
+  connection: z.optional(
+    z.nullable(ScheduledMessageListConnection$inboundSchema),
+  ),
+  hold: z.optional(
+    z.nullable(z.lazy(() => ScheduledMessageListHold$inboundSchema)),
+  ),
 });
 
-export function listMessagesMessageFromJSON(
+export function scheduledMessageListMessageFromJSON(
   jsonString: string,
-): SafeParseResult<ListMessagesMessage, SDKValidationError> {
+): SafeParseResult<ScheduledMessageListMessage, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListMessagesMessage$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListMessagesMessage' from JSON`,
+    (x) => ScheduledMessageListMessage$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListMessage' from JSON`,
   );
 }
 
 /** @internal */
-export const ListMessagesResponse$inboundSchema: z.ZodMiniType<
-  ListMessagesResponse,
+export const ScheduledMessageListResponse$inboundSchema: z.ZodMiniType<
+  ScheduledMessageListResponse,
   unknown
 > = z.object({
   success: types.literal(true),
-  messages: z.array(z.lazy(() => ListMessagesMessage$inboundSchema)),
+  messages: z.array(z.lazy(() => ScheduledMessageListMessage$inboundSchema)),
   total: types.number(),
   limit: types.number(),
   offset: types.number(),
@@ -1246,23 +2014,22 @@ export const ListMessagesResponse$inboundSchema: z.ZodMiniType<
   retryAfter: types.number(),
 });
 
-export function listMessagesResponseFromJSON(
+export function scheduledMessageListResponseFromJSON(
   jsonString: string,
-): SafeParseResult<ListMessagesResponse, SDKValidationError> {
+): SafeParseResult<ScheduledMessageListResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListMessagesResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListMessagesResponse' from JSON`,
+    (x) => ScheduledMessageListResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageListResponse' from JSON`,
   );
 }
 
 /** @internal */
-export const CreateStatusRequest$outboundSchema: z.ZodMiniEnum<
-  typeof CreateStatusRequest
-> = z.enum(CreateStatusRequest);
+export const StatusRequest$outboundSchema: z.ZodMiniEnum<typeof StatusRequest> =
+  z.enum(StatusRequest);
 
 /** @internal */
-export type CreateRequest$Outbound = {
+export type ScheduledMessageCreateRequest$Outbound = {
   contactId: string;
   message: string;
   status?: string | undefined;
@@ -1271,19 +2038,25 @@ export type CreateRequest$Outbound = {
 };
 
 /** @internal */
-export const CreateRequest$outboundSchema: z.ZodMiniType<
-  CreateRequest$Outbound,
-  CreateRequest
+export const ScheduledMessageCreateRequest$outboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateRequest$Outbound,
+  ScheduledMessageCreateRequest
 > = z.object({
   contactId: z.string(),
   message: z.string(),
-  status: z.optional(CreateStatusRequest$outboundSchema),
+  status: z.optional(StatusRequest$outboundSchema),
   scheduledSendAt: z.optional(z.string()),
   campaignSlug: z.optional(z.string()),
 });
 
-export function createRequestToJSON(createRequest: CreateRequest): string {
-  return JSON.stringify(CreateRequest$outboundSchema.parse(createRequest));
+export function scheduledMessageCreateRequestToJSON(
+  scheduledMessageCreateRequest: ScheduledMessageCreateRequest,
+): string {
+  return JSON.stringify(
+    ScheduledMessageCreateRequest$outboundSchema.parse(
+      scheduledMessageCreateRequest,
+    ),
+  );
 }
 
 /** @internal */
@@ -1291,6 +2064,272 @@ export const ScheduledMessageStatus$inboundSchema: z.ZodMiniType<
   ScheduledMessageStatus,
   unknown
 > = openEnums.inboundSchema(ScheduledMessageStatus);
+
+/** @internal */
+export const FirstDmScheduledMessageCancelled$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageCancelled,
+  unknown
+> = z.object({
+  kind: types.literal("cancelled"),
+  scheduledMessageId: types.string(),
+  reason: types.nullable(types.string()),
+});
+
+export function firstDmScheduledMessageCancelledFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageCancelled, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageCancelled$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageCancelled' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageFailed$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageFailed,
+  unknown
+> = z.object({
+  kind: types.literal("failed"),
+  scheduledMessageId: types.string(),
+  reason: types.nullable(types.string()),
+  canRequeue: types.literal(true),
+});
+
+export function firstDmScheduledMessageFailedFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageFailed, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageFailed$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageFailed' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageSent$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageSent,
+  unknown
+> = z.object({
+  kind: types.literal("sent"),
+  scheduledMessageId: types.string(),
+  sentAt: types.nullable(types.string()),
+});
+
+export function firstDmScheduledMessageSentFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageSent, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageSent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageSent' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageSending$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageSending,
+  unknown
+> = z.object({
+  kind: types.literal("sending"),
+  scheduledMessageId: types.string(),
+});
+
+export function firstDmScheduledMessageSendingFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageSending, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageSending$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageSending' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageStatus$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageStatus,
+  unknown
+> = openEnums.inboundSchema(FirstDmScheduledMessageStatus);
+
+/** @internal */
+export const ScheduledMessageCreateWhy$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateWhy,
+  unknown
+> = z.object({
+  status: FirstDmScheduledMessageStatus$inboundSchema,
+  detail: types.string(),
+  position: types.nullable(types.number()),
+  opensAt: types.nullable(types.string()),
+  clearsItself: types.nullable(types.boolean()),
+  fixUrl: types.nullable(types.string()),
+  kind: types.nullable(types.string()),
+});
+
+export function scheduledMessageCreateWhyFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateWhy, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateWhy$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateWhy' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageQueued$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageQueued,
+  unknown
+> = z.object({
+  kind: types.literal("queued"),
+  scheduledMessageId: types.string(),
+  why: z.lazy(() => ScheduledMessageCreateWhy$inboundSchema),
+});
+
+export function firstDmScheduledMessageQueuedFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageQueued, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageQueued$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageQueued' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageHeld$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageHeld,
+  unknown
+> = z.object({
+  kind: types.literal("held"),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function firstDmScheduledMessageHeldFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageHeld, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageHeld$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageHeld' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageWritten$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageWritten,
+  unknown
+> = z.object({
+  kind: types.literal("written"),
+  scheduledMessageId: types.string(),
+});
+
+export function firstDmScheduledMessageWrittenFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageWritten, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageWritten$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageWritten' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmScheduledMessageNone$inboundSchema: z.ZodMiniType<
+  FirstDmScheduledMessageNone,
+  unknown
+> = z.object({
+  kind: types.literal("none"),
+});
+
+export function firstDmScheduledMessageNoneFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmScheduledMessageNone, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmScheduledMessageNone$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmScheduledMessageNone' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageFirstDmUnion$inboundSchema: z.ZodMiniType<
+  ScheduledMessageFirstDmUnion,
+  unknown
+> = discriminatedUnion("kind", {
+  none: z.lazy(() => FirstDmScheduledMessageNone$inboundSchema),
+  written: z.lazy(() => FirstDmScheduledMessageWritten$inboundSchema),
+  held: z.lazy(() => FirstDmScheduledMessageHeld$inboundSchema),
+  queued: z.lazy(() => FirstDmScheduledMessageQueued$inboundSchema),
+  sending: z.lazy(() => FirstDmScheduledMessageSending$inboundSchema),
+  sent: z.lazy(() => FirstDmScheduledMessageSent$inboundSchema),
+  failed: z.lazy(() => FirstDmScheduledMessageFailed$inboundSchema),
+  cancelled: z.lazy(() => FirstDmScheduledMessageCancelled$inboundSchema),
+});
+
+export function scheduledMessageFirstDmUnionFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageFirstDmUnion, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageFirstDmUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageFirstDmUnion' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageInviteStatus$inboundSchema: z.ZodMiniType<
+  ScheduledMessageInviteStatus,
+  unknown
+> = openEnums.inboundSchema(ScheduledMessageInviteStatus);
+
+/** @internal */
+export const ScheduledMessageCreateInvite$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateInvite,
+  unknown
+> = z.object({
+  status: ScheduledMessageInviteStatus$inboundSchema,
+  detail: types.string(),
+  clearsItself: types.nullable(types.boolean()),
+  fixUrl: types.nullable(types.string()),
+  kind: types.nullable(types.string()),
+  opensAt: types.nullable(types.string()),
+});
+
+export function scheduledMessageCreateInviteFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateInvite, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateInvite$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateInvite' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCreateConnection$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateConnection,
+  unknown
+> = openEnums.inboundSchema(ScheduledMessageCreateConnection);
+
+/** @internal */
+export const ScheduledMessageCreateHold$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateHold,
+  unknown
+> = z.object({
+  reason: types.string(),
+  quote: z.optional(z.nullable(types.string())),
+});
+
+export function scheduledMessageCreateHoldFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateHold, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateHold$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateHold' from JSON`,
+  );
+}
 
 /** @internal */
 export const ScheduledMessage$inboundSchema: z.ZodMiniType<
@@ -1303,11 +2342,42 @@ export const ScheduledMessage$inboundSchema: z.ZodMiniType<
   contactLinkedinUrl: z.optional(z.nullable(types.string())),
   message: types.string(),
   status: ScheduledMessageStatus$inboundSchema,
-  scheduledSendAt: types.nullable(types.string()),
+  scheduledSendAt: z.optional(z.nullable(types.string())),
   sentAt: types.nullable(types.string()),
   campaignSlug: types.nullable(types.string()),
   errorMessage: z.optional(z.nullable(types.string())),
   createdAt: types.string(),
+  contactHeadline: z.optional(z.nullable(types.string())),
+  contactCompany: z.optional(z.nullable(types.string())),
+  contactLocation: z.optional(z.nullable(types.string())),
+  contactDegree: z.optional(z.nullable(types.string())),
+  contactProfilePicture: z.optional(z.nullable(types.string())),
+  contactSentDmCount: z.optional(z.nullable(types.number())),
+  contactLifecycleStage: z.optional(z.nullable(types.string())),
+  messageType: z.optional(z.nullable(types.string())),
+  campaignId: z.optional(z.nullable(types.string())),
+  campaignName: z.optional(z.nullable(types.string())),
+  updatedAt: z.optional(z.nullable(types.string())),
+  linkedinCredentialsId: z.optional(z.nullable(types.string())),
+  firstDm: types.optional(discriminatedUnion("kind", {
+    none: z.lazy(() => FirstDmScheduledMessageNone$inboundSchema),
+    written: z.lazy(() => FirstDmScheduledMessageWritten$inboundSchema),
+    held: z.lazy(() => FirstDmScheduledMessageHeld$inboundSchema),
+    queued: z.lazy(() => FirstDmScheduledMessageQueued$inboundSchema),
+    sending: z.lazy(() => FirstDmScheduledMessageSending$inboundSchema),
+    sent: z.lazy(() => FirstDmScheduledMessageSent$inboundSchema),
+    failed: z.lazy(() => FirstDmScheduledMessageFailed$inboundSchema),
+    cancelled: z.lazy(() => FirstDmScheduledMessageCancelled$inboundSchema),
+  })),
+  invite: z.optional(
+    z.nullable(z.lazy(() => ScheduledMessageCreateInvite$inboundSchema)),
+  ),
+  connection: z.optional(
+    z.nullable(ScheduledMessageCreateConnection$inboundSchema),
+  ),
+  hold: z.optional(
+    z.nullable(z.lazy(() => ScheduledMessageCreateHold$inboundSchema)),
+  ),
 });
 
 export function scheduledMessageFromJSON(
@@ -1321,121 +2391,349 @@ export function scheduledMessageFromJSON(
 }
 
 /** @internal */
-export const CreateResponse$inboundSchema: z.ZodMiniType<
-  CreateResponse,
+export const ScheduledMessageCreateLineSkipped$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateLineSkipped,
+  unknown
+> = z.object({
+  contactId: types.string(),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function scheduledMessageCreateLineSkippedFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateLineSkipped, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateLineSkipped$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateLineSkipped' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCreateLine$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateLine,
+  unknown
+> = z.object({
+  queued: types.number(),
+  requeued: types.number(),
+  alreadyQueued: types.number(),
+  held: types.number(),
+  skipped: z.array(
+    z.lazy(() => ScheduledMessageCreateLineSkipped$inboundSchema),
+  ),
+  invitesQueued: types.number(),
+  accounts: z.array(types.string()),
+});
+
+export function scheduledMessageCreateLineFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateLine, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateLine$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateLine' from JSON`,
+  );
+}
+
+/** @internal */
+export const FirstDmSkipped$inboundSchema: z.ZodMiniType<
+  FirstDmSkipped,
+  unknown
+> = z.object({
+  contactId: types.string(),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function firstDmSkippedFromJSON(
+  jsonString: string,
+): SafeParseResult<FirstDmSkipped, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => FirstDmSkipped$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'FirstDmSkipped' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCreateFirstDm$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateFirstDm,
+  unknown
+> = z.object({
+  queued: types.number(),
+  requeued: types.number(),
+  alreadyQueued: types.number(),
+  held: types.number(),
+  skipped: z.array(z.lazy(() => FirstDmSkipped$inboundSchema)),
+  invitesQueued: types.number(),
+  accounts: z.array(types.string()),
+});
+
+export function scheduledMessageCreateFirstDmFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCreateFirstDm, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCreateFirstDm$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateFirstDm' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCreateResponse$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCreateResponse,
   unknown
 > = z.object({
   success: types.literal(true),
   scheduledMessage: z.lazy(() => ScheduledMessage$inboundSchema),
+  contactName: z.optional(z.nullable(types.string())),
+  duplicate: types.optional(types.boolean()),
+  cooldown: types.optional(types.boolean()),
+  cooldownReason: types.optional(types.string()),
+  campaignNote: types.optional(types.string()),
+  line: types.optional(z.lazy(() => ScheduledMessageCreateLine$inboundSchema)),
+  firstDm: types.optional(
+    z.lazy(() => ScheduledMessageCreateFirstDm$inboundSchema),
+  ),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function createResponseFromJSON(
+export function scheduledMessageCreateResponseFromJSON(
   jsonString: string,
-): SafeParseResult<CreateResponse, SDKValidationError> {
+): SafeParseResult<ScheduledMessageCreateResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CreateResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreateResponse' from JSON`,
+    (x) => ScheduledMessageCreateResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCreateResponse' from JSON`,
   );
 }
 
 /** @internal */
-export type BatchScheduleRequest$Outbound = {
+export type DraftScheduleRequest$Outbound = {
   contactIds?: Array<string> | undefined;
   messageIds?: Array<string> | undefined;
-  scheduledSendAt: string;
+  sendNow?: boolean | undefined;
+  scheduledSendAt?: string | undefined;
   editedMessages?: { [k: string]: string } | undefined;
 };
 
 /** @internal */
-export const BatchScheduleRequest$outboundSchema: z.ZodMiniType<
-  BatchScheduleRequest$Outbound,
-  BatchScheduleRequest
+export const DraftScheduleRequest$outboundSchema: z.ZodMiniType<
+  DraftScheduleRequest$Outbound,
+  DraftScheduleRequest
 > = z.object({
   contactIds: z.optional(z.array(z.string())),
   messageIds: z.optional(z.array(z.string())),
-  scheduledSendAt: z.string(),
+  sendNow: z.optional(z.boolean()),
+  scheduledSendAt: z.optional(z.string()),
   editedMessages: z.optional(z.record(z.string(), z.string())),
 });
 
-export function batchScheduleRequestToJSON(
-  batchScheduleRequest: BatchScheduleRequest,
+export function draftScheduleRequestToJSON(
+  draftScheduleRequest: DraftScheduleRequest,
 ): string {
   return JSON.stringify(
-    BatchScheduleRequest$outboundSchema.parse(batchScheduleRequest),
+    DraftScheduleRequest$outboundSchema.parse(draftScheduleRequest),
   );
 }
 
 /** @internal */
-export const BatchScheduleResponse$inboundSchema: z.ZodMiniType<
-  BatchScheduleResponse,
+export const DraftScheduleSkipped$inboundSchema: z.ZodMiniType<
+  DraftScheduleSkipped,
+  unknown
+> = z.object({
+  contactId: types.string(),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function draftScheduleSkippedFromJSON(
+  jsonString: string,
+): SafeParseResult<DraftScheduleSkipped, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => DraftScheduleSkipped$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DraftScheduleSkipped' from JSON`,
+  );
+}
+
+/** @internal */
+export const DraftScheduleResponse$inboundSchema: z.ZodMiniType<
+  DraftScheduleResponse,
   unknown
 > = z.object({
   success: types.literal(true),
   scheduled: types.number(),
-  triggerFailures: types.number(),
-  scheduledSendAt: types.string(),
-  staggerMinutes: types.number(),
-  lastSendAt: types.string(),
+  invitationsScheduled: types.optional(types.number()),
+  queued: types.number(),
+  requeued: types.number(),
+  alreadyQueued: types.number(),
+  bumped: types.optional(types.number()),
+  held: types.number(),
+  skipped: z.array(z.lazy(() => DraftScheduleSkipped$inboundSchema)),
+  invitesQueued: types.number(),
+  accounts: z.array(types.string()),
+  note: types.optional(types.string()),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function batchScheduleResponseFromJSON(
+export function draftScheduleResponseFromJSON(
   jsonString: string,
-): SafeParseResult<BatchScheduleResponse, SDKValidationError> {
+): SafeParseResult<DraftScheduleResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => BatchScheduleResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'BatchScheduleResponse' from JSON`,
+    (x) => DraftScheduleResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DraftScheduleResponse' from JSON`,
   );
 }
 
 /** @internal */
-export type CancelRequest$Outbound = {
-  messageIds?: Array<string> | undefined;
-  contactIds?: Array<string> | undefined;
+export type ScheduledMessageUpdateRequest$Outbound = {
+  messageId: string;
+  message?: string | undefined;
+  scheduledSendAt?: string | null | undefined;
 };
 
 /** @internal */
-export const CancelRequest$outboundSchema: z.ZodMiniType<
-  CancelRequest$Outbound,
-  CancelRequest
+export const ScheduledMessageUpdateRequest$outboundSchema: z.ZodMiniType<
+  ScheduledMessageUpdateRequest$Outbound,
+  ScheduledMessageUpdateRequest
 > = z.object({
-  messageIds: z.optional(z.array(z.string())),
-  contactIds: z.optional(z.array(z.string())),
+  messageId: z.string(),
+  message: z.optional(z.string()),
+  scheduledSendAt: z.optional(z.nullable(z.string())),
 });
 
-export function cancelRequestToJSON(cancelRequest: CancelRequest): string {
-  return JSON.stringify(CancelRequest$outboundSchema.parse(cancelRequest));
+export function scheduledMessageUpdateRequestToJSON(
+  scheduledMessageUpdateRequest: ScheduledMessageUpdateRequest,
+): string {
+  return JSON.stringify(
+    ScheduledMessageUpdateRequest$outboundSchema.parse(
+      scheduledMessageUpdateRequest,
+    ),
+  );
 }
 
 /** @internal */
-export const CancelResponse$inboundSchema: z.ZodMiniType<
-  CancelResponse,
+export const ScheduledMessageUpdateIneligible$inboundSchema: z.ZodMiniType<
+  ScheduledMessageUpdateIneligible,
+  unknown
+> = z.object({
+  id: types.string(),
+  currentStatus: types.string(),
+});
+
+export function scheduledMessageUpdateIneligibleFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageUpdateIneligible, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageUpdateIneligible$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageUpdateIneligible' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageUpdateResponse$inboundSchema: z.ZodMiniType<
+  ScheduledMessageUpdateResponse,
   unknown
 > = z.object({
   success: types.literal(true),
-  cancelled: types.number(),
+  updated: types.number(),
+  ineligible: z.array(
+    z.lazy(() => ScheduledMessageUpdateIneligible$inboundSchema),
+  ),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function cancelResponseFromJSON(
+export function scheduledMessageUpdateResponseFromJSON(
   jsonString: string,
-): SafeParseResult<CancelResponse, SDKValidationError> {
+): SafeParseResult<ScheduledMessageUpdateResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CancelResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CancelResponse' from JSON`,
+    (x) => ScheduledMessageUpdateResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageUpdateResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type ScheduledMessageCancelRequest$Outbound = {
+  messageIds?: Array<string> | undefined;
+  contactIds?: Array<string> | undefined;
+  campaignId?: string | undefined;
+};
+
+/** @internal */
+export const ScheduledMessageCancelRequest$outboundSchema: z.ZodMiniType<
+  ScheduledMessageCancelRequest$Outbound,
+  ScheduledMessageCancelRequest
+> = z.object({
+  messageIds: z.optional(z.array(z.string())),
+  contactIds: z.optional(z.array(z.string())),
+  campaignId: z.optional(z.string()),
+});
+
+export function scheduledMessageCancelRequestToJSON(
+  scheduledMessageCancelRequest: ScheduledMessageCancelRequest,
+): string {
+  return JSON.stringify(
+    ScheduledMessageCancelRequest$outboundSchema.parse(
+      scheduledMessageCancelRequest,
+    ),
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCancelIneligible$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCancelIneligible,
+  unknown
+> = z.object({
+  id: types.string(),
+  currentStatus: types.string(),
+});
+
+export function scheduledMessageCancelIneligibleFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCancelIneligible, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCancelIneligible$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCancelIneligible' from JSON`,
+  );
+}
+
+/** @internal */
+export const ScheduledMessageCancelResponse$inboundSchema: z.ZodMiniType<
+  ScheduledMessageCancelResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  cancelled: types.number(),
+  ineligible: types.optional(
+    z.array(z.lazy(() => ScheduledMessageCancelIneligible$inboundSchema)),
+  ),
+  notFound: types.optional(z.array(types.string())),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function scheduledMessageCancelResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<ScheduledMessageCancelResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ScheduledMessageCancelResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ScheduledMessageCancelResponse' from JSON`,
   );
 }
 
 /** @internal */
 export type ReviewDraftsRequest$Outbound = {
-  campaignId: string;
+  campaignId?: string | undefined;
   approved?: Array<string> | undefined;
   rejected?: Array<string> | undefined;
   editedMessages?: { [k: string]: string } | undefined;
@@ -1446,7 +2744,7 @@ export const ReviewDraftsRequest$outboundSchema: z.ZodMiniType<
   ReviewDraftsRequest$Outbound,
   ReviewDraftsRequest
 > = z.object({
-  campaignId: z.string(),
+  campaignId: z.optional(z.string()),
   approved: z.optional(z.array(z.string())),
   rejected: z.optional(z.array(z.string())),
   editedMessages: z.optional(z.record(z.string(), z.string())),
@@ -1461,6 +2759,121 @@ export function reviewDraftsRequestToJSON(
 }
 
 /** @internal */
+export const Approved$inboundSchema: z.ZodMiniType<Approved, unknown> = z
+  .object({
+    id: types.string(),
+    currentStatus: types.nullable(types.string()),
+  });
+
+export function approvedFromJSON(
+  jsonString: string,
+): SafeParseResult<Approved, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Approved$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Approved' from JSON`,
+  );
+}
+
+/** @internal */
+export const Rejected$inboundSchema: z.ZodMiniType<Rejected, unknown> = z
+  .object({
+    id: types.string(),
+    currentStatus: types.nullable(types.string()),
+  });
+
+export function rejectedFromJSON(
+  jsonString: string,
+): SafeParseResult<Rejected, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Rejected$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Rejected' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReviewDraftsIneligible$inboundSchema: z.ZodMiniType<
+  ReviewDraftsIneligible,
+  unknown
+> = z.object({
+  approved: z.array(z.lazy(() => Approved$inboundSchema)),
+  rejected: z.array(z.lazy(() => Rejected$inboundSchema)),
+});
+
+export function reviewDraftsIneligibleFromJSON(
+  jsonString: string,
+): SafeParseResult<ReviewDraftsIneligible, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReviewDraftsIneligible$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReviewDraftsIneligible' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReviewDraftsSkipped$inboundSchema: z.ZodMiniType<
+  ReviewDraftsSkipped,
+  unknown
+> = z.object({
+  contactId: types.string(),
+  scheduledMessageId: types.string(),
+  reason: types.string(),
+});
+
+export function reviewDraftsSkippedFromJSON(
+  jsonString: string,
+): SafeParseResult<ReviewDraftsSkipped, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReviewDraftsSkipped$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReviewDraftsSkipped' from JSON`,
+  );
+}
+
+/** @internal */
+export const ReviewDraftsLine$inboundSchema: z.ZodMiniType<
+  ReviewDraftsLine,
+  unknown
+> = z.object({
+  queued: types.number(),
+  requeued: types.number(),
+  alreadyQueued: types.number(),
+  held: types.number(),
+  skipped: z.array(z.lazy(() => ReviewDraftsSkipped$inboundSchema)),
+  invitesQueued: types.number(),
+  accounts: z.array(types.string()),
+});
+
+export function reviewDraftsLineFromJSON(
+  jsonString: string,
+): SafeParseResult<ReviewDraftsLine, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ReviewDraftsLine$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ReviewDraftsLine' from JSON`,
+  );
+}
+
+/** @internal */
+export const LaneBlocked$inboundSchema: z.ZodMiniType<LaneBlocked, unknown> = z
+  .object({
+    id: types.string(),
+    messageType: types.string(),
+    task: types.string(),
+  });
+
+export function laneBlockedFromJSON(
+  jsonString: string,
+): SafeParseResult<LaneBlocked, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => LaneBlocked$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'LaneBlocked' from JSON`,
+  );
+}
+
+/** @internal */
 export const ReviewDraftsResponse$inboundSchema: z.ZodMiniType<
   ReviewDraftsResponse,
   unknown
@@ -1468,6 +2881,12 @@ export const ReviewDraftsResponse$inboundSchema: z.ZodMiniType<
   success: types.literal(true),
   approved: types.number(),
   rejected: types.number(),
+  ineligible: z.lazy(() => ReviewDraftsIneligible$inboundSchema),
+  invitationsApproved: types.number(),
+  line: types.nullable(z.lazy(() => ReviewDraftsLine$inboundSchema)),
+  laneBlocked: z.array(z.lazy(() => LaneBlocked$inboundSchema)),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
 export function reviewDraftsResponseFromJSON(
@@ -1481,414 +2900,254 @@ export function reviewDraftsResponseFromJSON(
 }
 
 /** @internal */
-export type ListEntriesRequest$Outbound = {
+export type ContextListRequest$Outbound = {
   scope?: string | undefined;
   type?: string | undefined;
+  limit: number;
+  offset: number;
+  fullContent?: boolean | undefined;
 };
 
 /** @internal */
-export const ListEntriesRequest$outboundSchema: z.ZodMiniType<
-  ListEntriesRequest$Outbound,
-  ListEntriesRequest
+export const ContextListRequest$outboundSchema: z.ZodMiniType<
+  ContextListRequest$Outbound,
+  ContextListRequest
 > = z.object({
   scope: z.optional(z.string()),
   type: z.optional(z.string()),
+  limit: z._default(z.int(), 20),
+  offset: z._default(z.int(), 0),
+  fullContent: z.optional(z.boolean()),
 });
 
-export function listEntriesRequestToJSON(
-  listEntriesRequest: ListEntriesRequest,
+export function contextListRequestToJSON(
+  contextListRequest: ContextListRequest,
 ): string {
   return JSON.stringify(
-    ListEntriesRequest$outboundSchema.parse(listEntriesRequest),
+    ContextListRequest$outboundSchema.parse(contextListRequest),
   );
 }
 
 /** @internal */
-export const ListEntriesEntry$inboundSchema: z.ZodMiniType<
-  ListEntriesEntry,
+export const ContextListEntry$inboundSchema: z.ZodMiniType<
+  ContextListEntry,
   unknown
 > = z.object({
   id: types.string(),
   type: types.string(),
   label: types.nullable(types.string()),
   content: types.string(),
+  contentPreview: types.optional(types.string()),
   scope: types.string(),
   updatedAt: types.string(),
 });
 
-export function listEntriesEntryFromJSON(
+export function contextListEntryFromJSON(
   jsonString: string,
-): SafeParseResult<ListEntriesEntry, SDKValidationError> {
+): SafeParseResult<ContextListEntry, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListEntriesEntry$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListEntriesEntry' from JSON`,
+    (x) => ContextListEntry$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextListEntry' from JSON`,
   );
 }
 
 /** @internal */
-export const ListEntriesResponse$inboundSchema: z.ZodMiniType<
-  ListEntriesResponse,
+export const ContextListResponse$inboundSchema: z.ZodMiniType<
+  ContextListResponse,
   unknown
 > = z.object({
   success: types.literal(true),
-  entries: z.array(z.lazy(() => ListEntriesEntry$inboundSchema)),
+  entries: z.array(z.lazy(() => ContextListEntry$inboundSchema)),
+  total: types.number(),
+  hasMore: types.boolean(),
+  offset: types.number(),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function listEntriesResponseFromJSON(
+export function contextListResponseFromJSON(
   jsonString: string,
-): SafeParseResult<ListEntriesResponse, SDKValidationError> {
+): SafeParseResult<ContextListResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListEntriesResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListEntriesResponse' from JSON`,
+    (x) => ContextListResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextListResponse' from JSON`,
   );
 }
 
 /** @internal */
-export type SetRequest$Outbound = {
+export type ContextSetRequest$Outbound = {
   type: string;
-  content: string;
+  content?: string | undefined;
   scope?: string | undefined;
   label?: string | undefined;
+  remove?: boolean | undefined;
 };
 
 /** @internal */
-export const SetRequest$outboundSchema: z.ZodMiniType<
-  SetRequest$Outbound,
-  SetRequest
+export const ContextSetRequest$outboundSchema: z.ZodMiniType<
+  ContextSetRequest$Outbound,
+  ContextSetRequest
 > = z.object({
   type: z.string(),
-  content: z.string(),
+  content: z.optional(z.string()),
   scope: z.optional(z.string()),
   label: z.optional(z.string()),
+  remove: z.optional(z.boolean()),
 });
 
-export function setRequestToJSON(setRequest: SetRequest): string {
-  return JSON.stringify(SetRequest$outboundSchema.parse(setRequest));
-}
-
-/** @internal */
-export const SetEntry$inboundSchema: z.ZodMiniType<SetEntry, unknown> = z
-  .object({
-    id: types.string(),
-    type: types.string(),
-    label: types.nullable(types.string()),
-    content: types.string(),
-    scope: types.string(),
-    updatedAt: types.string(),
-  });
-
-export function setEntryFromJSON(
-  jsonString: string,
-): SafeParseResult<SetEntry, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SetEntry$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SetEntry' from JSON`,
+export function contextSetRequestToJSON(
+  contextSetRequest: ContextSetRequest,
+): string {
+  return JSON.stringify(
+    ContextSetRequest$outboundSchema.parse(contextSetRequest),
   );
 }
 
 /** @internal */
-export const SetResponse$inboundSchema: z.ZodMiniType<SetResponse, unknown> = z
-  .object({
-    success: types.literal(true),
-    entry: z.lazy(() => SetEntry$inboundSchema),
-    creditsUsed: types.number(),
-    retryAfter: types.number(),
-  });
+export const Removed$inboundSchema: z.ZodMiniType<Removed, unknown> = z.object({
+  type: types.string(),
+  label: types.nullable(types.string()),
+  scope: types.string(),
+});
 
-export function setResponseFromJSON(
+export function removedFromJSON(
   jsonString: string,
-): SafeParseResult<SetResponse, SDKValidationError> {
+): SafeParseResult<Removed, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => SetResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SetResponse' from JSON`,
+    (x) => Removed$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Removed' from JSON`,
   );
 }
 
 /** @internal */
-export type DeleteRequest$Outbound = {
-  type: string;
-  scope?: string | undefined;
-};
-
-/** @internal */
-export const DeleteRequest$outboundSchema: z.ZodMiniType<
-  DeleteRequest$Outbound,
-  DeleteRequest
-> = z.object({
-  type: z.string(),
-  scope: z.optional(z.string()),
-});
-
-export function deleteRequestToJSON(deleteRequest: DeleteRequest): string {
-  return JSON.stringify(DeleteRequest$outboundSchema.parse(deleteRequest));
-}
-
-/** @internal */
-export const DeleteResponse$inboundSchema: z.ZodMiniType<
-  DeleteResponse,
+export const ContextSetResponseBody2$inboundSchema: z.ZodMiniType<
+  ContextSetResponseBody2,
   unknown
 > = z.object({
   success: types.literal(true),
+  removed: z.lazy(() => Removed$inboundSchema),
+  unboundFrom: z.array(types.string()),
   creditsUsed: types.number(),
   retryAfter: types.number(),
 });
 
-export function deleteResponseFromJSON(
+export function contextSetResponseBody2FromJSON(
   jsonString: string,
-): SafeParseResult<DeleteResponse, SDKValidationError> {
+): SafeParseResult<ContextSetResponseBody2, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => DeleteResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteResponse' from JSON`,
+    (x) => ContextSetResponseBody2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextSetResponseBody2' from JSON`,
   );
 }
 
 /** @internal */
-export const Schedule$inboundSchema: z.ZodMiniType<Schedule, unknown> = z
-  .object({
-    scheduleId: types.string(),
-    name: types.string(),
-    cron: types.nullable(types.string()),
-    isPaused: types.boolean(),
-    lastRun: types.nullable(types.string()),
-    nextRun: types.nullable(types.string()),
-    lastStatus: types.nullable(z.any()),
-    destination: types.string(),
-  });
-
-export function scheduleFromJSON(
-  jsonString: string,
-): SafeParseResult<Schedule, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Schedule$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Schedule' from JSON`,
-  );
-}
-
-/** @internal */
-export const ListSchedulesResponse$inboundSchema: z.ZodMiniType<
-  ListSchedulesResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  schedules: z.array(z.lazy(() => Schedule$inboundSchema)),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function listSchedulesResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ListSchedulesResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListSchedulesResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListSchedulesResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const UpdateScheduleAction$outboundSchema: z.ZodMiniEnum<
-  typeof UpdateScheduleAction
-> = z.enum(UpdateScheduleAction);
-
-/** @internal */
-export type UpdateScheduleRequestBody$Outbound = {
-  action: string;
-};
-
-/** @internal */
-export const UpdateScheduleRequestBody$outboundSchema: z.ZodMiniType<
-  UpdateScheduleRequestBody$Outbound,
-  UpdateScheduleRequestBody
-> = z.object({
-  action: UpdateScheduleAction$outboundSchema,
-});
-
-export function updateScheduleRequestBodyToJSON(
-  updateScheduleRequestBody: UpdateScheduleRequestBody,
-): string {
-  return JSON.stringify(
-    UpdateScheduleRequestBody$outboundSchema.parse(updateScheduleRequestBody),
-  );
-}
-
-/** @internal */
-export type UpdateScheduleRequest$Outbound = {
-  scheduleId: string;
-  body: UpdateScheduleRequestBody$Outbound;
-};
-
-/** @internal */
-export const UpdateScheduleRequest$outboundSchema: z.ZodMiniType<
-  UpdateScheduleRequest$Outbound,
-  UpdateScheduleRequest
-> = z.object({
-  scheduleId: z.string(),
-  body: z.lazy(() => UpdateScheduleRequestBody$outboundSchema),
-});
-
-export function updateScheduleRequestToJSON(
-  updateScheduleRequest: UpdateScheduleRequest,
-): string {
-  return JSON.stringify(
-    UpdateScheduleRequest$outboundSchema.parse(updateScheduleRequest),
-  );
-}
-
-/** @internal */
-export const UpdateScheduleResponse$inboundSchema: z.ZodMiniType<
-  UpdateScheduleResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  creditsUsed: types.number(),
-  retryAfter: types.number(),
-});
-
-export function updateScheduleResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<UpdateScheduleResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpdateScheduleResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpdateScheduleResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const ListTasksQueryParamStatus$outboundSchema: z.ZodMiniEnum<
-  typeof ListTasksQueryParamStatus
-> = z.enum(ListTasksQueryParamStatus);
-
-/** @internal */
-export type ListTasksRequest$Outbound = {
-  status?: string | undefined;
-  type?: string | undefined;
-  campaignId?: string | undefined;
-  limit: number;
-  offset: number;
-};
-
-/** @internal */
-export const ListTasksRequest$outboundSchema: z.ZodMiniType<
-  ListTasksRequest$Outbound,
-  ListTasksRequest
-> = z.object({
-  status: z.optional(ListTasksQueryParamStatus$outboundSchema),
-  type: z.optional(z.string()),
-  campaignId: z.optional(z.string()),
-  limit: z._default(z.int(), 50),
-  offset: z._default(z.int(), 0),
-});
-
-export function listTasksRequestToJSON(
-  listTasksRequest: ListTasksRequest,
-): string {
-  return JSON.stringify(
-    ListTasksRequest$outboundSchema.parse(listTasksRequest),
-  );
-}
-
-/** @internal */
-export const TaskStatus$inboundSchema: z.ZodMiniType<TaskStatus, unknown> =
-  openEnums.inboundSchema(TaskStatus);
-
-/** @internal */
-export const ListTasksTask$inboundSchema: z.ZodMiniType<
-  ListTasksTask,
+export const ContextSetEntry$inboundSchema: z.ZodMiniType<
+  ContextSetEntry,
   unknown
 > = z.object({
   id: types.string(),
   type: types.string(),
-  campaignId: types.nullable(types.string()),
-  status: TaskStatus$inboundSchema,
-  priority: types.number(),
-  model: types.nullable(types.string()),
-  result: types.nullable(z.any()),
-  error: types.nullable(types.string()),
-  connectorId: types.nullable(types.string()),
-  workflowRunId: types.nullable(types.string()),
-  createdAt: types.string(),
-  dispatchedAt: types.nullable(types.string()),
-  completedAt: types.nullable(types.string()),
+  label: types.nullable(types.string()),
+  content: types.string(),
+  contentPreview: types.optional(types.string()),
+  scope: types.string(),
+  updatedAt: types.string(),
 });
 
-export function listTasksTaskFromJSON(
+export function contextSetEntryFromJSON(
   jsonString: string,
-): SafeParseResult<ListTasksTask, SDKValidationError> {
+): SafeParseResult<ContextSetEntry, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ListTasksTask$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListTasksTask' from JSON`,
+    (x) => ContextSetEntry$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextSetEntry' from JSON`,
   );
 }
 
 /** @internal */
-export const ListTasksResponse$inboundSchema: z.ZodMiniType<
-  ListTasksResponse,
-  unknown
-> = z.object({
-  tasks: z.array(z.lazy(() => ListTasksTask$inboundSchema)),
-  total: types.number(),
-  limit: types.number(),
-  offset: types.number(),
-});
-
-export function listTasksResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ListTasksResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListTasksResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListTasksResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type CancelTaskRequest$Outbound = {
-  id: string;
-};
-
-/** @internal */
-export const CancelTaskRequest$outboundSchema: z.ZodMiniType<
-  CancelTaskRequest$Outbound,
-  CancelTaskRequest
-> = z.object({
-  id: z.string(),
-});
-
-export function cancelTaskRequestToJSON(
-  cancelTaskRequest: CancelTaskRequest,
-): string {
-  return JSON.stringify(
-    CancelTaskRequest$outboundSchema.parse(cancelTaskRequest),
-  );
-}
-
-/** @internal */
-export const CancelTaskResponse$inboundSchema: z.ZodMiniType<
-  CancelTaskResponse,
+export const ContextSetResponseBody1$inboundSchema: z.ZodMiniType<
+  ContextSetResponseBody1,
   unknown
 > = z.object({
   success: types.literal(true),
-  status: types.string(),
-  message: types.optional(types.string()),
+  entry: z.lazy(() => ContextSetEntry$inboundSchema),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
-export function cancelTaskResponseFromJSON(
+export function contextSetResponseBody1FromJSON(
   jsonString: string,
-): SafeParseResult<CancelTaskResponse, SDKValidationError> {
+): SafeParseResult<ContextSetResponseBody1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CancelTaskResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CancelTaskResponse' from JSON`,
+    (x) => ContextSetResponseBody1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextSetResponseBody1' from JSON`,
+  );
+}
+
+/** @internal */
+export const ContextSetResponse$inboundSchema: z.ZodMiniType<
+  ContextSetResponse,
+  unknown
+> = smartUnion([
+  z.lazy(() => ContextSetResponseBody2$inboundSchema),
+  z.lazy(() => ContextSetResponseBody1$inboundSchema),
+]);
+
+export function contextSetResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<ContextSetResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ContextSetResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextSetResponse' from JSON`,
+  );
+}
+
+/** @internal */
+export type ContextDeleteRequest$Outbound = {
+  type: string;
+  scope?: string | undefined;
+};
+
+/** @internal */
+export const ContextDeleteRequest$outboundSchema: z.ZodMiniType<
+  ContextDeleteRequest$Outbound,
+  ContextDeleteRequest
+> = z.object({
+  type: z.string(),
+  scope: z.optional(z.string()),
+});
+
+export function contextDeleteRequestToJSON(
+  contextDeleteRequest: ContextDeleteRequest,
+): string {
+  return JSON.stringify(
+    ContextDeleteRequest$outboundSchema.parse(contextDeleteRequest),
+  );
+}
+
+/** @internal */
+export const ContextDeleteResponse$inboundSchema: z.ZodMiniType<
+  ContextDeleteResponse,
+  unknown
+> = z.object({
+  success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
+});
+
+export function contextDeleteResponseFromJSON(
+  jsonString: string,
+): SafeParseResult<ContextDeleteResponse, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ContextDeleteResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ContextDeleteResponse' from JSON`,
   );
 }
 
@@ -1922,7 +3181,10 @@ export const EventsFeedType$inboundSchema: z.ZodMiniType<
 > = openEnums.inboundSchema(EventsFeedType);
 
 /** @internal */
-export const Event$inboundSchema: z.ZodMiniType<Event, unknown> = z.object({
+export const EventsFeedEvent$inboundSchema: z.ZodMiniType<
+  EventsFeedEvent,
+  unknown
+> = z.object({
   id: types.string(),
   type: EventsFeedType$inboundSchema,
   campaignId: types.optional(types.string()),
@@ -1932,13 +3194,13 @@ export const Event$inboundSchema: z.ZodMiniType<Event, unknown> = z.object({
   timestamp: types.number(),
 });
 
-export function eventFromJSON(
+export function eventsFeedEventFromJSON(
   jsonString: string,
-): SafeParseResult<Event, SDKValidationError> {
+): SafeParseResult<EventsFeedEvent, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Event$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Event' from JSON`,
+    (x) => EventsFeedEvent$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'EventsFeedEvent' from JSON`,
   );
 }
 
@@ -1947,7 +3209,7 @@ export const EventsFeedResponse$inboundSchema: z.ZodMiniType<
   EventsFeedResponse,
   unknown
 > = z.object({
-  events: z.array(z.lazy(() => Event$inboundSchema)),
+  events: z.array(z.lazy(() => EventsFeedEvent$inboundSchema)),
   cursor: types.optional(types.number()),
 });
 
@@ -1962,432 +3224,11 @@ export function eventsFeedResponseFromJSON(
 }
 
 /** @internal */
-export type CancelChainRequest$Outbound = {
-  workflowRunId: string;
-};
-
-/** @internal */
-export const CancelChainRequest$outboundSchema: z.ZodMiniType<
-  CancelChainRequest$Outbound,
-  CancelChainRequest
-> = z.object({
-  workflowRunId: z.string(),
-});
-
-export function cancelChainRequestToJSON(
-  cancelChainRequest: CancelChainRequest,
-): string {
-  return JSON.stringify(
-    CancelChainRequest$outboundSchema.parse(cancelChainRequest),
-  );
-}
-
-/** @internal */
-export const CancelChainResponse$inboundSchema: z.ZodMiniType<
-  CancelChainResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  tasksCancelled: types.number(),
-});
-
-export function cancelChainResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<CancelChainResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CancelChainResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CancelChainResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const PullTaskTask$inboundSchema: z.ZodMiniType<PullTaskTask, unknown> =
-  z.object({
-    id: types.string(),
-    type: types.string(),
-    campaignId: types.nullable(types.string()),
-    message: types.string(),
-    model: types.nullable(types.string()),
-    thinking: types.nullable(types.string()),
-    timeoutSeconds: types.nullable(types.number()),
-    sessionKey: types.nullable(types.string()),
-    payload: types.nullable(z.any()),
-  });
-
-export function pullTaskTaskFromJSON(
-  jsonString: string,
-): SafeParseResult<PullTaskTask, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => PullTaskTask$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PullTaskTask' from JSON`,
-  );
-}
-
-/** @internal */
-export const PullTaskResponse$inboundSchema: z.ZodMiniType<
-  PullTaskResponse,
-  unknown
-> = z.object({
-  task: types.nullable(z.lazy(() => PullTaskTask$inboundSchema)),
-  cancelTaskId: types.nullable(types.string()),
-  pollIntervalMs: types.number(),
-});
-
-export function pullTaskResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<PullTaskResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => PullTaskResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'PullTaskResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const SubmitTaskResultStatus$outboundSchema: z.ZodMiniEnum<
-  typeof SubmitTaskResultStatus
-> = z.enum(SubmitTaskResultStatus);
-
-/** @internal */
-export type SubmitTaskResultRequestBody$Outbound = {
-  status?: string | undefined;
-  result?: any | undefined;
-  error?: string | undefined;
-};
-
-/** @internal */
-export const SubmitTaskResultRequestBody$outboundSchema: z.ZodMiniType<
-  SubmitTaskResultRequestBody$Outbound,
-  SubmitTaskResultRequestBody
-> = z.object({
-  status: z.optional(SubmitTaskResultStatus$outboundSchema),
-  result: z.optional(z.any()),
-  error: z.optional(z.string()),
-});
-
-export function submitTaskResultRequestBodyToJSON(
-  submitTaskResultRequestBody: SubmitTaskResultRequestBody,
-): string {
-  return JSON.stringify(
-    SubmitTaskResultRequestBody$outboundSchema.parse(
-      submitTaskResultRequestBody,
-    ),
-  );
-}
-
-/** @internal */
-export type SubmitTaskResultRequest$Outbound = {
-  id: string;
-  body: SubmitTaskResultRequestBody$Outbound;
-};
-
-/** @internal */
-export const SubmitTaskResultRequest$outboundSchema: z.ZodMiniType<
-  SubmitTaskResultRequest$Outbound,
-  SubmitTaskResultRequest
-> = z.object({
-  id: z.string(),
-  body: z.lazy(() => SubmitTaskResultRequestBody$outboundSchema),
-});
-
-export function submitTaskResultRequestToJSON(
-  submitTaskResultRequest: SubmitTaskResultRequest,
-): string {
-  return JSON.stringify(
-    SubmitTaskResultRequest$outboundSchema.parse(submitTaskResultRequest),
-  );
-}
-
-/** @internal */
-export const SubmitTaskResultResponse$inboundSchema: z.ZodMiniType<
-  SubmitTaskResultResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  status: types.string(),
-  message: types.optional(types.string()),
-});
-
-export function submitTaskResultResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<SubmitTaskResultResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => SubmitTaskResultResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'SubmitTaskResultResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const Connector$inboundSchema: z.ZodMiniType<Connector, unknown> = z
-  .object({
-    id: types.string(),
-    name: types.string(),
-    status: types.string(),
-    credentialsId: types.string(),
-    lastSeenAt: types.nullable(types.string()),
-    lastTaskAt: types.nullable(types.string()),
-    createdAt: types.string(),
-    isOnline: types.boolean(),
-  });
-
-export function connectorFromJSON(
-  jsonString: string,
-): SafeParseResult<Connector, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Connector$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Connector' from JSON`,
-  );
-}
-
-/** @internal */
-export const ListConnectorsResponse$inboundSchema: z.ZodMiniType<
-  ListConnectorsResponse,
-  unknown
-> = z.object({
-  connectors: z.array(z.lazy(() => Connector$inboundSchema)),
-});
-
-export function listConnectorsResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ListConnectorsResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListConnectorsResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListConnectorsResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export type ConnectorHeartbeatRequest$Outbound = {
-  currentTaskId?: string | undefined;
-};
-
-/** @internal */
-export const ConnectorHeartbeatRequest$outboundSchema: z.ZodMiniType<
-  ConnectorHeartbeatRequest$Outbound,
-  ConnectorHeartbeatRequest
-> = z.object({
-  currentTaskId: z.optional(z.string()),
-});
-
-export function connectorHeartbeatRequestToJSON(
-  connectorHeartbeatRequest: ConnectorHeartbeatRequest,
-): string {
-  return JSON.stringify(
-    ConnectorHeartbeatRequest$outboundSchema.parse(connectorHeartbeatRequest),
-  );
-}
-
-/** @internal */
-export const ConnectorHeartbeatResponse$inboundSchema: z.ZodMiniType<
-  ConnectorHeartbeatResponse,
-  unknown
-> = z.object({
-  success: types.literal(true),
-  pendingCount: types.number(),
-  pollIntervalMs: types.number(),
-});
-
-export function connectorHeartbeatResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<ConnectorHeartbeatResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ConnectorHeartbeatResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ConnectorHeartbeatResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const Context$inboundSchema: z.ZodMiniType<Context, unknown> = z.object({
-  type: types.string(),
-  label: types.nullable(types.string()),
-  content: types.string(),
-  scope: types.string(),
-});
-
-export function contextFromJSON(
-  jsonString: string,
-): SafeParseResult<Context, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Context$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Context' from JSON`,
-  );
-}
-
-/** @internal */
-export const ActiveAccount$inboundSchema: z.ZodMiniType<
-  ActiveAccount,
-  unknown
-> = z.object({
-  id: types.string(),
-  name: types.nullable(types.string()),
-  plan: types.string(),
-  headline: types.nullable(types.string()),
-  isUnlimited: types.boolean(),
-  creditsLimit: types.number(),
-  creditsCount: types.number(),
-  simulateWrites: types.boolean(),
-  isCurrent: types.boolean(),
-});
-
-export function activeAccountFromJSON(
-  jsonString: string,
-): SafeParseResult<ActiveAccount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ActiveAccount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ActiveAccount' from JSON`,
-  );
-}
-
-/** @internal */
-export const AgentSnapshotAccount$inboundSchema: z.ZodMiniType<
-  AgentSnapshotAccount,
-  unknown
-> = z.object({
-  id: types.string(),
-  name: types.nullable(types.string()),
-  plan: types.string(),
-  headline: types.nullable(types.string()),
-  isUnlimited: types.boolean(),
-  creditsLimit: types.number(),
-  creditsCount: types.number(),
-  simulateWrites: types.boolean(),
-  isCurrent: types.boolean(),
-});
-
-export function agentSnapshotAccountFromJSON(
-  jsonString: string,
-): SafeParseResult<AgentSnapshotAccount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AgentSnapshotAccount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AgentSnapshotAccount' from JSON`,
-  );
-}
-
-/** @internal */
-export const AgentSnapshotStageCounts$inboundSchema: z.ZodMiniType<
-  AgentSnapshotStageCounts,
-  unknown
-> = z.object({
-  contact: types.number(),
-  lead: types.number(),
-  qualified: types.number(),
-  approved: types.number(),
-  rejected: types.number(),
-  total: types.number(),
-});
-
-export function agentSnapshotStageCountsFromJSON(
-  jsonString: string,
-): SafeParseResult<AgentSnapshotStageCounts, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AgentSnapshotStageCounts$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AgentSnapshotStageCounts' from JSON`,
-  );
-}
-
-/** @internal */
-export const ActiveCampaign$inboundSchema: z.ZodMiniType<
-  ActiveCampaign,
-  unknown
-> = z.object({
-  id: types.string(),
-  name: types.string(),
-  type: types.string(),
-  status: types.string(),
-  context: types.nullable(z.any()),
-  stageCounts: z.lazy(() => AgentSnapshotStageCounts$inboundSchema),
-});
-
-export function activeCampaignFromJSON(
-  jsonString: string,
-): SafeParseResult<ActiveCampaign, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ActiveCampaign$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ActiveCampaign' from JSON`,
-  );
-}
-
-/** @internal */
-export const AgentSnapshotType$inboundSchema: z.ZodMiniType<
-  AgentSnapshotType,
-  unknown
-> = openEnums.inboundSchema(AgentSnapshotType);
-
-/** @internal */
-export const RecentEvent$inboundSchema: z.ZodMiniType<RecentEvent, unknown> = z
-  .object({
-    id: types.string(),
-    type: AgentSnapshotType$inboundSchema,
-    campaignId: types.optional(types.string()),
-    campaignName: types.optional(types.string()),
-    summary: types.string(),
-    metadata: z.record(z.string(), z.any()),
-    timestamp: types.number(),
-  });
-
-export function recentEventFromJSON(
-  jsonString: string,
-): SafeParseResult<RecentEvent, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => RecentEvent$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RecentEvent' from JSON`,
-  );
-}
-
-/** @internal */
-export const AgentSnapshotResponse$inboundSchema: z.ZodMiniType<
-  AgentSnapshotResponse,
-  unknown
-> = z.object({
-  credits: types.nullable(z.any()),
-  pipeline: z.record(z.string(), types.number()),
-  contexts: z.array(z.lazy(() => Context$inboundSchema)),
-  pendingDrafts: types.number(),
-  failedDrafts: types.number(),
-  unreadDMs: types.number(),
-  pendingSentInvitations: types.number(),
-  activeAccount: types.nullable(z.lazy(() => ActiveAccount$inboundSchema)),
-  accounts: z.array(z.lazy(() => AgentSnapshotAccount$inboundSchema)),
-  leadGenState: types.nullable(z.any()),
-  outreachState: types.nullable(z.any()),
-  activeCampaigns: z.array(z.lazy(() => ActiveCampaign$inboundSchema)),
-  campaignChecks: z.any(),
-  sessionMeta: types.nullable(z.any()),
-  onboardingState: types.nullable(z.any()),
-  recentEvents: z.array(z.lazy(() => RecentEvent$inboundSchema)),
-});
-
-export function agentSnapshotResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<AgentSnapshotResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AgentSnapshotResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AgentSnapshotResponse' from JSON`,
-  );
-}
-
-/** @internal */
 export const GetDmPollingSettingsSettings$inboundSchema: z.ZodMiniType<
   GetDmPollingSettingsSettings,
   unknown
 > = z.object({
-  dmPollingEnabled: types.boolean(),
   dmWebhookUrl: types.nullable(types.string()),
-  dmLastPolledAt: types.nullable(types.string()),
-  connectionPollingEnabled: types.boolean(),
   connectionLastPolledAt: types.nullable(types.string()),
 });
 
@@ -2424,9 +3265,7 @@ export function getDmPollingSettingsResponseFromJSON(
 
 /** @internal */
 export type PatchDmPollingSettingsRequest$Outbound = {
-  dmPollingEnabled?: boolean | undefined;
   dmWebhookUrl?: string | null | undefined;
-  connectionPollingEnabled?: boolean | undefined;
 };
 
 /** @internal */
@@ -2434,9 +3273,7 @@ export const PatchDmPollingSettingsRequest$outboundSchema: z.ZodMiniType<
   PatchDmPollingSettingsRequest$Outbound,
   PatchDmPollingSettingsRequest
 > = z.object({
-  dmPollingEnabled: z.optional(z.boolean()),
   dmWebhookUrl: z.optional(z.nullable(z.string())),
-  connectionPollingEnabled: z.optional(z.boolean()),
 });
 
 export function patchDmPollingSettingsRequestToJSON(
@@ -2454,10 +3291,7 @@ export const PatchDmPollingSettingsSettings$inboundSchema: z.ZodMiniType<
   PatchDmPollingSettingsSettings,
   unknown
 > = z.object({
-  dmPollingEnabled: types.boolean(),
   dmWebhookUrl: types.nullable(types.string()),
-  dmLastPolledAt: types.nullable(types.string()),
-  connectionPollingEnabled: types.boolean(),
   connectionLastPolledAt: types.nullable(types.string()),
 });
 
@@ -2522,6 +3356,8 @@ export const DeleteWorkspaceAccountResponse$inboundSchema: z.ZodMiniType<
 > = z.object({
   success: types.literal(true),
   message: types.string(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
 export function deleteWorkspaceAccountResponseFromJSON(
@@ -2573,6 +3409,8 @@ export const UpgradeWorkspaceAccountResponse$inboundSchema: z.ZodMiniType<
   message: types.string(),
   seatsUsed: types.number(),
   seatsIncluded: types.number(),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
 export function upgradeWorkspaceAccountResponseFromJSON(
@@ -2620,7 +3458,10 @@ export function createWorkspaceInviteRequestToJSON(
 }
 
 /** @internal */
-export const Invite2$inboundSchema: z.ZodMiniType<Invite2, unknown> = z.object({
+export const CreateWorkspaceInviteInvite2$inboundSchema: z.ZodMiniType<
+  CreateWorkspaceInviteInvite2,
+  unknown
+> = z.object({
   id: types.string(),
   email: types.nullable(types.string()),
   name: types.nullable(types.string()),
@@ -2632,13 +3473,13 @@ export const Invite2$inboundSchema: z.ZodMiniType<Invite2, unknown> = z.object({
   createdAt: types.string(),
 });
 
-export function invite2FromJSON(
+export function createWorkspaceInviteInvite2FromJSON(
   jsonString: string,
-): SafeParseResult<Invite2, SDKValidationError> {
+): SafeParseResult<CreateWorkspaceInviteInvite2, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Invite2$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Invite2' from JSON`,
+    (x) => CreateWorkspaceInviteInvite2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateWorkspaceInviteInvite2' from JSON`,
   );
 }
 
@@ -2661,27 +3502,33 @@ export function workspaceFromJSON(
 }
 
 /** @internal */
-export const ResponseBody2$inboundSchema: z.ZodMiniType<
-  ResponseBody2,
+export const CreateWorkspaceInviteResponseBody2$inboundSchema: z.ZodMiniType<
+  CreateWorkspaceInviteResponseBody2,
   unknown
 > = z.object({
   success: types.literal(true),
-  invites: z.array(z.lazy(() => Invite2$inboundSchema)),
+  invites: z.array(z.lazy(() => CreateWorkspaceInviteInvite2$inboundSchema)),
   workspace: z.lazy(() => Workspace$inboundSchema),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
-export function responseBody2FromJSON(
+export function createWorkspaceInviteResponseBody2FromJSON(
   jsonString: string,
-): SafeParseResult<ResponseBody2, SDKValidationError> {
+): SafeParseResult<CreateWorkspaceInviteResponseBody2, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ResponseBody2$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ResponseBody2' from JSON`,
+    (x) =>
+      CreateWorkspaceInviteResponseBody2$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateWorkspaceInviteResponseBody2' from JSON`,
   );
 }
 
 /** @internal */
-export const Invite1$inboundSchema: z.ZodMiniType<Invite1, unknown> = z.object({
+export const CreateWorkspaceInviteInvite1$inboundSchema: z.ZodMiniType<
+  CreateWorkspaceInviteInvite1,
+  unknown
+> = z.object({
   id: types.string(),
   email: types.nullable(types.string()),
   name: types.nullable(types.string()),
@@ -2693,32 +3540,35 @@ export const Invite1$inboundSchema: z.ZodMiniType<Invite1, unknown> = z.object({
   createdAt: types.string(),
 });
 
-export function invite1FromJSON(
+export function createWorkspaceInviteInvite1FromJSON(
   jsonString: string,
-): SafeParseResult<Invite1, SDKValidationError> {
+): SafeParseResult<CreateWorkspaceInviteInvite1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Invite1$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Invite1' from JSON`,
+    (x) => CreateWorkspaceInviteInvite1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateWorkspaceInviteInvite1' from JSON`,
   );
 }
 
 /** @internal */
-export const ResponseBody1$inboundSchema: z.ZodMiniType<
-  ResponseBody1,
+export const CreateWorkspaceInviteResponseBody1$inboundSchema: z.ZodMiniType<
+  CreateWorkspaceInviteResponseBody1,
   unknown
 > = z.object({
   success: types.literal(true),
-  invite: z.lazy(() => Invite1$inboundSchema),
+  invite: z.lazy(() => CreateWorkspaceInviteInvite1$inboundSchema),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
-export function responseBody1FromJSON(
+export function createWorkspaceInviteResponseBody1FromJSON(
   jsonString: string,
-): SafeParseResult<ResponseBody1, SDKValidationError> {
+): SafeParseResult<CreateWorkspaceInviteResponseBody1, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => ResponseBody1$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ResponseBody1' from JSON`,
+    (x) =>
+      CreateWorkspaceInviteResponseBody1$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreateWorkspaceInviteResponseBody1' from JSON`,
   );
 }
 
@@ -2727,8 +3577,8 @@ export const CreateWorkspaceInviteResponse$inboundSchema: z.ZodMiniType<
   CreateWorkspaceInviteResponse,
   unknown
 > = smartUnion([
-  z.lazy(() => ResponseBody2$inboundSchema),
-  z.lazy(() => ResponseBody1$inboundSchema),
+  z.lazy(() => CreateWorkspaceInviteResponseBody2$inboundSchema),
+  z.lazy(() => CreateWorkspaceInviteResponseBody1$inboundSchema),
 ]);
 
 export function createWorkspaceInviteResponseFromJSON(
@@ -2770,6 +3620,8 @@ export const DeleteWorkspaceInviteResponse$inboundSchema: z.ZodMiniType<
   unknown
 > = z.object({
   success: types.literal(true),
+  creditsUsed: types.number(),
+  retryAfter: types.number(),
 });
 
 export function deleteWorkspaceInviteResponseFromJSON(

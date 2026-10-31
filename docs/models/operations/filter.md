@@ -1,0 +1,27 @@
+# Filter
+
+## Example Usage
+
+```typescript
+import { Filter } from "bereach/models/operations";
+
+let value: Filter = {
+  name: "<value>",
+  field: "<value>",
+  group: "<value>",
+  valueKind: "range",
+  supportsExclude: true,
+  available: false,
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                     | Type                                                                                                                                                      | Required                                                                                                                                                  | Description                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                                                                                                                                                    | *string*                                                                                                                                                  | :heavy_check_mark:                                                                                                                                        | User-facing filter name, e.g. 'Seniority level'.                                                                                                          |
+| `field`                                                                                                                                                   | *string*                                                                                                                                                  | :heavy_check_mark:                                                                                                                                        | The BeReach schema field name to set on a search, e.g. 'seniority'.                                                                                       |
+| `group`                                                                                                                                                   | *string*                                                                                                                                                  | :heavy_check_mark:                                                                                                                                        | UI group: Company / Role / Personal / Buyer intent / Best path in / Workflow.                                                                             |
+| `valueKind`                                                                                                                                               | [operations.ValueKind](../../models/operations/value-kind.md)                                                                                             | :heavy_check_mark:                                                                                                                                        | How to supply a value: 'enum' = pick a label; 'entity' = pass a name (company/school/etc); 'toggle' = boolean; 'range' = {min,max}; 'text' = free string. |
+| `supportsExclude`                                                                                                                                         | *boolean*                                                                                                                                                 | :heavy_check_mark:                                                                                                                                        | Whether the filter accepts an exclude list.                                                                                                               |
+| `available`                                                                                                                                               | *boolean*                                                                                                                                                 | :heavy_check_mark:                                                                                                                                        | Whether THIS credential's Sales Nav seat tier exposes the filter.                                                                                         |

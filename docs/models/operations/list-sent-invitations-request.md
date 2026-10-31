@@ -10,7 +10,8 @@ let value: ListSentInvitationsRequest = {};
 
 ## Fields
 
-| Field                           | Type                            | Required                        | Description                     |
-| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `start`                         | *number*                        | :heavy_minus_sign:              | Pagination offset               |
-| `count`                         | *number*                        | :heavy_minus_sign:              | Number of invitations to return |
+| Field                                                                                      | Type                                                                                       | Required                                                                                   | Description                                                                                |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `start`                                                                                    | *number*                                                                                   | :heavy_minus_sign:                                                                         | Pagination offset                                                                          |
+| `count`                                                                                    | *number*                                                                                   | :heavy_minus_sign:                                                                         | Number of invitations to return                                                            |
+| `olderThanDays`                                                                            | *number*                                                                                   | :heavy_minus_sign:                                                                         | Only invitations sent at least this many days ago; start and count then page through those |
