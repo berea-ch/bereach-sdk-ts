@@ -5,6 +5,7 @@
 import * as z from "zod/v4-mini";
 import { BereachCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -32,18 +33,18 @@ import { Result } from "../types/fp.js";
  * @remarks
  * # Search LinkedIn Posts
  *
- * Search LinkedIn's content index for posts matching your keywords and filters. Returns structured post data including full text, engagement metrics, author info, and URLs.
+ * Find posts matching your keywords and filters. Returns structured post data including full text, engagement metrics, author info, and URLs.
  *
  * ## Required parameters
  * - **keywords** (string, required): The search terms to match against post content. Examples: `"AI automation"`, `"remote work trends"`, `"SaaS growth strategies"`.
  *
  * ## Keyword syntax (Boolean operators)
  * Keywords support LinkedIn Boolean search syntax:
- * - **Exact phrase**: `"outreach automation"` — matches only that exact phrase
- * - **AND**: `AI AND marketing` — both terms required (spaces default to AND)
- * - **OR**: `"growth hacking" OR "growth marketing"` — either term
- * - **NOT**: `outreach NOT webinar` — exclude unwanted terms
- * - **Parentheses**: `(AI OR ML) AND "case study"` — group logic
+ * - **Exact phrase**: `"outreach automation"`: matches only that exact phrase
+ * - **AND**: `AI AND marketing`, both terms required (spaces default to AND)
+ * - **OR**: `"growth hacking" OR "growth marketing"`: either term
+ * - **NOT**: `outreach NOT webinar`, exclude unwanted terms
+ * - **Parentheses**: `(AI OR ML) AND "case study"`: group logic
  *
  * Operators must be **UPPERCASE**. Precedence: Quotes > Parentheses > NOT > AND > OR.
  *
@@ -51,10 +52,12 @@ import { Result } from "../types/fp.js";
  * | Filter | Type | Description |
  * |--------|------|-------------|
  * | `sortBy` | `"relevance"` \| `"date"` | Sort by relevance (default) or most recent first |
- * | `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by publication recency |
+ * | `authorJobTitle` | string[] | The author's job title, free text. The strongest filter here: two different titles return sets of authors that do not overlap, so asking twice reaches twice as many people |
+ * | `postedBy` | string[] | Restrict to your own network: `first` or `following`. Far fewer results by nature |
  * | `contentType` | `"images"` \| `"videos"` \| `"documents"` | Filter by media type |
- * | `authorIndustry` | string[] | Author's industry IDs (resolve via `/search/linkedin/parameters` with type=`INDUSTRY`) |
- * | `authorCompany` | string[] | Author's company IDs (resolve via `/search/linkedin/parameters` with type=`COMPANY`) |
+ * | `authorIndustry` | string[] | Author's industry names or ids, resolved for you |
+ * | `authorCompany` | string[] | Author's company names or ids, resolved for you |
+ * | `datePosted` | `"past-24h"` \| `"past-week"` \| `"past-month"` | Filter by recency window. On a high-volume query the newest posts are shared across windows, so the first page can look unchanged while the narrower window holds fewer results |
  *
  * ## Response fields (per item)
  * | Field | Type | Description |
@@ -72,7 +75,7 @@ import { Result } from "../types/fp.js";
  * | `isRepost` | boolean | Whether this is a repost of another post |
  *
  * ## Pagination
- * - Default page size: 10, max: 50
+ * - Default page size: 20, max 50
  * - Use `start` + `count` to paginate: `start=0, count=10` → page 1, `start=10, count=10` → page 2
  * - Check `hasMore` in the response to know if more pages exist
  * - `paging.total` gives the estimated total number of results
@@ -83,7 +86,7 @@ import { Result } from "../types/fp.js";
  * 3. **Competitive intelligence**: Search for competitor mentions → track sentiment and engagement
  *
  * ## Credits
- * 1 credit per 20 items returned (minimum 1 credit if any results, 0 if empty).
+ * Cost: 1 credit for every 20 results returned, at least 1 when any come back, nothing when none.
  */
 export function searchPosts(
   client: BereachCore,
@@ -100,7 +103,7 @@ export function searchPosts(
     | errors.GoneError
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.CollectEngagersInternalServerError
     | errors.BadGatewayError
     | errors.ServiceUnavailableError
     | BereachError
@@ -136,7 +139,7 @@ async function $do(
       | errors.GoneError
       | errors.UnprocessableEntityError
       | errors.TooManyRequestsError
-      | errors.InternalServerError
+      | errors.CollectEngagersInternalServerError
       | errors.BadGatewayError
       | errors.ServiceUnavailableError
       | BereachError
@@ -205,21 +208,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: [
-      "400",
-      "401",
-      "403",
-      "404",
-      "409",
-      "410",
-      "422",
-      "429",
-      "4XX",
-      "500",
-      "502",
-      "503",
-      "5XX",
-    ],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -242,7 +232,7 @@ async function $do(
     | errors.GoneError
     | errors.UnprocessableEntityError
     | errors.TooManyRequestsError
-    | errors.InternalServerError
+    | errors.CollectEngagersInternalServerError
     | errors.BadGatewayError
     | errors.ServiceUnavailableError
     | BereachError
@@ -263,7 +253,7 @@ async function $do(
     M.jsonErr(410, errors.GoneError$inboundSchema),
     M.jsonErr(422, errors.UnprocessableEntityError$inboundSchema),
     M.jsonErr(429, errors.TooManyRequestsError$inboundSchema),
-    M.jsonErr(500, errors.InternalServerError$inboundSchema),
+    M.jsonErr(500, errors.CollectEngagersInternalServerError$inboundSchema),
     M.jsonErr(502, errors.BadGatewayError$inboundSchema),
     M.jsonErr(503, errors.ServiceUnavailableError$inboundSchema),
     M.fail("4XX"),

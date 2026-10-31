@@ -13,7 +13,7 @@ Endpoints for managing workspace accounts, invitations, and plan upgrades
 
 ## deleteWorkspaceAccount
 
-Remove a LinkedIn account from the workspace. Cannot remove the default account. Cancels in-flight tasks, releases proxy IPs, and decrements Pro seats if applicable.
+Remove a LinkedIn account from the workspace. Cannot remove the default account. Cancels in-flight tasks and frees the Pro seat if the account held one.
 
 ### Example Usage
 
@@ -80,24 +80,24 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## upgradeWorkspaceAccount
 
-Upgrade a LinkedIn account from Free to Pro (assigns proxy, unlimited credits) or downgrade from Pro to Free. Requires available Pro seats.
+Upgrade a LinkedIn account from Free to Pro or downgrade from Pro to Free. Requires available Pro seats.
 
 ### Example Usage
 
@@ -166,24 +166,24 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## createWorkspaceInvite
 
-Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days. 0 credits.
+Create a workspace invitation (action: "create") or list existing ones (action: "list"). Sends an email if provided. Codes expire in 14 days.
 
 ### Example Usage
 
@@ -250,24 +250,24 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
 
 ## deleteWorkspaceInvite
 
-Delete an invitation by ID. 0 credits.
+Delete an invitation by ID.
 
 ### Example Usage
 
@@ -334,17 +334,17 @@ run();
 
 ### Errors
 
-| Error Type                      | Status Code                     | Content Type                    |
-| ------------------------------- | ------------------------------- | ------------------------------- |
-| errors.BadRequestError          | 400                             | application/json                |
-| errors.UnauthorizedError        | 401                             | application/json                |
-| errors.ForbiddenError           | 403                             | application/json                |
-| errors.NotFoundError            | 404                             | application/json                |
-| errors.ConflictError            | 409                             | application/json                |
-| errors.GoneError                | 410                             | application/json                |
-| errors.UnprocessableEntityError | 422                             | application/json                |
-| errors.TooManyRequestsError     | 429                             | application/json                |
-| errors.InternalServerError      | 500                             | application/json                |
-| errors.BadGatewayError          | 502                             | application/json                |
-| errors.ServiceUnavailableError  | 503                             | application/json                |
-| errors.BereachDefaultError      | 4XX, 5XX                        | \*/\*                           |
+| Error Type                                | Status Code                               | Content Type                              |
+| ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| errors.BadRequestError                    | 400                                       | application/json                          |
+| errors.UnauthorizedError                  | 401                                       | application/json                          |
+| errors.ForbiddenError                     | 403                                       | application/json                          |
+| errors.NotFoundError                      | 404                                       | application/json                          |
+| errors.ConflictError                      | 409                                       | application/json                          |
+| errors.GoneError                          | 410                                       | application/json                          |
+| errors.UnprocessableEntityError           | 422                                       | application/json                          |
+| errors.TooManyRequestsError               | 429                                       | application/json                          |
+| errors.CollectEngagersInternalServerError | 500                                       | application/json                          |
+| errors.BadGatewayError                    | 502                                       | application/json                          |
+| errors.ServiceUnavailableError            | 503                                       | application/json                          |
+| errors.BereachDefaultError                | 4XX, 5XX                                  | \*/\*                                     |
