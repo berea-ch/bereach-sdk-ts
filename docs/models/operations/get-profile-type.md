@@ -1,5 +1,7 @@
 # GetProfileType
 
+LinkedIn post type: 'ugcPost' = standard post, 'share' = native share/repost, 'activity' = legacy format.
+
 ## Example Usage
 
 ```typescript
